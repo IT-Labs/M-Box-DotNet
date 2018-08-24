@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ItLabs.MBox.Contracts\ItLabs.MBox.Contracts.csproj" />
+    <ProjectReference Include="..\ItLabs.MBox.Common\ItLabs.MBox.Common.csproj" />
+    <ProjectReference Include="..\ItLabs.MBox.Data\ItLabs.MBox.Data.csproj" />
+  </ItemGroup>
+
+</Project>
