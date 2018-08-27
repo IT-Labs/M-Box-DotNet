@@ -3,11 +3,12 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - ItLabs.MBox.Application</title>
+    <title>@ViewData["Title"] - LogedInAdmin</title>
 
     <environment include="Development">
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
         <link rel="stylesheet" href="~/css/site.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     </environment>
     <environment exclude="Development">
         <link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/css/bootstrap.min.css"
@@ -27,31 +28,22 @@
                     <span class="icon-bar"></span>
                 </button>
                 <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">
-                    <img src="~/images/mBoxLogo.jpg" width="40" height="40"/>
+                    <img src="~/images/mBoxLogo.jpg" width="40" height="40" />
                 </a>
             </div>
-            <div class="navbar-collapse collapse ">
-                <ul class="nav navbar-nav">
-                    <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
-                    <li><a asp-area="" asp-controller="Home" asp-action="Artists">Artists</a></li>
-                    <li><a asp-area="" asp-controller="Home" asp-action="RecordLabels">Record Labels</a></li>
-                    <li><a asp-area="" asp-controller="Home" asp-action="About">About</a></li>
-
+            <div class="navbar-collapse collapse col-sm-3 col-md-3">
+               
+            </div>
+            <div class="collapse navbar-collapse" id="codebrainery-toggle-nav">
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-user-circle"></i><span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#">Dashboard</a></li>
+                            <li><a href="#">Sign Out</a></li>
+                        </ul>
+                    </li>
                 </ul>
-                <div class="col-sm-4 col-md-4">
-                    <form class="navbar-form" role="search">
-                        <div class="input-group">
-                            <input type="text" class="form-control" placeholder="Search" aria-label="Search">
-                            <div class="input-group-btn">
-                                <button class="btn btn-light" type="submit">Search</button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-                <div class="navbar-right">
-                    @await Html.PartialAsync("_LoginPartial")
-                </div>
-                
             </div>
         </div>
     </nav>
@@ -87,3 +79,4 @@
     @RenderSection("Scripts", required: false)
 </body>
 </html>
+
