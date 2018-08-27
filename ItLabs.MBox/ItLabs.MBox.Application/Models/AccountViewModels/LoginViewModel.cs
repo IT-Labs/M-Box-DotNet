@@ -9,7 +9,7 @@ namespace ItLabs.MBox.Application.Models.AccountViewModels
     public class LoginViewModel
     {
         [Required]
-        [EmailAddress]
+        [EmailAddress(ErrorMessage ="The Email should be in example@example.com format!")]
         public string Email { get; set; }
 
         [Required]
