@@ -16,7 +16,7 @@ namespace ItLabs.MBox.Contracts.Entities
 
         public Boolean IsActivated { get; set; }
 
-        public virtual ApplicationUserRoles ApplicationUserRole { get; set; }
+        public virtual ApplicationUserRole ApplicationUserRole { get; set; }
 
         public string Picture { get; set; }
         public DateTime DateCreated { get; set; }

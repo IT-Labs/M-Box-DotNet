@@ -16,6 +16,8 @@ namespace ItLabs.MBox.Data.DbMapping
             builder.Property(c => c.Name).HasMaxLength(50);
             builder.Property(c => c.AlbumName).HasMaxLength(50);
             builder.Property(c => c.DateOfRelease).HasColumnType("Date");
+            builder.Property(c => c.Picture).HasMaxLength(50);
+            builder.HasIndex(c => c.Picture).IsUnique();
             builder.Property(c => c.Genre).HasMaxLength(50);
             builder.Property(c => c.YoutubeLink).HasMaxLength(100);
             builder.Property(c => c.VimeoLink).HasMaxLength(100);

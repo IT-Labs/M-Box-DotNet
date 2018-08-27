@@ -5,15 +5,15 @@ using System.Text;
 
 namespace ItLabs.MBox.Contracts.Entities
 {
-    public class ApplicationUserRoles : IdentityRole<int>
+    public class ApplicationUserRole : IdentityRole<int>
     {
         public virtual RolesEnum Role { get; set; }
 
 
-        public ApplicationUserRoles(int roleId, string roleName): base(roleName)
+        public ApplicationUserRole(RolesEnum inputRole): base(inputRole.ToString())
         {
-            Id = roleId;
-            Role = (RolesEnum)roleId;
+            Id = (int)inputRole;
+            Role = inputRole;
         }
 
 }

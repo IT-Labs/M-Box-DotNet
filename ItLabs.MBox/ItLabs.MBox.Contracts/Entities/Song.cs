@@ -15,7 +15,7 @@ namespace ItLabs.MBox.Contracts.Entities
         public string AlbumName { get; set; }
 
         public string Lyrics { get; set; }
-        public string Image { get; set; }
+        public string Picture { get; set; }
 
         public DateTime DateOfRelease { get; set; }
 

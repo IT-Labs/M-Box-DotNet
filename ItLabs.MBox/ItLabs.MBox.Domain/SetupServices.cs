@@ -23,7 +23,7 @@ namespace ItLabs.MBox.Domain
                 .AddEntityFrameworkStores<MBoxDbContext>()
                 .AddDefaultTokenProviders();*/
 
-            services.AddIdentity<ApplicationUser, ApplicationUserRoles>()
+            services.AddIdentity<ApplicationUser, ApplicationUserRole>()
                 .AddEntityFrameworkStores<MBoxDbContext>()
                 .AddDefaultTokenProviders();
          

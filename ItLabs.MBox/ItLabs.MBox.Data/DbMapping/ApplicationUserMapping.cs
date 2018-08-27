@@ -15,7 +15,7 @@ namespace ItLabs.MBox.Data.DbMapping
             builder.HasKey(c => c.Id);
             builder.Property(c => c.Name).HasMaxLength(50).IsRequired();
             builder.Property(c => c.Picture).HasMaxLength(50);
-            builder.HasAlternateKey(c => c.Picture);
+            builder.HasIndex(c => c.Picture).IsUnique();
             builder.Property(c => c.IsActivated).IsRequired().HasDefaultValue(false);
             builder.Property(c => c.DateCreated).IsRequired().HasColumnType("Date");
             builder.Property(c => c.CreatedBy).IsRequired();

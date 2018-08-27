@@ -11,7 +11,7 @@ using System.Security.Claims;
 
 namespace ItLabs.MBox.Data
 {
-    public class MBoxDbContext : IdentityDbContext<ApplicationUser, ApplicationUserRoles, int> 
+    public class MBoxDbContext : IdentityDbContext<ApplicationUser, ApplicationUserRole, int> 
     {
 
         public MBoxDbContext(DbContextOptions<MBoxDbContext> options) : base(options) { }
@@ -62,7 +62,7 @@ namespace ItLabs.MBox.Data
 
         public DbSet<ApplicationUser> ApplicationUsers { get; set; }
 
-        public DbSet<ApplicationUserRoles> ApplicationUserRoles { get; set; }
+        public DbSet<ApplicationUserRole> ApplicationUserRoles { get; set; }
 
         public DbSet<Song> Songs { get; set; }
 

@@ -11,7 +11,8 @@ using Microsoft.Extensions.DependencyInjection;
 using ItLabs.MBox.Contracts.Entities;
 using ItLabs.MBox.Application.Services;
 using ItLabs.MBox.Domain;
-
+using Amazon.S3;
+using Amazon.DynamoDBv2;
 
 namespace ItLabs.MBox.Application
 {
@@ -30,8 +31,6 @@ namespace ItLabs.MBox.Application
             /*services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));*/
 
-            
-
             SetupServices.AddEntityFrameworkServices(services);
             
 
@@ -39,6 +38,19 @@ namespace ItLabs.MBox.Application
             services.AddTransient<IEmailSender, EmailSender>();
 
             services.AddMvc();
+
+            services.AddDefaultAWSOptions(Configuration.GetAWSOptions());
+            services.AddAWSService<IAmazonS3>();
+            services.AddAWSService<IAmazonDynamoDB>();
+
+            services.Configure<IdentityOptions>(options =>
+            {
+                options.Password.RequireDigit = false;
+                options.Password.RequiredLength = 8;
+                options.Password.RequireLowercase = false;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireUppercase = false;
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
