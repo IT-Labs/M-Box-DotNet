@@ -3,10 +3,8 @@ using ItLabs.MBox.Contracts.Interfaces;
 
 namespace ItLabs.MBox.Contracts.Entities
 {
-    public class Song : IAuditable
+    public class Song : AuditableEntity
     {
-        public int Id { get; set; }
-
         public string Name { get; set; }
 
         public string AlbumName { get; set; }
@@ -23,10 +21,5 @@ namespace ItLabs.MBox.Contracts.Entities
         public string Genre { get; set; }
 
         public virtual Artist Artist { get; set; }
-
-        public DateTime DateCreated { get; set; }
-        public DateTime DateModified { get; set; }
-        public int CreatedBy { get; set; }
-        public int ModifiedBy { get; set; }
     }
 }
