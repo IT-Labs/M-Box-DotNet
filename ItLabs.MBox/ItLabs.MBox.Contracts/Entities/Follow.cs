@@ -1,18 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using ItLabs.MBox.Contracts.Interfaces;
+using System;
 
 namespace ItLabs.MBox.Contracts.Entities
 {
     public class Follow : IAuditable
     {
-        public int FollowId { get; set; }
+        public int Id { get; set; }
 
         public virtual Artist Artist { get; set; }
-        //public int ArtistId { get; set; }
 
         public virtual ApplicationUser Follower { get; set; }
-        //public int FollowerId { get; set; }
 
         public DateTime DateCreated { get; set; }
         public DateTime DateModified { get; set; }

@@ -1,25 +1,21 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using ItLabs.MBox.Contracts.Entities;
 using ItLabs.MBox.Data.DbMapping;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
-using System.Security.Claims;
+using Microsoft.AspNetCore.Identity;
+using ItLabs.MBox.Contracts.Interfaces;
 
 namespace ItLabs.MBox.Data
 {
-    public class MBoxDbContext : IdentityDbContext<ApplicationUser, ApplicationUserRole, int> 
+    public class MBoxDbContext : IdentityDbContext<ApplicationUser, IdentityRole<int>, int> 
     {
 
         public MBoxDbContext(DbContextOptions<MBoxDbContext> options) : base(options) { }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
-            
-
             builder.ApplyConfiguration(new ApplicationUserMapping());
             builder.ApplyConfiguration(new ArtistMapping());
             builder.ApplyConfiguration(new ConfigurationMapping());
@@ -61,8 +57,6 @@ namespace ItLabs.MBox.Data
         }
 
         public DbSet<ApplicationUser> ApplicationUsers { get; set; }
-
-        public DbSet<ApplicationUserRole> ApplicationUserRoles { get; set; }
 
         public DbSet<Song> Songs { get; set; }
 

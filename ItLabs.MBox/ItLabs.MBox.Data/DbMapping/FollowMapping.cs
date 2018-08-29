@@ -13,7 +13,7 @@ namespace ItLabs.MBox.Data.DbMapping
         public void Configure(EntityTypeBuilder<Follow> builder)
         {
             builder.ToTable("Follows");
-            builder.HasKey(c => c.FollowId);
+            builder.HasKey(c => c.Id);
             builder.Property(c => c.DateCreated).IsRequired().HasColumnType("Date"); ;
             //builder.Property(c => c.CreatedBy).IsRequired();
         }

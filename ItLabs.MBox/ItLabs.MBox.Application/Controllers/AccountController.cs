@@ -14,6 +14,7 @@ using ItLabs.MBox.Contracts.Entities;
 using ItLabs.MBox.Domain.Managers;
 using ItLabs.MBox.Application.Models.AccountViewModels;
 using ItLabs.MBox.Application.Services;
+using ItLabs.MBox.Contracts.Enums;
 
 namespace ItLabs.MBox.Application.Controllers
 {
@@ -221,7 +222,8 @@ namespace ItLabs.MBox.Application.Controllers
             ViewData["ReturnUrl"] = returnUrl;
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser {Name = model.Name, UserName = model.Email, Email = model.Email , ApplicationUserRole = new ApplicationUserRole(RolesEnum.LISTENER) };
+                var user = new ApplicationUser {Name = model.Name, UserName = model.Email, Email = model.Email };
+
                 var result = await _userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {

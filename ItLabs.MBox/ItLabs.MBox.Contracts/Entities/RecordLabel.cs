@@ -1,13 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Text;
+﻿using ItLabs.MBox.Contracts.Interfaces;
+using System;
 
 namespace ItLabs.MBox.Contracts.Entities
 {
     public class RecordLabel : IAuditable
     {
-        public int RecordLabelId { get; set; }
+        public int Id { get; set; }
         public virtual ApplicationUser ApplicationUser { get; set; }
 
         public string AboutInfo { get; set; }

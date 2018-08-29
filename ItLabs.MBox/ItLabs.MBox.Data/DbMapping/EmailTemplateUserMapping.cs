@@ -12,7 +12,7 @@ namespace ItLabs.MBox.Data.DbMapping
         public void Configure(EntityTypeBuilder<EmailTemplate> builder)
         {
             builder.ToTable("EmailTemplates");
-            builder.HasKey(c => c.EmailTemplateId);
+            builder.HasKey(c => c.Id);
             builder.Property(c => c.Name).HasMaxLength(100);
             builder.HasAlternateKey(c => c.Name);
             builder.Property(c => c.Subject).HasMaxLength(50);

@@ -1,13 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Text;
+﻿using ItLabs.MBox.Contracts.Enums;
+using ItLabs.MBox.Contracts.Interfaces;
+using System;
 
 namespace ItLabs.MBox.Contracts.Entities
 {
     public class EmailTemplate : IAuditable
     {
-        public int EmailTemplateId { get; set; }
+        public int Id { get; set; }
+
+        public EmailTemplates Type { get; set; }
 
         public string Name { get; set; }
 

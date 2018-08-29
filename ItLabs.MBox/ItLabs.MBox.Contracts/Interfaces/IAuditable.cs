@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace ItLabs.MBox.Contracts.Entities
+namespace ItLabs.MBox.Contracts.Interfaces
 {
     public interface IAuditable
     {

@@ -19,13 +19,9 @@ namespace ItLabs.MBox.Domain
             services.AddEntityFrameworkNpgsql().AddDbContext<MBoxDbContext>(opt =>
                 opt.UseNpgsql(conncetionString, b=>b.MigrationsAssembly("ItLabs.MBox.Data")));
 
-            /*services.AddIdentity<ApplicationUser, IdentityRole>()
-                .AddEntityFrameworkStores<MBoxDbContext>()
-                .AddDefaultTokenProviders();*/
-
-            services.AddIdentity<ApplicationUser, ApplicationUserRole>()
-                .AddEntityFrameworkStores<MBoxDbContext>()
-                .AddDefaultTokenProviders();
+            //services.AddIdentity<ApplicationUser, IdentityRole<int>>()
+            //    .AddEntityFrameworkStores<MBoxDbContext>()
+            //    .AddDefaultTokenProviders();
          
         }
     }

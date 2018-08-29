@@ -17,7 +17,7 @@ namespace ItLabs.MBox.Application
         {
             var host = BuildWebHost(args);
 
-            //SeedingHelper.Seed();
+            SeedingHelper.Seed();
 
             host.Run();
         }

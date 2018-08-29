@@ -12,7 +12,7 @@ namespace ItLabs.MBox.Data.DbMapping
         public void Configure(EntityTypeBuilder<RecordLabel> builder)
         {
             builder.ToTable("RecordLabels");
-            builder.HasKey(c => c.RecordLabelId);
+            builder.HasKey(c => c.Id);
             builder.Property(c => c.AboutInfo);
             builder.Property(c => c.DateCreated).IsRequired().HasColumnType("Date"); ;
             //builder.Property(c => c.CreatedBy).IsRequired();

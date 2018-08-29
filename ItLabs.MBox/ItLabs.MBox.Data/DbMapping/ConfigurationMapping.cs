@@ -12,7 +12,7 @@ namespace ItLabs.MBox.Data.DbMapping
         public void Configure(EntityTypeBuilder<Configuration> builder)
         {
             builder.ToTable("Configurations");
-            builder.HasKey(c => c.ConfigurationId);
+            builder.HasKey(c => c.Id);
             builder.Property(c => c.Key).HasMaxLength(100);
             builder.HasAlternateKey(c => c.Key);
             builder.Property(c => c.DateCreated).IsRequired().HasColumnType("Date");
