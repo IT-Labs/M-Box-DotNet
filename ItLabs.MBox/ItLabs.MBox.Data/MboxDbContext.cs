@@ -6,6 +6,8 @@ using ItLabs.MBox.Data.DbMapping;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.AspNetCore.Identity;
 using ItLabs.MBox.Contracts.Interfaces;
+using Microsoft.Extensions.Configuration;
+using System.IO;
 
 namespace ItLabs.MBox.Data
 {
@@ -17,12 +19,13 @@ namespace ItLabs.MBox.Data
         protected override void OnModelCreating(ModelBuilder builder)
         {
             builder.ApplyConfiguration(new ApplicationUserMapping());
+            builder.ApplyConfiguration(new ApplicationRoleMapping());
             builder.ApplyConfiguration(new ArtistMapping());
+            builder.ApplyConfiguration(new RecordLabelMapping());
             builder.ApplyConfiguration(new ConfigurationMapping());
             builder.ApplyConfiguration(new EmailTemplateUserMapping());
             builder.ApplyConfiguration(new FollowMapping());
             builder.ApplyConfiguration(new RecordLabelArtistsMapping());
-            builder.ApplyConfiguration(new RecordLabelMapping());
             builder.ApplyConfiguration(new SongMapping());
 
             base.OnModelCreating(builder);
@@ -31,6 +34,7 @@ namespace ItLabs.MBox.Data
             // Add your customizations after calling base.OnModelCreating(builder);
             
         }
+
 
         public override int SaveChanges()
         {
@@ -42,21 +46,31 @@ namespace ItLabs.MBox.Data
         private void AuditEntities()
         {
 
-            foreach (var auditableEntity in ChangeTracker.Entries<IAuditable>())
+            foreach (var auditableEntity in ChangeTracker.Entries<AuditableEntity>())
             {
+                if(auditableEntity.Entity is Artist)
+                {
+                    auditableEntity.Entity.Id = ((Artist)auditableEntity.Entity).User.Id;
+                }
+                
+
                 if (auditableEntity.State == EntityState.Added || auditableEntity.State == EntityState.Modified)
                 {
-                    auditableEntity.Entity.DateModified = DateTime.Now;
+                    auditableEntity.Entity.DateModified = DateTime.UtcNow;
 
                     if (auditableEntity.State == EntityState.Added)
                     {
-                        auditableEntity.Entity.DateCreated = DateTime.Now;
+                        auditableEntity.Entity.DateCreated = DateTime.UtcNow;
                     }
                 }
             }
         }
 
         public DbSet<ApplicationUser> ApplicationUsers { get; set; }
+
+        public DbSet<ApplicationRole> ApplicationRoles { get; set; }
+
+        public DbSet<Artist> Artists { get; set; }
 
         public DbSet<Song> Songs { get; set; }
 
@@ -70,7 +84,7 @@ namespace ItLabs.MBox.Data
 
         public DbSet<RecordLabelArtists> RecordLabelArtists { get; set; }
 
-        public DbSet<Artist> Artists { get; set; }
+        
 
         
     }

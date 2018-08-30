@@ -33,6 +33,7 @@
   <ItemGroup>
     <ProjectReference Include="..\ItLabs.MBox.Contracts\ItLabs.MBox.Contracts.csproj" />
     <ProjectReference Include="..\ItLabs.MBox.Common\ItLabs.MBox.Common.csproj" />
+    <ProjectReference Include="..\ItLabs.MBox.Data\ItLabs.MBox.Data.csproj" />
     <ProjectReference Include="..\ItLabs.MBox.Domain\ItLabs.MBox.Domain.csproj" />
   </ItemGroup>
 

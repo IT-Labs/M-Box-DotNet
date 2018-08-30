@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace ItLabs.MBox.Data.Migrations
 {
-    public partial class DataModelsNew4 : Migration
+    public partial class Version1 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -17,8 +17,7 @@ namespace ItLabs.MBox.Data.Migrations
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
                     ConcurrencyStamp = table.Column<string>(type: "text", nullable: true),
                     Name = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: true),
-                    NormalizedName = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: true),
-                    Role = table.Column<int>(type: "int4", nullable: false)
+                    NormalizedName = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: true)
                 },
                 constraints: table =>
                 {
@@ -26,10 +25,43 @@ namespace ItLabs.MBox.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "AspNetUsers",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int4", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
+                    AccessFailedCount = table.Column<int>(type: "int4", nullable: false),
+                    ConcurrencyStamp = table.Column<string>(type: "text", nullable: true),
+                    CreatedBy = table.Column<int>(type: "int4", nullable: false),
+                    DateCreated = table.Column<DateTime>(type: "Date", nullable: false),
+                    DateModified = table.Column<DateTime>(type: "timestamp", nullable: false),
+                    Email = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: true),
+                    EmailConfirmed = table.Column<bool>(type: "bool", nullable: false),
+                    IsActivated = table.Column<bool>(type: "bool", nullable: false, defaultValue: false),
+                    LockoutEnabled = table.Column<bool>(type: "bool", nullable: false),
+                    LockoutEnd = table.Column<DateTimeOffset>(type: "timestamptz", nullable: true),
+                    ModifiedBy = table.Column<int>(type: "int4", nullable: false),
+                    Name = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: false),
+                    NormalizedEmail = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: true),
+                    NormalizedUserName = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: true),
+                    PasswordHash = table.Column<string>(type: "text", nullable: true),
+                    PhoneNumber = table.Column<string>(type: "text", nullable: true),
+                    PhoneNumberConfirmed = table.Column<bool>(type: "bool", nullable: false),
+                    Picture = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: true),
+                    SecurityStamp = table.Column<string>(type: "text", nullable: true),
+                    TwoFactorEnabled = table.Column<bool>(type: "bool", nullable: false),
+                    UserName = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AspNetUsers", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Configurations",
                 columns: table => new
                 {
-                    ConfigurationId = table.Column<int>(type: "int4", nullable: false)
+                    Id = table.Column<int>(type: "int4", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
                     CreatedBy = table.Column<int>(type: "int4", nullable: false),
                     DateCreated = table.Column<DateTime>(type: "Date", nullable: false),
@@ -40,7 +72,7 @@ namespace ItLabs.MBox.Data.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Configurations", x => x.ConfigurationId);
+                    table.PrimaryKey("PK_Configurations", x => x.Id);
                     table.UniqueConstraint("AK_Configurations_Key", x => x.Key);
                 });
 
@@ -48,7 +80,7 @@ namespace ItLabs.MBox.Data.Migrations
                 name: "EmailTemplates",
                 columns: table => new
                 {
-                    EmailTemplateId = table.Column<int>(type: "int4", nullable: false)
+                    Id = table.Column<int>(type: "int4", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
                     Body = table.Column<string>(type: "text", nullable: true),
                     CreatedBy = table.Column<int>(type: "int4", nullable: false),
@@ -56,11 +88,12 @@ namespace ItLabs.MBox.Data.Migrations
                     DateModified = table.Column<DateTime>(type: "timestamp", nullable: false),
                     ModifiedBy = table.Column<int>(type: "int4", nullable: false),
                     Name = table.Column<string>(type: "varchar(100)", maxLength: 100, nullable: false),
-                    Subject = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: true)
+                    Subject = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: true),
+                    Type = table.Column<int>(type: "int4", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_EmailTemplates", x => x.EmailTemplateId);
+                    table.PrimaryKey("PK_EmailTemplates", x => x.Id);
                     table.UniqueConstraint("AK_EmailTemplates_Name", x => x.Name);
                 });
 
@@ -86,66 +119,25 @@ namespace ItLabs.MBox.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "AspNetUsers",
+                name: "Artists",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int4", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
-                    AccessFailedCount = table.Column<int>(type: "int4", nullable: false),
-                    ApplicationUserRoleId = table.Column<int>(type: "int4", nullable: true),
-                    ConcurrencyStamp = table.Column<string>(type: "text", nullable: true),
-                    CreatedBy = table.Column<int>(type: "int4", nullable: false),
-                    DateCreated = table.Column<DateTime>(type: "Date", nullable: false),
-                    DateModified = table.Column<DateTime>(type: "timestamp", nullable: false),
-                    Email = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: true),
-                    EmailConfirmed = table.Column<bool>(type: "bool", nullable: false),
-                    IsActivated = table.Column<bool>(type: "bool", nullable: false, defaultValue: false),
-                    LockoutEnabled = table.Column<bool>(type: "bool", nullable: false),
-                    LockoutEnd = table.Column<DateTimeOffset>(type: "timestamptz", nullable: true),
-                    ModifiedBy = table.Column<int>(type: "int4", nullable: false),
-                    Name = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: false),
-                    NormalizedEmail = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: true),
-                    NormalizedUserName = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: true),
-                    PasswordHash = table.Column<string>(type: "text", nullable: true),
-                    PhoneNumber = table.Column<string>(type: "text", nullable: true),
-                    PhoneNumberConfirmed = table.Column<bool>(type: "bool", nullable: false),
-                    Picture = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: false),
-                    SecurityStamp = table.Column<string>(type: "text", nullable: true),
-                    TwoFactorEnabled = table.Column<bool>(type: "bool", nullable: false),
-                    UserName = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_AspNetUsers", x => x.Id);
-                    table.UniqueConstraint("AK_AspNetUsers_Picture", x => x.Picture);
-                    table.ForeignKey(
-                        name: "FK_AspNetUsers_AspNetRoles_ApplicationUserRoleId",
-                        column: x => x.ApplicationUserRoleId,
-                        principalTable: "AspNetRoles",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Artists",
-                columns: table => new
-                {
-                    ArtistId = table.Column<int>(type: "int4", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
-                    ApplicationUserId = table.Column<int>(type: "int4", nullable: true),
                     Bio = table.Column<string>(type: "varchar(500)", maxLength: 500, nullable: true),
                     CreatedBy = table.Column<int>(type: "int4", nullable: false),
                     DateCreated = table.Column<DateTime>(type: "Date", nullable: false),
                     DateModified = table.Column<DateTime>(type: "timestamp", nullable: false),
                     IsDeleted = table.Column<bool>(type: "bool", nullable: false, defaultValue: false),
-                    ModifiedBy = table.Column<int>(type: "int4", nullable: false)
+                    ModifiedBy = table.Column<int>(type: "int4", nullable: false),
+                    UserId = table.Column<int>(type: "int4", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Artists", x => x.ArtistId);
+                    table.PrimaryKey("PK_Artists", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Artists_AspNetUsers_ApplicationUserId",
-                        column: x => x.ApplicationUserId,
+                        name: "FK_Artists_AspNetUsers_UserId",
+                        column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
@@ -240,21 +232,21 @@ namespace ItLabs.MBox.Data.Migrations
                 name: "RecordLabels",
                 columns: table => new
                 {
-                    RecordLabelId = table.Column<int>(type: "int4", nullable: false)
+                    Id = table.Column<int>(type: "int4", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
                     AboutInfo = table.Column<string>(type: "text", nullable: true),
-                    ApplicationUserId = table.Column<int>(type: "int4", nullable: true),
                     CreatedBy = table.Column<int>(type: "int4", nullable: false),
                     DateCreated = table.Column<DateTime>(type: "Date", nullable: false),
                     DateModified = table.Column<DateTime>(type: "timestamp", nullable: false),
-                    ModifiedBy = table.Column<int>(type: "int4", nullable: false)
+                    ModifiedBy = table.Column<int>(type: "int4", nullable: false),
+                    UserIdId = table.Column<int>(type: "int4", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_RecordLabels", x => x.RecordLabelId);
+                    table.PrimaryKey("PK_RecordLabels", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_RecordLabels_AspNetUsers_ApplicationUserId",
-                        column: x => x.ApplicationUserId,
+                        name: "FK_RecordLabels_AspNetUsers_UserIdId",
+                        column: x => x.UserIdId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
@@ -264,7 +256,7 @@ namespace ItLabs.MBox.Data.Migrations
                 name: "Follows",
                 columns: table => new
                 {
-                    FollowId = table.Column<int>(type: "int4", nullable: false)
+                    Id = table.Column<int>(type: "int4", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
                     ArtistId = table.Column<int>(type: "int4", nullable: true),
                     CreatedBy = table.Column<int>(type: "int4", nullable: false),
@@ -275,12 +267,12 @@ namespace ItLabs.MBox.Data.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Follows", x => x.FollowId);
+                    table.PrimaryKey("PK_Follows", x => x.Id);
                     table.ForeignKey(
                         name: "FK_Follows_Artists_ArtistId",
                         column: x => x.ArtistId,
                         principalTable: "Artists",
-                        principalColumn: "ArtistId",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Follows_AspNetUsers_FollowerId",
@@ -294,30 +286,30 @@ namespace ItLabs.MBox.Data.Migrations
                 name: "Songs",
                 columns: table => new
                 {
-                    SongId = table.Column<int>(type: "int4", nullable: false)
+                    Id = table.Column<int>(type: "int4", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
                     AlbumName = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: true),
                     ArtistId = table.Column<int>(type: "int4", nullable: true),
                     CreatedBy = table.Column<int>(type: "int4", nullable: false),
                     DateCreated = table.Column<DateTime>(type: "Date", nullable: false),
                     DateModified = table.Column<DateTime>(type: "timestamp", nullable: false),
-                    DateOfRelease = table.Column<DateTime>(type: "Date", nullable: false),
                     Genre = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: true),
-                    Image = table.Column<string>(type: "text", nullable: true),
                     Lyrics = table.Column<string>(type: "text", nullable: true),
                     ModifiedBy = table.Column<int>(type: "int4", nullable: false),
                     Name = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: true),
+                    Picture = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: true),
+                    ReleaseDate = table.Column<DateTime>(type: "Date", nullable: false),
                     VimeoLink = table.Column<string>(type: "varchar(100)", maxLength: 100, nullable: true),
-                    YoutubeLink = table.Column<string>(type: "varchar(100)", maxLength: 100, nullable: true)
+                    YouTubeLink = table.Column<string>(type: "varchar(100)", maxLength: 100, nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Songs", x => x.SongId);
+                    table.PrimaryKey("PK_Songs", x => x.Id);
                     table.ForeignKey(
                         name: "FK_Songs_Artists_ArtistId",
                         column: x => x.ArtistId,
                         principalTable: "Artists",
-                        principalColumn: "ArtistId",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
 
@@ -325,7 +317,7 @@ namespace ItLabs.MBox.Data.Migrations
                 name: "RecordLabelArtists",
                 columns: table => new
                 {
-                    RecordLabelArtistsId = table.Column<int>(type: "int4", nullable: false)
+                    Id = table.Column<int>(type: "int4", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
                     ArtistId = table.Column<int>(type: "int4", nullable: true),
                     CreatedBy = table.Column<int>(type: "int4", nullable: false),
@@ -336,25 +328,25 @@ namespace ItLabs.MBox.Data.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_RecordLabelArtists", x => x.RecordLabelArtistsId);
+                    table.PrimaryKey("PK_RecordLabelArtists", x => x.Id);
                     table.ForeignKey(
                         name: "FK_RecordLabelArtists_Artists_ArtistId",
                         column: x => x.ArtistId,
                         principalTable: "Artists",
-                        principalColumn: "ArtistId",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_RecordLabelArtists_RecordLabels_RecordLabelId",
                         column: x => x.RecordLabelId,
                         principalTable: "RecordLabels",
-                        principalColumn: "RecordLabelId",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Artists_ApplicationUserId",
+                name: "IX_Artists_UserId",
                 table: "Artists",
-                column: "ApplicationUserId");
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -383,11 +375,6 @@ namespace ItLabs.MBox.Data.Migrations
                 column: "RoleId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_AspNetUsers_ApplicationUserRoleId",
-                table: "AspNetUsers",
-                column: "ApplicationUserRoleId");
-
-            migrationBuilder.CreateIndex(
                 name: "EmailIndex",
                 table: "AspNetUsers",
                 column: "NormalizedEmail");
@@ -396,6 +383,12 @@ namespace ItLabs.MBox.Data.Migrations
                 name: "UserNameIndex",
                 table: "AspNetUsers",
                 column: "NormalizedUserName",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AspNetUsers_Picture",
+                table: "AspNetUsers",
+                column: "Picture",
                 unique: true);
 
             migrationBuilder.CreateIndex(
@@ -419,14 +412,20 @@ namespace ItLabs.MBox.Data.Migrations
                 column: "RecordLabelId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_RecordLabels_ApplicationUserId",
+                name: "IX_RecordLabels_UserIdId",
                 table: "RecordLabels",
-                column: "ApplicationUserId");
+                column: "UserIdId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Songs_ArtistId",
                 table: "Songs",
                 column: "ArtistId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Songs_Picture",
+                table: "Songs",
+                column: "Picture",
+                unique: true);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -462,6 +461,9 @@ namespace ItLabs.MBox.Data.Migrations
                 name: "Songs");
 
             migrationBuilder.DropTable(
+                name: "AspNetRoles");
+
+            migrationBuilder.DropTable(
                 name: "RecordLabels");
 
             migrationBuilder.DropTable(
@@ -469,9 +471,6 @@ namespace ItLabs.MBox.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
-
-            migrationBuilder.DropTable(
-                name: "AspNetRoles");
         }
     }
 }

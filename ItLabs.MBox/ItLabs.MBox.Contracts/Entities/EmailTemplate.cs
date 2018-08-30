@@ -6,7 +6,7 @@ namespace ItLabs.MBox.Contracts.Entities
 {
     public class EmailTemplate : AuditableEntity
     {
-        public EmailTemplates Type { get; set; }
+        public virtual EmailTemplates Type { get; set; }
 
         public string Name { get; set; }
 

@@ -13,6 +13,8 @@ namespace ItLabs.MBox.Data.DbMapping
         {
             builder.ToTable("RecordLabels");
             builder.HasKey(c => c.Id);
+            //builder.HasAlternateKey(c => c.UserId);
+            //builder.HasOne(c => c.UserId).WithOne().HasForeignKey<ApplicationUser>(u => u.Id);
             builder.Property(c => c.AboutInfo);
             builder.Property(c => c.DateCreated).IsRequired().HasColumnType("Date"); ;
             //builder.Property(c => c.CreatedBy).IsRequired();

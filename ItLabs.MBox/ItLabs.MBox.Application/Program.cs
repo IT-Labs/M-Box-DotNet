@@ -8,6 +8,8 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using ItLabs.MBox.Domain;
+using Microsoft.Extensions.DependencyInjection;
+using ItLabs.MBox.Data;
 
 namespace ItLabs.MBox.Application
 {
@@ -17,7 +19,20 @@ namespace ItLabs.MBox.Application
         {
             var host = BuildWebHost(args);
 
-            SeedingHelper.Seed();
+            using (var scope = host.Services.CreateScope())
+            {
+                var services = scope.ServiceProvider;
+                var context = services.GetRequiredService<MBoxDbContext>();
+                try
+                {
+                    DataSeeder.Initialize(services);
+                }
+                catch (Exception ex)
+                {
+                    var logger = services.GetRequiredService<ILogger<Program>>();
+                    logger.LogError(ex, "An error occurred seeding the DB.");
+                }
+            }
 
             host.Run();
         }

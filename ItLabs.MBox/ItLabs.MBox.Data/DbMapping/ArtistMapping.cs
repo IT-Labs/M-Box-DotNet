@@ -13,10 +13,10 @@ namespace ItLabs.MBox.Data.DbMapping
         {
             builder.ToTable("Artists");
             builder.HasKey(c => c.Id);
+            //builder.HasOne(c => c.User).WithOne().HasForeignKey<ApplicationUser>(u => u.Id);
             builder.Property(c => c.Bio).HasMaxLength(500);
             builder.Property(c => c.IsDeleted).IsRequired().HasDefaultValue(false);
             builder.Property(c => c.DateCreated).IsRequired().HasColumnType("Date");
-            //builder.Property(c => c.CreatedBy).IsRequired();
         }
     }
 }

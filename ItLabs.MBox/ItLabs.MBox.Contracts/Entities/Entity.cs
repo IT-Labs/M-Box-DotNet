@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using ItLabs.MBox.Contracts.Interfaces;
 
 namespace ItLabs.MBox.Contracts.Entities
 {
-    public class Entity
+    public class Entity : IEntity
     {
         public int Id { get; set; }
     }

@@ -1,22 +1,25 @@
-﻿using ItLabs.MBox.Contracts.Entities;
+﻿using ItLabs.MBox.Contracts.Interfaces;
+using ItLabs.MBox.Contracts.Entities;
+using ItLabs.MBox.Data;
 using ItLabs.MBox.Data.Repositories;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace ItLabs.MBox.Domain.Managers
 {
-    public class ArtistsManager
+    public class ArtistsManager : IArtistsManager
     {
-        private ArtistsRepository _ArtistsRepostiory;
+        private IArtistsRepository _artistsRepostiory;
 
-        public ArtistsManager()
+        public ArtistsManager(IArtistsRepository repository)
         {
-            _ArtistsRepostiory = new ArtistsRepository();
+            _artistsRepostiory = repository;
         }
         public IList<Artist> GetAllArtists()
         {
-            return null;
+            return _artistsRepostiory.GetAllArtists().ToList();
         }
     }
 }

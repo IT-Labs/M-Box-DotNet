@@ -15,6 +15,9 @@ using ItLabs.MBox.Domain.Managers;
 using ItLabs.MBox.Application.Models.AccountViewModels;
 using ItLabs.MBox.Application.Services;
 using ItLabs.MBox.Contracts.Enums;
+using ItLabs.MBox.Data;
+using Microsoft.EntityFrameworkCore;
+using ItLabs.MBox.Contracts.Interfaces;
 
 namespace ItLabs.MBox.Application.Controllers
 {
@@ -26,12 +29,14 @@ namespace ItLabs.MBox.Application.Controllers
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly IEmailSender _emailSender;
         private readonly ILogger _logger;
+        private readonly IArtistsManager _artistsManager;
 
         public AccountController(
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
             IEmailSender emailSender,
-            ILogger<AccountController> logger)
+            ILogger<AccountController> logger,
+            IArtistsManager manager)
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -210,6 +215,7 @@ namespace ItLabs.MBox.Application.Controllers
         [AllowAnonymous]
         public IActionResult Register(string returnUrl = null)
         {
+            var artists = _artistsManager.GetAllArtists();
             ViewData["ReturnUrl"] = returnUrl;
             return View();
         }
@@ -227,6 +233,7 @@ namespace ItLabs.MBox.Application.Controllers
                 var result = await _userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
+
                     _logger.LogInformation("User created a new account with password.");
 
                     //var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);

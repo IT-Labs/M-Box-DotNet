@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Hosting;
@@ -10,9 +6,12 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using ItLabs.MBox.Contracts.Entities;
 using ItLabs.MBox.Application.Services;
-using ItLabs.MBox.Domain;
 using Amazon.S3;
 using Amazon.DynamoDBv2;
+using ItLabs.MBox.Data;
+using ItLabs.MBox.Domain.Managers;
+using ItLabs.MBox.Contracts.Interfaces;
+using ItLabs.MBox.Data.Repositories;
 
 namespace ItLabs.MBox.Application
 {
@@ -28,14 +27,19 @@ namespace ItLabs.MBox.Application
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            /*services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));*/
 
-            SetupServices.AddEntityFrameworkServices(services);
-            
+            services.AddEntityFrameworkNpgsql().AddDbContext<MBoxDbContext>(opt =>
+                opt.UseNpgsql(Configuration.GetConnectionString("MBoxAplicationConnection")));
+
+
+            services.AddIdentity<ApplicationUser, ApplicationRole>()
+                .AddEntityFrameworkStores<MBoxDbContext>()
+                .AddDefaultTokenProviders();
 
             // Add application services.
             services.AddTransient<IEmailSender, EmailSender>();
+            services.AddTransient<IArtistsManager, ArtistsManager>();
+            services.AddTransient<IArtistsRepository, ArtistsRepository>();
 
             services.AddMvc();
 
