@@ -52,7 +52,12 @@ namespace ItLabs.MBox.Data
                 {
                     auditableEntity.Entity.Id = ((Artist)auditableEntity.Entity).User.Id;
                 }
-                
+
+                if (auditableEntity.Entity is RecordLabel)
+                {
+                    auditableEntity.Entity.Id = ((RecordLabel)auditableEntity.Entity).User.Id;
+                }
+
 
                 if (auditableEntity.State == EntityState.Added || auditableEntity.State == EntityState.Modified)
                 {
