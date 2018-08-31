@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ItLabs.MBox.Contracts.Data_Annotations;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -13,13 +14,15 @@ namespace ItLabs.MBox.Application.Models.AccountViewModels
         public string Email { get; set; }
 
         [Required]
-        [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
+        [StringLength(64, ErrorMessage = "The {0} must contain at least 8 characters and 1 number or symbol", MinimumLength = 8)]
         [DataType(DataType.Password)]
+        [PasswordValidation(Minimum =8, Maximum =64)]
         public string Password { get; set; }
 
         [DataType(DataType.Password)]
         [Display(Name = "Confirm password")]
         [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+        [PasswordValidation(Minimum = 8, Maximum = 64)]
         public string ConfirmPassword { get; set; }
 
         public string Code { get; set; }

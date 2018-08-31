@@ -11,7 +11,7 @@ namespace ItLabs.MBox.Application.Models.AccountViewModels
     {
         [Required]
         [Display(Name = "Name")]
-        [StringLength(50, ErrorMessage = "The {0} cannot contain more than {1} characters!", MinimumLength = 1)]
+        [StringLength(50, ErrorMessage = "The {0} cannot contain more than {1} characters!", MinimumLength = 8)]
         public string Name { get; set; }
 
         [Required]

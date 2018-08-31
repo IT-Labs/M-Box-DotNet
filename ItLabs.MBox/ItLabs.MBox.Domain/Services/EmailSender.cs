@@ -34,8 +34,8 @@ namespace ItLabs.MBox.Domain.Services
             var template = _emailTemplatesRepository.getEmailTemplateByType(type);
             var user = _usersRepository.GetUserByEmail(email);
             var bodyToSend = template.Body.Replace("[Name]", user.Name);
-
-            bodyToSend = bodyToSend.Replace("[Link]", "<a href=" + callbackUrl + ">"+template.LinkText+"</a>");
+            if (bodyToSend.Contains("[Link]"))
+                bodyToSend = bodyToSend.Replace("[Link]", "<a href=" + callbackUrl + ">" + template.LinkText + "</a>");
             var username = "AKIAJHEYUTQZO5EDB3WA";  // Replace with your SMTP username.
             var password = "Akp4SGKhVhC/SAjV+bao5XocI7A+yl7s6/Q7e/Wa3ffR";  // Replace with your SMTP password.
             var host = "email-smtp.us-east-1.amazonaws.com";
@@ -54,41 +54,6 @@ namespace ItLabs.MBox.Domain.Services
                 msg.IsBodyHtml = true;
                 client.Send(msg);
             }
-
-            //using (var client = new AmazonSimpleEmailServiceClient(cfg))
-            //{
-
-            //    var sendRequest = new SendEmailRequest
-            //    {
-            //        Source = SourceEmailAddress,
-            //        Destination = new Destination
-            //        {
-            //            ToAddresses =
-            //            new List<string> { email }
-            //        },
-            //        Message = new Message
-            //        {
-            //            Subject = new Content(template.Subject),
-            //            Body = new Body
-            //            {
-            //                Html = new Content
-            //                {
-            //                    Charset = "UTF-8",
-            //                    Data = bodyToSend
-            //                }
-            //            }
-            //        },
-            //    };
-            //    try
-            //    {
-            //        var response = client.SendEmailAsync(sendRequest);
-            //    }
-            //    catch (Exception ex)
-            //    {
-
-            //    }
-            //}
-
 
             return Task.CompletedTask;
         }
