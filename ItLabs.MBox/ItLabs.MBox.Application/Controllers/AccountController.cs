@@ -13,9 +13,9 @@ using Microsoft.Extensions.Options;
 using ItLabs.MBox.Contracts.Entities;
 using ItLabs.MBox.Domain.Managers;
 using ItLabs.MBox.Application.Models.AccountViewModels;
-using ItLabs.MBox.Application.Services;
+using ItLabs.MBox.Domain.Services;
 using ItLabs.MBox.Contracts.Enums;
-using ItLabs.MBox.Data;
+using ItLabs.MBox.Domain;
 using Microsoft.EntityFrameworkCore;
 using ItLabs.MBox.Contracts.Interfaces;
 
@@ -42,6 +42,7 @@ namespace ItLabs.MBox.Application.Controllers
             _signInManager = signInManager;
             _emailSender = emailSender;
             _logger = logger;
+            _artistsManager = manager;
         }
 
         [TempData]
@@ -231,12 +232,13 @@ namespace ItLabs.MBox.Application.Controllers
                 var result = await _userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded) 
                 {
+
                     await _userManager.AddToRoleAsync(user, Roles.Listener.ToString());
                     _logger.LogInformation("User created a new account with password.");
 
-                    //var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-                    //var callbackUrl = Url.EmailConfirmationLink(user.Id.ToString(), code, Request.Scheme);
-                    //await _emailSender.SendEmailConfirmationAsync(model.Email, callbackUrl);
+                    var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+                    var callbackUrl = Url.EmailConfirmationLink(user.Id.ToString(), code, Request.Scheme);
+                    await _emailSender.SendMail(EmailTemplates.SignUp,model.Email, callbackUrl);
 
                     //await _signInManager.SignInAsync(user, isPersistent: false);
                     //_logger.LogInformation("User created a new account with password.");
@@ -379,8 +381,7 @@ namespace ItLabs.MBox.Application.Controllers
                 // visit https://go.microsoft.com/fwlink/?LinkID=532713
                 var code = await _userManager.GeneratePasswordResetTokenAsync(user);
                 var callbackUrl = Url.ResetPasswordCallbackLink(user.Id.ToString(), code, Request.Scheme);
-                await _emailSender.SendEmailAsync(model.Email, "Reset Password",
-                   $"Please reset your password by clicking here: <a href='{callbackUrl}'>link</a>");
+                await _emailSender.SendMail(EmailTemplates.ForgotPassword,model.Email, callbackUrl);
                 return RedirectToAction(nameof(ForgotPasswordConfirmation));
             }
 
