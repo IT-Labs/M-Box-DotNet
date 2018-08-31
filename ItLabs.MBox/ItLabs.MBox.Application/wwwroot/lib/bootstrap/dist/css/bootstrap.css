@@ -1168,7 +1168,8 @@ hr {
   overflow: visible;
   clip: auto;
 }
-[role="button"] {
+[
+    ="button"] {
   cursor: pointer;
 }
 h1,

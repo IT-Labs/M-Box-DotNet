@@ -228,11 +228,10 @@ namespace ItLabs.MBox.Application.Controllers
             if (ModelState.IsValid)
             {
                 var user = new ApplicationUser {Name = model.Name, UserName = model.Email, Email = model.Email };
-
                 var result = await _userManager.CreateAsync(user, model.Password);
-                if (result.Succeeded)
+                if (result.Succeeded) 
                 {
-
+                    await _userManager.AddToRoleAsync(user, Roles.Listener.ToString());
                     _logger.LogInformation("User created a new account with password.");
 
                     //var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);

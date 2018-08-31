@@ -13,9 +13,10 @@ using System;
 namespace ItLabs.MBox.Data.Migrations
 {
     [DbContext(typeof(MBoxDbContext))]
-    partial class MBoxDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180831072833_Version-4")]
+    partial class Version4
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
