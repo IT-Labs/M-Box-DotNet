@@ -65,6 +65,18 @@ namespace ItLabs.MBox.Data
                     }
                 }
             }
+            foreach (var auditableEntity in ChangeTracker.Entries<ApplicationUser>())
+            {
+                if (auditableEntity.State == EntityState.Added || auditableEntity.State == EntityState.Modified)
+                {
+                    auditableEntity.Entity.DateModified = DateTime.UtcNow;
+
+                    if (auditableEntity.State == EntityState.Added)
+                    {
+                        auditableEntity.Entity.DateCreated = DateTime.UtcNow;
+                    }
+                }
+            }
         }
 
         public DbSet<ApplicationUser> ApplicationUsers { get; set; }
