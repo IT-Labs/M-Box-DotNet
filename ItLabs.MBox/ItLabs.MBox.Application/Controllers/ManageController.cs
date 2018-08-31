@@ -12,7 +12,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using ItLabs.MBox.Contracts.Entities;
 using ItLabs.MBox.Application.Models.ManageViewModels;
-using ItLabs.MBox.Application.Services;
+using ItLabs.MBox.Contracts.Interfaces;
 
 namespace ItLabs.MBox.Application.Controllers
 {
@@ -124,7 +124,7 @@ namespace ItLabs.MBox.Application.Controllers
             var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
             var callbackUrl = Url.EmailConfirmationLink(user.Id.ToString(), code, Request.Scheme);
             var email = user.Email;
-            await _emailSender.SendEmailConfirmationAsync(email, callbackUrl);
+            //await _emailSender.SendEmailConfirmationAsync(email, callbackUrl);
 
             StatusMessage = "Verification email sent. Please check your email.";
             return RedirectToAction(nameof(Index));

@@ -11,5 +11,7 @@ namespace ItLabs.MBox.Contracts.Entities
         public string Subject { get; set; }
 
         public string Body { get; set; }
+
+        public string LinkText { get; set; }
     }
 }

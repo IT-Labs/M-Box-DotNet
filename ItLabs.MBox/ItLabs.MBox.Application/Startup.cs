@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using ItLabs.MBox.Contracts.Entities;
-using ItLabs.MBox.Application.Services;
+using ItLabs.MBox.Domain.Services;
 using Amazon.S3;
 using Amazon.DynamoDBv2;
 using ItLabs.MBox.Data;
@@ -40,6 +40,8 @@ namespace ItLabs.MBox.Application
             services.AddTransient<IEmailSender, EmailSender>();
             services.AddTransient<IArtistsManager, ArtistsManager>();
             services.AddTransient<IArtistsRepository, ArtistsRepository>();
+            services.AddTransient<IUsersRepository, UsersRepository>();
+            services.AddTransient<IEmailTemplatesRepository, EmailTemplatesRepository>();
 
             services.AddMvc();
 
