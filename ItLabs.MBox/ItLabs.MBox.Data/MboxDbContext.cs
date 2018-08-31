@@ -5,9 +5,6 @@ using ItLabs.MBox.Contracts.Entities;
 using ItLabs.MBox.Data.DbMapping;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.AspNetCore.Identity;
-using ItLabs.MBox.Contracts.Interfaces;
-using Microsoft.Extensions.Configuration;
-using System.IO;
 
 namespace ItLabs.MBox.Data
 {
@@ -34,7 +31,6 @@ namespace ItLabs.MBox.Data
             // Add your customizations after calling base.OnModelCreating(builder);
             
         }
-
 
         public override int SaveChanges()
         {
@@ -82,10 +78,6 @@ namespace ItLabs.MBox.Data
 
         public DbSet<RecordLabel> RecordLabels { get; set; }
 
-        public DbSet<RecordLabelArtists> RecordLabelArtists { get; set; }
-
-        
-
-        
+        public DbSet<RecordLabelArtists> RecordLabelArtists { get; set; } 
     }
 }

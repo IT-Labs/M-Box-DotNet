@@ -215,7 +215,6 @@ namespace ItLabs.MBox.Application.Controllers
         [AllowAnonymous]
         public IActionResult Register(string returnUrl = null)
         {
-            var artists = _artistsManager.GetAllArtists();
             ViewData["ReturnUrl"] = returnUrl;
             return View();
         }

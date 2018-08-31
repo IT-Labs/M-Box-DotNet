@@ -1,9 +1,6 @@
 ﻿using ItLabs.MBox.Contracts.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace ItLabs.MBox.Data.DbMapping
 {
@@ -13,8 +10,6 @@ namespace ItLabs.MBox.Data.DbMapping
         {
             builder.ToTable("RecordLabels");
             builder.HasKey(c => c.Id);
-            //builder.HasAlternateKey(c => c.UserId);
-            //builder.HasOne(c => c.UserId).WithOne().HasForeignKey<ApplicationUser>(u => u.Id);
             builder.Property(c => c.AboutInfo);
             builder.Property(c => c.DateCreated).IsRequired().HasColumnType("Date"); ;
             //builder.Property(c => c.CreatedBy).IsRequired();

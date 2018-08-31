@@ -1,7 +1,4 @@
-﻿using ItLabs.MBox.Contracts.Interfaces;
-using System;
-
-namespace ItLabs.MBox.Contracts.Entities
+﻿namespace ItLabs.MBox.Contracts.Entities
 {
     public class Follow : AuditableEntity
 

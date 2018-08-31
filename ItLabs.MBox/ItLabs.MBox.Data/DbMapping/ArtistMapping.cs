@@ -1,9 +1,6 @@
 ﻿using ItLabs.MBox.Contracts.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace ItLabs.MBox.Data.DbMapping
 {
@@ -13,7 +10,6 @@ namespace ItLabs.MBox.Data.DbMapping
         {
             builder.ToTable("Artists");
             builder.HasKey(c => c.Id);
-            //builder.HasOne(c => c.User).WithOne().HasForeignKey<ApplicationUser>(u => u.Id);
             builder.Property(c => c.Bio).HasMaxLength(500);
             builder.Property(c => c.IsDeleted).IsRequired().HasDefaultValue(false);
             builder.Property(c => c.DateCreated).IsRequired().HasColumnType("Date");

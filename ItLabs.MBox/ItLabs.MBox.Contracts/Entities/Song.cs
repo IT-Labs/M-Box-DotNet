@@ -1,5 +1,4 @@
 ﻿using System;
-using ItLabs.MBox.Contracts.Interfaces;
 
 namespace ItLabs.MBox.Contracts.Entities
 {

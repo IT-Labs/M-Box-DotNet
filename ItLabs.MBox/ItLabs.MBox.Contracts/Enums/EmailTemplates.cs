@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace ItLabs.MBox.Contracts.Enums
+﻿namespace ItLabs.MBox.Contracts.Enums
 {
     public enum EmailTemplates
     {

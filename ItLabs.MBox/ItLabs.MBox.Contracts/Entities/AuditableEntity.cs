@@ -1,7 +1,5 @@
 ﻿using ItLabs.MBox.Contracts.Interfaces;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace ItLabs.MBox.Contracts.Entities
 {

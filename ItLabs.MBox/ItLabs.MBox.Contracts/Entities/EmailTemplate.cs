@@ -1,6 +1,4 @@
 ﻿using ItLabs.MBox.Contracts.Enums;
-using ItLabs.MBox.Contracts.Interfaces;
-using System;
 
 namespace ItLabs.MBox.Contracts.Entities
 {
