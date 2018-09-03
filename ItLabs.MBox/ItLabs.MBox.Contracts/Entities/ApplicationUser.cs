@@ -5,7 +5,7 @@ using System;
 namespace ItLabs.MBox.Contracts.Entities
 {
     // Add profile data for application users by adding properties to the ApplicationUser class
-    public class ApplicationUser : IdentityUser<int>, IAuditCreate, IAuditUpdate
+    public class ApplicationUser : IdentityUser<int>, IEntity, IAuditCreate, IAuditUpdate
     {
         public string Name { get; set; }
 

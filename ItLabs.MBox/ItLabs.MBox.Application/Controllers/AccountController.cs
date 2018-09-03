@@ -13,7 +13,7 @@ using Microsoft.Extensions.Options;
 using ItLabs.MBox.Contracts.Entities;
 using ItLabs.MBox.Domain.Managers;
 using ItLabs.MBox.Application.Models.AccountViewModels;
-using ItLabs.MBox.Domain.Services;
+
 using ItLabs.MBox.Contracts.Enums;
 using ItLabs.MBox.Domain;
 using Microsoft.EntityFrameworkCore;
@@ -27,20 +27,20 @@ namespace ItLabs.MBox.Application.Controllers
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
-        private readonly IEmailSender _emailSender;
+        private readonly IEmailManager _emailManager;
         private readonly ILogger _logger;
         private readonly IArtistsManager _artistsManager;
 
         public AccountController(
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
-            IEmailSender emailSender,
+            IEmailManager emailManager,
             ILogger<AccountController> logger,
             IArtistsManager manager)
         {
             _userManager = userManager;
             _signInManager = signInManager;
-            _emailSender = emailSender;
+            _emailManager = emailManager;
             _logger = logger;
             _artistsManager = manager;
         }
@@ -238,7 +238,7 @@ namespace ItLabs.MBox.Application.Controllers
 
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                     var callbackUrl = Url.EmailConfirmationLink(user.Id.ToString(), code, Request.Scheme);
-                    await _emailSender.SendMail(EmailTemplates.SignUp,model.Email, callbackUrl);
+                    await _emailManager.SendMail(EmailTemplates.SignUp, model.Email, callbackUrl);
 
                     //await _signInManager.SignInAsync(user, isPersistent: false);
                     //_logger.LogInformation("User created a new account with password.");
@@ -381,7 +381,7 @@ namespace ItLabs.MBox.Application.Controllers
                 // visit https://go.microsoft.com/fwlink/?LinkID=532713
                 var code = await _userManager.GeneratePasswordResetTokenAsync(user);
                 var callbackUrl = Url.ResetPasswordCallbackLink(user.Id.ToString(), code, Request.Scheme);
-                await _emailSender.SendMail(EmailTemplates.ForgotPassword,model.Email, callbackUrl);
+                await _emailManager.SendMail(EmailTemplates.ForgotPassword,model.Email, callbackUrl);
                 return RedirectToAction(nameof(ForgotPasswordConfirmation));
             }
 
@@ -417,7 +417,9 @@ namespace ItLabs.MBox.Application.Controllers
             {
                 return View(model);
             }
+
             var user = await _userManager.FindByEmailAsync(model.Email);
+
             if (user == null)
             {
                 // Don't reveal that the user does not exist

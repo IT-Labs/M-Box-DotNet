@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ItLabs.MBox.Contracts.Interfaces
 {
-    public interface IEmailSender
+    public interface IEmailManager
     {
         Task SendMail(EmailTemplates type, string email, string callbackUrl);
     }

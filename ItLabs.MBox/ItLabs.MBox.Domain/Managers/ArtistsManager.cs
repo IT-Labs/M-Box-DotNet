@@ -7,15 +7,15 @@ namespace ItLabs.MBox.Domain.Managers
 {
     public class ArtistsManager : IArtistsManager
     {
-        private IArtistsRepository _artistsRepostiory;
+        private IRepository<Artist> _artistsRepostiory;
 
-        public ArtistsManager(IArtistsRepository repository)
+        public ArtistsManager(IRepository<Artist> repository)
         {
             _artistsRepostiory = repository;
         }
         public IList<Artist> GetAllArtists()
         {
-            return _artistsRepostiory.GetAllArtists().ToList();
+            return _artistsRepostiory.GetAll().ToList();
         }
     }
 }

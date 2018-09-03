@@ -13,6 +13,11 @@ namespace ItLabs.MBox.Data
 
         public MBoxDbContext(DbContextOptions<MBoxDbContext> options) : base(options) { }
 
+        internal ApplicationUser SingleOrDefault(Func<object, bool> p)
+        {
+            throw new NotImplementedException();
+        }
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             builder.ApplyConfiguration(new ApplicationUserMapping());

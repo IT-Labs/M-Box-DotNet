@@ -1,38 +1,33 @@
-﻿using Amazon;
-using Amazon.SimpleEmail;
-using Amazon.SimpleEmail.Model;
-using ItLabs.MBox.Contracts.Entities;
-using ItLabs.MBox.Contracts.Enums;
-using ItLabs.MBox.Contracts.Interfaces;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.Extensions.Configuration;
-using System;
-using System.Collections.Generic;
+﻿using System.Linq;
 using System.Net;
 using System.Net.Mail;
 using System.Threading.Tasks;
+using ItLabs.MBox.Contracts.Entities;
+using ItLabs.MBox.Contracts.Enums;
+using ItLabs.MBox.Contracts.Interfaces;
 
-namespace ItLabs.MBox.Domain.Services
+namespace ItLabs.MBox.Domain.Managers
 {
-    // This class is used by the application to send email for account confirmation and password reset.
-    // For more details see https://go.microsoft.com/fwlink/?LinkID=532713
-    public class EmailSender : IEmailSender
+    public class EmailsManager : IEmailManager
     {
-        IUsersRepository _usersRepository;
-        IEmailTemplatesRepository _emailTemplatesRepository;
+        private readonly IRepository<ApplicationUser> _usersRepository;
+        private readonly IRepository<EmailTemplate> _emailTemplatesRepository;
+        private readonly IRepository<Configuration> _configurationRepository;
 
-        private readonly string SourceEmailAddress = "no-reply@it-labs.com";
 
-        public EmailSender(IUsersRepository usersRepository, IEmailTemplatesRepository emailTemplatesRepository)
+        public EmailsManager(IRepository<ApplicationUser> usersRepository, 
+            IRepository<EmailTemplate> emailTemplatesRepository,
+            IRepository<Configuration> configurationRepository)
         {
             _usersRepository = usersRepository;
             _emailTemplatesRepository = emailTemplatesRepository;
-
+            _configurationRepository = configurationRepository;
         }
         public Task SendMail(EmailTemplates type, string email, string callbackUrl)
         {
-            var template = _emailTemplatesRepository.getEmailTemplateByType(type);
-            var user = _usersRepository.GetUserByEmail(email);
+            var SourceEmailAddress = _configurationRepository.GetAll().Where(c => c.Key == nameof(SourceEmails.ItLabsEmail)).FirstOrDefault().Value;
+            var template = _emailTemplatesRepository.GetAll().Where(c => c.Type == type).FirstOrDefault();
+            var user = _usersRepository.GetAll().Where(x => x.Email == email).FirstOrDefault();
             var bodyToSend = template.Body.Replace("[Name]", user.Name);
             if (bodyToSend.Contains("[Link]"))
                 bodyToSend = bodyToSend.Replace("[Link]", "<a href=" + callbackUrl + ">" + template.LinkText + "</a>");
@@ -45,7 +40,7 @@ namespace ItLabs.MBox.Domain.Services
             {
                 client.Credentials = new NetworkCredential(username, password);
                 client.EnableSsl = true;
-                MailMessage msg = new MailMessage(
+                var msg = new MailMessage(
                     SourceEmailAddress,  // Replace with the sender address.
                           email,    // Replace with the recipient address.
                           template.Subject,
@@ -57,7 +52,5 @@ namespace ItLabs.MBox.Domain.Services
 
             return Task.CompletedTask;
         }
-
-
     }
 }

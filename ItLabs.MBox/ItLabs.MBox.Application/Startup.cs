@@ -5,13 +5,13 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using ItLabs.MBox.Contracts.Entities;
-using ItLabs.MBox.Domain.Services;
+using ItLabs.MBox.Domain.Managers;
 using Amazon.S3;
 using Amazon.DynamoDBv2;
 using ItLabs.MBox.Data;
-using ItLabs.MBox.Domain.Managers;
 using ItLabs.MBox.Contracts.Interfaces;
-using ItLabs.MBox.Data.Repositories;
+using StructureMap;
+using System;
 
 namespace ItLabs.MBox.Application
 {
@@ -25,7 +25,7 @@ namespace ItLabs.MBox.Application
         public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
-        public void ConfigureServices(IServiceCollection services)
+        public IServiceProvider ConfigureServices(IServiceCollection services)
         {
 
             services.AddEntityFrameworkNpgsql().AddDbContext<MBoxDbContext>(opt =>
@@ -36,18 +36,7 @@ namespace ItLabs.MBox.Application
                 .AddEntityFrameworkStores<MBoxDbContext>()
                 .AddDefaultTokenProviders();
 
-            // Add application services.
-            services.AddTransient<IEmailSender, EmailSender>();
-            services.AddTransient<IArtistsManager, ArtistsManager>();
-            services.AddTransient<IArtistsRepository, ArtistsRepository>();
-            services.AddTransient<IUsersRepository, UsersRepository>();
-            services.AddTransient<IEmailTemplatesRepository, EmailTemplatesRepository>();
-
             services.AddMvc();
-
-            services.AddDefaultAWSOptions(Configuration.GetAWSOptions());
-            services.AddAWSService<IAmazonS3>();
-            services.AddAWSService<IAmazonDynamoDB>();
 
             services.Configure<IdentityOptions>(options =>
             {
@@ -57,6 +46,26 @@ namespace ItLabs.MBox.Application
                 options.Password.RequireNonAlphanumeric = false;
                 options.Password.RequireUppercase = false;
             });
+
+
+            // STRUCTURE MAP CONTAINER
+            var container = new Container();
+
+            container.Configure(config =>
+            {
+                config.AddRegistry(new StructuremapRegistry());
+                config.Populate(services);
+            });
+
+
+            /// AWS SERVICES HERE
+            services.AddDefaultAWSOptions(Configuration.GetAWSOptions());
+            //services.AddAWSService<IAmazonS3>();
+            //services.AddAWSService<IAmazonDynamoDB>();
+
+            
+
+            return container.GetInstance<IServiceProvider>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
