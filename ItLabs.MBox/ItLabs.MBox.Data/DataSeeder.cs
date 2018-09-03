@@ -41,6 +41,11 @@ namespace ItLabs.MBox.Data
                 admin.Email = "testadmin@gmail.com";
                 admin.Name = "testAdmin";
                 admin.IsActivated = true;
+                admin.NormalizedEmail = "TESTADMIN@GMAIL.COM";
+                admin.NormalizedUserName = "TESTADMIN@GMAIL.COM";
+                admin.SecurityStamp = "be0aefcf-bf66-40b7-a3a6-d42f58ef0beb";
+                admin.LockoutEnabled = true;
+                admin.UserName = "testadmin@gmail.com";
                 admin.PasswordHash = hashedAdmin;
                 context.ApplicationUsers.Add(admin);
                 context.UserRoles.Add(new IdentityUserRole<int>() { UserId = admin.Id, RoleId = 1});
@@ -51,6 +56,11 @@ namespace ItLabs.MBox.Data
                 listener.Email = "testlistener@gmail.com";
                 listener.Name = "testListenr";
                 listener.IsActivated = true;
+                listener.NormalizedUserName = "TESTLISTENER@GMAIL.COM";
+                listener.NormalizedEmail = "TESTLISTENER@GMAIL.COM";
+                listener.SecurityStamp = "09715aaa-f1f3-4ced-a47d-dcb7588137ac";
+                listener.UserName = "testlistener@gmail.com";
+                listener.LockoutEnabled = true;
                 listener.PasswordHash = hashedListenr;
                 context.ApplicationUsers.Add(listener);
                 context.UserRoles.Add(new IdentityUserRole<int>() { UserId = listener.Id, RoleId = 4 });
@@ -68,6 +78,11 @@ namespace ItLabs.MBox.Data
                 appUser.Name = "testArtist";
                 appUser.IsActivated = true;
                 appUser.PasswordHash = hashedArtist;
+                appUser.NormalizedEmail = "TESTARTIST@GMAIL.COM";
+                appUser.NormalizedUserName = "TESTARTIST@GMAIL.COM";
+                appUser.SecurityStamp = "e9279fdf-dee0-41b1-88f2-bf5c7508c220";
+                appUser.UserName = "testartist@gmail.com";
+                appUser.LockoutEnabled = true;
                 artist.User = appUser;
                 context.ApplicationUsers.Add(appUser);
                 context.Artists.Add(artist);
@@ -86,6 +101,11 @@ namespace ItLabs.MBox.Data
                 appUser.Name = "testRecordLabel";
                 appUser.IsActivated = true;
                 appUser.PasswordHash = hashedRl;
+                appUser.NormalizedUserName = "TESTRL@GMAIL.COM";
+                appUser.NormalizedEmail = "TESTRL@GMAIL.COM";
+                appUser.SecurityStamp = "415bf8f4-bc79-4ec2-8368-cf9bdd755db1";
+                appUser.UserName = "testrl@gmail.com";
+                appUser.LockoutEnabled = true;
                 recordLabel.User = appUser;
                 context.ApplicationUsers.Add(appUser);
                 context.RecordLabels.Add(recordLabel);
