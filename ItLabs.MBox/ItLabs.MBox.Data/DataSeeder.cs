@@ -83,8 +83,11 @@ namespace ItLabs.MBox.Data
                 appUser.SecurityStamp = "e9279fdf-dee0-41b1-88f2-bf5c7508c220";
                 appUser.UserName = "testartist@gmail.com";
                 appUser.LockoutEnabled = true;
-                artist.User = appUser;
                 context.ApplicationUsers.Add(appUser);
+                context.SaveChanges();
+
+                var userReturned = context.ApplicationUsers.FirstOrDefault(c => c.Id == appUser.Id);
+                artist.User = userReturned;
                 context.Artists.Add(artist);
                 context.UserRoles.Add(new IdentityUserRole<int>() { UserId = appUser.Id, RoleId = 3 });
 
@@ -108,6 +111,10 @@ namespace ItLabs.MBox.Data
                 appUser.LockoutEnabled = true;
                 recordLabel.User = appUser;
                 context.ApplicationUsers.Add(appUser);
+                context.SaveChanges();
+
+                var userReturned = context.ApplicationUsers.FirstOrDefault(c => c.Id == appUser.Id);
+                recordLabel.User = userReturned;
                 context.RecordLabels.Add(recordLabel);
                 context.UserRoles.Add(new IdentityUserRole<int>() { UserId = appUser.Id, RoleId = 2 });
 
