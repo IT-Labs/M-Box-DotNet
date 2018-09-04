@@ -13,7 +13,7 @@ namespace ItLabs.MBox.Application.Controllers
         public IActionResult Index()
         {
             ViewData["Message"] = "Home";
-
+            
             return View();
         }
 

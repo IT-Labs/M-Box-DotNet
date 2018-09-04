@@ -20,7 +20,7 @@ namespace ItLabs.MBox.Application.Models.AccountViewModels
         public string Email { get; set; }
 
         [Required]
-        [StringLength(100, ErrorMessage = "The {0} must contain at least 8 characters and 1 number or symbol", MinimumLength = 8)]
+        [StringLength(100, ErrorMessage = "The {0} must contain at least {2} characters and 1 number or symbol", MinimumLength = 8)]
         [DataType(DataType.Password)]
         [PasswordValidation(Minimum = 8, Maximum = 100)]
         [Display(Name = "Password")]

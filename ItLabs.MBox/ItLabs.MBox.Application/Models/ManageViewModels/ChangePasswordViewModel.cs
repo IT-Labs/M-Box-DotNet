@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ItLabs.MBox.Contracts.Data_Annotations;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -14,9 +15,10 @@ namespace ItLabs.MBox.Application.Models.ManageViewModels
         public string OldPassword { get; set; }
 
         [Required]
-        [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
+        [StringLength(100, ErrorMessage = "The {0} must contain at least {2} characters and 1 number or symbol", MinimumLength = 8)]
         [DataType(DataType.Password)]
-        [Display(Name = "New password")]
+        [PasswordValidation(Minimum = 8, Maximum = 100)]
+        [Display(Name = "New Password")]
         public string NewPassword { get; set; }
 
         [DataType(DataType.Password)]

@@ -10,3 +10,33 @@
 .dropDownMenu {
     background-color: #1c1b1b;
 }
+.vl {
+    border-left: 1px solid black;
+    height:100%;
+    margin-top: 4%;
+}
+.alignforvl {
+    height: 100%;
+    margin-top: 4%;
+    margin-left: 9%;
+    margin-right: -8%;
+}
+.artistImage {
+    width: 80%;
+    height: 80%;
+    margin-left: auto;
+    margin-right: auto;
+}
+.songImage {
+    width: 80%;
+    height: 80%;
+    display:block;
+    margin-left: auto;
+    margin-right: auto;
+}
+.seperateLists{
+    margin-bottom:2%;
+}
+.seperateResults{
+    margin-right:3.2%
+}

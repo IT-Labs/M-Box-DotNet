@@ -1,5 +1,124 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
 }
+<div class="container">
+    <div class="row" style="margin-top:2%">
+        <h4>Recently added songs</h4>
+        <ul class="list-group seperateLists" style="list-style:none;">
+            @for (int i = 0; i < 5; i++)
+            {
+                <li class="col-sm-2 table-bordered seperateResults">
+                    <div>
+                        <div class="row">
+                            <div>
+                                <div class="text-center text">
+                                    <h5>Song Name</h5>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div>
+                                <img class="img-responsive center-block text-center songImage" src="~/images/travis-scott-astroworld-cover-art.jpg" />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-4 alignforvl">
+                                <a href="#">Youtube</a>
+                            </div>
 
-<h3>@ViewData["Message"]</h3>
+                            <div class="col-sm-2">
+                            </div>
+
+                            <div class="col-sm-4 vl">
+                                <a href="#">Vimeo</a>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div>
+                                <div class="text-center text">
+                                    <h5>Artist Name</h5>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            }
+        </ul>
+    </div>
+    <hr />
+    <div class="row">
+        <h4>Most followed artists</h4>
+        <ul class="list-group seperateLists" style="list-style:none">
+            @for (int i = 0; i < 5; i++)
+            {
+                <li class="col-sm-2 table-bordered seperateResults">
+                    <div>
+                        <div class="row">
+                            <div>
+                                <div class="text-center text">
+                                    <h5>Artist Name</h5>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div>
+                                <img class="img-circle img-responsive artistAlign artistImage" src="~/images/kendrick-lamar-getty-paul-marotta.jpg" />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div>
+                                <div class="text-center text">
+                                    <h5>Record Label Name</h5>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            }
+        </ul>
+    </div>
+    <hr />
+    <div class="row">
+        <h4>Recently added songs of most followed artists</h4>
+        <ul class="list-group seperateLists" style="list-style:none">
+            @for (int i = 0; i < 5; i++)
+            {
+                <li class="col-sm-2 table-bordered seperateResults">
+                    <div>
+                        <div class="row">
+                            <div>
+                                <div class="text-center text">
+                                    <h5>Song Name</h5>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div>
+                                <img class="img-responsive center-block text-center songImage" src="~/images/travis-scott-astroworld-cover-art.jpg" />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-4 alignforvl">
+                                <a href="#">Youtube</a>
+                            </div>
+
+                            <div class="col-sm-2">
+                            </div>
+
+                            <div class="col-sm-4 vl">
+                                <a href="#">Vimeo</a>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div>
+                                <div class="text-center text">
+                                    <h5>Artist Name</h5>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            }
+        </ul>
+    </div>
+</div>
