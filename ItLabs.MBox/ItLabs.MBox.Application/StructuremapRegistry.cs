@@ -15,6 +15,7 @@ namespace ItLabs.MBox.Application
     {
         public StructuremapRegistry()
         {
+            For<IRecordLabelsManager>().LifecycleIs(Lifecycles.Container).Use<RecordLabelsManager>();
             For<IArtistsManager>().LifecycleIs(Lifecycles.Container).Use<ArtistsManager>();
             For<IEmailManager>().LifecycleIs(Lifecycles.Container).Use<EmailsManager>();
             For<ISongsManager>().LifecycleIs(Lifecycles.Container).Use<SongsManager>();

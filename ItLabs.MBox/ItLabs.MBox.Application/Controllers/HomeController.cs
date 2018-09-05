@@ -13,10 +13,12 @@ namespace ItLabs.MBox.Application.Controllers
     {
         private ISongsManager _songsManager;
         private IArtistsManager _artistsManager;
-        public HomeController(ISongsManager songsManager, IArtistsManager artistsManager)
+        private IRecordLabelsManager _recordLabelManager;
+        public HomeController(ISongsManager songsManager, IArtistsManager artistsManager, IRecordLabelsManager recordLabelManager)
         {
             _songsManager = songsManager;
             _artistsManager = artistsManager;
+            _recordLabelManager = recordLabelManager;
         }
         public IActionResult Index()
         {
@@ -31,8 +33,9 @@ namespace ItLabs.MBox.Application.Controllers
         public IActionResult About()
         {
             ViewData["Message"] = "About page";
-
-            return View();
+            AboutViewModel model = new AboutViewModel();
+            model.WeCooperateWith = _recordLabelManager.GetAllRecordLabels();
+            return View(model);
         }
 
         public IActionResult Artists()

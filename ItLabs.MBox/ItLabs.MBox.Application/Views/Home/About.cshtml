@@ -2,6 +2,8 @@
     ViewData["Title"] = "About";
 }
 
+@model AboutViewModel
+
 <div class="container-fluid">
     <div class="row" style="margin-left: 25px">
         <div class="col-md-4 col-sm-4" style="margin-top: 25px;">
@@ -36,12 +38,11 @@
                 <h3>We cooperate with</h3>
             </div>
             <div class="row" style="border: 1px solid black">
-                <ul style="text-align: center; list-style: none; margin-left: auto; margin-right: auto; width: 50%; padding: 0px;">
-                    <li>Record Label 1</li>
-                    <li>Record Label 2</li>
-                    <li>Record Label 3</li>
-                    <li>Record Label 4</li>
-                    <li>Record Label 5</li>
+                <ul style="text-align: center; list-style: none; margin-left: auto; margin-right: auto; width: 90%; padding: 0px;">
+                    @foreach (RecordLabel recordLabel in Model.WeCooperateWith)
+                    {
+                        <li style="margin-top: 5px;">- @recordLabel.User.Name</li>
+                    }
                 </ul>
             </div>
         </div>
