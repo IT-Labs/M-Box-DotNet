@@ -97,7 +97,7 @@ namespace ItLabs.MBox.Data
                 var passRL1 = new PasswordHasher<ApplicationUser>();
                 var hashedRl1 = passRL.HashPassword(appUser1, "recordl!23");
                 appUser1.Email = "testrl1@gmail.com";
-                appUser1.Name = "testRecordLabel1";
+                appUser1.Name = "Top Dawg Entertainment";
                 appUser1.IsActivated = true;
                 appUser1.PasswordHash = hashedRl1;
                 appUser1.NormalizedUserName = "TESTRL1@GMAIL.COM";
@@ -119,7 +119,7 @@ namespace ItLabs.MBox.Data
                 var passRL2 = new PasswordHasher<ApplicationUser>();
                 var hashedRl2 = passRL.HashPassword(appUser2, "recordl!23");
                 appUser2.Email = "testrl2@gmail.com";
-                appUser2.Name = "testRecordLabel2";
+                appUser2.Name = "Dreamville Records";
                 appUser2.IsActivated = true;
                 appUser2.PasswordHash = hashedRl2;
                 appUser2.NormalizedUserName = "TESTRL2@GMAIL.COM";
@@ -141,7 +141,7 @@ namespace ItLabs.MBox.Data
                 var passRL3 = new PasswordHasher<ApplicationUser>();
                 var hashedRl3 = passRL.HashPassword(appUser3, "recordl!23");
                 appUser3.Email = "testrl3@gmail.com";
-                appUser3.Name = "testRecordLabel3";
+                appUser3.Name = "Glassnote Records";
                 appUser3.IsActivated = true;
                 appUser3.PasswordHash = hashedRl3;
                 appUser3.NormalizedUserName = "TESTRL3@GMAIL.COM";
@@ -232,7 +232,7 @@ namespace ItLabs.MBox.Data
                 var passArtist2 = new PasswordHasher<ApplicationUser>();
                 var hashedArtist2 = passArtist.HashPassword(appUser2, "artist!23");
                 appUser2.Email = "testartist2@gmail.com";
-                appUser2.Name = "testArtist2";
+                appUser2.Name = "Smino";
                 appUser2.IsActivated = true;
                 appUser2.PasswordHash = hashedArtist2;
                 appUser2.NormalizedEmail = "TESTARTIST2@GMAIL.COM";
@@ -253,7 +253,7 @@ namespace ItLabs.MBox.Data
                 var passArtist3 = new PasswordHasher<ApplicationUser>();
                 var hashedArtist3 = passArtist.HashPassword(appUser3, "artist!23");
                 appUser3.Email = "testartist3@gmail.com";
-                appUser3.Name = "testArtist3";
+                appUser3.Name = "Childish Gambino";
                 appUser3.IsActivated = true;
                 appUser3.PasswordHash = hashedArtist3;
                 appUser3.NormalizedEmail = "TESTARTIST3@GMAIL.COM";
@@ -274,7 +274,7 @@ namespace ItLabs.MBox.Data
                 var passArtist4 = new PasswordHasher<ApplicationUser>();
                 var hashedArtist4 = passArtist.HashPassword(appUser4, "artist!23");
                 appUser4.Email = "testartist4@gmail.com";
-                appUser4.Name = "testArtist4";
+                appUser4.Name = "Ab-Soul";
                 appUser4.IsActivated = true;
                 appUser4.PasswordHash = hashedArtist4;
                 appUser4.NormalizedEmail = "TESTARTIST4@GMAIL.COM";
@@ -290,6 +290,85 @@ namespace ItLabs.MBox.Data
                 context.Artists.Add(artist4);
                 context.UserRoles.Add(new IdentityUserRole<int>() { UserId = appUser4.Id, RoleId = 3 });
 
+
+                var appUser5 = new ApplicationUser();
+                var artist5 = new Artist();
+                var passArtist5 = new PasswordHasher<ApplicationUser>();
+                var hashedArtist5 = passArtist.HashPassword(appUser5, "artist!23");
+                appUser5.Email = "testartist5@gmail.com";
+                appUser5.Name = "Kendrick Lamar";
+                appUser5.IsActivated = true;
+                appUser5.PasswordHash = hashedArtist5;
+                appUser5.NormalizedEmail = "TESTARTIST5@GMAIL.COM";
+                appUser5.NormalizedUserName = "TESTARTIST5@GMAIL.COM";
+                appUser5.SecurityStamp = "e9279fdf-dee0-41b1-88f2-bf5c7508c220";
+                appUser5.UserName = "testartist5@gmail.com";
+                appUser5.LockoutEnabled = true;
+                context.ApplicationUsers.Add(appUser5);
+                context.SaveChanges();
+
+                var userReturned5 = context.ApplicationUsers.FirstOrDefault(c => c.Id == appUser5.Id);
+                artist5.User = userReturned5;
+                context.Artists.Add(artist5);
+                context.UserRoles.Add(new IdentityUserRole<int>() { UserId = appUser5.Id, RoleId = 3 });
+
+                var appUser6 = new ApplicationUser();
+                var artist6 = new Artist();
+                var passArtist6 = new PasswordHasher<ApplicationUser>();
+                var hashedArtist6 = passArtist.HashPassword(appUser6, "artist!23");
+                appUser6.Email = "testartist6@gmail.com";
+                appUser6.Name = "J Cole";
+                appUser6.IsActivated = true;
+                appUser6.PasswordHash = hashedArtist6;
+                appUser6.NormalizedEmail = "TESTARTIST6@GMAIL.COM";
+                appUser6.NormalizedUserName = "TESTARTIST6@GMAIL.COM";
+                appUser6.SecurityStamp = "e9279fdf-dee0-41b1-88f2-bf5c7508c220";
+                appUser6.UserName = "testartist6@gmail.com";
+                appUser6.LockoutEnabled = true;
+                context.ApplicationUsers.Add(appUser6);
+                context.SaveChanges();
+
+                var userReturned6 = context.ApplicationUsers.FirstOrDefault(c => c.Id == appUser6.Id);
+                artist6.User = userReturned6;
+                context.Artists.Add(artist6);
+                context.UserRoles.Add(new IdentityUserRole<int>() { UserId = appUser6.Id, RoleId = 3 });
+
+
+
+
+
+
+                context.Songs.Add(new Song() { Artist = artist5, Name = "LOYALTY.", AlbumName = "DAMN.", Genre = "Hip Hop", YouTubeLink = "https://www.youtube.com/watch?v=Dlh-dzB2U4Y", VimeoLink = "https://vimeo.com/280033966", ReleaseDate = new DateTime(2017,4,14)});
+                context.Songs.Add(new Song() { Artist = artist5, Name = "These Walls", AlbumName = "To Pimp a Butterfly", Genre = "Hip Hop", YouTubeLink = "https://www.youtube.com/watch?v=drV0QatqbRU", VimeoLink = "https://vimeo.com/109618785", ReleaseDate = new DateTime(2015, 2, 4) });
+                context.Songs.Add(new Song() { Artist=artist6, Name = "Higher", AlbumName = "Friday Night Lights", Genre = "Hip Hop", YouTubeLink = "https://www.youtube.com/watch?v=hGIeg6EkPGE", VimeoLink = "https://vimeo.com/16821039", ReleaseDate = new DateTime(2010, 2, 12) });
+                context.Songs.Add(new Song() { Artist= artist6, Name = "Change", AlbumName = "For Your Eyez Only", Genre = "Hip Hop", YouTubeLink = "https://www.youtube.com/watch?v=AiZuT69qJLc", VimeoLink = "https://vimeo.com/229542292", ReleaseDate = new DateTime(2016, 4, 14) });
+
+                context.Songs.Add(new Song() { Artist = artist4, Name = "Terrorist Threats", AlbumName = "Control System", Genre = "Hip Hop", YouTubeLink = "https://www.youtube.com/watch?v=m_71q5lVEjc", VimeoLink = "https://vimeo.com/41895297", ReleaseDate = new DateTime(2003, 2, 24) });
+
+                context.Songs.Add(new Song() { Artist = artist3, Name = "This is America", AlbumName = "No Album", Genre = "Hip Hop", YouTubeLink = "https://www.youtube.com/watch?v=VYOjWnS4cMY", VimeoLink = "https://vimeo.com/276794240", ReleaseDate = new DateTime(2018, 4, 14) });
+                context.Songs.Add(new Song() { Artist = artist2, Name = "Amphetamine", AlbumName = "Blkswn", Genre = "Hip Hop", YouTubeLink = "https://www.youtube.com/watch?v=oRt-hqs_nrQ", VimeoLink = "https://vimeo.com/209110010", ReleaseDate = new DateTime(2014, 4, 2) });
+
+
+
+
+                context.Follows.Add(new Follow() { Artist = artist3, Follower = userReturned5 });
+
+                context.Follows.Add(new Follow() { Artist = artist5, Follower = userReturned });
+                context.Follows.Add(new Follow() { Artist = artist5, Follower = userReturned1 });
+                context.Follows.Add(new Follow() { Artist = artist5, Follower = userReturned2 });
+                context.Follows.Add(new Follow() { Artist = artist5, Follower = userReturned3 });
+                context.Follows.Add(new Follow() { Artist = artist5, Follower = userReturned4 });
+                context.Follows.Add(new Follow() { Artist = artist5, Follower = userReturned5 });
+
+
+                context.Follows.Add(new Follow() { Artist = artist4, Follower = userReturned4 });
+                context.Follows.Add(new Follow() { Artist = artist4, Follower = userReturned5 });
+
+                context.Follows.Add(new Follow() { Artist = artist6, Follower = userReturned3 });
+                context.Follows.Add(new Follow() { Artist = artist6, Follower = userReturned4 });
+                context.Follows.Add(new Follow() { Artist = artist6, Follower = userReturned5 });
+
+
                 context.SaveChanges();
             }
 
@@ -301,27 +380,24 @@ namespace ItLabs.MBox.Data
 
             if (!context.RecordLabelArtists.Any())
             {
-                var rl = context.ApplicationUsers.FirstOrDefault(c => c.Name == "testRecordLabel");
-                var rl1 = context.ApplicationUsers.FirstOrDefault(c => c.Name == "testRecordLabel1");
-                var rl2 = context.ApplicationUsers.FirstOrDefault(c => c.Name == "testRecordLabel2");
-                var rl3 = context.ApplicationUsers.FirstOrDefault(c => c.Name == "testRecordLabel3");
+                var rl = context.ApplicationUsers.FirstOrDefault(c => c.Name == "Top Dawg Entertainment");
+                var rl1 = context.ApplicationUsers.FirstOrDefault(c => c.Name == "Dreamville Records");
+                var rl3 = context.ApplicationUsers.FirstOrDefault(c => c.Name == "Glassnote Records");
 
-                var ar = context.ApplicationUsers.FirstOrDefault(c => c.Name == "testArtist");
-                var ar1 = context.ApplicationUsers.FirstOrDefault(c => c.Name == "testArtist1");
-                var ar2 = context.ApplicationUsers.FirstOrDefault(c => c.Name == "testArtist2");
-                var ar3 = context.ApplicationUsers.FirstOrDefault(c => c.Name == "testArtist3");
-                var ar4 = context.ApplicationUsers.FirstOrDefault(c => c.Name == "testArtist4");
+                var ar = context.ApplicationUsers.FirstOrDefault(c => c.Name == "Kendrick Lamar");
+                var ar1 = context.ApplicationUsers.FirstOrDefault(c => c.Name == "J Cole");
+                var ar2 = context.ApplicationUsers.FirstOrDefault(c => c.Name == "Ab-Soul");
+                var ar3 = context.ApplicationUsers.FirstOrDefault(c => c.Name == "Childish Gambino");
+
 
                 var recordLabel = context.RecordLabels.FirstOrDefault(c => c.Id == rl.Id);
                 var recordLabel1 = context.RecordLabels.FirstOrDefault(c => c.Id == rl1.Id);
-                var recordLabel2 = context.RecordLabels.FirstOrDefault(c => c.Id == rl2.Id);
                 var recordLabel3 = context.RecordLabels.FirstOrDefault(c => c.Id == rl3.Id);
 
                 var artist = context.Artists.FirstOrDefault(c => c.Id == ar.Id);
                 var artist1 = context.Artists.FirstOrDefault(c => c.Id == ar1.Id);
                 var artist2 = context.Artists.FirstOrDefault(c => c.Id == ar2.Id);
                 var artist3 = context.Artists.FirstOrDefault(c => c.Id == ar3.Id);
-                var artist4 = context.Artists.FirstOrDefault(c => c.Id == ar4.Id);
 
                 var rla = new RecordLabelArtists();
                 rla.Artist = artist;
@@ -330,23 +406,21 @@ namespace ItLabs.MBox.Data
 
                 var rla1 = new RecordLabelArtists();
                 rla1.Artist = artist1;
-                rla1.RecordLabel = recordLabel;
+                rla1.RecordLabel = recordLabel1;
                 context.RecordLabelArtists.Add(rla1);
 
                 var rla2 = new RecordLabelArtists();
                 rla2.Artist = artist2;
-                rla2.RecordLabel = recordLabel1;
+                rla2.RecordLabel = recordLabel;
                 context.RecordLabelArtists.Add(rla2);
 
-                var rla3 = new RecordLabelArtists();
-                rla3.Artist = artist3;
-                rla3.RecordLabel = recordLabel2;
-                context.RecordLabelArtists.Add(rla3);
 
                 var rla4 = new RecordLabelArtists();
-                rla4.Artist = artist4;
+                rla4.Artist = artist3;
                 rla4.RecordLabel = recordLabel3;
                 context.RecordLabelArtists.Add(rla4);
+
+
 
                 context.SaveChanges();
             }

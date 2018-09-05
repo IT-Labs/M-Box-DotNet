@@ -1,18 +1,25 @@
-﻿@{
+﻿@using ItLabs.MBox.Application.Models;
+@using ItLabs.MBox.Contracts.Entities
+@using ItLabs.MBox.Contracts.Data_Transfer_Objects
+
+@{
     ViewData["Title"] = "Home Page";
 }
+
+@model HomeViewModel
+
 <div class="container">
     <div class="row" style="margin-top:2%">
         <h4>Recently added songs</h4>
         <ul class="list-group seperateLists" style="list-style:none;">
-            @for (int i = 0; i < 5; i++)
+            @foreach (Song song in Model.RecentlyAddedSongs)
             {
                 <li class="col-sm-2 table-bordered seperateResults">
                     <div>
                         <div class="row">
                             <div>
                                 <div class="text-center text">
-                                    <h5>Song Name</h5>
+                                    <h5>@song.Name</h5>
                                 </div>
                             </div>
                         </div>
@@ -23,20 +30,20 @@
                         </div>
                         <div class="row">
                             <div class="col-sm-4 alignforvl">
-                                <a href="#">Youtube</a>
+                                <a target=”_blank” href="@song.YouTubeLink">Youtube</a>
                             </div>
 
                             <div class="col-sm-2">
                             </div>
 
                             <div class="col-sm-4 vl">
-                                <a href="#">Vimeo</a>
+                                <a target=”_blank” href="@song.VimeoLink">Vimeo</a>
                             </div>
                         </div>
                         <div class="row">
                             <div>
                                 <div class="text-center text">
-                                    <h5>Artist Name</h5>
+                                    <h5>@song.Artist.User.Name</h5>
                                 </div>
                             </div>
                         </div>
@@ -49,14 +56,14 @@
     <div class="row">
         <h4>Most followed artists</h4>
         <ul class="list-group seperateLists" style="list-style:none">
-            @for (int i = 0; i < 5; i++)
+            @foreach (ArtistDto dto in Model.MostFollowedArtists)
             {
                 <li class="col-sm-2 table-bordered seperateResults">
                     <div>
                         <div class="row">
                             <div>
                                 <div class="text-center text">
-                                    <h5>Artist Name</h5>
+                                    <h5>@dto.Artist.User.Name</h5>
                                 </div>
                             </div>
                         </div>
@@ -68,7 +75,7 @@
                         <div class="row">
                             <div>
                                 <div class="text-center text">
-                                    <h5>Record Label Name</h5>
+                                    <h5>@dto.RecordLabel.User.Name</h5>
                                 </div>
                             </div>
                         </div>
