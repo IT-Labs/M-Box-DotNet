@@ -24,7 +24,7 @@ namespace ItLabs.MBox.Application.Controllers
             HomeViewModel model = new HomeViewModel();
             model.RecentlyAddedSongs = _songsManager.GetRecentlyAddedSongs(5);
             model.MostFollowedArtists = _artistsManager.GetMostFollowedArtists(5);
-
+            model.RecentlyAddedSongsOfMostPopularArtist = _songsManager.GetRecentlyAddedSongsOfMostPopularArtists(5);
             return View(model);
         }
 

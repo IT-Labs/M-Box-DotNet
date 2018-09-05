@@ -8,5 +8,6 @@ namespace ItLabs.MBox.Contracts.Interfaces
     public interface ISongsManager
     {
         IList<Song> GetRecentlyAddedSongs(int number);
+        IList<Song> GetRecentlyAddedSongsOfMostPopularArtists(int number);
     }
 }

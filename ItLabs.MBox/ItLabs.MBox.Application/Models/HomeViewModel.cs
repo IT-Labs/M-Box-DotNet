@@ -11,6 +11,6 @@ namespace ItLabs.MBox.Application.Models
     {
         public IList<Song> RecentlyAddedSongs { get; set; }
         public IList<ArtistDto> MostFollowedArtists { get; set; }
-        public IList<Song> RecentlyAddedSongsOfMostPopularArtists { get; set; }
+        public IList<Song> RecentlyAddedSongsOfMostPopularArtist { get; set; }
     }
 }
