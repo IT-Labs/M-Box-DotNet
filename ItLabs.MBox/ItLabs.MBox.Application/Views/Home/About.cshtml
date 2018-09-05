@@ -1,8 +1,22 @@
-﻿@{
+﻿
+@{
     ViewData["Title"] = "About";
 }
 
 @model AboutViewModel
+
+@section Scripts{
+    <script type="text/javascript">
+        $(function () {
+            $('#Message').keyup(function (e) {
+                var max = 250;
+                var len = $(this).val().length;
+                var char = max - len;
+                $('#counter').html(char);
+            });
+        });
+    </script>
+}
 
 <div class="container-fluid">
     <div class="row" style="margin-left: 25px">
@@ -37,12 +51,33 @@
             <div class="row" style="text-align: center">
                 <h3>We cooperate with</h3>
             </div>
-            <div class="row" style="border: 1px solid black">
-                <ul style="text-align: center; list-style: none; margin-left: auto; margin-right: auto; width: 90%; padding: 0px;">
+            <div class="row" style="border: 1px solid black; height: 320px; padding: 7px">
+                <ul style="text-align: center; list-style: none; margin-left: auto; margin-right: auto; width: 90%; padding: 0px; max-height: 300px; overflow: scroll; -webkit-overflow-scrolling: touch;">
                     @foreach (RecordLabel recordLabel in Model.WeCooperateWith)
                     {
                         <li style="margin-top: 5px;">- @recordLabel.User.Name</li>
                     }
+
+                    <li>- test record label 1</li>
+                    <li>- test record label 2</li>
+                    <li>- test record label 3</li>
+                    <li>- test record label 4</li>
+                    <li>- test record label 5</li>
+                    <li>- test record label 6</li>
+                    <li>- test record label 7</li>
+                    <li>- test record label 8</li>
+                    <li>- test record label 9</li>
+                    <li>- test record label 10</li>
+                    <li>- test record label 11</li>
+                    <li>- test record label 12</li>
+                    <li>- test record label 13</li>
+                    <li>- test record label 14</li>
+                    <li>- test record label 15</li>
+                    <li>- test record label 16</li>
+                    <li>- test record label 17</li>
+                    <li>- test record label 18</li>
+                    <li>- test record label 19</li>
+                    <li>- test record label 20</li>
                 </ul>
             </div>
         </div>
@@ -85,5 +120,3 @@
         </div>
     </div>
 </div>
-
-
