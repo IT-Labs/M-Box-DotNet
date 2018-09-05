@@ -75,7 +75,9 @@
                         <div class="row">
                             <div>
                                 <div class="text-center text">
+                                    @if (!dto.Artist.IsDeleted) {
                                     <h5>@dto.RecordLabel.User.Name</h5>
+                                    }
                                 </div>
                             </div>
                         </div>

@@ -7,6 +7,7 @@ namespace ItLabs.MBox.Contracts.Interfaces
 {
     public interface IRecordLabelsManager
     {
-        IList<RecordLabel> GetAllRecordLabels(); 
+        IList<RecordLabel> GetAllRecordLabels();
+        IList<RecordLabel> GetFirstRecordLabels();
     }
 }

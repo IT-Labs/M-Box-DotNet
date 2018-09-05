@@ -7,6 +7,7 @@
         DeletedRecordLabel = 3,
         DeletedArtist = 4,
         InvitedRecordLabel = 5,
-        InvitedArtist = 6
+        InvitedArtist = 6,
+        ContactForm = 7
     }
 }

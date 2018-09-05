@@ -180,6 +180,31 @@ namespace ItLabs.MBox.Data
                 context.RecordLabels.Add(recordLabel4);
                 context.UserRoles.Add(new IdentityUserRole<int>() { UserId = appUser4.Id, RoleId = 2 });
 
+                for(int i = 50; i < 150; i++)
+                {
+                    var tempUser = new ApplicationUser();
+                    var tempRl = new RecordLabel();
+                    var tempPass = new PasswordHasher<ApplicationUser>();
+                    var hashedTempPass = passRL.HashPassword(tempUser, "recordl!23"+i);
+                    tempUser.Email = "testrl"+i+"@gmail.com";
+                    tempUser.Name = "Record Label " + i;
+                    tempUser.IsActivated = true;
+                    tempUser.PasswordHash = hashedTempPass;
+                    tempUser.NormalizedUserName = "TESTRL"+i+"@GMAIL.COM";
+                    tempUser.NormalizedEmail = "TESTRL"+i+"@GMAIL.COM";
+                    tempUser.SecurityStamp = "415bf8f4-bc79-4ec2-8368-cf9bdd755db1";
+                    tempUser.UserName = "testrl"+i+"@gmail.com";
+                    tempUser.LockoutEnabled = true;
+                    tempRl.User = tempUser;
+                    context.ApplicationUsers.Add(tempUser);
+                    context.SaveChanges();
+
+                    var tempReturned = context.ApplicationUsers.FirstOrDefault(c => c.Id == tempUser.Id);
+                    tempRl.User = tempReturned;
+                    context.RecordLabels.Add(tempRl);
+                    context.UserRoles.Add(new IdentityUserRole<int>() { UserId = tempUser.Id, RoleId = 2 });
+
+                }
                 context.SaveChanges();
             }
 

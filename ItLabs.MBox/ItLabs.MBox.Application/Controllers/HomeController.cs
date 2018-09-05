@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using ItLabs.MBox.Application.Models;
 using ItLabs.MBox.Contracts.Interfaces;
+using ItLabs.MBox.Contracts.Entities;
 
 namespace ItLabs.MBox.Application.Controllers
 {
@@ -14,11 +15,13 @@ namespace ItLabs.MBox.Application.Controllers
         private ISongsManager _songsManager;
         private IArtistsManager _artistsManager;
         private IRecordLabelsManager _recordLabelManager;
-        public HomeController(ISongsManager songsManager, IArtistsManager artistsManager, IRecordLabelsManager recordLabelManager)
+        private IEmailManager _emailManager;
+        public HomeController(ISongsManager songsManager, IArtistsManager artistsManager, IRecordLabelsManager recordLabelManager, IEmailManager emailManager)
         {
             _songsManager = songsManager;
             _artistsManager = artistsManager;
             _recordLabelManager = recordLabelManager;
+            _emailManager = emailManager;
         }
         public IActionResult Index()
         {
@@ -29,7 +32,7 @@ namespace ItLabs.MBox.Application.Controllers
             model.RecentlyAddedSongsOfMostPopularArtist = _songsManager.GetRecentlyAddedSongsOfMostPopularArtists(5);
             return View(model);
         }
-
+        [HttpGet]
         public IActionResult About()
         {
             ViewData["Message"] = "About page";
@@ -37,6 +40,19 @@ namespace ItLabs.MBox.Application.Controllers
             model.WeCooperateWith = _recordLabelManager.GetAllRecordLabels();
             return View(model);
         }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult About(ContactFormViewModel model)
+        {
+            ViewData["Message"] = "About page";
+            if (ModelState.IsValid)
+            {
+                //_emailManager.SendMail(,model.Email)
+            }
+            return View(model);
+        }
+
 
         public IActionResult Artists()
         {
@@ -48,8 +64,9 @@ namespace ItLabs.MBox.Application.Controllers
         public IActionResult RecordLabels()
         {
             ViewData["Message"] = "RecordLabels";
-
-            return View();
+            RecordLabelViewModel model = new RecordLabelViewModel();
+            model.RecordLabels = _recordLabelManager.GetAllRecordLabels();
+            return View(model);
         }
 
         public IActionResult Error()
