@@ -27,14 +27,14 @@ namespace ItLabs.MBox.Application.Controllers
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
-        private readonly IEmailManager _emailManager;
+        private readonly IEmailsManager _emailManager;
         private readonly ILogger _logger;
         private readonly IArtistsManager _artistsManager;
 
         public AccountController(
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
-            IEmailManager emailManager,
+            IEmailsManager emailManager,
             ILogger<AccountController> logger,
             IArtistsManager manager)
         {

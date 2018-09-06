@@ -9,5 +9,8 @@ namespace ItLabs.MBox.Application.Models
     public class AboutViewModel
     {
         public IList<RecordLabel> WeCooperateWith { get; set; }
+        public string Name { get; set; }
+        public string Email { get; set; }
+        public string Message { get; set; }
     }
 }

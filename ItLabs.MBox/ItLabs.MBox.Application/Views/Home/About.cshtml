@@ -5,6 +5,7 @@
 
 @model AboutViewModel
 
+
 @section Scripts{
     <script type="text/javascript">
         $(function () {
@@ -100,18 +101,18 @@
                 </div>
             </div>
             <div class="row">
-                <form style="border: 1px solid black; padding: 20px">
+                <form style="border: 1px solid black; padding: 20px" method="post">
                     <div class="form-group">
-                        <label class="control-label">Name</label>
-                        <input class="form-control" />
+                        <label asp-for="Name" class="control-label">Name</label>
+                        <input asp-for="Name" class="form-control" />
                     </div>
                     <div class="form-group">
-                        <label class="control-label">E-mail</label>
-                        <input class="form-control" />
+                        <label asp-for="Email" class="control-label">E-mail</label>
+                        <input asp-for="Email" class="form-control" />
                     </div>
                     <div class="form-group">
-                        <label class="control-label" for="Message">Message</label>
-                        <textarea class="form-control" style="height: 250px" name="Message" id="Message" aria-describedby="text-counter" maxlength="250"> </textarea>
+                        <label asp-for="Message" class="control-label" for="Message">Message</label>
+                        <textarea asp-for="Message" class="form-control" style="height: 250px" name="Message" id="Message" aria-describedby="text-counter" maxlength="250"> </textarea>
                     </div>
                     <p style="margin-top: -10px" id="text-counter">Characters left: <span id="counter">250</span></p>
                     <button type="submit" value="submit" class="btn btn-block btn-primary">Submit</button>

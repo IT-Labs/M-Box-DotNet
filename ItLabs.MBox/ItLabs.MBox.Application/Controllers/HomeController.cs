@@ -15,8 +15,8 @@ namespace ItLabs.MBox.Application.Controllers
         private ISongsManager _songsManager;
         private IArtistsManager _artistsManager;
         private IRecordLabelsManager _recordLabelManager;
-        private IEmailManager _emailManager;
-        public HomeController(ISongsManager songsManager, IArtistsManager artistsManager, IRecordLabelsManager recordLabelManager, IEmailManager emailManager)
+        private IEmailsManager _emailManager;
+        public HomeController(ISongsManager songsManager, IArtistsManager artistsManager, IRecordLabelsManager recordLabelManager, IEmailsManager emailManager)
         {
             _songsManager = songsManager;
             _artistsManager = artistsManager;
@@ -43,12 +43,12 @@ namespace ItLabs.MBox.Application.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult About(ContactFormViewModel model)
+        public IActionResult About(AboutViewModel model)
         {
             ViewData["Message"] = "About page";
             if (ModelState.IsValid)
             {
-                //_emailManager.SendMail(,model.Email)
+                _emailManager.SentContactFormMail(model.Name, model.Email, model.Message);
             }
             return View(model);
         }

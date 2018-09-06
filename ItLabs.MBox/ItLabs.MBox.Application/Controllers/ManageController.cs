@@ -22,7 +22,7 @@ namespace ItLabs.MBox.Application.Controllers
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
-        private readonly IEmailManager _emailManager;
+        private readonly IEmailsManager _emailManager;
         private readonly ILogger _logger;
         private readonly UrlEncoder _urlEncoder;
 
@@ -32,7 +32,7 @@ namespace ItLabs.MBox.Application.Controllers
         public ManageController(
           UserManager<ApplicationUser> userManager,
           SignInManager<ApplicationUser> signInManager,
-          IEmailManager emailSender,
+          IEmailsManager emailSender,
           ILogger<ManageController> logger,
           UrlEncoder urlEncoder)
         {

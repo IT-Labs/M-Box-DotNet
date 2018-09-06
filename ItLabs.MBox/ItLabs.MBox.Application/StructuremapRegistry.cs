@@ -17,7 +17,7 @@ namespace ItLabs.MBox.Application
         {
             For<IRecordLabelsManager>().LifecycleIs(Lifecycles.Container).Use<RecordLabelsManager>();
             For<IArtistsManager>().LifecycleIs(Lifecycles.Container).Use<ArtistsManager>();
-            For<IEmailManager>().LifecycleIs(Lifecycles.Container).Use<EmailsManager>();
+            For<IEmailsManager>().LifecycleIs(Lifecycles.Container).Use<EmailsManager>();
             For<ISongsManager>().LifecycleIs(Lifecycles.Container).Use<SongsManager>();
             For(typeof(IRepository<>)).LifecycleIs(Lifecycles.Container).Use(typeof(Repository<>));
         }
