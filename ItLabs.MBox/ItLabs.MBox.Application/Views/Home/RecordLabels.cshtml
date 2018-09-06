@@ -1,6 +1,10 @@
-﻿@{
+﻿@model RecordLabelViewModel
+
+@{
     ViewData["Title"] = "RecordLabels";
+    int lenght = Model.RecordLabels.Count();
 }
 
-<h3>@ViewData["Message"]</h3>
-
+<div class="container-fluid">
+    <p> @lenght</p>
+</div>
