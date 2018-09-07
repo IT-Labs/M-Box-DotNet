@@ -30,32 +30,6 @@ namespace ItLabs.MBox.Domain.Managers
             return _recordLabelRepository.GetAll().Include(x => x.User).Skip(skip).Take(take).ToList();
         }
 
-        //public IList<RecordLabelNumberOfArtistsDto> RecordLabelNumberOfArtists()
-        //{
-        //    var listToReturn = new List<RecordLabelNumberOfArtistsDto>();
-        //    var recordLabels = _recordLabelRepository.GetAll().Include(x => x.User);
-        //    var recordLabelArtists = _recordLabelArtistsRepository.GetAll();
-
-
-        //    foreach (var rl in recordLabels)
-        //    {
-        //        var rlNumArt = new RecordLabelNumberOfArtistsDto();
-        //        //if ()
-        //        //{
-        //        rlNumArt.RecordLabel = rl;
-        //        rlNumArt.NumberOfArtists = 12;
-        //        //}
-        //        //else
-        //        /*{
-        //            rlNumArt.RecordLabel = rl;
-        //            rlNumArt.NumberOfArtists = 0;
-        //        }*/
-
-        //        listToReturn.Add(rlNumArt);
-        //    }
-
-        //    return listToReturn;
-        //}
     }
 }
 
