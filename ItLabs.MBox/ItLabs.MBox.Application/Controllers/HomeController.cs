@@ -7,9 +7,12 @@ using Microsoft.AspNetCore.Mvc;
 using ItLabs.MBox.Application.Models;
 using ItLabs.MBox.Contracts.Interfaces;
 using ItLabs.MBox.Contracts.Entities;
+using ItLabs.MBox.Contracts.Enums;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ItLabs.MBox.Application.Controllers
 {
+    
     public class HomeController : Controller
     {
         private ISongsManager _songsManager;
@@ -23,6 +26,7 @@ namespace ItLabs.MBox.Application.Controllers
             _recordLabelManager = recordLabelManager;
             _emailManager = emailManager;
         }
+        
         public IActionResult Index()
         {
             ViewData["Message"] = "Home";
@@ -32,6 +36,7 @@ namespace ItLabs.MBox.Application.Controllers
             model.RecentlyAddedSongsOfMostPopularArtist = _songsManager.GetRecentlyAddedSongsOfMostPopularArtists(5);
             return View(model);
         }
+
         [HttpGet]
         public IActionResult About()
         {
@@ -53,7 +58,7 @@ namespace ItLabs.MBox.Application.Controllers
             return View(model);
         }
 
-
+        
         public IActionResult Artists()
         {
             ViewData["Message"] = "Artists";
@@ -61,6 +66,7 @@ namespace ItLabs.MBox.Application.Controllers
             return View();
         }
 
+        
         public IActionResult RecordLabels()
         {
             ViewData["Message"] = "RecordLabels";
