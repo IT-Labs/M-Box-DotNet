@@ -1,0 +1,48 @@
+﻿@using ItLabs.MBox.Application.Models.AdminViewModels
+@using ItLabs.MBox.Contracts.Data_Transfer_Objects
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+@model DashboardViewModel
+
+<div class="container-fluid">
+    <div class="row" style="margin-top: 25px">
+        <div class="col-md-4 col-sm-4">
+            <button class="btn btn-block btn-primary">Add New Record Label</button>
+        </div>
+        <div class="col-md-8 col-sm-8">
+            <input class="form-control" type="text" placeholder="Search" aria-label="Search">
+        </div>
+    </div>
+    <div class="row" style="margin-top: 25px">
+        <table st-table="rowCollection" class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Record Label Name</th>
+                    <th>Record Label E-mial Address</th>
+                    <th>Number of Artists</th>
+                    <th>Delete Record Label</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @foreach (RecordLabelNumberOfArtistsDto dto in Model.GetNumberOfArtists)
+                {
+                    <tr>
+                        <td>@dto.RecordLabel.User.Name</td>
+                        <td>@dto.RecordLabel.User.Email</td>
+                        <td>@dto.NumberOfArtists</td>
+                        <td>
+                            <button class="btn btn-danger">
+                                Delete <i class="glyphicon glyphicon-trash"></i>
+                            </button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+

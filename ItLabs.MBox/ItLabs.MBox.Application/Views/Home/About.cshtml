@@ -1,23 +1,12 @@
-﻿
+﻿@section Scripts {
+    <script type="text/javascript" src="~/js/characterCounter.js"></script>
+}
+
 @{
     ViewData["Title"] = "About";
 }
 
 @model AboutViewModel
-
-
-@section Scripts{
-    <script type="text/javascript">
-        $(function () {
-            $('#Message').keyup(function (e) {
-                var max = 250;
-                var len = $(this).val().length;
-                var char = max - len;
-                $('#counter').html(char);
-            });
-        });
-    </script>
-}
 
 <div class="container-fluid">
     <div class="row" style="margin-left: 25px">
@@ -91,9 +80,9 @@
                     </div>
                     <div class="form-group">
                         <label asp-for="Message" class="control-label" for="Message">Message</label>
-                        <textarea asp-for="Message" class="form-control" style="height: 250px" name="Message" id="Message" aria-describedby="text-counter" maxlength="250"> </textarea>
+                        <textarea asp-for="Message" class="form-control" style="height: 250px" name="Message" id="Message" aria-describedby="text-counter" maxlength="200"> </textarea>
                     </div>
-                    <p style="margin-top: -10px" id="text-counter">Characters left: <span id="counter">250</span></p>
+                    <p style="margin-top: -10px" id="text-counter">Characters left: <span id="counter">200</span></p>
                     <button type="submit" value="submit" class="btn btn-block btn-primary">Submit</button>
                 </form>
             </div>

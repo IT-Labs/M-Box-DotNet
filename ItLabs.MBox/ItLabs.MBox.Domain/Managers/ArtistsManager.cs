@@ -32,7 +32,7 @@ namespace ItLabs.MBox.Domain.Managers
                 .OrderByDescending(x => x.Count())
                 .Take(number)
                 .Select(x => x.Key);
-                //.ToList();
+
             foreach (var artist in mostFollowedArtists)
             {
                 var dto = new ArtistDto();
