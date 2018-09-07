@@ -182,7 +182,7 @@ namespace ItLabs.MBox.Data
                 context.RecordLabels.Add(recordLabel4);
                 context.UserRoles.Add(new IdentityUserRole<int>() { UserId = appUser4.Id, RoleId = 2 });
 
-                for(int i = 50; i < 150; i++)
+                for(int i = 50; i < 350; i++)
                 {
                     var tempUser = new ApplicationUser();
                     var tempRl = new RecordLabel();

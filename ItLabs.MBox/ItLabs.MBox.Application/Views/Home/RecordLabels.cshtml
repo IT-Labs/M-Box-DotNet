@@ -13,27 +13,50 @@
             modelJSValue.RecordLabels = @Html.Raw(Json.Serialize(Model.RecordLabels));
             modelJSValue.Take = @Html.Raw(Json.Serialize(Model.Take));
             modelJSValue.Skip = @Html.Raw(Json.Serialize(Model.Skip));
+            $("#loadmorebutton").hide();
             
 });
-
+        var loadCounter = 0;
         $(window).on("scroll", function () {
             var scrollHeight = $(document).height();
             var scrollPosition = $(window).height() + $(window).scrollTop();
+            var loadsBeforeLoadMoreButtonAppears = 10;
+
             if ((scrollHeight - scrollPosition) / scrollHeight === 0) {
                 modelJSValue.Skip = modelJSValue.Skip + modelJSValue.Take;
                 modelJSValue.Take = 10;
                 var toSend = JSON.stringify(modelJSValue);
-                $.ajax({
-                    type: "POST",
-                    contentType: "application/json",
-                    data: toSend,
-                    url: "/Home/LazyLoad",
-                    success: function (result) {
-                        $("#recordLabelsListId").append(result);
-                    }
-                })
+                if (loadCounter < loadsBeforeLoadMoreButtonAppears) {
+                    $.ajax({
+                        type: "POST",
+                        contentType: "application/json",
+                        data: toSend,
+                        url: "/Home/LazyLoad",
+                        success: function (result) {
+                            $("#recordLabelsListId").append(result);
+                            loadCounter++;
+                        }
+                    })
+                } else {
+                    $("#loadmorebutton").show();
+                }
             }
         });
+        $("#loadmorebutton").on("click", function () { 
+            var toSend = JSON.stringify(modelJSValue);
+            loadCounter = 0;
+            $("#loadmorebutton").hide()
+            $.ajax({
+                type: "POST",
+                contentType: "application/json",
+                data: toSend,
+                url: "/Home/LazyLoad",
+                success: function (result) {
+                    $("#recordLabelsListId").append(result);
+                    counter++;
+                }
+            })
+        })
     </script>
 }
 
@@ -58,4 +81,5 @@
             </li>
         }
     </ul>
+    <button name="LoadMore" class="btn btn-primary center-block" id="loadmorebutton"> Load More</button>
 </div>
