@@ -19,6 +19,7 @@ namespace ItLabs.MBox.Data.DbMapping
             builder.Property(c => c.YouTubeLink).HasMaxLength(100);
             builder.Property(c => c.VimeoLink).HasMaxLength(100);
             builder.Property(c => c.DateCreated).IsRequired().HasColumnType("Date");
+            builder.HasOne(x => x.Artist).WithMany(x => x.Songs);
             //builder.Property(c => c.CreatedBy).IsRequired();
         }
     }

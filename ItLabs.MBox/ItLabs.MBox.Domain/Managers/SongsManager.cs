@@ -11,14 +11,13 @@ namespace ItLabs.MBox.Domain.Managers
     public class SongsManager : ISongsManager
     {
         private IRepository<Song> _songsRepository;
-        private IRepository<Follow> _followsRepository;
+        private IRepository<Artist> _artistRepository;
 
-        public SongsManager(IRepository<Song> repository, IRepository<Follow> followsRepository)
+        public SongsManager(IRepository<Song> repository, IRepository<Artist> artistRepository)
         {
             _songsRepository = repository;
-            _followsRepository = followsRepository;
+            _artistRepository = artistRepository;
         }
-
         public IList<Song> GetRecentlyAddedSongs(int number)
         {
             return _songsRepository.GetAll()
@@ -28,13 +27,9 @@ namespace ItLabs.MBox.Domain.Managers
                 .ToList();
         }
 
-        public IList<Song> GetRecentlyAddedSongsOfMostPopularArtists(int number)
+        public IList<Song> GetRecentlyAddedSongsOfMostPopularArtist(int number)
         {
-            var mostFollowedArtist = _followsRepository.GetAll()
-                .Include(x => x.Artist.User)
-                .GroupBy(x => x.Artist)
-                .OrderByDescending(x => x.Count())
-                .Select(x => x.Key).FirstOrDefault();
+            var mostFollowedArtist = _artistRepository.GetAll().OrderByDescending(x => x.Follows.Count).FirstOrDefault();
 
             return _songsRepository.GetAll()
                 .Include(x => x.Artist.User)

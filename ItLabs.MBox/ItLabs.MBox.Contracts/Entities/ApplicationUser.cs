@@ -1,6 +1,7 @@
 ﻿using ItLabs.MBox.Contracts.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using System;
+using System.Collections.Generic;
 
 namespace ItLabs.MBox.Contracts.Entities
 {
@@ -17,5 +18,6 @@ namespace ItLabs.MBox.Contracts.Entities
         public virtual DateTime DateModified { get; set; }
         public virtual int CreatedBy { get; set; }
         public virtual DateTime DateCreated { get; set; }
+        public virtual ICollection<Follow> Follows { get; set; }
     }
 }

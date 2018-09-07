@@ -21,29 +21,34 @@ namespace ItLabs.MBox.Domain.Managers
         }
         public IList<Artist> GetAllArtists()
         {
-            return _artistsRepostiory.GetAll().Include(x => x.RecordLabelArtists).ThenInclude(x => x.Artist.User).ToList();
+            return _artistsRepostiory.GetAll().Include(x => x.RecordLabelArtists).ThenInclude(x => x.Artist).ThenInclude(x=>x.User).ToList();
         }
-        public IList<ArtistDto> GetMostFollowedArtists(int number)
+        public IList<Artist> GetMostFollowedArtists(int number)
         {
-            var artistDtoListToReturn = new List<ArtistDto>();
-            var mostFollowedArtists = _followsRepository.GetAll()
-                .Include(x => x.Artist.User)
-                .GroupBy(x => x.Artist)
-                .OrderByDescending(x => x.Count())
-                .Take(number)
-                .Select(x => x.Key);
+            //var artistDtoListToReturn = new List<ArtistDto>();
+            //var mostFollowedArtists = _followsRepository.GetAll()
+            //    .GroupBy(x => x.Artist)
+            //    .OrderByDescending(x => x.Count())
+            //    .Take(number)
+            //    .Select(x => x.Key)
+            //    .Include(x => x.User);
 
-            foreach (var artist in mostFollowedArtists)
-            {
-                var dto = new ArtistDto();
-                dto.Artist = artist;
-                dto.Artist.User = _artistsRepostiory.GetAll().Include(x=>x.User).Where(x=>x == artist).FirstOrDefault().User;
-                dto.RecordLabel = _recordLabelArtistsRepository.GetAll()
-                    .Include(x => x.RecordLabel.User).Include(x => x.Artist.User)
-                    .Where(x => x.Artist == artist).FirstOrDefault().RecordLabel;
-                artistDtoListToReturn.Add(dto);
-            }
-            return artistDtoListToReturn;
+            var mostFollowedArtists = _artistsRepostiory.GetAll()
+                .Include(x=>x.User).Include(x => x.Follows).Include(x => x.RecordLabelArtists)
+                .OrderByDescending(x=>x.Follows.Count)
+                .Take(number);
+
+            //foreach (var artist in mostFollowedArtists)
+            //{
+            //    var dto = new ArtistDto();
+            //    dto.Artist = artist;
+            //    dto.Artist.User = _artistsRepostiory.GetAll().Include(x=>x.User).Where(x=>x == artist).FirstOrDefault().User;
+            //    dto.RecordLabel = _recordLabelArtistsRepository.GetAll()
+            //        .Include(x => x.RecordLabel.User).Include(x => x.Artist.User)
+            //        .Where(x => x.Artist == artist).FirstOrDefault().RecordLabel;
+            //    artistDtoListToReturn.Add(dto);
+            //}
+            return mostFollowedArtists.ToList();
         }
     }
 }

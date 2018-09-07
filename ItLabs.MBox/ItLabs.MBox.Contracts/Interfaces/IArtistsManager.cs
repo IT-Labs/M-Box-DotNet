@@ -7,6 +7,6 @@ namespace ItLabs.MBox.Contracts.Interfaces
     public interface IArtistsManager
     {
         IList<Artist> GetAllArtists();
-        IList<ArtistDto> GetMostFollowedArtists(int number);
+        IList<Artist> GetMostFollowedArtists(int number);
     }
 }

@@ -15,6 +15,7 @@ namespace ItLabs.MBox.Data.DbMapping
             builder.HasIndex(c => c.Picture).IsUnique();
             builder.Property(c => c.IsActivated).IsRequired().HasDefaultValue(false);
             builder.Property(c => c.DateCreated).IsRequired().HasColumnType("Date");
+            builder.HasMany(c => c.Follows).WithOne(c => c.Follower);
             //builder.Property(c => c.CreatedBy).IsRequired();
         }
     }

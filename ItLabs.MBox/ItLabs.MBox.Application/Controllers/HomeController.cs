@@ -26,19 +26,22 @@ namespace ItLabs.MBox.Application.Controllers
         public IActionResult Index()
         {
             ViewData["Message"] = "Home";
-            HomeViewModel model = new HomeViewModel();
-            var allArtists = _artistsManager.GetAllArtists();
-            model.RecentlyAddedSongs = _songsManager.GetRecentlyAddedSongs(5);
-            model.MostFollowedArtists = _artistsManager.GetMostFollowedArtists(5);
-            model.RecentlyAddedSongsOfMostPopularArtist = _songsManager.GetRecentlyAddedSongsOfMostPopularArtists(5);
+            HomeViewModel model = new HomeViewModel
+            {
+                RecentlyAddedSongs = _songsManager.GetRecentlyAddedSongs(5),
+                MostFollowedArtists = _artistsManager.GetMostFollowedArtists(5),
+                RecentlyAddedSongsOfMostPopularArtist = _songsManager.GetRecentlyAddedSongsOfMostPopularArtist(5)
+            };
             return View(model);
         }
         [HttpGet]
         public IActionResult About()
         {
             ViewData["Message"] = "About page";
-            AboutViewModel model = new AboutViewModel();
-            model.WeCooperateWith = _recordLabelManager.GetAllRecordLabels();
+            AboutViewModel model = new AboutViewModel
+            {
+                WeCooperateWith = _recordLabelManager.GetAllRecordLabels()
+            };
             return View(model);
         }
 

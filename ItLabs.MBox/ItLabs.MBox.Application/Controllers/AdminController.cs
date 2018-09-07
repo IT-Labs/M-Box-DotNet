@@ -24,7 +24,7 @@ namespace ItLabs.MBox.Application.Controllers
         {
             DashboardViewModel model = new DashboardViewModel();
             
-            model.GetNumberOfArtists = _recordLabelManager.RecordLabelNumberOfArtists();
+            model.RecordLabels = _recordLabelManager.GetAllRecordLabels();
 
             return View(model);
         }

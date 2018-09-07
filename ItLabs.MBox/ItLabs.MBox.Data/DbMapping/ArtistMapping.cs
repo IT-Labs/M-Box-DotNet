@@ -14,6 +14,8 @@ namespace ItLabs.MBox.Data.DbMapping
             builder.Property(c => c.IsDeleted).IsRequired().HasDefaultValue(false);
             builder.Property(c => c.DateCreated).IsRequired().HasColumnType("Date");
             builder.HasMany(c => c.RecordLabelArtists).WithOne(c => c.Artist);
+            builder.HasMany(c => c.Follows).WithOne(c => c.Artist);
+            builder.HasMany(c => c.Songs).WithOne(x => x.Artist);
             //builder.Property(c => c.CreatedBy).IsRequired();
         }
     }

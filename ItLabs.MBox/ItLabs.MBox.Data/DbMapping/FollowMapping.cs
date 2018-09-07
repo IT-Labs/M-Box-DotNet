@@ -10,7 +10,13 @@ namespace ItLabs.MBox.Data.DbMapping
         {
             builder.ToTable("Follows");
             builder.HasKey(c => c.Id);
-            builder.Property(c => c.DateCreated).IsRequired().HasColumnType("Date"); ;
+            builder.Property(c => c.DateCreated).IsRequired().HasColumnType("Date");
+            builder.HasOne(c => c.Artist)
+                .WithMany(b => b.Follows)
+                .HasForeignKey(bc => bc.ArtistId);
+            builder.HasOne(c => c.Follower)
+                .WithMany(b => b.Follows)
+                .HasForeignKey(bc => bc.FollowerId);
             //builder.Property(c => c.CreatedBy).IsRequired();
         }
     }

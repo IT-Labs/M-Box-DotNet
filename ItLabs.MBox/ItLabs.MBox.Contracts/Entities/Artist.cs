@@ -18,6 +18,7 @@ namespace ItLabs.MBox.Contracts.Entities
 
         public virtual ApplicationUser User { get; set; }
         public virtual ICollection<RecordLabelArtist> RecordLabelArtists { get; set; }
+        public virtual ICollection<Follow> Follows { get; set; }
         public string RecordLabelName => RecordLabelArtists?.FirstOrDefault()?.RecordLabel?.User.Name;
     }
 }

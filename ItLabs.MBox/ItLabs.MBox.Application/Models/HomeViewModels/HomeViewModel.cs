@@ -10,7 +10,7 @@ namespace ItLabs.MBox.Application.Models
     public class HomeViewModel
     {
         public IList<Song> RecentlyAddedSongs { get; set; }
-        public IList<ArtistDto> MostFollowedArtists { get; set; }
+        public IList<Artist> MostFollowedArtists { get; set; }
         public IList<Song> RecentlyAddedSongsOfMostPopularArtist { get; set; }
     }
 }
