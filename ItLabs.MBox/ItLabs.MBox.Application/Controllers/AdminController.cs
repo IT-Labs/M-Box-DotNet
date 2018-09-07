@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ItLabs.MBox.Contracts.Enums;
 using ItLabs.MBox.Contracts.Interfaces;
@@ -19,7 +15,7 @@ namespace ItLabs.MBox.Application.Controllers
         {
             _recordLabelManager = recordLabelManager;
         }
-
+        [HttpGet]
         public IActionResult Index()
         {
             DashboardViewModel model = new DashboardViewModel();
@@ -28,5 +24,16 @@ namespace ItLabs.MBox.Application.Controllers
 
             return View(model);
         }
+        [HttpGet]
+        public IActionResult AddNewRecordLabel()
+        {
+            return View();
+        }
+        [HttpPost]
+        public IActionResult AddNewRecordLabel(AddNewRecordLabelViewModel model)
+        {
+            return View("SuccessfullyInvited");
+        }
+
     }
 }

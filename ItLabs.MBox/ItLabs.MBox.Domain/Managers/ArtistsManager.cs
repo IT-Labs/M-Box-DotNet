@@ -34,7 +34,7 @@ namespace ItLabs.MBox.Domain.Managers
             //    .Include(x => x.User);
 
             var mostFollowedArtists = _artistsRepostiory.GetAll()
-                .Include(x=>x.User).Include(x => x.Follows).Include(x => x.RecordLabelArtists)
+                .Include(x=>x.User).Include(x => x.Follows).Include("RecordLabelArtists.RecordLabel.User")
                 .OrderByDescending(x=>x.Follows.Count)
                 .Take(number);
 
