@@ -6,12 +6,9 @@ namespace ItLabs.MBox.Contracts.Entities
     {
         public virtual EmailTemplates Type { get; set; }
 
-        public string Name { get; set; }
-
-        public string Subject { get; set; }
-
-        public string Body { get; set; }
-
-        public string LinkText { get; set; }
+        public virtual string Name { get; set; }
+        public virtual string Subject { get; set; }
+        public virtual string Body { get; set; }
+        public virtual string LinkText { get; set; }
     }
 }

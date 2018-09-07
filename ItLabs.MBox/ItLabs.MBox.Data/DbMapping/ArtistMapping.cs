@@ -13,6 +13,8 @@ namespace ItLabs.MBox.Data.DbMapping
             builder.Property(c => c.Bio).HasMaxLength(500);
             builder.Property(c => c.IsDeleted).IsRequired().HasDefaultValue(false);
             builder.Property(c => c.DateCreated).IsRequired().HasColumnType("Date");
+            builder.HasMany(c => c.RecordLabelArtists).WithOne(c => c.Artist);
+            //builder.Property(c => c.CreatedBy).IsRequired();
         }
     }
 }

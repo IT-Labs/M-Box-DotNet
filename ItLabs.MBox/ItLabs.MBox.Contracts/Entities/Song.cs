@@ -4,20 +4,20 @@ namespace ItLabs.MBox.Contracts.Entities
 {
     public class Song : AuditableEntity
     {
-        public string Name { get; set; }
+        public virtual string Name { get; set; }
 
-        public string AlbumName { get; set; }
+        public virtual string AlbumName { get; set; }
 
-        public string Lyrics { get; set; }
-        public string Picture { get; set; }
+        public virtual string Lyrics { get; set; }
+        public virtual string Picture { get; set; }
 
-        public DateTime ReleaseDate { get; set; }
+        public virtual DateTime ReleaseDate { get; set; }
 
-        public string YouTubeLink { get; set; }
+        public virtual string YouTubeLink { get; set; }
 
-        public string VimeoLink { get; set; }
+        public virtual string VimeoLink { get; set; }
 
-        public string Genre { get; set; }
+        public virtual string Genre { get; set; }
 
         public virtual Artist Artist { get; set; }
     }

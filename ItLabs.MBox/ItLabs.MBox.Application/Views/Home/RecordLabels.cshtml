@@ -1,10 +1,61 @@
-﻿@model RecordLabelViewModel
+﻿@using ItLabs.MBox.Application.Models
+
+@model RecordLabelViewModel
 
 @{
     ViewData["Title"] = "RecordLabels";
-    int lenght = Model.RecordLabels.Count();
 }
 
+@section Scripts{
+    <script type="text/javascript">
+        var modelJSValue = {};
+        jQuery(document).ready(function () {
+            modelJSValue.RecordLabels = @Html.Raw(Json.Serialize(Model.RecordLabels));
+            modelJSValue.Take = @Html.Raw(Json.Serialize(Model.Take));
+            modelJSValue.Skip = @Html.Raw(Json.Serialize(Model.Skip));
+            
+});
+
+        $(window).on("scroll", function () {
+            var scrollHeight = $(document).height();
+            var scrollPosition = $(window).height() + $(window).scrollTop();
+            if ((scrollHeight - scrollPosition) / scrollHeight === 0) {
+                modelJSValue.Skip = modelJSValue.Skip + modelJSValue.Take;
+                modelJSValue.Take = 10;
+                var toSend = JSON.stringify(modelJSValue);
+                $.ajax({
+                    type: "POST",
+                    contentType: "application/json",
+                    data: toSend,
+                    url: "/Home/LazyLoad",
+                    success: function (result) {
+                        $("#recordLabelsListId").append(result);
+                    }
+                })
+            }
+        });
+    </script>
+}
+
+
 <div class="container-fluid">
-    <p> @lenght</p>
+    <ul id="recordLabelsListId" class="list-group recordLabelList" style="list-style:none;">
+        @foreach (RecordLabel rl in Model.RecordLabels)
+        {
+            <li class="col-sm-2 table-bordered seperateRecordLabelItems">
+                <div class="row">
+                    <div>
+                        <div class="text-center text">
+                            <h5>@rl.User.Name</h5>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div>
+                        <img class="img-responsive center-block text-center" src="~/images/travis-scott-astroworld-cover-art.jpg" />
+                    </div>
+                </div>
+            </li>
+        }
+    </ul>
 </div>

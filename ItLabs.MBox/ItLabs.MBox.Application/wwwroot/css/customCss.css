@@ -40,6 +40,13 @@
 .seperateResults{
     margin-right:3.2%
 }
+.seperateRecordLabelItems {
+    margin-right: 3.2%;
+    margin-bottom:4%;
+}
+.recordLabelList{
+    margin-top: 3%
+}
 
 .recordLabelAboutList {
     text-align: center;

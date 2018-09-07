@@ -11,9 +11,9 @@ namespace ItLabs.MBox.Domain.Managers
     {
         private IRepository<Artist> _artistsRepostiory;
         private IRepository<Follow> _followsRepository;
-        private IRepository<RecordLabelArtists> _recordLabelArtistsRepository;
+        private IRepository<RecordLabelArtist> _recordLabelArtistsRepository;
 
-        public ArtistsManager(IRepository<Artist> artistsRepository, IRepository<Follow> followsRepository, IRepository<RecordLabelArtists> recordLabelArtistsRepository)
+        public ArtistsManager(IRepository<Artist> artistsRepository, IRepository<Follow> followsRepository, IRepository<RecordLabelArtist> recordLabelArtistsRepository)
         {
             _artistsRepostiory = artistsRepository;
             _followsRepository = followsRepository;
@@ -21,7 +21,7 @@ namespace ItLabs.MBox.Domain.Managers
         }
         public IList<Artist> GetAllArtists()
         {
-            return _artistsRepostiory.GetAll().ToList();
+            return _artistsRepostiory.GetAll().Include(x => x.RecordLabelArtists).ThenInclude(x => x.Artist.User).ToList();
         }
         public IList<ArtistDto> GetMostFollowedArtists(int number)
         {
@@ -45,6 +45,5 @@ namespace ItLabs.MBox.Domain.Managers
             }
             return artistDtoListToReturn;
         }
-
     }
 }

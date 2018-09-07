@@ -27,6 +27,7 @@ namespace ItLabs.MBox.Application.Controllers
         {
             ViewData["Message"] = "Home";
             HomeViewModel model = new HomeViewModel();
+            var allArtists = _artistsManager.GetAllArtists();
             model.RecentlyAddedSongs = _songsManager.GetRecentlyAddedSongs(5);
             model.MostFollowedArtists = _artistsManager.GetMostFollowedArtists(5);
             model.RecentlyAddedSongsOfMostPopularArtist = _songsManager.GetRecentlyAddedSongsOfMostPopularArtists(5);
@@ -60,14 +61,23 @@ namespace ItLabs.MBox.Application.Controllers
 
             return View();
         }
-
+        [HttpGet]
         public IActionResult RecordLabels()
         {
             ViewData["Message"] = "RecordLabels";
-            RecordLabelViewModel model = new RecordLabelViewModel();
-            model.RecordLabels = _recordLabelManager.GetAllRecordLabels();
+            var model = new RecordLabelViewModel() { Skip = 0, Take = 25 };
+            model.RecordLabels = _recordLabelManager.GetNextRecordLabels(model.Skip, model.Take);
             return View(model);
         }
+
+        [HttpPost]
+        public IActionResult LazyLoad([FromBody] RecordLabelViewModel model)
+        {
+            ViewData["Message"] = "RecordLabels";
+            model.RecordLabels = _recordLabelManager.GetNextRecordLabels(model.Skip, model.Take).ToList() ;
+            return View("LazyLoad", model);
+        }
+
 
         public IActionResult Error()
         {

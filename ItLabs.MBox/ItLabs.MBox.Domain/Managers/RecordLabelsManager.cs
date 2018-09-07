@@ -21,5 +21,10 @@ namespace ItLabs.MBox.Domain.Managers
         {
             return _recordLabelRepository.GetAll().Include(x => x.User).ToList();
         }
+
+        public IList<RecordLabel> GetNextRecordLabels(int skip, int take)
+        {
+            return _recordLabelRepository.GetAll().Include(x => x.User).Skip(skip).Take(take).ToList();
+        }
     }
 }

@@ -426,23 +426,23 @@ namespace ItLabs.MBox.Data
                 var artist2 = context.Artists.FirstOrDefault(c => c.Id == ar2.Id);
                 var artist3 = context.Artists.FirstOrDefault(c => c.Id == ar3.Id);
 
-                var rla = new RecordLabelArtists();
+                var rla = new RecordLabelArtist();
                 rla.Artist = artist;
                 rla.RecordLabel = recordLabel;
                 context.RecordLabelArtists.Add(rla);
 
-                var rla1 = new RecordLabelArtists();
+                var rla1 = new RecordLabelArtist();
                 rla1.Artist = artist1;
                 rla1.RecordLabel = recordLabel1;
                 context.RecordLabelArtists.Add(rla1);
 
-                var rla2 = new RecordLabelArtists();
+                var rla2 = new RecordLabelArtist();
                 rla2.Artist = artist2;
                 rla2.RecordLabel = recordLabel;
                 context.RecordLabelArtists.Add(rla2);
 
 
-                var rla4 = new RecordLabelArtists();
+                var rla4 = new RecordLabelArtist();
                 rla4.Artist = artist3;
                 rla4.RecordLabel = recordLabel3;
                 context.RecordLabelArtists.Add(rla4);

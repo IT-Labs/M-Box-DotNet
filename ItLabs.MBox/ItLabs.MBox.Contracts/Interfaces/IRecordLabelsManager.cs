@@ -8,5 +8,6 @@ namespace ItLabs.MBox.Contracts.Interfaces
     public interface IRecordLabelsManager
     {
         IList<RecordLabel> GetAllRecordLabels();
+        IList<RecordLabel> GetNextRecordLabels(int skip, int take);
     }
 }

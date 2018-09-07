@@ -100,6 +100,6 @@ namespace ItLabs.MBox.Data
 
         public DbSet<RecordLabel> RecordLabels { get; set; }
 
-        public DbSet<RecordLabelArtists> RecordLabelArtists { get; set; } 
+        public DbSet<RecordLabelArtist> RecordLabelArtists { get; set; } 
     }
 }

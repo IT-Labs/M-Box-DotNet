@@ -1,0 +1,25 @@
+﻿@using ItLabs.MBox.Application.Models
+@model RecordLabelViewModel
+@{
+    Layout = null;
+}
+
+
+
+@foreach (RecordLabel rl in Model.RecordLabels)
+{
+    <li class="col-sm-2 table-bordered seperateRecordLabelItems">
+        <div class="row">
+            <div>
+                <div class="text-center text">
+                    <h5>@rl.User.Name</h5>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div>
+                <img class="img-responsive center-block text-center" src="~/images/travis-scott-astroworld-cover-art.jpg" />
+            </div>
+        </div>
+    </li>
+}
