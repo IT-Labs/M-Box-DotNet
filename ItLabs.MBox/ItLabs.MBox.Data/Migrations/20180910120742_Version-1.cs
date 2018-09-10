@@ -13,9 +13,15 @@ namespace ItLabs.MBox.Data.Migrations
                 name: "AspNetRoles",
                 columns: table => new
                 {
+                    CreatedBy = table.Column<int>(type: "int4", nullable: true),
+                    DateCreated = table.Column<DateTime>(type: "timestamp", nullable: true),
+                    DateModified = table.Column<DateTime>(type: "timestamp", nullable: true),
+                    ModifiedBy = table.Column<int>(type: "int4", nullable: true),
+                    Type = table.Column<int>(type: "int4", nullable: true),
                     Id = table.Column<int>(type: "int4", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
                     ConcurrencyStamp = table.Column<string>(type: "text", nullable: true),
+                    Discriminator = table.Column<string>(type: "text", nullable: false),
                     Name = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: true),
                     NormalizedName = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: true)
                 },
@@ -40,7 +46,7 @@ namespace ItLabs.MBox.Data.Migrations
                     IsActivated = table.Column<bool>(type: "bool", nullable: false, defaultValue: false),
                     LockoutEnabled = table.Column<bool>(type: "bool", nullable: false),
                     LockoutEnd = table.Column<DateTimeOffset>(type: "timestamptz", nullable: true),
-                    ModifiedBy = table.Column<int>(type: "int4", nullable: false),
+                    ModifiedBy = table.Column<int>(type: "int4", nullable: true),
                     Name = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: false),
                     NormalizedEmail = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: true),
@@ -66,8 +72,8 @@ namespace ItLabs.MBox.Data.Migrations
                     CreatedBy = table.Column<int>(type: "int4", nullable: false),
                     DateCreated = table.Column<DateTime>(type: "Date", nullable: false),
                     DateModified = table.Column<DateTime>(type: "timestamp", nullable: false),
-                    Key = table.Column<string>(type: "varchar(100)", maxLength: 100, nullable: false),
-                    ModifiedBy = table.Column<int>(type: "int4", nullable: false),
+                    Key = table.Column<int>(type: "int4", nullable: false),
+                    ModifiedBy = table.Column<int>(type: "int4", nullable: true),
                     Value = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
@@ -86,7 +92,8 @@ namespace ItLabs.MBox.Data.Migrations
                     CreatedBy = table.Column<int>(type: "int4", nullable: false),
                     DateCreated = table.Column<DateTime>(type: "Date", nullable: false),
                     DateModified = table.Column<DateTime>(type: "timestamp", nullable: false),
-                    ModifiedBy = table.Column<int>(type: "int4", nullable: false),
+                    LinkText = table.Column<string>(type: "text", nullable: true),
+                    ModifiedBy = table.Column<int>(type: "int4", nullable: true),
                     Name = table.Column<string>(type: "varchar(100)", maxLength: 100, nullable: false),
                     Subject = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: true),
                     Type = table.Column<int>(type: "int4", nullable: false)
@@ -129,7 +136,7 @@ namespace ItLabs.MBox.Data.Migrations
                     DateCreated = table.Column<DateTime>(type: "Date", nullable: false),
                     DateModified = table.Column<DateTime>(type: "timestamp", nullable: false),
                     IsDeleted = table.Column<bool>(type: "bool", nullable: false, defaultValue: false),
-                    ModifiedBy = table.Column<int>(type: "int4", nullable: false),
+                    ModifiedBy = table.Column<int>(type: "int4", nullable: true),
                     UserId = table.Column<int>(type: "int4", nullable: true)
                 },
                 constraints: table =>
@@ -238,15 +245,15 @@ namespace ItLabs.MBox.Data.Migrations
                     CreatedBy = table.Column<int>(type: "int4", nullable: false),
                     DateCreated = table.Column<DateTime>(type: "Date", nullable: false),
                     DateModified = table.Column<DateTime>(type: "timestamp", nullable: false),
-                    ModifiedBy = table.Column<int>(type: "int4", nullable: false),
-                    UserIdId = table.Column<int>(type: "int4", nullable: true)
+                    ModifiedBy = table.Column<int>(type: "int4", nullable: true),
+                    UserId = table.Column<int>(type: "int4", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_RecordLabels", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_RecordLabels_AspNetUsers_UserIdId",
-                        column: x => x.UserIdId,
+                        name: "FK_RecordLabels_AspNetUsers_UserId",
+                        column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
@@ -258,12 +265,12 @@ namespace ItLabs.MBox.Data.Migrations
                 {
                     Id = table.Column<int>(type: "int4", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
-                    ArtistId = table.Column<int>(type: "int4", nullable: true),
+                    ArtistId = table.Column<int>(type: "int4", nullable: false),
                     CreatedBy = table.Column<int>(type: "int4", nullable: false),
                     DateCreated = table.Column<DateTime>(type: "Date", nullable: false),
                     DateModified = table.Column<DateTime>(type: "timestamp", nullable: false),
-                    FollowerId = table.Column<int>(type: "int4", nullable: true),
-                    ModifiedBy = table.Column<int>(type: "int4", nullable: false)
+                    FollowerId = table.Column<int>(type: "int4", nullable: false),
+                    ModifiedBy = table.Column<int>(type: "int4", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -273,13 +280,13 @@ namespace ItLabs.MBox.Data.Migrations
                         column: x => x.ArtistId,
                         principalTable: "Artists",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Follows_AspNetUsers_FollowerId",
                         column: x => x.FollowerId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -289,13 +296,13 @@ namespace ItLabs.MBox.Data.Migrations
                     Id = table.Column<int>(type: "int4", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
                     AlbumName = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: true),
-                    ArtistId = table.Column<int>(type: "int4", nullable: true),
+                    ArtistId = table.Column<int>(type: "int4", nullable: false),
                     CreatedBy = table.Column<int>(type: "int4", nullable: false),
                     DateCreated = table.Column<DateTime>(type: "Date", nullable: false),
                     DateModified = table.Column<DateTime>(type: "timestamp", nullable: false),
                     Genre = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: true),
                     Lyrics = table.Column<string>(type: "text", nullable: true),
-                    ModifiedBy = table.Column<int>(type: "int4", nullable: false),
+                    ModifiedBy = table.Column<int>(type: "int4", nullable: true),
                     Name = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: true),
                     Picture = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: true),
                     ReleaseDate = table.Column<DateTime>(type: "Date", nullable: false),
@@ -310,7 +317,7 @@ namespace ItLabs.MBox.Data.Migrations
                         column: x => x.ArtistId,
                         principalTable: "Artists",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -319,12 +326,12 @@ namespace ItLabs.MBox.Data.Migrations
                 {
                     Id = table.Column<int>(type: "int4", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
-                    ArtistId = table.Column<int>(type: "int4", nullable: true),
+                    ArtistId = table.Column<int>(type: "int4", nullable: false),
                     CreatedBy = table.Column<int>(type: "int4", nullable: false),
                     DateCreated = table.Column<DateTime>(type: "Date", nullable: false),
                     DateModified = table.Column<DateTime>(type: "timestamp", nullable: false),
-                    ModifiedBy = table.Column<int>(type: "int4", nullable: false),
-                    RecordLabelId = table.Column<int>(type: "int4", nullable: true)
+                    ModifiedBy = table.Column<int>(type: "int4", nullable: true),
+                    RecordLabelId = table.Column<int>(type: "int4", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -334,13 +341,13 @@ namespace ItLabs.MBox.Data.Migrations
                         column: x => x.ArtistId,
                         principalTable: "Artists",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_RecordLabelArtists_RecordLabels_RecordLabelId",
                         column: x => x.RecordLabelId,
                         principalTable: "RecordLabels",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
@@ -412,9 +419,9 @@ namespace ItLabs.MBox.Data.Migrations
                 column: "RecordLabelId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_RecordLabels_UserIdId",
+                name: "IX_RecordLabels_UserId",
                 table: "RecordLabels",
-                column: "UserIdId");
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Songs_ArtistId",

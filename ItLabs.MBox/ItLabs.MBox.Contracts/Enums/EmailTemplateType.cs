@@ -1,6 +1,6 @@
 ﻿namespace ItLabs.MBox.Contracts.Enums
 {
-    public enum EmailTemplates
+    public enum EmailTemplateType
     {
         SignUp = 1,
         ForgotPassword = 2,

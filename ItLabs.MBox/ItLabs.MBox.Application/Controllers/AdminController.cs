@@ -6,12 +6,12 @@ using ItLabs.MBox.Application.Models.AdminViewModels;
 
 namespace ItLabs.MBox.Application.Controllers
 {
-    [Authorize(Roles = nameof(Roles.Admin))]
+    [Authorize(Roles = nameof(Role.SuperAdmin))]
     public class AdminController : Controller
     {
-        private IRecordLabelsManager _recordLabelManager;
+        private IRecordLabelManager _recordLabelManager;
 
-        public AdminController(IRecordLabelsManager recordLabelManager)
+        public AdminController(IRecordLabelManager recordLabelManager)
         {
             _recordLabelManager = recordLabelManager;
         }

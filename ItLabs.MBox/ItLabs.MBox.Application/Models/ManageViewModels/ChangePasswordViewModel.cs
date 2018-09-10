@@ -1,9 +1,5 @@
-﻿using ItLabs.MBox.Contracts.Data_Annotations;
-using System;
-using System.Collections.Generic;
+﻿using ItLabs.MBox.Common.Attributes;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace ItLabs.MBox.Application.Models.ManageViewModels
 {

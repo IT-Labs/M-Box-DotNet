@@ -12,17 +12,18 @@ namespace ItLabs.MBox.Application.Controllers
 {
     public class HomeController : Controller
     {
-        private ISongsManager _songsManager;
-        private IArtistsManager _artistsManager;
-        private IRecordLabelsManager _recordLabelManager;
+        private ISongManager _songsManager;
+        private IArtistManager _artistsManager;
+        private IRecordLabelManager _recordLabelManager;
         private IEmailsManager _emailManager;
-        public HomeController(ISongsManager songsManager, IArtistsManager artistsManager, IRecordLabelsManager recordLabelManager, IEmailsManager emailManager)
+        public HomeController(ISongManager songsManager, IArtistManager artistsManager, IRecordLabelManager recordLabelManager, IEmailsManager emailManager)
         {
             _songsManager = songsManager;
             _artistsManager = artistsManager;
             _recordLabelManager = recordLabelManager;
             _emailManager = emailManager;
         }
+
         public IActionResult Index()
         {
             ViewData["Message"] = "Home";
@@ -73,12 +74,12 @@ namespace ItLabs.MBox.Application.Controllers
             return View(model);
         }
 
-        [HttpPost]
-        public IActionResult LazyLoad([FromBody] RecordLabelViewModel model)
+        [HttpGet]
+        public IActionResult GetNextRecordLabels([FromQuery] RecordLabelViewModel model)
         {
             ViewData["Message"] = "RecordLabels";
             model.RecordLabels = _recordLabelManager.GetNextRecordLabels(model.Skip, model.Take).ToList() ;
-            return View("LazyLoad", model);
+            return View("NextRecordLabels", model);
         }
 
 

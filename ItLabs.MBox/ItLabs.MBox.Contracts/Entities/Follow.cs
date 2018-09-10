@@ -1,6 +1,6 @@
 ﻿namespace ItLabs.MBox.Contracts.Entities
 {
-    public class Follow : AuditableEntity
+    public class Follow : Entity
 
     {
         public virtual int ArtistId { get; set; }

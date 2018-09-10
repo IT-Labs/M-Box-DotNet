@@ -1,12 +1,9 @@
-﻿using ItLabs.MBox.Contracts.Data_Transfer_Objects;
-using ItLabs.MBox.Contracts.Entities;
-using System;
+﻿using ItLabs.MBox.Contracts.Entities;
 using System.Collections.Generic;
-using System.Text;
 
 namespace ItLabs.MBox.Contracts.Interfaces
 {
-    public interface IRecordLabelsManager
+    public interface IRecordLabelManager
     {
         IList<RecordLabel> GetAllRecordLabels();
         IList<RecordLabel> GetNextRecordLabels(int skip, int take);

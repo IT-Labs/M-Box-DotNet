@@ -2,7 +2,7 @@
 
 namespace ItLabs.MBox.Contracts.Entities
 {
-    public class RecordLabel : AuditableEntity
+    public class RecordLabel : Entity
     { 
         public virtual string AboutInfo { get; set; }
 

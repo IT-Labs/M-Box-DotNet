@@ -1,8 +1,8 @@
 ﻿namespace ItLabs.MBox.Contracts.Enums
 {
-    public enum Roles
+    public enum Role
     {
-        Admin = 1,
+        SuperAdmin = 1,
         RecordLabel = 2,
         Artist = 3,
         Listener = 4

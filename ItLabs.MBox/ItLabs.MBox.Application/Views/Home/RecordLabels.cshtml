@@ -7,57 +7,7 @@
 }
 
 @section Scripts{
-    <script type="text/javascript">
-        var modelJSValue = {};
-        jQuery(document).ready(function () {
-            modelJSValue.RecordLabels = @Html.Raw(Json.Serialize(Model.RecordLabels));
-            modelJSValue.Take = @Html.Raw(Json.Serialize(Model.Take));
-            modelJSValue.Skip = @Html.Raw(Json.Serialize(Model.Skip));
-            $("#loadmorebutton").hide();
-            
-});
-        var loadCounter = 0;
-        $(window).on("scroll", function () {
-            var scrollHeight = $(document).height();
-            var scrollPosition = $(window).height() + $(window).scrollTop();
-            var loadsBeforeLoadMoreButtonAppears = 10;
-
-            if ((scrollHeight - scrollPosition) / scrollHeight === 0) {
-                modelJSValue.Skip = modelJSValue.Skip + modelJSValue.Take;
-                modelJSValue.Take = 10;
-                var toSend = JSON.stringify(modelJSValue);
-                if (loadCounter < loadsBeforeLoadMoreButtonAppears) {
-                    $.ajax({
-                        type: "POST",
-                        contentType: "application/json",
-                        data: toSend,
-                        url: "/Home/LazyLoad",
-                        success: function (result) {
-                            $("#recordLabelsListId").append(result);
-                            loadCounter++;
-                        }
-                    })
-                } else {
-                    $("#loadmorebutton").show();
-                }
-            }
-        });
-        $("#loadmorebutton").on("click", function () { 
-            var toSend = JSON.stringify(modelJSValue);
-            loadCounter = 0;
-            $("#loadmorebutton").hide()
-            $.ajax({
-                type: "POST",
-                contentType: "application/json",
-                data: toSend,
-                url: "/Home/LazyLoad",
-                success: function (result) {
-                    $("#recordLabelsListId").append(result);
-                    counter++;
-                }
-            })
-        })
-    </script>
+    <script type="text/javascript" src="~/js/LazyLoadingRecordLabels.js"></script>
 }
 
 
@@ -70,6 +20,9 @@
                     <div>
                         <div class="text-center text">
                             <h5>@rl.User.Name</h5>
+                            <input id="recordlabels" type="hidden" value="@Html.Raw(Json.Serialize(new List<RecordLabel>()))" />
+                            <input id="take" type="hidden" value="@Html.Raw(Json.Serialize(Model.Take))" />
+                            <input id="skip" type="hidden" value="@Html.Raw(Json.Serialize(Model.Skip))" />
                         </div>
                     </div>
                 </div>

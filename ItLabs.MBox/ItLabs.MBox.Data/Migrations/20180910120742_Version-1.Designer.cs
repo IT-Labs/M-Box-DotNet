@@ -13,8 +13,8 @@ using System;
 namespace ItLabs.MBox.Data.Migrations
 {
     [DbContext(typeof(MBoxDbContext))]
-    [Migration("20180830142708_Version-3")]
-    partial class Version3
+    [Migration("20180910120742_Version-1")]
+    partial class Version1
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -53,7 +53,7 @@ namespace ItLabs.MBox.Data.Migrations
 
                     b.Property<DateTimeOffset?>("LockoutEnd");
 
-                    b.Property<int>("ModifiedBy");
+                    b.Property<int?>("ModifiedBy");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -115,7 +115,7 @@ namespace ItLabs.MBox.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasDefaultValue(false);
 
-                    b.Property<int>("ModifiedBy");
+                    b.Property<int?>("ModifiedBy");
 
                     b.Property<int?>("UserId");
 
@@ -138,11 +138,9 @@ namespace ItLabs.MBox.Data.Migrations
 
                     b.Property<DateTime>("DateModified");
 
-                    b.Property<string>("Key")
-                        .IsRequired()
-                        .HasMaxLength(100);
+                    b.Property<int>("Key");
 
-                    b.Property<int>("ModifiedBy");
+                    b.Property<int?>("ModifiedBy");
 
                     b.Property<string>("Value");
 
@@ -167,7 +165,9 @@ namespace ItLabs.MBox.Data.Migrations
 
                     b.Property<DateTime>("DateModified");
 
-                    b.Property<int>("ModifiedBy");
+                    b.Property<string>("LinkText");
+
+                    b.Property<int?>("ModifiedBy");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -190,7 +190,7 @@ namespace ItLabs.MBox.Data.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int?>("ArtistId");
+                    b.Property<int>("ArtistId");
 
                     b.Property<int>("CreatedBy");
 
@@ -199,9 +199,9 @@ namespace ItLabs.MBox.Data.Migrations
 
                     b.Property<DateTime>("DateModified");
 
-                    b.Property<int?>("FollowerId");
+                    b.Property<int>("FollowerId");
 
-                    b.Property<int>("ModifiedBy");
+                    b.Property<int?>("ModifiedBy");
 
                     b.HasKey("Id");
 
@@ -226,23 +226,23 @@ namespace ItLabs.MBox.Data.Migrations
 
                     b.Property<DateTime>("DateModified");
 
-                    b.Property<int>("ModifiedBy");
+                    b.Property<int?>("ModifiedBy");
 
-                    b.Property<int?>("UserIdId");
+                    b.Property<int?>("UserId");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UserIdId");
+                    b.HasIndex("UserId");
 
                     b.ToTable("RecordLabels");
                 });
 
-            modelBuilder.Entity("ItLabs.MBox.Contracts.Entities.RecordLabelArtists", b =>
+            modelBuilder.Entity("ItLabs.MBox.Contracts.Entities.RecordLabelArtist", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int?>("ArtistId");
+                    b.Property<int>("ArtistId");
 
                     b.Property<int>("CreatedBy");
 
@@ -251,9 +251,9 @@ namespace ItLabs.MBox.Data.Migrations
 
                     b.Property<DateTime>("DateModified");
 
-                    b.Property<int>("ModifiedBy");
+                    b.Property<int?>("ModifiedBy");
 
-                    b.Property<int?>("RecordLabelId");
+                    b.Property<int>("RecordLabelId");
 
                     b.HasKey("Id");
 
@@ -272,7 +272,7 @@ namespace ItLabs.MBox.Data.Migrations
                     b.Property<string>("AlbumName")
                         .HasMaxLength(50);
 
-                    b.Property<int?>("ArtistId");
+                    b.Property<int>("ArtistId");
 
                     b.Property<int>("CreatedBy");
 
@@ -286,7 +286,7 @@ namespace ItLabs.MBox.Data.Migrations
 
                     b.Property<string>("Lyrics");
 
-                    b.Property<int>("ModifiedBy");
+                    b.Property<int?>("ModifiedBy");
 
                     b.Property<string>("Name")
                         .HasMaxLength(50);
@@ -426,6 +426,14 @@ namespace ItLabs.MBox.Data.Migrations
                 {
                     b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityRole<int>");
 
+                    b.Property<int>("CreatedBy");
+
+                    b.Property<DateTime>("DateCreated");
+
+                    b.Property<DateTime>("DateModified");
+
+                    b.Property<int?>("ModifiedBy");
+
                     b.Property<int>("Type");
 
                     b.ToTable("Roles");
@@ -443,37 +451,42 @@ namespace ItLabs.MBox.Data.Migrations
             modelBuilder.Entity("ItLabs.MBox.Contracts.Entities.Follow", b =>
                 {
                     b.HasOne("ItLabs.MBox.Contracts.Entities.Artist", "Artist")
-                        .WithMany()
-                        .HasForeignKey("ArtistId");
+                        .WithMany("Follows")
+                        .HasForeignKey("ArtistId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("ItLabs.MBox.Contracts.Entities.ApplicationUser", "Follower")
-                        .WithMany()
-                        .HasForeignKey("FollowerId");
+                        .WithMany("Follows")
+                        .HasForeignKey("FollowerId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("ItLabs.MBox.Contracts.Entities.RecordLabel", b =>
                 {
-                    b.HasOne("ItLabs.MBox.Contracts.Entities.ApplicationUser", "UserId")
+                    b.HasOne("ItLabs.MBox.Contracts.Entities.ApplicationUser", "User")
                         .WithMany()
-                        .HasForeignKey("UserIdId");
+                        .HasForeignKey("UserId");
                 });
 
-            modelBuilder.Entity("ItLabs.MBox.Contracts.Entities.RecordLabelArtists", b =>
+            modelBuilder.Entity("ItLabs.MBox.Contracts.Entities.RecordLabelArtist", b =>
                 {
                     b.HasOne("ItLabs.MBox.Contracts.Entities.Artist", "Artist")
-                        .WithMany()
-                        .HasForeignKey("ArtistId");
+                        .WithMany("RecordLabelArtists")
+                        .HasForeignKey("ArtistId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("ItLabs.MBox.Contracts.Entities.RecordLabel", "RecordLabel")
-                        .WithMany()
-                        .HasForeignKey("RecordLabelId");
+                        .WithMany("RecordLabelArtists")
+                        .HasForeignKey("RecordLabelId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("ItLabs.MBox.Contracts.Entities.Song", b =>
                 {
                     b.HasOne("ItLabs.MBox.Contracts.Entities.Artist", "Artist")
                         .WithMany("Songs")
-                        .HasForeignKey("ArtistId");
+                        .HasForeignKey("ArtistId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>

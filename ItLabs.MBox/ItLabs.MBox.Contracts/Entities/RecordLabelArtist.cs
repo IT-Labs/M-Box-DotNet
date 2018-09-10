@@ -1,6 +1,6 @@
 ﻿namespace ItLabs.MBox.Contracts.Entities
 {
-    public class RecordLabelArtist : AuditableEntity
+    public class RecordLabelArtist : Entity
     {
         public virtual int ArtistId { get; set; }
         public virtual Artist Artist { get; set; }

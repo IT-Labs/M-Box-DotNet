@@ -2,7 +2,7 @@
 
 namespace ItLabs.MBox.Contracts.Entities
 {
-    public class Song : AuditableEntity
+    public class Song : Entity
     {
         public virtual string Name { get; set; }
 

@@ -10,7 +10,7 @@
 
 @if (SignInManager.IsSignedIn(User))
 {
-    @if (User.IsInRole(nameof(Roles.Admin)))
+    @if (User.IsInRole(nameof(Role.SuperAdmin)))
     {
         <ul class="nav navbar-nav navbar-right">
             <li class="dropdown">
@@ -32,7 +32,7 @@
             </li>
         </ul>
     }
-    else if (User.IsInRole(nameof(Roles.Listener)))
+    else if (User.IsInRole(nameof(Role.Listener)))
     {
         <ul class="nav navbar-nav navbar-right">
             <li class="dropdown">
@@ -52,7 +52,7 @@
             </li>
         </ul>
     }
-    else if (User.IsInRole(nameof(Roles.RecordLabel)))
+    else if (User.IsInRole(nameof(Role.RecordLabel)))
     {
         <ul class="nav navbar-nav navbar-right">
             <li class="dropdown">
@@ -74,7 +74,7 @@
             </li>
         </ul>
     }
-    else if (User.IsInRole(nameof(Roles.Artist)))
+    else if (User.IsInRole(nameof(Role.Artist)))
     {
         <ul class="nav navbar-nav navbar-right">
             <li class="dropdown">

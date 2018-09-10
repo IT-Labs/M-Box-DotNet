@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace ItLabs.MBox.Contracts.Entities
 {
-    public class Artist : AuditableEntity
+    public class Artist : Entity
     {
         public Artist()
         {

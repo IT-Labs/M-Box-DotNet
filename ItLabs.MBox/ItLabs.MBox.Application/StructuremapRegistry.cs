@@ -1,13 +1,8 @@
-﻿using ItLabs.MBox.Contracts.Entities;
-using ItLabs.MBox.Contracts.Interfaces;
+﻿using ItLabs.MBox.Contracts.Interfaces;
 using ItLabs.MBox.Data;
 using ItLabs.MBox.Domain.Managers;
 using StructureMap;
 using StructureMap.Pipeline;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace ItLabs.MBox.Application
 {
@@ -15,11 +10,13 @@ namespace ItLabs.MBox.Application
     {
         public StructuremapRegistry()
         {
-            For<IRecordLabelsManager>().LifecycleIs(Lifecycles.Container).Use<RecordLabelsManager>();
-            For<IArtistsManager>().LifecycleIs(Lifecycles.Container).Use<ArtistsManager>();
-            For<IEmailsManager>().LifecycleIs(Lifecycles.Container).Use<EmailsManager>();
-            For<ISongsManager>().LifecycleIs(Lifecycles.Container).Use<SongsManager>();
-            For(typeof(IRepository<>)).LifecycleIs(Lifecycles.Container).Use(typeof(Repository<>));
+            For<IRecordLabelManager>().LifecycleIs(Lifecycles.Container).Use<RecordLabelManager>();
+            For<IArtistManager>().LifecycleIs(Lifecycles.Container).Use<ArtistManager>();
+            For<IEmailsManager>().LifecycleIs(Lifecycles.Container).Use<EmailManager>();
+            For<ISongManager>().LifecycleIs(Lifecycles.Container).Use<SongManager>();
+
+            For(typeof(IRepository)).LifecycleIs(Lifecycles.Container).Use(typeof(Repository<MBoxDbContext>));
+            For(typeof(IReadOnlyRepository)).LifecycleIs(Lifecycles.Container).Use(typeof(ReadOnlyRepository<MBoxDbContext>));
         }
     }
 }

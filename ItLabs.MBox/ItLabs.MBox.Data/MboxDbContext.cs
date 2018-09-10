@@ -5,6 +5,7 @@ using ItLabs.MBox.Contracts.Entities;
 using ItLabs.MBox.Data.DbMapping;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.AspNetCore.Identity;
+using ItLabs.MBox.Contracts.Interfaces;
 
 namespace ItLabs.MBox.Data
 {
@@ -47,7 +48,7 @@ namespace ItLabs.MBox.Data
         private void AuditEntities()
         {
 
-            foreach (var auditableEntity in ChangeTracker.Entries<AuditableEntity>())
+            foreach (var auditableEntity in ChangeTracker.Entries<IEntity>())
             {
                 if(auditableEntity.Entity is Artist)
                 {

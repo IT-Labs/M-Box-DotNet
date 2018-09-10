@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.Linq;
 
-namespace ItLabs.MBox.Contracts.Data_Annotations
+namespace ItLabs.MBox.Common.Attributes
 {
     public class PasswordValidationAttribute : ValidationAttribute
     {

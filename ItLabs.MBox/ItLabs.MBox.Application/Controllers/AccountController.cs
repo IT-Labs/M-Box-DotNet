@@ -29,14 +29,14 @@ namespace ItLabs.MBox.Application.Controllers
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly IEmailsManager _emailManager;
         private readonly ILogger _logger;
-        private readonly IArtistsManager _artistsManager;
+        private readonly IArtistManager _artistsManager;
 
         public AccountController(
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
             IEmailsManager emailManager,
             ILogger<AccountController> logger,
-            IArtistsManager manager)
+            IArtistManager manager)
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -73,6 +73,7 @@ namespace ItLabs.MBox.Application.Controllers
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User logged in.");
+
                     return RedirectToLocal(returnUrl);
                 }
                 if (result.RequiresTwoFactor)
@@ -87,6 +88,7 @@ namespace ItLabs.MBox.Application.Controllers
                 else
                 {
                     ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+
                     return View(model);
                 }
             }
@@ -233,12 +235,20 @@ namespace ItLabs.MBox.Application.Controllers
                 if (result.Succeeded) 
                 {
 
-                    await _userManager.AddToRoleAsync(user, Roles.Listener.ToString());
+                    var roleResult = _userManager.AddToRoleAsync(user, Role.Listener.ToString()).Result;
+
+                   if(!roleResult.Succeeded)
+                   {
+                        await _userManager.DeleteAsync(user);
+                        AddErrors(roleResult);
+                        return View(model);
+                   }
+
                     _logger.LogInformation("User created a new account with password.");
 
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                     var callbackUrl = Url.EmailConfirmationLink(user.Id.ToString(), code, Request.Scheme);
-                    await _emailManager.SendMail(EmailTemplates.SignUp, model.Email, callbackUrl);
+                    await _emailManager.SendMail(EmailTemplateType.SignUp, model.Email, callbackUrl);
 
                     //await _signInManager.SignInAsync(user, isPersistent: false);
                     //_logger.LogInformation("User created a new account with password.");
@@ -381,7 +391,7 @@ namespace ItLabs.MBox.Application.Controllers
                 // visit https://go.microsoft.com/fwlink/?LinkID=532713
                 var code = await _userManager.GeneratePasswordResetTokenAsync(user);
                 var callbackUrl = Url.ResetPasswordCallbackLink(user.Id.ToString(), code, Request.Scheme);
-                await _emailManager.SendMail(EmailTemplates.ForgotPassword,model.Email, callbackUrl);
+                await _emailManager.SendMail(Contracts.Enums.EmailTemplateType.ForgotPassword, model.Email, callbackUrl);
                 return RedirectToAction(nameof(ForgotPasswordConfirmation));
             }
 

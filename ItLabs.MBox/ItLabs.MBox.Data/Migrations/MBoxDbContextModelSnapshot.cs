@@ -52,7 +52,7 @@ namespace ItLabs.MBox.Data.Migrations
 
                     b.Property<DateTimeOffset?>("LockoutEnd");
 
-                    b.Property<int>("ModifiedBy");
+                    b.Property<int?>("ModifiedBy");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -114,7 +114,7 @@ namespace ItLabs.MBox.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasDefaultValue(false);
 
-                    b.Property<int>("ModifiedBy");
+                    b.Property<int?>("ModifiedBy");
 
                     b.Property<int?>("UserId");
 
@@ -137,11 +137,9 @@ namespace ItLabs.MBox.Data.Migrations
 
                     b.Property<DateTime>("DateModified");
 
-                    b.Property<string>("Key")
-                        .IsRequired()
-                        .HasMaxLength(100);
+                    b.Property<int>("Key");
 
-                    b.Property<int>("ModifiedBy");
+                    b.Property<int?>("ModifiedBy");
 
                     b.Property<string>("Value");
 
@@ -168,7 +166,7 @@ namespace ItLabs.MBox.Data.Migrations
 
                     b.Property<string>("LinkText");
 
-                    b.Property<int>("ModifiedBy");
+                    b.Property<int?>("ModifiedBy");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -202,7 +200,7 @@ namespace ItLabs.MBox.Data.Migrations
 
                     b.Property<int>("FollowerId");
 
-                    b.Property<int>("ModifiedBy");
+                    b.Property<int?>("ModifiedBy");
 
                     b.HasKey("Id");
 
@@ -227,7 +225,7 @@ namespace ItLabs.MBox.Data.Migrations
 
                     b.Property<DateTime>("DateModified");
 
-                    b.Property<int>("ModifiedBy");
+                    b.Property<int?>("ModifiedBy");
 
                     b.Property<int?>("UserId");
 
@@ -252,7 +250,7 @@ namespace ItLabs.MBox.Data.Migrations
 
                     b.Property<DateTime>("DateModified");
 
-                    b.Property<int>("ModifiedBy");
+                    b.Property<int?>("ModifiedBy");
 
                     b.Property<int>("RecordLabelId");
 
@@ -287,7 +285,7 @@ namespace ItLabs.MBox.Data.Migrations
 
                     b.Property<string>("Lyrics");
 
-                    b.Property<int>("ModifiedBy");
+                    b.Property<int?>("ModifiedBy");
 
                     b.Property<string>("Name")
                         .HasMaxLength(50);
@@ -426,6 +424,14 @@ namespace ItLabs.MBox.Data.Migrations
             modelBuilder.Entity("ItLabs.MBox.Contracts.Entities.ApplicationRole", b =>
                 {
                     b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityRole<int>");
+
+                    b.Property<int>("CreatedBy");
+
+                    b.Property<DateTime>("DateCreated");
+
+                    b.Property<DateTime>("DateModified");
+
+                    b.Property<int?>("ModifiedBy");
 
                     b.Property<int>("Type");
 

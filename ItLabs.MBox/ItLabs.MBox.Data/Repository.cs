@@ -1,59 +1,60 @@
-﻿using ItLabs.MBox.Contracts.Entities;
-using ItLabs.MBox.Contracts.Enums;
-using ItLabs.MBox.Contracts.Interfaces;
+﻿using ItLabs.MBox.Contracts.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace ItLabs.MBox.Data
 {
-    public class Repository<T> : IRepository<T> where T : class, IEntity
+    public class Repository<TContext> : ReadOnlyRepository<TContext>, IRepository
+    where TContext : MBoxDbContext
     {
+        public Repository(TContext context) : base(context) { }
 
-        private readonly MBoxDbContext _mboxDbContext;
-        private DbSet<T> _entities;
-
-        public Repository(MBoxDbContext context)
+        public virtual void Create<Entity>(Entity entity, int createdBy)
+        where Entity : class, IEntity
         {
-            _mboxDbContext = context;
-            _entities = context.Set<T>();
-        }
-        public IQueryable<T> GetAll()
-        {
-            return _entities.AsQueryable();
-        }
-        public T Get(int id)
-        {
-            return _entities.SingleOrDefault(y => y.Id == id);
-        }
-        public void Insert(T entity)
-        {
-            if (entity == null)
-            {
-                throw new ArgumentNullException("entity");
-            }
-            _entities.Add(entity);
-            _mboxDbContext.SaveChanges();
-        }
-        public void Update(T entity)
-        {
-            if (entity == null)
-            {
-                throw new ArgumentNullException("entity");
-            }
-            _mboxDbContext.SaveChanges();
-        }
-        public void Delete(T entity)
-        {
-            if (entity == null)
-            {
-                throw new ArgumentNullException("entity");
-            }
-            _entities.Remove(entity);
-            _mboxDbContext.SaveChanges();
+            entity.DateCreated = DateTime.UtcNow;
+            entity.CreatedBy = createdBy;
+            context.Set<Entity>().Add(entity);
         }
 
+        public virtual void Update<Entity>(Entity entity, int? modifiedBy = null)
+            where Entity : class, IEntity
+        {
+            entity.DateModified = DateTime.UtcNow;
+            entity.ModifiedBy = modifiedBy;
+            context.Set<Entity>().Attach(entity);
+            context.Entry(entity).State = EntityState.Modified;
+        }
+
+        public virtual void Delete<Entity>(object id)
+            where Entity : class, IEntity
+        {
+            Entity entity = context.Set<Entity>().Find(id);
+            Delete(entity);
+        }
+
+        public virtual void Delete<Entity>(Entity entity)
+            where Entity : class, IEntity
+        {
+            var dbSet = context.Set<Entity>();
+            if (context.Entry(entity).State == EntityState.Detached)
+            {
+                dbSet.Attach(entity);
+            }
+            dbSet.Remove(entity);
+        }
+
+        public virtual void Save()
+        {
+            try
+            {
+                context.SaveChanges();
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+        }
+      
     }
 }

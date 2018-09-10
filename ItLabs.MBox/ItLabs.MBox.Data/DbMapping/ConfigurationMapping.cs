@@ -10,7 +10,6 @@ namespace ItLabs.MBox.Data.DbMapping
         {
             builder.ToTable("Configurations");
             builder.HasKey(c => c.Id);
-            builder.Property(c => c.Key).HasMaxLength(100);
             builder.HasAlternateKey(c => c.Key);
             builder.Property(c => c.DateCreated).IsRequired().HasColumnType("Date");
             //builder.Property(c => c.CreatedBy).IsRequired();

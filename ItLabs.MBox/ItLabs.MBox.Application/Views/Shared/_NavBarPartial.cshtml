@@ -9,12 +9,12 @@
 
 @if (SignInManager.IsSignedIn(User))
 {
-    @if (User.IsInRole(nameof(Roles.Admin)) || User.IsInRole(nameof(Roles.RecordLabel)))
+    @if (User.IsInRole(nameof(Role.SuperAdmin)) || User.IsInRole(nameof(Role.RecordLabel)))
     {
 
 
     }
-    else if (User.IsInRole(nameof(Roles.Artist)) || User.IsInRole(nameof(Roles.Listener)))
+    else if (User.IsInRole(nameof(Role.Artist)) || User.IsInRole(nameof(Role.Listener)))
     {
         <ul class="nav navbar-nav">
             <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
