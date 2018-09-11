@@ -1,4 +1,9 @@
 ﻿@using ItLabs.MBox.Application.Models.AdminViewModels
+<link rel="stylesheet" href="~/css/customCss.css" />
+
+@section Scripts{
+    <script type="text/javascript" src="~/js/tableSearch.js"></script>
+}
 
 @{
     ViewData["Title"] = "Index";
@@ -9,34 +14,34 @@
 <div class="container-fluid">
     <div class="row" style="margin-top: 25px">
         <div class="col-md-4 col-sm-4">
-            <form asp-area="" asp-controller="Admin" asp-action="AddNewRecordLabel" method="get" >
+            <form asp-area="" asp-controller="Admin" asp-action="AddNewRecordLabel" method="get">
                 <button type="submit" class="btn btn-block btn-primary" style="margin: 5px">Add New Record Label</button>
             </form>
-        
+
         </div>
         <div class="col-md-8 col-sm-8">
-            <input class="form-control" style="margin: 5px" type="text" placeholder="Search" aria-label="Search">
+            <input class="form-control" id="search" style="margin: 5px" type="text" placeholder="Search" aria-label="Search">
         </div>
     </div>
     <div class="row" style="margin-top: 25px">
-        <table class="table table-striped" style="border: 1px solid gray;">
+        <table class="fixed_header table table-striped" style="border: 1px solid gray;">
             <thead>
-                <tr style="display: block">
-                    <th style="width: 19%;">Record Label Name</th>
-                    <th style="width: 19%;">Record Label E-mail Address</th>
-                    <th style="width: 19%;">Number of Artists</th>
-                    <th style="width: 19%;">Delete Record Label</th>
+                <tr>
+                    <th>Record Label Name</th>
+                    <th>Record Label E-mail Address</th>
+                    <th>Number of Artists</th>
+                    <th>Delete Record Label</th>
                 </tr>
             </thead>
 
-            <tbody style="height: 620px; overflow-y: auto; display: block">
+            <tbody>
                 @foreach (RecordLabel rl in Model.RecordLabels)
                 {
-                    <tr >
-                        <td style="width: 15%;">@rl.User.Name</td>
-                        <td style="width: 15%;">@rl.User.Email</td>
-                        <td style="width: 15%;">@rl.RecordLabelArtists.Count</td>
-                        <td style="width: 15%;">
+                    <tr class="search">
+                        <td>@rl.User.Name</td>
+                        <td>@rl.User.Email</td>
+                        <td>@rl.RecordLabelArtists.Count</td>
+                        <td>
                             <button class="btn btn-danger">
                                 Delete <i class="glyphicon glyphicon-trash"></i>
                             </button>
@@ -47,4 +52,3 @@
         </table>
     </div>
 </div>
-

@@ -59,3 +59,27 @@
     overflow: scroll;
     -webkit-overflow-scrolling: touch;
 }
+
+.fixed_header {
+    width: 100%;
+    table-layout: fixed;
+    border-collapse: collapse;
+}
+
+    .fixed_header tbody {
+        display: block;
+        width: 100%;
+        overflow: auto;
+        height: 650px;
+    }
+
+    .fixed_header thead tr {
+        display: block;
+    }
+
+    .fixed_header th, .fixed_header td {
+        padding: 5px;
+        text-align: left;
+        width: 285px;
+        border-bottom: 1px solid #D3D3D3;
+    }
