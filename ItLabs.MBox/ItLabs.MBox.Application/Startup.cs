@@ -20,6 +20,7 @@ namespace ItLabs.MBox.Application
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
+            
         }
 
         public IConfiguration Configuration { get; }
@@ -77,9 +78,9 @@ namespace ItLabs.MBox.Application
                 app.UseDeveloperExceptionPage();
                 app.UseDatabaseErrorPage();
             }
-            else
+            else if(env.IsStaging() || env.IsProduction())
             {
-                app.UseExceptionHandler("/Home/Error");
+                app.UseExceptionHandler("/Home/Error"); 
             }
 
             app.UseStaticFiles();

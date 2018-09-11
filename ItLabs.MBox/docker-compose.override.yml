@@ -1,0 +1,8 @@
+version: '3'
+
+services:
+  itlabs.mbox.application:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    ports:
+      - "80"

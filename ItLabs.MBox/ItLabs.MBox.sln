@@ -13,6 +13,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ItLabs.MBox.Domain", "ItLab
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ItLabs.MBox.Contracts", "ItLabs.MBox.Contracts\ItLabs.MBox.Contracts.csproj", "{FE0A2A71-E525-4DB3-9FE9-9A244AC4C0E8}"
 EndProject
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{625837EB-E40E-4506-AC44-E414077D599A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{FE0A2A71-E525-4DB3-9FE9-9A244AC4C0E8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FE0A2A71-E525-4DB3-9FE9-9A244AC4C0E8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FE0A2A71-E525-4DB3-9FE9-9A244AC4C0E8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{625837EB-E40E-4506-AC44-E414077D599A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{625837EB-E40E-4506-AC44-E414077D599A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{625837EB-E40E-4506-AC44-E414077D599A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{625837EB-E40E-4506-AC44-E414077D599A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
