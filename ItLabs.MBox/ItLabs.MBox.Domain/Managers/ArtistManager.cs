@@ -22,7 +22,9 @@ namespace ItLabs.MBox.Domain.Managers
         public IList<Artist> GetMostFollowedArtists(int number)
         {
             return _repository.GetAll<Artist>(
-                includeProperties: $"{nameof(Artist.User)},{nameof(Artist.Follows)},{nameof(Artist.RecordLabelArtists)}.{nameof(RecordLabel)}.{nameof(RecordLabel.User)}",
+                includeProperties: $"{nameof(Artist.User)}," +
+                $"{nameof(Artist.Follows)}," +
+                $"{nameof(Artist.RecordLabelArtists)}.{nameof(RecordLabel)}.{nameof(RecordLabel.User)}",
                 orderBy: x=> x.OrderByDescending(y => y.Follows.Count),
                 take: number).ToList();
         }

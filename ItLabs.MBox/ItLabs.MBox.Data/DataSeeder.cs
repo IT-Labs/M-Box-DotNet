@@ -30,6 +30,7 @@ namespace ItLabs.MBox.Data
                 admin.LockoutEnabled = true;
                 admin.UserName = admin.Email;
                 admin.PasswordHash = hashedAdmin;
+                admin.CreatedBy = (int)Role.SuperAdmin;
                 context.ApplicationUsers.Add(admin);
                 context.UserRoles.Add(new IdentityUserRole<int>() { UserId = admin.Id, RoleId = 1});
 

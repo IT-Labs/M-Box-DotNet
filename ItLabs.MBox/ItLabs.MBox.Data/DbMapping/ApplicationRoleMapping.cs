@@ -9,7 +9,6 @@ namespace ItLabs.MBox.Data.DbMapping
             public void Configure(EntityTypeBuilder<ApplicationRole> builder)
             {
                 builder.ToTable("Roles");
-                //builder.Ignore(c => c.Type);
             }
         }
 }

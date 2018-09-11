@@ -17,7 +17,7 @@ namespace ItLabs.MBox.Data.DbMapping
             builder.HasOne(c => c.Follower)
                 .WithMany(b => b.Follows)
                 .HasForeignKey(bc => bc.FollowerId);
-            //builder.Property(c => c.CreatedBy).IsRequired();
+            builder.Property(c => c.CreatedBy).IsRequired();
         }
     }
 }

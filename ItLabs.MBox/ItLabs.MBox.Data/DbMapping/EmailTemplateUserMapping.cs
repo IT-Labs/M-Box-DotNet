@@ -14,7 +14,7 @@ namespace ItLabs.MBox.Data.DbMapping
             builder.HasAlternateKey(c => c.Name);
             builder.Property(c => c.Subject).HasMaxLength(50);
             builder.Property(c => c.DateCreated).IsRequired().HasColumnType("Date");
-            //builder.Property(c => c.CreatedBy).IsRequired();
+            builder.Property(c => c.CreatedBy).IsRequired();
         }
     }
 }

@@ -28,7 +28,7 @@ namespace ItLabs.MBox.Application
         // This method gets called by the runtime. Use this method to add services to the container.
         public IServiceProvider ConfigureServices(IServiceCollection services)
         {
-
+            
             services.AddEntityFrameworkNpgsql().AddDbContext<MBoxDbContext>(opt =>
                 opt.UseNpgsql(Configuration.GetConnectionString("MBoxAplicationConnection")));
 
@@ -78,7 +78,7 @@ namespace ItLabs.MBox.Application
                 app.UseDeveloperExceptionPage();
                 app.UseDatabaseErrorPage();
             }
-            else if(env.IsStaging() || env.IsProduction())
+            else 
             {
                 app.UseExceptionHandler("/Home/Error"); 
             }

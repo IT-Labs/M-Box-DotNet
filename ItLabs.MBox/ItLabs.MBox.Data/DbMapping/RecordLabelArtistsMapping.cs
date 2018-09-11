@@ -17,7 +17,7 @@ namespace ItLabs.MBox.Data.DbMapping
             builder.HasOne(c => c.RecordLabel)
                 .WithMany(b => b.RecordLabelArtists)
                 .HasForeignKey(bc => bc.RecordLabelId);
-            //builder.Property(c => c.CreatedBy).IsRequired();
+            builder.Property(c => c.CreatedBy).IsRequired();
         }
     }
 }

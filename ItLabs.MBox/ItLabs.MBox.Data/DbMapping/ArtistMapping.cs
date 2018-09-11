@@ -16,7 +16,7 @@ namespace ItLabs.MBox.Data.DbMapping
             builder.HasMany(c => c.RecordLabelArtists).WithOne(c => c.Artist);
             builder.HasMany(c => c.Follows).WithOne(c => c.Artist);
             builder.HasMany(c => c.Songs).WithOne(x => x.Artist);
-            //builder.Property(c => c.CreatedBy).IsRequired();
+            builder.Property(c => c.CreatedBy).IsRequired();
         }
     }
 }

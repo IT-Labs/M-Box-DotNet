@@ -1,8 +1,0 @@
-version: '3'
-
-services:
-  itlabs.mbox.application:
-    image: itlabsmboxapplication
-    build:
-      context: .
-      dockerfile: ItLabs.MBox.Application/Dockerfile

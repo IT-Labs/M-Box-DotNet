@@ -12,7 +12,7 @@ namespace ItLabs.MBox.Data.DbMapping
             builder.HasKey(c => c.Id);
             builder.HasAlternateKey(c => c.Key);
             builder.Property(c => c.DateCreated).IsRequired().HasColumnType("Date");
-            //builder.Property(c => c.CreatedBy).IsRequired();
+            builder.Property(c => c.CreatedBy).IsRequired();
         }
     }
 }

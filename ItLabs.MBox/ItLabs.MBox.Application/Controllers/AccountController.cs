@@ -69,27 +69,36 @@ namespace ItLabs.MBox.Application.Controllers
             {
                 // This doesn't count login failures towards account lockout
                 // To enable password failures to trigger account lockout, set lockoutOnFailure: true
-                var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, lockoutOnFailure: false);
-                if (result.Succeeded)
+                var user = await _userManager.FindByEmailAsync(model.Email);
+                if (user != null)
                 {
-                    _logger.LogInformation("User logged in.");
+                    if (await _userManager.IsEmailConfirmedAsync(user))
+                    {
+                        var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, lockoutOnFailure: false);
+                        if (result.Succeeded)
+                        {
+                            _logger.LogInformation("User logged in.");
 
-                    return RedirectToLocal(returnUrl);
-                }
-                if (result.RequiresTwoFactor)
-                {
-                    return RedirectToAction(nameof(LoginWith2fa), new { returnUrl, model.RememberMe });
-                }
-                if (result.IsLockedOut)
-                {
-                    _logger.LogWarning("User account locked out.");
-                    return RedirectToAction(nameof(Lockout));
-                }
-                else
-                {
-                    ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+                            return RedirectToLocal(returnUrl);
+                        }
+                        if (result.RequiresTwoFactor)
+                        {
+                            return RedirectToAction(nameof(LoginWith2fa), new { returnUrl, model.RememberMe });
+                        }
+                        if (result.IsLockedOut)
+                        {
+                            _logger.LogWarning("User account locked out.");
+                            return RedirectToAction(nameof(Lockout));
+                        }
 
-                    return View(model);
+                        else
+                        {
+                            ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+
+                            return View(model);
+                        }
+                    }
+                    
                 }
             }
 
@@ -230,19 +239,19 @@ namespace ItLabs.MBox.Application.Controllers
             ViewData["ReturnUrl"] = returnUrl;
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser {Name = model.Name, UserName = model.Email, Email = model.Email };
+                var user = new ApplicationUser { Name = model.Name, UserName = model.Email, Email = model.Email };
                 var result = await _userManager.CreateAsync(user, model.Password);
-                if (result.Succeeded) 
+                if (result.Succeeded)
                 {
 
                     var roleResult = _userManager.AddToRoleAsync(user, Role.Listener.ToString()).Result;
 
-                   if(!roleResult.Succeeded)
-                   {
+                    if (!roleResult.Succeeded)
+                    {
                         await _userManager.DeleteAsync(user);
                         AddErrors(roleResult);
                         return View(model);
-                   }
+                    }
 
                     _logger.LogInformation("User created a new account with password.");
 
@@ -252,7 +261,7 @@ namespace ItLabs.MBox.Application.Controllers
 
                     //await _signInManager.SignInAsync(user, isPersistent: false);
                     //_logger.LogInformation("User created a new account with password.");
-                    return RedirectToLocal(returnUrl);
+                    return View("RegisterMailHasBeenSent");
                 }
                 AddErrors(result);
             }

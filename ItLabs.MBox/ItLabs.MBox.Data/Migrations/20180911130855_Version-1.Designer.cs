@@ -13,7 +13,7 @@ using System;
 namespace ItLabs.MBox.Data.Migrations
 {
     [DbContext(typeof(MBoxDbContext))]
-    [Migration("20180910120742_Version-1")]
+    [Migration("20180911130855_Version-1")]
     partial class Version1
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

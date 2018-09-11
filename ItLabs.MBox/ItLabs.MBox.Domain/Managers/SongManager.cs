@@ -26,7 +26,7 @@ namespace ItLabs.MBox.Domain.Managers
         public IList<Song> GetRecentlyAddedSongsOfMostPopularArtist(int number)
         {
             var mostFollowedArtist = _repository.GetAll<Artist>(orderBy: x => x.OrderByDescending(y => y.Follows.Count)).FirstOrDefault();
-            var r = nameof(Artist.User);
+            if (mostFollowedArtist == null) { return new List<Song>(); }
             return _repository.Get<Song>(filter: x => x.Artist == mostFollowedArtist, includeProperties: $"{nameof(Artist)}.{nameof(Artist.User)}", orderBy: x => x.OrderByDescending(y => y.ReleaseDate), take: number)
                 .ToList();
 
