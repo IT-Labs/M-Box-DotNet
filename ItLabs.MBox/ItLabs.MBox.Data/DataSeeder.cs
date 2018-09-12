@@ -31,9 +31,11 @@ namespace ItLabs.MBox.Data
                 admin.UserName = admin.Email;
                 admin.PasswordHash = hashedAdmin;
                 admin.CreatedBy = (int)Role.SuperAdmin;
+                admin.EmailConfirmed = true;
                 context.ApplicationUsers.Add(admin);
                 context.UserRoles.Add(new IdentityUserRole<int>() { UserId = admin.Id, RoleId = 1});
 
+                context.SaveChanges();
             }
             if (!context.Roles.Any())
             {
@@ -41,6 +43,7 @@ namespace ItLabs.MBox.Data
                 context.ApplicationRoles.Add(new ApplicationRole() { CreatedBy = (int)Role.SuperAdmin, Type = Role.RecordLabel, Id = (int)Role.RecordLabel, Name = Role.RecordLabel.ToString(), NormalizedName = Role.RecordLabel.ToString().ToUpper() });
                 context.ApplicationRoles.Add(new ApplicationRole() { CreatedBy = (int)Role.SuperAdmin, Type = Role.Artist, Id = (int)Role.Artist, Name = Role.Artist.ToString(), NormalizedName = Role.Artist.ToString().ToUpper() });
                 context.ApplicationRoles.Add(new ApplicationRole() { CreatedBy = (int)Role.SuperAdmin, Type = Role.Listener, Id = (int)Role.Listener, Name = Role.Listener.ToString(), NormalizedName = Role.Listener.ToString().ToUpper() });
+
                 context.SaveChanges();
             }
             if (!context.EmailTemplates.Any())
