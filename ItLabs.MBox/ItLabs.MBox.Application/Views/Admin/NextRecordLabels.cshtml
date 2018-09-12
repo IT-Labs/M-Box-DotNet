@@ -1,0 +1,23 @@
+﻿@using ItLabs.MBox.Application.Models.AdminViewModels
+
+@{
+    Layout = null;
+}
+
+@model DashboardViewModel
+
+@foreach (RecordLabel rl in Model.RecordLabels)
+{
+    <tr class="search">
+        <td>
+            @rl.User.Name
+        </td>
+        <td>@rl.User.Email</td>
+        <td>@rl.RecordLabelArtists.Count</td>
+        <td>
+            <button class="btn btn-danger">
+                Delete <i class="glyphicon glyphicon-trash"></i>
+            </button>
+        </td>
+    </tr>
+}

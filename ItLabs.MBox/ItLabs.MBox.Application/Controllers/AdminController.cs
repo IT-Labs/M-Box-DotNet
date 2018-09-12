@@ -6,6 +6,7 @@ using ItLabs.MBox.Application.Models.AdminViewModels;
 using ItLabs.MBox.Contracts.Entities;
 using Microsoft.AspNetCore.Identity;
 using System.Threading.Tasks;
+using System.Linq;
 
 namespace ItLabs.MBox.Application.Controllers
 {
@@ -22,20 +23,28 @@ namespace ItLabs.MBox.Application.Controllers
             _userManager = userManager;
             _emailManager = emailManager;
         }
+
         [HttpGet]
         public IActionResult Index()
         {
-            DashboardViewModel model = new DashboardViewModel();
-
-            model.RecordLabels = _recordLabelManager.GetAllRecordLabels();
-
+            DashboardViewModel model = new DashboardViewModel() { Skip = 0, Take = 20 };
+            model.RecordLabels = _recordLabelManager.GetNextRecordLabels(model.Skip, model.Take);
             return View(model);
         }
+
+        [HttpGet]
+        public IActionResult GetNextRecordLabels([FromQuery] DashboardViewModel model)
+        {
+            model.RecordLabels = _recordLabelManager.GetNextRecordLabels(model.Skip, model.Take).ToList();
+            return View("NextRecordLabels", model);
+        }
+
         [HttpGet]
         public IActionResult AddNewRecordLabel()
         {
             return View();
         }
+
         [HttpPost]
         public async Task<IActionResult> AddNewRecordLabelAsync(AddNewRecordLabelViewModel model)
         {

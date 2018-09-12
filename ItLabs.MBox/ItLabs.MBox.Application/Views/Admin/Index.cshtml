@@ -3,6 +3,7 @@
 
 @section Scripts{
     <script type="text/javascript" src="~/js/tableSearch.js"></script>
+    <script type="text/javascript" src="~/js/LazyLoadingInTable.js"></script>
 }
 
 @{
@@ -24,7 +25,7 @@
         </div>
     </div>
     <div class="row" style="margin-top: 25px">
-        <table class="fixed_header table table-striped" style="border: 1px solid gray;">
+        <table class="fixed_header table table-striped" style="border: 1px solid gray;" id="smartTabel">
             <thead>
                 <tr>
                     <th>Record Label Name</th>
@@ -34,11 +35,16 @@
                 </tr>
             </thead>
 
-            <tbody>
+            <tbody id="recordLabelsListId">
                 @foreach (RecordLabel rl in Model.RecordLabels)
                 {
                     <tr class="search">
-                        <td>@rl.User.Name</td>
+                        <td>
+                            @rl.User.Name
+                            <input id="recordlabels" type="hidden" value="@Html.Raw(Json.Serialize(new List<RecordLabel>()))" />
+                            <input id="take" type="hidden" value="@Html.Raw(Json.Serialize(Model.Take))" />
+                            <input id="skip" type="hidden" value="@Html.Raw(Json.Serialize(Model.Skip))" />
+                        </td>
                         <td>@rl.User.Email</td>
                         <td>@rl.RecordLabelArtists.Count</td>
                         <td>

@@ -33,6 +33,7 @@ $(window).on("scroll", function () {
         }
     }
 });
+
 $("#loadmorebutton").on("click", function () {
     var toSend = jQuery.param(modelJSValue);
     loadCounter = 0;

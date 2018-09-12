@@ -24,7 +24,7 @@ namespace ItLabs.MBox.Domain.Managers
         public IList<RecordLabel> GetNextRecordLabels(int toSkip, int toTake)
         {
             return _repository.GetAll<RecordLabel>(
-                includeProperties: $"{nameof(RecordLabel.User)}", skip: toSkip, take: toTake).ToList();
+                includeProperties: $"{nameof(RecordLabel.User)},{nameof(RecordLabel.RecordLabelArtists)}", skip: toSkip, take: toTake).ToList();
         }
 
     }
