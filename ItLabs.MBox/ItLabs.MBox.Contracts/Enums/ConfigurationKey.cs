@@ -7,6 +7,7 @@
         AwsSesPassword = 3,
         AwsSesHost = 4,
         AwsSesPort = 5,
-        ContactFormRecieverMail = 6
+        ContactFormRecieverMail = 6,
+        TestReceiverEmail = 7
     }
 }

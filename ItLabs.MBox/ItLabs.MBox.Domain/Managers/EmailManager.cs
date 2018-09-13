@@ -7,6 +7,7 @@ using ItLabs.MBox.Contracts.Entities;
 using ItLabs.MBox.Contracts.Enums;
 using ItLabs.MBox.Contracts.Interfaces;
 using ItLabs.MBox.Data;
+using Microsoft.AspNetCore.Hosting;
 
 namespace ItLabs.MBox.Domain.Managers
 {
@@ -18,6 +19,7 @@ namespace ItLabs.MBox.Domain.Managers
         private readonly string password;
         private readonly string host;
         private readonly int port;
+        private readonly string testReceiverEmail;
 
         public EmailManager(IRepository repository)
         {
@@ -29,6 +31,7 @@ namespace ItLabs.MBox.Domain.Managers
                 password = _repository.Get<Configuration>(filter: x => x.Key == ConfigurationKey.AwsSesPassword).FirstOrDefault().Value;
                 host = _repository.Get<Configuration>(filter: x => x.Key == ConfigurationKey.AwsSesHost).FirstOrDefault().Value;
                 port = Int32.Parse(_repository.Get<Configuration>(filter: x => x.Key == ConfigurationKey.AwsSesPort).FirstOrDefault().Value);
+                testReceiverEmail = _repository.Get<Configuration>(filter: x => x.Key == ConfigurationKey.TestReceiverEmail).FirstOrDefault().Value;
             }
             catch(Exception ex)
             {
@@ -52,17 +55,26 @@ namespace ItLabs.MBox.Domain.Managers
             //zemanje credentials
             var recieverMail = _repository.Get<Configuration>(filter: x => x.Key == ConfigurationKey.ContactFormRecieverMail).FirstOrDefault().Value;
             var template = _repository.GetAll<EmailTemplate>().Where(x => x.Type == EmailTemplateType.ContactForm).FirstOrDefault();
-            var bodyToSend = message+ "<br> <br> Email sent by:<br>Name: " + name + "<br>Email Address: "+email;
+            var bodyToSend = message+ "<br> <br> Sender:<br>Name: " + name + "<br>Email Address: "+email;
             SendAMail(username, password, recieverMail, template.Subject, bodyToSend);
         }
         public void SendAMail(string username, string password,string email,string subject,string bodyToSend)
         {
+            var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
+            //var isDevelopment = environment == EnvironmentName.Development;
+
+            if (environment == EnvironmentName.Development)
+            {
+                //bodyToSend.Prepend("This is test mail. Original emal ade:" + email);
+                email = testReceiverEmail;               
+            }
+
             using (var client = new SmtpClient(host, port))
             {
                 client.Credentials = new NetworkCredential(username, password);
                 client.EnableSsl = true;
                 var msg = new MailMessage(
-                    SourceEmailAddress,
+                          SourceEmailAddress,
                           email,
                           subject,
                           bodyToSend

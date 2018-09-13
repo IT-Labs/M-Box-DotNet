@@ -6,9 +6,12 @@ jQuery(document).ready(function () {
     modelJSValue.Skip = $("#skip").val();
 });
 
-$(window).on("scroll", function () {
-    var scrollHeight = $(document).height();
-    var scrollPosition = $(window).height() + $(window).scrollTop();
+$('tbody').on("scroll", function () {
+    var scrollHeight = 0;
+    $('tr').each(function () {
+        scrollHeight += $(this).height();
+    });
+    var scrollPosition = $('tbody').height() + $('tbody').scrollTop();
     if ((scrollHeight - scrollPosition) / scrollHeight === 0) {
 
         modelJSValue.Skip = parseInt(modelJSValue.Skip) + parseInt(modelJSValue.Take);
