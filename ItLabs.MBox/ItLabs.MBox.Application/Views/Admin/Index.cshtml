@@ -1,5 +1,5 @@
 ﻿@using ItLabs.MBox.Application.Models.AdminViewModels
-<link rel="stylesheet" href="~/css/customCss.css" />
+
 
 @section Scripts{
     <script type="text/javascript" src="~/js/tableSearch.js"></script>
@@ -25,7 +25,7 @@
         </div>
     </div>
     <div class="row" style="margin-top: 25px">
-        <table class="fixed_header table table-striped" style="border: 1px solid gray;" id="smartTabel">
+        <table class="table table-striped" id="smartTabel">
             <thead>
                 <tr>
                     <th>Record Label Name</th>
@@ -35,7 +35,7 @@
                 </tr>
             </thead>
 
-            <tbody id="recordLabelsListId">
+            <tbody id="recordLabelsList">
                 @foreach (RecordLabel rl in Model.RecordLabels)
                 {
                     <tr class="search">

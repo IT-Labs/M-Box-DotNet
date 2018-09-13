@@ -6,14 +6,11 @@ jQuery(document).ready(function () {
     modelJSValue.Skip = $("#skip").val();
 });
 
-$('tbody').on("scroll", function () {
-    var scrollHeight = 0;
-    $('tr').each(function () {
-        scrollHeight += $(this).height();
-    });
-    var scrollPosition = $('tbody').height() + $('tbody').scrollTop();
+$(window).on("scroll", function () {
+    var scrollHeight = $(document).height();
+    var scrollPosition = $(window).height() + $(window).scrollTop();
+    
     if ((scrollHeight - scrollPosition) / scrollHeight === 0) {
-
         modelJSValue.Skip = parseInt(modelJSValue.Skip) + parseInt(modelJSValue.Take);
         modelJSValue.Take = 10;
         var toSend = jQuery.param(modelJSValue);
@@ -24,7 +21,7 @@ $('tbody').on("scroll", function () {
             url: "/Admin/GetNextRecordLabels",
             data: toSend,
             success: function (result) {
-                $("#recordLabelsListId").append(result);
+                $("#recordLabelsList").append(result);
             }
         })
     }

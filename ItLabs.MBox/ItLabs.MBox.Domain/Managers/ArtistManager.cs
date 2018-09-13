@@ -14,6 +14,19 @@ namespace ItLabs.MBox.Domain.Managers
         {
             _repository = repository;
         }
+
+        public IList<Artist> GetAllUserArtists()
+        {
+            return _repository.GetAll<Artist>(
+                includeProperties: $"{nameof(Artist.User)}").ToList();
+        }
+
+        public IList<Artist> GetNextArtists(int toSkip, int toTake)
+        {
+            return _repository.GetAll<Artist>(
+                includeProperties: $"{nameof(Artist.User)}", skip: toSkip, take: toTake).ToList();
+        }
+
         public IList<Artist> GetAllArtists()
         {
             return _repository.GetAll<Artist>(
@@ -23,10 +36,10 @@ namespace ItLabs.MBox.Domain.Managers
         {
             return _repository.GetAll<Artist>(
                 includeProperties: $"{nameof(Artist.User)}," +
-                $"{nameof(Artist.Follows)}," +
-                $"{nameof(Artist.RecordLabelArtists)}.{nameof(RecordLabel)}.{nameof(RecordLabel.User)}",
-                orderBy: x=> x.OrderByDescending(y => y.Follows.Count),
-                take: number).ToList();
+                                   $"{nameof(Artist.Follows)}," +
+                                   $"{nameof(Artist.RecordLabelArtists)}.{nameof(RecordLabel)}.{nameof(RecordLabel.User)}",
+                                   orderBy: x=> x.OrderByDescending(y => y.Follows.Count),
+                                   take: number).ToList();
         }
     }
 }

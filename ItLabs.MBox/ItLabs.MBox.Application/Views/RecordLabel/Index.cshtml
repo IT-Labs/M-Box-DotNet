@@ -1,0 +1,57 @@
+﻿@using ItLabs.MBox.Application.Models.RecordLabelViewModels
+
+
+@{
+    ViewData["Title"] = "Dashboard";
+}
+
+@model DashboardViewModel
+
+<div class="container-fluid">
+    <div class="row" style="margin-top: 25px">
+        <div class="col-md-3 col-sm-3">
+            <form asp-area="" asp-controller="" asp-action="" method="get">
+                <button type="submit" class="btn btn-block btn-primary" style="margin: 5px">Add New Artist</button>
+            </form>
+        </div>
+        <div class="col-md-3 col-sm-3">
+            <form asp-area="" asp-controller="" asp-action="" method="get">
+                <button type="submit" class="btn btn-block btn-primary" style="margin: 5px">Add Multiple Artists</button>
+            </form>
+        </div>
+        <div class="col-md-6 col-sm-6">
+            <input class="form-control" id="search" style="margin: 5px" type="text" placeholder="Search" aria-label="Search">
+        </div>
+    </div>
+    <div class="row" style="margin-top: 25px">
+        <table class="table table-striped" id="smartTabel">
+            <thead>
+                <tr>
+                    <th>Profile Picture</th>
+                    <th>Artist Name</th>
+                    <th>Artist Email</th>
+                    <th>Delete Artist</th>
+                </tr>
+            </thead>
+
+            <tbody id="artists">
+                @foreach (Artist artist in Model.Artists)
+                {
+                    <tr class="search">
+                        <td>
+                            @artist.User.Picture;
+
+                        </td>
+                        <td>@artist.User.Name</td>
+                        <td>@artist.User.Email</td>
+                        <td>
+                            <button class="btn btn-danger">
+                                Delete <i class="glyphicon glyphicon-trash"></i>
+                            </button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

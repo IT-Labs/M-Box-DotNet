@@ -7,5 +7,7 @@ namespace ItLabs.MBox.Contracts.Interfaces
     {
         IList<Artist> GetAllArtists();
         IList<Artist> GetMostFollowedArtists(int number);
+        IList<Artist> GetAllUserArtists();
+        IList<Artist> GetNextArtists(int skip, int take);
     }
 }

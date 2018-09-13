@@ -60,10 +60,21 @@
                     <i class="fa fa-user-circle" style="font-size:35px; margin-top: 8px; margin-left: 8px"></i>
                 </a>
                 <ul class="dropdown-menu dropDownMenu dropDownLi">
-                    <li><a href="#">My Account</a></li>
-                    <li><a href="#">Dashboard</a></li>
                     <li>
-                        <a asp-area="" asp-controller="Manage" asp-action="ChangePassword">Change Password</a>
+                        <form asp-area="" asp-controller="RecordLabel" asp-action="MyAccount" method="get" id="logoutForm" style="margin-left: 10px">
+                            <button type="submit" class="btn btn-link navbar-btn navbar-link btn-block dropDownButton">My Account</button>
+                        </form>
+                    </li>
+                    <li>
+                        <form asp-area="" asp-controller="RecordLabel" asp-action="Index" method="get" id="logoutForm" style="margin-left: 10px">
+                            <button type="submit" class="btn btn-link navbar-btn navbar-link btn-block dropDownButton">Dashboard</button>
+                        </form>
+                    </li>
+                    <li>
+                        <form asp-area="" asp-controller="Manage" asp-action="ChangePassword" method="get" id="logoutForm" style="margin-left: 10px">
+                            <button type="submit" class="btn btn-link navbar-btn navbar-link btn-block dropDownButton">Change Password</button>
+                        </form>
+                        
                     </li>
                     <li>
                         <form asp-area="" asp-controller="Account" asp-action="Logout" method="post" id="logoutForm" style="margin-left: 10px">

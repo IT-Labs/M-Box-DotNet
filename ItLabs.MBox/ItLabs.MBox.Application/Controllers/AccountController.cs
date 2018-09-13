@@ -18,6 +18,7 @@ using ItLabs.MBox.Contracts.Enums;
 using ItLabs.MBox.Domain;
 using Microsoft.EntityFrameworkCore;
 using ItLabs.MBox.Contracts.Interfaces;
+using Microsoft.AspNetCore.Hosting;
 
 namespace ItLabs.MBox.Application.Controllers
 {
@@ -257,6 +258,14 @@ namespace ItLabs.MBox.Application.Controllers
 
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                     var callbackUrl = Url.EmailConfirmationLink(user.Id.ToString(), code, Request.Scheme);
+
+                    /*var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
+
+                    if (environment == EnvironmentName.Development)
+                    {
+                        await _emailManager.SendMail(EmailTemplateType.SignUp, , callbackUrl);
+                    }*/
+
                     await _emailManager.SendMail(EmailTemplateType.SignUp, model.Email, callbackUrl);
 
                     //await _signInManager.SignInAsync(user, isPersistent: false);
