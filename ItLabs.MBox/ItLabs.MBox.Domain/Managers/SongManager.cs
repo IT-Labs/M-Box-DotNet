@@ -9,11 +9,11 @@ using System.Text;
 
 namespace ItLabs.MBox.Domain.Managers
 {
-    public class SongManager : ISongManager
+    public class SongManager : BaseManager<Song>, ISongManager
     {
         private IRepository _repository;
 
-        public SongManager(IRepository repository)
+        public SongManager(IRepository repository):base(repository)
         {
             _repository = repository;
         }
@@ -23,7 +23,7 @@ namespace ItLabs.MBox.Domain.Managers
 
         }
 
-        public IList<Song> GetRecentlyAddedSongsOfMostPopularArtist(int number)
+        public IList<Song> GetMostPopularArtistSongs(int number)
         {
             var mostFollowedArtist = _repository.GetAll<Artist>(orderBy: x => x.OrderByDescending(y => y.Follows.Count)).FirstOrDefault();
             if (mostFollowedArtist == null) { return new List<Song>(); }

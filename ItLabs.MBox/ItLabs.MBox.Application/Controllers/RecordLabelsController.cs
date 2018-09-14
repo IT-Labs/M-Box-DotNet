@@ -11,11 +11,11 @@ using Microsoft.AspNetCore.Mvc;
 namespace ItLabs.MBox.Application.Controllers
 {
     [Authorize(Roles = nameof(Role.RecordLabel))]
-    public class RecordLabelController : Controller
+    public class RecordLabelsController : Controller
     {
         private IArtistManager _artistsManager;
 
-        public RecordLabelController(IArtistManager artistsManager)
+        public RecordLabelsController(IArtistManager artistsManager)
         {      
             _artistsManager = artistsManager;
         }

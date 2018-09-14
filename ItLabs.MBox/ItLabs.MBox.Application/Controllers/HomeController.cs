@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using ItLabs.MBox.Application.Models;
 using ItLabs.MBox.Contracts.Interfaces;
 using ItLabs.MBox.Contracts.Entities;
+using ItLabs.MBox.Contracts;
 
 namespace ItLabs.MBox.Application.Controllers
 {
@@ -29,9 +30,9 @@ namespace ItLabs.MBox.Application.Controllers
             ViewData["Message"] = "Home";
             HomeViewModel model = new HomeViewModel
             {
-                RecentlyAddedSongs = _songsManager.GetRecentlyAddedSongs(5),
-                MostFollowedArtists = _artistsManager.GetMostFollowedArtists(5),
-                RecentlyAddedSongsOfMostPopularArtist = _songsManager.GetRecentlyAddedSongsOfMostPopularArtist(5)
+                RecentlyAddedSongs = _songsManager.GetRecentlyAddedSongs(MBoxConstants.HomeItemsToDisplay),
+                MostFollowedArtists = _artistsManager.GetMostFollowedArtists(MBoxConstants.HomeItemsToDisplay),
+                MostPopularArtistSongs = _songsManager.GetMostPopularArtistSongs(MBoxConstants.HomeItemsToDisplay)
             };
             return View(model);
         }
@@ -69,16 +70,16 @@ namespace ItLabs.MBox.Application.Controllers
         public IActionResult RecordLabels()
         {
             ViewData["Message"] = "RecordLabels";
-            var model = new RecordLabelViewModel() { Skip = 0, Take = 25 };
-            model.RecordLabels = _recordLabelManager.GetNextRecordLabels(model.Skip, model.Take);
+            var model = new PagingModel<RecordLabel>() { Skip = 0, Take = 25 };
+            model.PagingList = _recordLabelManager.GetNextRecordLabels(model.Skip, model.Take);
             return View(model);
         }
 
         [HttpGet]
-        public IActionResult GetNextRecordLabels([FromQuery] RecordLabelViewModel model)
+        public IActionResult GetNextRecordLabels([FromQuery] PagingModel<RecordLabel> model)
         {
             ViewData["Message"] = "RecordLabels";
-            model.RecordLabels = _recordLabelManager.GetNextRecordLabels(model.Skip, model.Take).ToList() ;
+            model.PagingList = _recordLabelManager.GetNextRecordLabels(model.Skip, model.Take).ToList() ;
             return View("NextRecordLabels", model);
         }
 

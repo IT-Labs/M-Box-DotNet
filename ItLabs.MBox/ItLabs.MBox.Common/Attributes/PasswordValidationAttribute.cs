@@ -15,6 +15,9 @@ namespace ItLabs.MBox.Common.Attributes
         }
         public override bool IsValid(object value)
         {
+            if (value == null)
+                return false;
+
             var strValue = value.ToString();
             return (strValue.Length <= Maximum && strValue.Length >= Minimum) && 
                 (strValue.Any(char.IsDigit) || strValue.Any(char.IsPunctuation) || strValue.Any(char.IsSymbol));

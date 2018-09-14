@@ -6,11 +6,10 @@ using System.Linq;
 
 namespace ItLabs.MBox.Domain.Managers
 {
-    public class RecordLabelManager : IRecordLabelManager
+    public class RecordLabelManager : BaseManager<RecordLabel> ,IRecordLabelManager
     {
-        private IRepository _repository;
-
-        public RecordLabelManager(IRepository repository)
+        private readonly IRepository _repository;
+        public RecordLabelManager(IRepository repository) : base(repository)
         {
             _repository = repository;
         }

@@ -1,6 +1,5 @@
 ﻿using ItLabs.MBox.Contracts.Entities;
 using ItLabs.MBox.Contracts.Enums;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Linq;
@@ -56,6 +55,35 @@ namespace ItLabs.MBox.Data
                 context.EmailTemplates.Add(new EmailTemplate() { CreatedBy = (int)Role.SuperAdmin, Id = (int)EmailTemplateType.InvitedArtist, Type = EmailTemplateType.InvitedArtist, Name = "InvitedArtist", Subject = "Create Your M Box Account", Body = "Dear [Name], <br>Your Record Label has invited you to join M Box. <br> M Box is a page where you can customize a page with all your music.<br> [Link]<br><br>Regards, <br>M Box", LinkText = "Click here to get started" });
                 context.EmailTemplates.Add(new EmailTemplate() { CreatedBy = (int)Role.SuperAdmin, Id = (int)EmailTemplateType.ContactForm, Type = EmailTemplateType.ContactForm, Name = "ContactForm", Subject = "M Box About Page Mail" });
 
+                context.SaveChanges();
+            }
+            if (!context.RecordLabels.Any())
+            {
+                for (int i = 50; i < 350; i++)
+                {
+                    var tempUser = new ApplicationUser();
+                    var tempRl = new RecordLabel();
+                    var tempPass = new PasswordHasher<ApplicationUser>();
+                    var hashedTempPass = tempPass.HashPassword(tempUser, "recordl!23" + i);
+                    tempUser.Email = "testrl" + i + "@gmail.com";
+                    tempUser.Name = "Record Label " + i;
+                    tempUser.IsActivated = true;
+                    tempUser.PasswordHash = hashedTempPass;
+                    tempUser.NormalizedUserName = "TESTRL" + i + "@GMAIL.COM";
+                    tempUser.NormalizedEmail = "TESTRL" + i + "@GMAIL.COM";
+                    tempUser.SecurityStamp = "415bf8f4-bc79-4ec2-8368-cf9bdd755db1";
+                    tempUser.UserName = "testrl" + i + "@gmail.com";
+                    tempUser.LockoutEnabled = true;
+                    tempRl.User = tempUser;
+                    context.ApplicationUsers.Add(tempUser);
+                    context.SaveChanges();
+
+                    var tempReturned = context.ApplicationUsers.FirstOrDefault(c => c.Id == tempUser.Id);
+                    tempRl.User = tempReturned;
+                    context.RecordLabels.Add(tempRl);
+                    context.UserRoles.Add(new IdentityUserRole<int>() { UserId = tempUser.Id, RoleId = 2 });
+
+                }
                 context.SaveChanges();
             }
         }

@@ -3,14 +3,10 @@
         if (text1.indexOf(text2) != -1)
             return true
     }
-    $("#search").keyup(function () {
-        var searchText = $("#search").val().toLocaleLowerCase();
-        $(".search").each(function () {
-            if (!Contains($(this).text().toLocaleLowerCase(), searchText)) {
-                $(this).hide();
-            } else {
-                $(this).show();
-            }
-        });
-    });
+    
+});
+
+$("#searchForm").submit(function (event) {
+    alert("Handler for .submit() called.");
+    event.preventDefault();
 });

@@ -6,11 +6,11 @@ using ItLabs.MBox.Data;
 
 namespace ItLabs.MBox.Domain.Managers
 {
-    public class ArtistManager : IArtistManager
+    public class ArtistManager : BaseManager<Artist>, IArtistManager
     {
         private IRepository _repository;
 
-        public ArtistManager(IRepository repository)
+        public ArtistManager(IRepository repository):base(repository)
         {
             _repository = repository;
         }
