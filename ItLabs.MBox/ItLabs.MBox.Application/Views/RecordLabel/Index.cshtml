@@ -1,5 +1,8 @@
 ﻿@using ItLabs.MBox.Application.Models.RecordLabelViewModels
 
+@section Scripts{
+    <script type="text/javascript" src="~/js/LazyLoadingInTable.js"></script>
+}
 
 @{
     ViewData["Title"] = "Dashboard";
@@ -40,7 +43,9 @@
                     <tr class="search">
                         <td>
                             @artist.User.Picture;
-
+                            <input id="recordlabels" type="hidden" value="@Html.Raw(Json.Serialize(new List<RecordLabel>()))" />
+                            <input id="take" type="hidden" value="@Html.Raw(Json.Serialize(Model.Take))" />
+                            <input id="skip" type="hidden" value="@Html.Raw(Json.Serialize(Model.Skip))" />
                         </td>
                         <td>@artist.User.Name</td>
                         <td>@artist.User.Email</td>
