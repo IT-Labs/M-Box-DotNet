@@ -63,7 +63,7 @@ namespace ItLabs.MBox.Domain.Managers
             var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
             //var isDevelopment = environment == EnvironmentName.Development;
 
-            if (environment == EnvironmentName.Development)
+            if (environment == EnvironmentName.Development || environment == EnvironmentName.Staging)
             {
                 //bodyToSend.Prepend("This is test mail. Original emal ade:" + email);
                 email = testReceiverEmail;               
