@@ -1,0 +1,23 @@
+﻿@using ItLabs.MBox.Application.Models
+
+@{
+    Layout = null;
+}
+
+@model PagingModel<Artist>
+
+@foreach (Artist artist in Model.PagingList)
+{
+    <tr class="search">
+        <td>
+            @artist.User.Picture;
+        </td>
+        <td>@artist.User.Name</td>
+        <td>@artist.User.Email</td>
+        <td>
+            <button class="btn btn-danger">
+                Delete <i class="glyphicon glyphicon-trash"></i>
+            </button>
+        </td>
+    </tr>
+}

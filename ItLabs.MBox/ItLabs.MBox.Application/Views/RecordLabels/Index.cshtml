@@ -1,4 +1,5 @@
-﻿@using ItLabs.MBox.Application.Models.RecordLabelViewModels
+﻿<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+@using ItLabs.MBox.Application.Models.RecordLabelViewModels
 
 @section Scripts{
     <script type="text/javascript" src="~/js/LazyLoadingInTable.js"></script>
@@ -38,14 +39,19 @@
             </thead>
 
             <tbody id="artists">
-                @foreach (Artist artist in Model.Artists)
+                @foreach (Artist artist in Model.PagingList)
                 {
                     <tr class="search">
                         <td>
-                            @artist.User.Picture;
+                            @if(@artist.User.Picture == null)
+                            {
+                                <i class="fa fa-user-circle" style="font-size:35px"></i>
+                            }
+                            @artist.User.Picture
                             <input id="recordlabels" type="hidden" value="@Html.Raw(Json.Serialize(new List<RecordLabel>()))" />
                             <input id="take" type="hidden" value="@Html.Raw(Json.Serialize(Model.Take))" />
                             <input id="skip" type="hidden" value="@Html.Raw(Json.Serialize(Model.Skip))" />
+                            <input id="lazyLoadingUrl" type="hidden" value="/RecordLabels/GetNextArtists" />
                         </td>
                         <td>@artist.User.Name</td>
                         <td>@artist.User.Email</td>

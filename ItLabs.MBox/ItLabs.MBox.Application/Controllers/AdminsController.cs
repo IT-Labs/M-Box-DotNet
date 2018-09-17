@@ -30,7 +30,7 @@ namespace ItLabs.MBox.Application.Controllers
         [HttpGet]
         public IActionResult Index()
         {   
-              var model = new PagingModel<RecordLabel>() { Skip = 0, Take = 20 };
+            var model = new PagingModel<RecordLabel>() { Skip = 0, Take = 20 };
             model.PagingList = _recordLabelManager.GetNextRecordLabels(model.Skip, model.Take);
             return View(model);
         }

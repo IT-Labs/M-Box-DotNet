@@ -71,22 +71,36 @@ namespace ItLabs.MBox.Application.Controllers
                 // This doesn't count login failures towards account lockout
                 // To enable password failures to trigger account lockout, set lockoutOnFailure: true
                 var user = await _userManager.FindByEmailAsync(model.Email);
+
                 if (user == null)
                 {
                     ModelState.AddModelError(string.Empty, "User with this email does not exist.");
                     return View(model);
                 }
 
-                if (!await _userManager.IsEmailConfirmedAsync(user))
+               /* if (!await _userManager.IsEmailConfirmedAsync(user))
                 {
                     ModelState.AddModelError(string.Empty, "User with this email exists,  but not verified.");
                     return View(model);
-                }
+                }*/
 
                 var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, lockoutOnFailure: false);
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User logged in.");
+
+                    ApplicationUser appuser = await _userManager.FindByEmailAsync(model.Email);
+
+                    if (_userManager.IsInRoleAsync(appuser, nameof(Role.SuperAdmin)).Result)
+                    {
+                        return RedirectToAction("Index", "Admins");
+                    }
+                    if (_userManager.IsInRoleAsync(appuser, nameof(Role.RecordLabel)).Result)
+                    {
+                        return RedirectToAction("Index", "RecordLabels");
+                    }
+
+
                     return RedirectToLocal(returnUrl);
                 }
 
