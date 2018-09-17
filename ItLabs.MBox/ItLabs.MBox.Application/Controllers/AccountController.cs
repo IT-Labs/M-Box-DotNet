@@ -78,11 +78,11 @@ namespace ItLabs.MBox.Application.Controllers
                     return View(model);
                 }
 
-               /* if (!await _userManager.IsEmailConfirmedAsync(user))
+               if (!await _userManager.IsEmailConfirmedAsync(user))
                 {
                     ModelState.AddModelError(string.Empty, "User with this email exists,  but not verified.");
                     return View(model);
-                }*/
+                }
 
                 var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, lockoutOnFailure: false);
                 if (result.Succeeded)
