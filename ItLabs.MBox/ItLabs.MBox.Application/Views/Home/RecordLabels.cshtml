@@ -1,6 +1,6 @@
 ﻿@using ItLabs.MBox.Application.Models
 
-@model RecordLabelViewModel
+@model PagingModel<RecordLabel>
 
 @{
     ViewData["Title"] = "RecordLabels";
@@ -13,7 +13,7 @@
 
 <div class="container-fluid">
     <ul id="recordLabelsListId" class="list-group recordLabelList" style="list-style:none;">
-        @foreach (RecordLabel rl in Model.RecordLabels)
+        @foreach (RecordLabel rl in Model.PagingList)
         {
             <li class="col-sm-2 table-bordered seperateRecordLabelItems">
                 <div class="row">

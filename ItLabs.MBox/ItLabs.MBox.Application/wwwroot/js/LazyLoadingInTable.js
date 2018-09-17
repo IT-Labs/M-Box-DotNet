@@ -18,7 +18,7 @@ $(window).on("scroll", function () {
         $.ajax({
             type: "GET",
             contentType: "application/json",
-            url: "/Admin/GetNextRecordLabels",
+            url: "/Admins/GetNextRecordLabels",
             data: toSend,
             success: function (result) {
                 $("#recordLabelsList").append(result);

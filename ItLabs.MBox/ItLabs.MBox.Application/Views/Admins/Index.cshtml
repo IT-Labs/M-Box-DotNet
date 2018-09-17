@@ -1,5 +1,5 @@
-﻿@using ItLabs.MBox.Application.Models.AdminViewModels
-
+﻿@using ItLabs.MBox.Application.Models
+@model PagingModel<RecordLabel>
 
 @section Scripts{
     <script type="text/javascript" src="~/js/tableSearch.js"></script>
@@ -10,21 +10,21 @@
     ViewData["Title"] = "Index";
 }
 
-@model DashboardViewModel
+
 
 <div class="container-fluid">
     <div class="row" style="margin-top: 25px">
         <div class="col-md-4 col-sm-4">
-            <form asp-area="" asp-controller="Admin" asp-action="AddNewRecordLabel" method="get">
+            <form asp-area="" asp-controller="Admins" asp-action="AddNewRecordLabel" method="get">
                 <button type="submit" class="btn btn-block btn-primary" style="margin: 5px">Add New Record Label</button>
             </form>
 
         </div>
         <div class="col-md-8 col-sm-8">
-            
-            <form id="searchForm" asp-area="" asp-controller="Admin" asp-action="Search" method="get">
+
+            <form id="searchForm" asp-area="" asp-controller="Admins" asp-action="Search" method="get">
                 <input class="form-control" id="search" style="margin: 5px" type="text" placeholder="Search" aria-label="Search">
-                <input id="searchButton" type="submit" value="Search"/>
+                <input id="searchButton" type="submit" value="Search" />
             </form>
         </div>
     </div>
@@ -40,7 +40,7 @@
             </thead>
 
             <tbody id="recordLabelsList">
-                @foreach (RecordLabel rl in Model.RecordLabels)
+                @foreach (RecordLabel rl in Model.PagingList)
                 {
                     <tr class="search">
                         <td>

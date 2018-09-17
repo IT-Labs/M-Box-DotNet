@@ -111,7 +111,7 @@
     <div class="row">
         <h4>Recently added songs by the most followed artist</h4>
         <ul class="list-group seperateLists" style="list-style:none">
-            @if (!Model.RecentlyAddedSongsOfMostPopularArtist.Any())
+            @if (!Model.RecentlyAddedSongs.Any())
             {
                 <li>
                     <h5>More artists to be added soon.</h5>
@@ -119,7 +119,7 @@
             }
             else
             {
-                @foreach (Song song in Model.RecentlyAddedSongsOfMostPopularArtist)
+                @foreach (Song song in Model.RecentlyAddedSongs)
                 {
                     <li class="col-sm-2 table-bordered seperateResults">
                         <div>

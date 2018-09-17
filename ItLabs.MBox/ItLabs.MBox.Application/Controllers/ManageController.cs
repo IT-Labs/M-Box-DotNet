@@ -13,6 +13,7 @@ using Microsoft.Extensions.Options;
 using ItLabs.MBox.Contracts.Entities;
 using ItLabs.MBox.Application.Models.ManageViewModels;
 using ItLabs.MBox.Contracts.Interfaces;
+using ItLabs.MBox.Domain.Managers;
 
 namespace ItLabs.MBox.Application.Controllers
 {
@@ -20,7 +21,7 @@ namespace ItLabs.MBox.Application.Controllers
     [Route("[controller]/[action]")]
     public class ManageController : Controller
     {
-        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly MBoxUserManager _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly IEmailsManager _emailManager;
         private readonly ILogger _logger;
@@ -30,7 +31,7 @@ namespace ItLabs.MBox.Application.Controllers
         private const string RecoveryCodesKey = nameof(RecoveryCodesKey);
 
         public ManageController(
-          UserManager<ApplicationUser> userManager,
+         MBoxUserManager userManager,
           SignInManager<ApplicationUser> signInManager,
           IEmailsManager emailSender,
           ILogger<ManageController> logger,

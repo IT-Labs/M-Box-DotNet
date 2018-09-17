@@ -6,6 +6,7 @@ using ItLabs.MBox.Application.Models.RecordLabelViewModels;
 using ItLabs.MBox.Contracts.Entities;
 using ItLabs.MBox.Contracts.Enums;
 using ItLabs.MBox.Contracts.Interfaces;
+using ItLabs.MBox.Domain.Managers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -16,9 +17,9 @@ namespace ItLabs.MBox.Application.Controllers
     public class RecordLabelController : Controller
     {
         private IArtistManager _artistsManager;
-        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly MBoxUserManager _userManager;
 
-        public RecordLabelController(IArtistManager artistsManager, UserManager<ApplicationUser> userManagerr)
+        public RecordLabelController(IArtistManager artistsManager, MBoxUserManager userManagerr)
         {      
             _artistsManager = artistsManager;
             _userManager = userManagerr;

@@ -14,6 +14,7 @@ namespace ItLabs.MBox.Application
             For<IArtistManager>().LifecycleIs(Lifecycles.Container).Use<ArtistManager>();
             For<IEmailsManager>().LifecycleIs(Lifecycles.Container).Use<EmailManager>();
             For<ISongManager>().LifecycleIs(Lifecycles.Container).Use<SongManager>();
+            For<MBoxUserManager>().LifecycleIs(Lifecycles.Container).Use<MBoxUserManager>();
 
             For(typeof(IRepository)).LifecycleIs(Lifecycles.Container).Use(typeof(Repository<MBoxDbContext>));
             For(typeof(IReadOnlyRepository)).LifecycleIs(Lifecycles.Container).Use(typeof(ReadOnlyRepository<MBoxDbContext>));

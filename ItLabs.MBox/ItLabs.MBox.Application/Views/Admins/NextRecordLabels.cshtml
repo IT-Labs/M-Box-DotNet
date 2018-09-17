@@ -1,12 +1,12 @@
-﻿@using ItLabs.MBox.Application.Models.AdminViewModels
+﻿@using ItLabs.MBox.Application.Models
 
 @{
     Layout = null;
 }
 
-@model DashboardViewModel
+@model PagingModel<RecordLabel>
 
-@foreach (RecordLabel rl in Model.RecordLabels)
+@foreach (RecordLabel rl in Model.PagingList)
 {
     <tr class="search">
         <td>
