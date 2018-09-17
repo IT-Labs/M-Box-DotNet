@@ -30,7 +30,7 @@ namespace ItLabs.MBox.Application.Controllers
         [HttpGet]
         public IActionResult Index()
         {   
-              var model = new PagingModel<RecordLabel>() { Skip = 0, Take = 20 };
+            var model = new PagingModel<RecordLabel>() { Skip = 0, Take = 20 };
             model.PagingList = _recordLabelManager.GetNextRecordLabels(model.Skip, model.Take);
             return View(model);
         }
@@ -57,15 +57,27 @@ namespace ItLabs.MBox.Application.Controllers
             var user = _userManager.CreateUser(model.Name, model.Email, Role.RecordLabel).Result;
             if(user == null)
             {
-                return View(model);
+                ModelState.AddModelError("EMail", "Email already exists");
+                return View("AddNewRecordLabel",model);
             }
-            var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+            var code = await _userManager.GeneratePasswordResetTokenAsync(user);
             var callbackUrl = Url.ResetPasswordCallbackLink(user.Id.ToString(), code, Request.Scheme);
             await _emailManager.SendMail(EmailTemplateType.InvitedRecordLabel, model.Email, callbackUrl);
 
             return View("SuccessfullyInvited");
 
         }
+        [HttpPost]
+        public IActionResult DeleteRecordLabel(int recordLabelId)
+        {
+            var user = _userManager.FindByIdAsync(recordLabelId.ToString()).Result;
+            _recordLabelManager.DeleteRecordLabel(user);
+            var model = new PagingModel<RecordLabel>() { Skip = 0, Take = 20 };
+            model.PagingList = _recordLabelManager.GetNextRecordLabels(model.Skip, model.Take);
+            return View("Index",model);
+
+        }
+
         [HttpGet]
         public IActionResult Search([FromQuery]string query)
         {

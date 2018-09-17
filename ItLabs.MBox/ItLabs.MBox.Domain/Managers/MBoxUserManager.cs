@@ -1,5 +1,6 @@
 ﻿using ItLabs.MBox.Contracts.Entities;
 using ItLabs.MBox.Contracts.Enums;
+using ItLabs.MBox.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
@@ -11,8 +12,10 @@ namespace ItLabs.MBox.Domain.Managers
 {
     public class MBoxUserManager : UserManager<ApplicationUser>
     {
-        public MBoxUserManager(IUserStore<ApplicationUser> store, IOptions<IdentityOptions> optionsAccessor, IPasswordHasher<ApplicationUser> passwordHasher, IEnumerable<IUserValidator<ApplicationUser>> userValidators, IEnumerable<IPasswordValidator<ApplicationUser>> passwordValidators, ILookupNormalizer keyNormalizer, IdentityErrorDescriber errors, IServiceProvider services, ILogger<UserManager<ApplicationUser>> logger) : base(store, optionsAccessor, passwordHasher, userValidators, passwordValidators, keyNormalizer, errors, services, logger)
+        IRepository _repository;
+        public MBoxUserManager(IRepository repository,IUserStore<ApplicationUser> store, IOptions<IdentityOptions> optionsAccessor, IPasswordHasher<ApplicationUser> passwordHasher, IEnumerable<IUserValidator<ApplicationUser>> userValidators, IEnumerable<IPasswordValidator<ApplicationUser>> passwordValidators, ILookupNormalizer keyNormalizer, IdentityErrorDescriber errors, IServiceProvider services, ILogger<UserManager<ApplicationUser>> logger) : base(store, optionsAccessor, passwordHasher, userValidators, passwordValidators, keyNormalizer, errors, services, logger)
         {
+            _repository = repository;
         }
 
         public async Task<ApplicationUser> CreateUser(string name, string email, Role role, string password = null)
@@ -31,6 +34,16 @@ namespace ItLabs.MBox.Domain.Managers
             if (!roleResult.Succeeded)
             {
                 return null;
+            }
+            if(role == Role.RecordLabel)
+            {
+                _repository.Create<RecordLabel>(new RecordLabel() {User = user }, (int)Role.RecordLabel);
+                _repository.Save();
+            }
+            if (role == Role.Artist)
+            {
+                _repository.Create<Artist>(new Artist() { User = user }, (int)Role.Artist);
+                _repository.Save();
             }
             return user;
 

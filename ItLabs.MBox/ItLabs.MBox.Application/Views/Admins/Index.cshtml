@@ -4,11 +4,14 @@
 @section Scripts{
     <script type="text/javascript" src="~/js/tableSearch.js"></script>
     <script type="text/javascript" src="~/js/LazyLoadingInTable.js"></script>
+    <script type="text/javascript" src="~/js/DeleteRecordLabel.js"></script>
 }
 
 @{
     ViewData["Title"] = "Index";
 }
+
+
 
 
 
@@ -52,9 +55,13 @@
                         <td>@rl.User.Email</td>
                         <td>@rl.RecordLabelArtists.Count</td>
                         <td>
-                            <button class="btn btn-danger">
-                                Delete <i class="glyphicon glyphicon-trash"></i>
-                            </button>
+                            <form asp-area="" asp-controller="Admins" asp-action="DeleteRecordLabel" method="post" onsubmit="return confirm('Are you sure');">
+                                @Html.Hidden("recordLabelId", rl.User.Id);
+                                <input type="submit" class="btn btn-danger" value="Delete">
+                                    <i class="glyphicon glyphicon-trash"></i>
+                            </form>
+
+
                         </td>
                     </tr>
                 }

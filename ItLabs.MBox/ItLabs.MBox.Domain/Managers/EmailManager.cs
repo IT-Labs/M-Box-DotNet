@@ -16,7 +16,7 @@ namespace ItLabs.MBox.Domain.Managers
         private readonly IRepository _repository;
 
 
-        public EmailManager(IRepository repository):base(repository)
+        public EmailManager(IRepository repository) : base(repository)
         {
             _repository = repository;
 
@@ -28,7 +28,7 @@ namespace ItLabs.MBox.Domain.Managers
             var bodyToSend = template.Body.Replace("[Name]", user.Name);
             if (bodyToSend.Contains("[Link]"))
                 bodyToSend = bodyToSend.Replace("[Link]", "<a href=" + callbackUrl + ">" + template.LinkText + "</a>");
-            SendAMail(email, template.Subject, bodyToSend);
+            SendMailSmtp(email, template.Subject, bodyToSend);
             return Task.CompletedTask;
         }
 
@@ -37,11 +37,11 @@ namespace ItLabs.MBox.Domain.Managers
             var recieverMail = _repository.Get<Configuration>(filter: x => x.Key == ConfigurationKey.ContactFormRecieverMail).FirstOrDefault().Value;
             var template = _repository.GetAll<EmailTemplate>().Where(x => x.Type == EmailTemplateType.ContactForm).FirstOrDefault();
             var bodyToSend = message + "<br> <br> Sender:<br>Name: " + name + "<br>Email Address: " + email;
-            SendAMail(recieverMail, template.Subject, bodyToSend);
+            SendMailSmtp(recieverMail, template.Subject, bodyToSend);
         }
 
 
-        public void SendAMail(string email, string subject, string bodyToSend)
+        public void SendMailSmtp(string email, string subject, string bodyToSend)
         {
             var configuration = _repository.GetAll<Configuration>();
             var AwsSesFromAddress = configuration.Where(x => x.Key == ConfigurationKey.AwsSesFromAddress).FirstOrDefault().Value;

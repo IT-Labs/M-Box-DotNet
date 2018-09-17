@@ -15,7 +15,7 @@
         <td>@rl.User.Email</td>
         <td>@rl.RecordLabelArtists.Count</td>
         <td>
-            <button class="btn btn-danger">
+            <button id="@rl.User.Id" class="btn btn-danger" onclick="deleteRecordLabel(this.id)">
                 Delete <i class="glyphicon glyphicon-trash"></i>
             </button>
         </td>
