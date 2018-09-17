@@ -15,9 +15,11 @@
         <td>@rl.User.Email</td>
         <td>@rl.RecordLabelArtists.Count</td>
         <td>
-            <button id="@rl.User.Id" class="btn btn-danger" onclick="deleteRecordLabel(this.id)">
-                Delete <i class="glyphicon glyphicon-trash"></i>
-            </button>
+            <form asp-area="" asp-controller="Admins" asp-action="DeleteRecordLabel" method="post" onsubmit="return confirm('Are you sure');">
+                @Html.Hidden("recordLabelId", rl.User.Id);
+                <input type="submit" class="btn btn-danger" value="Delete">
+                <i class="glyphicon glyphicon-trash"></i>
+            </form>
         </td>
     </tr>
 }
