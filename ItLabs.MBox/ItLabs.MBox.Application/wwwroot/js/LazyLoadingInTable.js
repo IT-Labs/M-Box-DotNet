@@ -1,4 +1,5 @@
 ﻿var modelJSValue = {};
+var lazyLoadingUrl = $("#lazyLoadingUrl").val();
 
 jQuery(document).ready(function () {
     modelJSValue.RecordLabels = $("#recordlabels").val();
@@ -18,11 +19,11 @@ $(window).on("scroll", function () {
         $.ajax({
             type: "GET",
             contentType: "application/json",
-            url: "/Admins/GetNextRecordLabels",
+            url: lazyLoadingUrl,
             data: toSend,
             success: function (result) {
                 $("#recordLabelsList").append(result);
             }
-        })
+        });
     }
 });

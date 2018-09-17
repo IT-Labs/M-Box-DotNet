@@ -1,12 +1,14 @@
 ﻿var modelJSValue = {};
 var loadCounter;
 var loadsBeforeLoadMoreButtonAppears = 10;
+var lazyLoadingUrl = $("#lazyLoadingUrl").val();
+
 jQuery(document).ready(function () {
     modelJSValue.RecordLabels = $("#recordlabels").val();
     modelJSValue.Take = $("#take").val();
     modelJSValue.Skip = $("#skip").val();
     $("#loadmorebutton").hide();
-    loadCounter = 0
+    loadCounter = 0;
 });
 
 $(window).on("scroll", function () {
@@ -21,13 +23,13 @@ $(window).on("scroll", function () {
             $.ajax({
                 type: "GET",
                 contentType: "application/json",
-                url: "/Home/GetNextRecordLabels",
+                url: lazyLoadingUrl,
                 data: toSend,
                 success: function (result) {
                     $("#recordLabelsListId").append(result);
                     loadCounter++;
                 }
-            })
+            });
         } else {
             $("#loadmorebutton").show();
         }
@@ -37,15 +39,15 @@ $(window).on("scroll", function () {
 $("#loadmorebutton").on("click", function () {
     var toSend = jQuery.param(modelJSValue);
     loadCounter = 0;
-    $("#loadmorebutton").hide()
+    $("#loadmorebutton").hide();
     $.ajax({
         type: "GET",
         contentType: "application/json",
         data: toSend,
-        url: "/Home/GetNextRecordLabels",
+        url: lazyLoadingUrl,
         success: function (result) {
             $("#recordLabelsListId").append(result);
             counter++;
         }
-    })
-})
+    });
+});

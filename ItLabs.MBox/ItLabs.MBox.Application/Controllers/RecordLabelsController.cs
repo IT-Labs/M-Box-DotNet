@@ -14,12 +14,12 @@ using Microsoft.AspNetCore.Mvc;
 namespace ItLabs.MBox.Application.Controllers
 {
     [Authorize(Roles = nameof(Role.RecordLabel))]
-    public class RecordLabelController : Controller
+    public class RecordLabelsController : Controller
     {
         private IArtistManager _artistsManager;
         private readonly MBoxUserManager _userManager;
 
-        public RecordLabelController(IArtistManager artistsManager, MBoxUserManager userManagerr)
+        public RecordLabelsController(IArtistManager artistsManager, MBoxUserManager userManagerr)
         {      
             _artistsManager = artistsManager;
             _userManager = userManagerr;
@@ -27,13 +27,25 @@ namespace ItLabs.MBox.Application.Controllers
 
         public IActionResult Index()
         {
-            var recordLabelId = System.Convert.ToInt32(_userManager.GetUserId(HttpContext.User));         
+           var recordLabelId = System.Convert.ToInt32(_userManager.GetUserId(HttpContext.User));         
 
            DashboardViewModel model = new DashboardViewModel() { RecordLabelId = recordLabelId, Skip = 0, Take = 20 };
-           model.Artists = _artistsManager.GetRecordLabelArtists(model.RecordLabelId, model.Skip, model.Take);
+           model.PagingList = _artistsManager.GetRecordLabelArtists(model.RecordLabelId, model.Skip, model.Take);
 
             return View(model);
         }
+
+        [HttpGet]
+        public IActionResult GetRecordLabelArtists([FromQuery] DashboardViewModel model)
+        {
+            var recordLabelId = System.Convert.ToInt32(_userManager.GetUserId(HttpContext.User));
+
+            model.PagingList = _artistsManager.GetRecordLabelArtists(model.RecordLabelId, model.Skip, model.Take).ToList();
+
+            return View("NextArtists", model);
+        }
+
+
 
         public IActionResult MyAccount()
         {

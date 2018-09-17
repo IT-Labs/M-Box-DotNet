@@ -51,6 +51,7 @@
                             <input id="recordlabels" type="hidden" value="@Html.Raw(Json.Serialize(new List<RecordLabel>()))" />
                             <input id="take" type="hidden" value="@Html.Raw(Json.Serialize(Model.Take))" />
                             <input id="skip" type="hidden" value="@Html.Raw(Json.Serialize(Model.Skip))" />
+                            <input id="lazyLoadingUrl" type="hidden" value="/Admins/GetNextRecordLabels" />
                         </td>
                         <td>@rl.User.Email</td>
                         <td>@rl.RecordLabelArtists.Count</td>

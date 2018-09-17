@@ -8,6 +8,8 @@ using ItLabs.MBox.Application.Models;
 using ItLabs.MBox.Contracts.Interfaces;
 using ItLabs.MBox.Contracts.Entities;
 using ItLabs.MBox.Contracts;
+using Microsoft.AspNetCore.Authorization;
+using ItLabs.MBox.Contracts.Enums;
 
 namespace ItLabs.MBox.Application.Controllers
 {
@@ -40,10 +42,7 @@ namespace ItLabs.MBox.Application.Controllers
         public IActionResult About()
         {
             ViewData["Message"] = "About page";
-            AboutViewModel model = new AboutViewModel
-            {
-                WeCooperateWith = _recordLabelManager.GetAllRecordLabels()
-            };
+            AboutViewModel model = new AboutViewModel{WeCooperateWith = _recordLabelManager.GetAllRecordLabels()};
             return View(model);
         }
 
@@ -56,6 +55,7 @@ namespace ItLabs.MBox.Application.Controllers
             {
                 _emailManager.SentContactFormMail(model.Name, model.Email, model.Message);
             }
+            model.WeCooperateWith = _recordLabelManager.GetAllRecordLabels();
             return View(model);
         }
 
