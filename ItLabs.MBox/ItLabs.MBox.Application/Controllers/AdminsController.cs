@@ -67,7 +67,7 @@ namespace ItLabs.MBox.Application.Controllers
 
         }
         [HttpPost]
-        public IActionResult DeleteRecordLabel(int recordLabelId)
+        public IActionResult Search(string search)
         {
             var user = _userManager.FindByIdAsync(recordLabelId.ToString()).Result;
             _recordLabelManager.DeleteRecordLabel(user);
@@ -77,12 +77,17 @@ namespace ItLabs.MBox.Application.Controllers
 
         }
 
-        [HttpGet]
-        public IActionResult Search([FromQuery]string query)
         {
-            var model = new PagingModel<RecordLabel>();
-            return View();
-        }
+           var model = new PagingModel<RecordLabel>() { Skip = 0, Take = 20 };
 
+            if (search != null)
+            {
+                model.PagingList = _recordLabelManager.GetSearchedRecordLabels(search, model.Skip, model.Take);
+                return View("Index", model);
+            }
+
+            model.PagingList = _recordLabelManager.GetNextRecordLabels(model.Skip, model.Take);
+            return RedirectToAction("Index", "Admins");
+        }
     }
 }

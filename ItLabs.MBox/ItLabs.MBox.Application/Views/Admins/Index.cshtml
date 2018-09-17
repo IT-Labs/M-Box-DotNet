@@ -13,22 +13,24 @@
 
 
 
-
-
 <div class="container-fluid">
     <div class="row" style="margin-top: 25px">
-        <div class="col-md-4 col-sm-4">
+        <div class="col-md-3 col-sm-3">
             <form asp-area="" asp-controller="Admins" asp-action="AddNewRecordLabel" method="get">
                 <button type="submit" class="btn btn-block btn-primary" style="margin: 5px">Add New Record Label</button>
             </form>
-
         </div>
-        <div class="col-md-8 col-sm-8">
-
-            <form id="searchForm" asp-area="" asp-controller="Admins" asp-action="Search" method="get">
-                <input class="form-control" id="search" style="margin: 5px" type="text" placeholder="Search" aria-label="Search">
-                <input id="searchButton" type="submit" value="Search" />
-            </form>
+        <div class="col-md-9 col-sm-9" style="margin-top: 5px">
+            <div class="row">
+                <form id="searchForm" asp-area="" asp-controller="Admins" asp-action="Search" method="post">
+                    <div class="col-md-9 col-sm-9">
+                        @Html.TextBox("search", null, new { @class = "form-control" })
+                    </div>
+                    <div class="col-md-3 col-sm-3">
+                        <input id="searchButton" type="submit" value="Search" class="btn btn-default btn-block" />
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
     <div class="row" style="margin-top: 25px">

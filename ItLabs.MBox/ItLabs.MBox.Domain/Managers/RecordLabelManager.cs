@@ -48,6 +48,13 @@ namespace ItLabs.MBox.Domain.Managers
             _repository.Save();
         }
 
+        public IList<RecordLabel> GetSearchedRecordLabels(string searchValue, int toSkip, int toTake)
+        {
+            return _repository.Get<RecordLabel>(
+                filter: x => x.User.Name.ToUpper().Contains(searchValue.ToUpper()),
+                includeProperties: $"{nameof(RecordLabel.User)},{nameof(RecordLabel.RecordLabelArtists)}",
+                skip: toSkip, take: toTake
+                ).ToList();
+        }
     }
 }
-
