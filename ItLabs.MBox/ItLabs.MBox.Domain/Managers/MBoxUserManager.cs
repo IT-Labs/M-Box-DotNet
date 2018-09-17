@@ -40,11 +40,7 @@ namespace ItLabs.MBox.Domain.Managers
                 _repository.Create<RecordLabel>(new RecordLabel() {User = user }, (int)Role.RecordLabel);
                 _repository.Save();
             }
-            if (role == Role.Artist)
-            {
-                _repository.Create<Artist>(new Artist() { User = user }, (int)Role.Artist);
-                _repository.Save();
-            }
+
             return user;
 
         }

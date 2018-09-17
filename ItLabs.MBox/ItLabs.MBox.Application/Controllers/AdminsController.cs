@@ -3,13 +3,12 @@ using Microsoft.AspNetCore.Mvc;
 using ItLabs.MBox.Contracts.Enums;
 using ItLabs.MBox.Contracts.Interfaces;
 using ItLabs.MBox.Domain.Managers;
-using ItLabs.MBox.Application.Models.AdminViewModels;
+using ItLabs.MBox.Application.Models;
 using ItLabs.MBox.Contracts.Entities;
 using Microsoft.AspNetCore.Identity;
 using System.Threading.Tasks;
 using System.Linq;
 using System;
-using ItLabs.MBox.Application.Models;
 
 namespace ItLabs.MBox.Application.Controllers
 {
@@ -49,7 +48,7 @@ namespace ItLabs.MBox.Application.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddNewRecordLabelAsync(AddNewRecordLabelViewModel model)
+        public async Task<IActionResult> AddNewRecordLabelAsync(InviteViewModel model)
         {
             if (!ModelState.IsValid)
                 return View(model);

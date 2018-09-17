@@ -2,6 +2,39 @@
 @{
     ViewData["Title"] = "AddNewArtist";
 }
+@model InviteViewModel
 
-<h2>AddNewArtist</h2>
+<div class="row" style="margin-top:7%">
+    <div class="col-md-4">
+
+    </div>
+    <div class="col-md-4">
+        <section>
+            <form method="post" asp-controller="RecordLabels" asp-action="AddNewArtistASync">
+                <div class="form-group">
+                    <label asp-for="Email"></label>
+                    <input asp-for="Email" class="form-control" />
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+                <div class="form-group" style="margin-top:4%">
+                    <label asp-for="Name"></label>
+                    <input asp-for="Name" class="form-control" />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+                <div class="form-group" style="margin-top:20%">
+                    <button type="submit" class="btn btn-primary btn-block">Submit</button>
+                </div>
+            </form>
+        </section>
+    </div>
+    <div class="col-md-4">
+
+    </div>
+</div>
+
+@section Scripts {
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+}
+
+
 

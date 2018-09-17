@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using ItLabs.MBox.Application.Models;
 using ItLabs.MBox.Application.Models.RecordLabelViewModels;
 using ItLabs.MBox.Contracts.Entities;
 using ItLabs.MBox.Contracts.Enums;
@@ -16,13 +17,17 @@ namespace ItLabs.MBox.Application.Controllers
     [Authorize(Roles = nameof(Role.RecordLabel))]
     public class RecordLabelsController : Controller
     {
-        private IArtistManager _artistsManager;
+        private ArtistManager _artistsManager;
         private readonly MBoxUserManager _userManager;
+        private readonly IEmailsManager _emailsManager;
+        RecordLabelManager _recordLabelManager;
 
-        public RecordLabelsController(IArtistManager artistsManager, MBoxUserManager userManagerr)
+        public RecordLabelsController(ArtistManager artistsManager, MBoxUserManager userManager,IEmailsManager emailsManager, RecordLabelManager recordLabelManager)
         {      
             _artistsManager = artistsManager;
-            _userManager = userManagerr;
+            _userManager = userManager;
+            _emailsManager = emailsManager;
+            _recordLabelManager = recordLabelManager;
         }
 
         public IActionResult Index()
@@ -43,6 +48,39 @@ namespace ItLabs.MBox.Application.Controllers
             model.PagingList = _artistsManager.GetRecordLabelArtists(model.RecordLabelId, model.Skip, model.Take).ToList();
 
             return View("NextArtists", model);
+        }
+
+        [HttpGet]
+        public IActionResult AddNewArtist()
+        {
+            return View();
+        }
+        [HttpPost]
+        public async Task<IActionResult> AddNewArtistAsync(InviteViewModel model)
+        {
+            if (!ModelState.IsValid)
+                return View(model);
+            var recordLabelId = Convert.ToInt32(_userManager.GetUserId(HttpContext.User));
+            var recordLabel = _recordLabelManager.GetOne(filter: x=>x.Id == recordLabelId, includeProperties: $"{nameof(User)}");
+
+            var user = _userManager.CreateUser(model.Name, model.Email, Role.Artist).Result;
+
+            if (user == null)
+            {
+                ModelState.AddModelError("EMail", "Email already exists");
+                return View("AddNewArtist", model);
+            }
+
+             _artistsManager.Create(new Artist { User= user }, recordLabelId);
+            _artistsManager.Save();
+            var artist = _artistsManager.GetOne(filter: x => x.User == user, includeProperties:$"{nameof(User)}");
+            _artistsManager.AddArtistToRecordLabel(artist, recordLabel);
+            var code = await _userManager.GeneratePasswordResetTokenAsync(user);
+            var callbackUrl = Url.ResetPasswordCallbackLink(artist.Id.ToString(), code, Request.Scheme);
+            await _emailsManager.SendMail(EmailTemplateType.InvitedArtist, model.Email, callbackUrl);
+
+            return View("SuccessfullyInvitedArtist");
+
         }
 
 

@@ -53,10 +53,10 @@ namespace ItLabs.MBox.Domain.Managers
             var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
 
 
-            if (environment == EnvironmentName.Development || environment == EnvironmentName.Staging)
-            {
-                email = TestReceiverEmail;
-            }
+            //if (environment == EnvironmentName.Development || environment == EnvironmentName.Staging)
+            //{
+            //    email = TestReceiverEmail;
+            //}
 
             using (var client = new SmtpClient(AwsSesHost, AwsSesPort))
             {

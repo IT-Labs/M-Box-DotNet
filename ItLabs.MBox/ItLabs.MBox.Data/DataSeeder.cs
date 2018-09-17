@@ -67,7 +67,7 @@ namespace ItLabs.MBox.Data
                     var hashedTempPass = tempPass.HashPassword(tempUser, "recordl!23" + i);
                     tempUser.Email = "testrl" + i + "@gmail.com";
                     tempUser.Name = "Record Label " + i;
-                    tempUser.IsActivated = true;
+                    tempUser.EmailConfirmed = true;
                     tempUser.PasswordHash = hashedTempPass;
                     tempUser.NormalizedUserName = "TESTRL" + i + "@GMAIL.COM";
                     tempUser.NormalizedEmail = "TESTRL" + i + "@GMAIL.COM";

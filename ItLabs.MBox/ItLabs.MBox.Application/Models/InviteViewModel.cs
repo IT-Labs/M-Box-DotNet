@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace ItLabs.MBox.Application.Models.AdminViewModels
+namespace ItLabs.MBox.Application.Models
 {
-    public class AddNewRecordLabelViewModel
+    public class InviteViewModel
     {
         [Required]
         [EmailAddress(ErrorMessage = "The Email should be in example@example.com format!")]
