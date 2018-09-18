@@ -66,6 +66,20 @@ namespace ItLabs.MBox.Application.Controllers
             return View("SuccessfullyInvited");
 
         }
+        [HttpGet]
+        public IActionResult Search(string search)
+        {
+            var model = new PagingModel<RecordLabel>() { Skip = 0, Take = 20 };
+
+            if (search != null)
+            {
+                model.PagingList = _recordLabelManager.GetSearchedRecordLabels(search, model.Skip, model.Take);
+                return View("Index", model);
+            }
+
+            model.PagingList = _recordLabelManager.GetNextRecordLabels(model.Skip, model.Take);
+            return RedirectToAction("Index", "Admins");
+        }
         [HttpPost]
         public IActionResult DeleteRecordLabel(int recordLabelId)
         {
@@ -79,13 +93,6 @@ namespace ItLabs.MBox.Application.Controllers
             _recordLabelManager.DeleteRecordLabel(user);
             return View("Index",model);
 
-        }
-
-        [HttpGet]
-        public IActionResult Search([FromQuery]string query)
-        {
-            var model = new PagingModel<RecordLabel>();
-            return View();
         }
 
     }

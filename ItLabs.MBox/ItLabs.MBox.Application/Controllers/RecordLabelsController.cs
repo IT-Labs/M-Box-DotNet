@@ -92,6 +92,23 @@ namespace ItLabs.MBox.Application.Controllers
             ViewData["Message"] = "Artists";
             return View();
         }
-        
+
+        [HttpPost]
+        public IActionResult Search(string search)
+        {
+            var recordLabelId = System.Convert.ToInt32(_userManager.GetUserId(HttpContext.User));
+
+            DashboardViewModel model = new DashboardViewModel() { RecordLabelId = recordLabelId, Skip = 0, Take = 20 };
+
+            if (search != null)
+            {
+                model.PagingList = _artistsManager.GetSearchedArtists(model.RecordLabelId, model.Skip, model.Take, search);
+                return View("Index", model);
+            }
+
+            model.PagingList = _artistsManager.GetRecordLabelArtists(model.RecordLabelId, model.Skip, model.Take);
+            return RedirectToAction("Index", "RecordLabels");
+        }
+
     }
 }

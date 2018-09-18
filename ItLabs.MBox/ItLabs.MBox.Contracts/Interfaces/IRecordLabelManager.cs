@@ -8,5 +8,6 @@ namespace ItLabs.MBox.Contracts.Interfaces
         IList<RecordLabel> GetAllRecordLabels();
         IList<RecordLabel> GetNextRecordLabels(int skip, int take);
         void DeleteRecordLabel(ApplicationUser user);
+        IList<RecordLabel> GetSearchedRecordLabels(string searchValue, int toSkip, int toTake);
     }
 }

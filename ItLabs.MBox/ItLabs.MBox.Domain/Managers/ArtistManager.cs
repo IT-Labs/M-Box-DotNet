@@ -20,10 +20,22 @@ namespace ItLabs.MBox.Domain.Managers
         public IList<Artist> GetRecordLabelArtists(int recordLabelId, int toSkip, int toTake)
         {
 
-            return _repository.Get<RecordLabelArtist>(filter: x => x.RecordLabelId == recordLabelId,
-                                            includeProperties: $"{nameof(Artist)}.{nameof(Artist.User)}",
-                                            skip: toSkip,
-                                            take: toTake).Select(x => x.Artist).ToList();
+            return _repository.Get<RecordLabelArtist>(
+                filter: x => x.RecordLabelId == recordLabelId, 
+                includeProperties: $"{nameof(Artist)}.{nameof(Artist.User)}",
+                skip: toSkip,
+                take: toTake)
+                .Select(x => x.Artist).ToList();
+        }
+
+        public IList<Artist> GetSearchedArtists(int recordLabelId, int toSkip, int toTake, string search)
+        {
+            return _repository.Get<RecordLabelArtist>(
+                filter: x => x.RecordLabelId == recordLabelId && x.Artist.User.Name.Contains(search),
+                includeProperties: $"{nameof(Artist)}.{nameof(Artist.User)}",
+                skip: toSkip,
+                take: toTake)
+                .Select(x => x.Artist).ToList();
         }
 
         public IList<Artist> GetAllUserArtists()
