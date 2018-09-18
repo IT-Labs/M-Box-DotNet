@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace ItLabs.MBox.Contracts.Interfaces
 {
-    public interface IArtistManager
+    public interface IArtistManager : IBaseManager<Artist>
     {
         IList<Artist> GetAllArtists();
         IList<Artist> GetMostFollowedArtists(int number);

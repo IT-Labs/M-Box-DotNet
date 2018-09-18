@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace ItLabs.MBox.Contracts.Interfaces
 {
-    public interface IRecordLabelManager
+    public interface IRecordLabelManager : IBaseManager<RecordLabel>
     {
         IList<RecordLabel> GetAllRecordLabels();
         IList<RecordLabel> GetNextRecordLabels(int skip, int take);

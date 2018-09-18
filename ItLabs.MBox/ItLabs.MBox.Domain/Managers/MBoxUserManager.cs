@@ -35,11 +35,6 @@ namespace ItLabs.MBox.Domain.Managers
             {
                 return null;
             }
-            if(role == Role.RecordLabel)
-            {
-                _repository.Create<RecordLabel>(new RecordLabel() {User = user }, (int)Role.RecordLabel);
-                _repository.Save();
-            }
 
             return user;
 

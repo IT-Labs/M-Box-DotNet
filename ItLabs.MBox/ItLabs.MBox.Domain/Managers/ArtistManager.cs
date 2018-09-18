@@ -3,6 +3,8 @@ using ItLabs.MBox.Contracts.Entities;
 using System.Collections.Generic;
 using System.Linq;
 using ItLabs.MBox.Data;
+using System;
+using System.Linq.Expressions;
 
 namespace ItLabs.MBox.Domain.Managers
 {
@@ -52,7 +54,7 @@ namespace ItLabs.MBox.Domain.Managers
         }
         public void AddArtistToRecordLabel(Artist artist, RecordLabel recordLabel)
         {
-            _repository.Create(new RecordLabelArtist() { RecordLabel = recordLabel, Artist = artist }, 1);
+            _repository.Create(new RecordLabelArtist() { RecordLabel = recordLabel, Artist = artist }, recordLabel.Id);
             _repository.Save();
         }
     }

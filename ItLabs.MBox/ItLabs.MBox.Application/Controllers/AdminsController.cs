@@ -69,10 +69,14 @@ namespace ItLabs.MBox.Application.Controllers
         [HttpPost]
         public IActionResult DeleteRecordLabel(int recordLabelId)
         {
-            var user = _userManager.FindByIdAsync(recordLabelId.ToString()).Result;
-            _recordLabelManager.DeleteRecordLabel(user);
             var model = new PagingModel<RecordLabel>() { Skip = 0, Take = 20 };
             model.PagingList = _recordLabelManager.GetNextRecordLabels(model.Skip, model.Take);
+            var user = _userManager.FindByIdAsync(recordLabelId.ToString()).Result;
+
+            if (user == null)
+                return View("Index",model);
+
+            _recordLabelManager.DeleteRecordLabel(user);
             return View("Index",model);
 
         }

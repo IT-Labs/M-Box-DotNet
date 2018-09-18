@@ -17,12 +17,12 @@ namespace ItLabs.MBox.Application.Controllers
     [Authorize(Roles = nameof(Role.RecordLabel))]
     public class RecordLabelsController : Controller
     {
-        private ArtistManager _artistsManager;
+        private IArtistManager _artistsManager;
         private readonly MBoxUserManager _userManager;
         private readonly IEmailsManager _emailsManager;
-        RecordLabelManager _recordLabelManager;
+        private readonly IRecordLabelManager _recordLabelManager;
 
-        public RecordLabelsController(ArtistManager artistsManager, MBoxUserManager userManager,IEmailsManager emailsManager, RecordLabelManager recordLabelManager)
+        public RecordLabelsController(IArtistManager artistsManager, MBoxUserManager userManager,IEmailsManager emailsManager, IRecordLabelManager recordLabelManager)
         {      
             _artistsManager = artistsManager;
             _userManager = userManager;
@@ -62,6 +62,8 @@ namespace ItLabs.MBox.Application.Controllers
                 return View(model);
             var recordLabelId = Convert.ToInt32(_userManager.GetUserId(HttpContext.User));
             var recordLabel = _recordLabelManager.GetOne(filter: x=>x.Id == recordLabelId, includeProperties: $"{nameof(User)}");
+            if(recordLabel == null)
+                return View("AddNewArtist", model);
 
             var user = _userManager.CreateUser(model.Name, model.Email, Role.Artist).Result;
 
@@ -71,7 +73,7 @@ namespace ItLabs.MBox.Application.Controllers
                 return View("AddNewArtist", model);
             }
 
-             _artistsManager.Create(new Artist { User= user }, recordLabelId);
+            _artistsManager.Create(new Artist { User= user }, recordLabelId);
             _artistsManager.Save();
             var artist = _artistsManager.GetOne(filter: x => x.User == user, includeProperties:$"{nameof(User)}");
             _artistsManager.AddArtistToRecordLabel(artist, recordLabel);
