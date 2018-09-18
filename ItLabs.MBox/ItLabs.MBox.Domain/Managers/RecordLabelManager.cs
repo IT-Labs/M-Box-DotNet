@@ -7,7 +7,7 @@ using System.Linq;
 
 namespace ItLabs.MBox.Domain.Managers
 {
-    public class RecordLabelManager : BaseManager<RecordLabel> ,IRecordLabelManager
+    public class RecordLabelManager : BaseManager<RecordLabel>, IRecordLabelManager
     {
         private readonly IRepository _repository;
         private readonly IEmailsManager _emailsManager;
@@ -31,18 +31,18 @@ namespace ItLabs.MBox.Domain.Managers
         public void DeleteRecordLabel(ApplicationUser user)
         {
             var recordLabelArtists = _repository.Get<RecordLabelArtist>(filter: x => x.RecordLabel.User == user, includeProperties: $"{nameof(Artist)}.{nameof(Artist.User)},{nameof(RecordLabel)}");
-            var artists = recordLabelArtists.Select(x=>x.Artist);
-            foreach(var artist in artists)
+            var artists = recordLabelArtists.Select(x => x.Artist);
+            foreach (var artist in artists)
             {
                 artist.IsDeleted = true;
-                _repository.Update<Artist>(artist,user.Id);
-                _emailsManager.SendMail(EmailTemplateType.DeletedArtist, artist.User.Email,"");
+                _repository.Update<Artist>(artist, user.Id);
+                _emailsManager.PerpareSendMail(EmailTemplateType.DeletedArtist, artist.User.Email, "");
             }
-            foreach(var rla in recordLabelArtists)
+            foreach (var rla in recordLabelArtists)
             {
                 _repository.Delete(rla);
             }
-            _emailsManager.SendMail(EmailTemplateType.DeletedRecordLabel, user.Email, "");
+            _emailsManager.PerpareSendMail(EmailTemplateType.DeletedRecordLabel, user.Email, "");
             _repository.Delete<RecordLabel>(user.Id);
             _repository.Delete(user);
             _repository.Save();
@@ -51,7 +51,7 @@ namespace ItLabs.MBox.Domain.Managers
         public IList<RecordLabel> GetSearchedRecordLabels(string searchValue, int toSkip, int toTake)
         {
             return _repository.Get<RecordLabel>(
-                filter: x => x.User.Name.ToUpper().Contains(searchValue.ToUpper()),
+                filter: x => x.User.Name.ToUpper().Contains(searchValue.ToUpper()) || x.User.Email.ToUpper().Contains(searchValue.ToUpper()),
                 includeProperties: $"{nameof(RecordLabel.User)},{nameof(RecordLabel.RecordLabelArtists)}",
                 skip: toSkip, take: toTake
                 ).ToList();

@@ -74,14 +74,14 @@ namespace ItLabs.MBox.Application.Controllers
 
                 if (user == null)
                 {
-                    ModelState.AddModelError(string.Empty, "User with this email does not exist.");
-                    return View(model);
+                    ModelState.AddModelError("Email", "Invalid User");
+                    return View("Login",model);
                 }
 
                if (!await _userManager.IsEmailConfirmedAsync(user))
                 {
-                    ModelState.AddModelError(string.Empty, "User with this email exists,  but not verified.");
-                    return View(model);
+                    ModelState.AddModelError("Email", "User with this email exists,  but not verified.");
+                    return View("Login", model);
                 }
 
                 var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, lockoutOnFailure: false);
@@ -102,6 +102,12 @@ namespace ItLabs.MBox.Application.Controllers
 
 
                     return RedirectToLocal(returnUrl);
+                }
+
+                if (!result.Succeeded)
+                {
+                    ModelState.AddModelError("Email", "Invalid User");
+                    return View("Login", model);
                 }
 
                 if (result.RequiresTwoFactor)
@@ -145,7 +151,8 @@ namespace ItLabs.MBox.Application.Controllers
             var user = _userManager.CreateUser(model.Name, model.Email, Role.Listener, model.Password).Result;
             if (user == null)
             {
-                return View(model);
+                ModelState.AddModelError("Email", "Email already exists!");
+                return View("Register", model);
             }
             var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
 
@@ -158,7 +165,7 @@ namespace ItLabs.MBox.Application.Controllers
 
             var callbackUrl = Url.EmailConfirmationLink(user.Id.ToString(), code, Request.Scheme);
 
-            await _emailManager.SendMail(EmailTemplateType.SignUp, model.Email, callbackUrl);
+            await _emailManager.PerpareSendMail(EmailTemplateType.SignUp, model.Email, callbackUrl);
 
             return View("RegisterMailHasBeenSent");
         }
@@ -296,7 +303,7 @@ namespace ItLabs.MBox.Application.Controllers
             // visit https://go.microsoft.com/fwlink/?LinkID=532713
             var code = await _userManager.GeneratePasswordResetTokenAsync(user);
             var callbackUrl = Url.ResetPasswordCallbackLink(user.Id.ToString(), code, Request.Scheme);
-            await _emailManager.SendMail(EmailTemplateType.ForgotPassword, model.Email, callbackUrl);
+            await _emailManager.PerpareSendMail(EmailTemplateType.ForgotPassword, model.Email, callbackUrl);
             return RedirectToAction(nameof(ForgotPasswordConfirmation));
         }
 

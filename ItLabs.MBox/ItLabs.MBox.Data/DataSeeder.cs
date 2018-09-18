@@ -57,63 +57,6 @@ namespace ItLabs.MBox.Data
 
                 context.SaveChanges();
             }
-            if (!context.RecordLabels.Any())
-            {
-                for (int i = 1; i < 250; i++)
-                {
-                    var tempUser = new ApplicationUser();
-                    var tempRl = new RecordLabel();
-                    var tempPass = new PasswordHasher<ApplicationUser>();
-                    var hashedTempPass = tempPass.HashPassword(tempUser, "recordl!23" + i);
-                    tempUser.Email = "testrl" + i + "@gmail.com";
-                    tempUser.Name = "Record Label " + i;
-                    tempUser.EmailConfirmed = true;
-                    tempUser.PasswordHash = hashedTempPass;
-                    tempUser.NormalizedUserName = "TESTRL" + i + "@GMAIL.COM";
-                    tempUser.NormalizedEmail = "TESTRL" + i + "@GMAIL.COM";
-                    tempUser.SecurityStamp = "415bf8f4-bc79-4ec2-8368-cf9bdd755db1";
-                    tempUser.UserName = "testrl" + i + "@gmail.com";
-                    tempUser.LockoutEnabled = true;
-                    tempRl.User = tempUser;
-                    context.ApplicationUsers.Add(tempUser);
-                    context.SaveChanges();
-
-                    var tempReturned = context.ApplicationUsers.FirstOrDefault(c => c.Id == tempUser.Id);
-                    tempRl.User = tempReturned;
-                    context.RecordLabels.Add(tempRl);
-                    context.UserRoles.Add(new IdentityUserRole<int>() { UserId = tempUser.Id, RoleId = (int)Role.RecordLabel });
-                    
-                    for(int j = 250; j < 255; j++)
-                    {
-                        var tempUserArtist = new ApplicationUser();
-                        var tempArtist = new Artist();
-                        var tempPassArtist = new PasswordHasher<ApplicationUser>();
-                        var hashedTempPassArtist = tempPassArtist.HashPassword(tempUserArtist, "artist!23" + (i+j));
-                        tempUserArtist.Email = "testArtist" + (i+j) + "@gmail.com";
-                        tempUserArtist.Name = "Artist " + (i + j);
-                        tempUserArtist.IsActivated = true;
-                        tempUserArtist.PasswordHash = hashedTempPassArtist;
-                        tempUserArtist.NormalizedUserName = "testArtist" +( i + j) + "@GMAIL.COM";
-                        tempUserArtist.NormalizedEmail = "testArtist" +( i + j) + "@GMAIL.COM";
-                        tempUserArtist.SecurityStamp = "415bf8f4-bc79-4ec2-8368-cf9bdd755db1";
-                        tempUserArtist.UserName = "testArtist" + (i + j) + "@gmail.com";
-                        tempUserArtist.LockoutEnabled = true;
-                        tempArtist.User = tempUserArtist;
-                        context.ApplicationUsers.Add(tempUserArtist);
-                        context.SaveChanges();
-
-                        var tempReturnedArtist = context.ApplicationUsers.FirstOrDefault(c => c.Id == tempUserArtist.Id);
-                        tempArtist.User = tempReturnedArtist;
-                        context.Artists.Add(tempArtist);
-                        context.UserRoles.Add(new IdentityUserRole<int>() { UserId = tempUserArtist.Id, RoleId = (int)Role.Artist });
-                        context.RecordLabelArtists.Add(new RecordLabelArtist() {RecordLabel = tempRl,DateCreated=DateTime.UtcNow, CreatedBy=  1, ModifiedBy = 1,Artist= tempArtist });
-                    }
-
-                }
-
-                context.SaveChanges();
-            }
-
         }
     }
 }
