@@ -74,15 +74,15 @@ namespace ItLabs.MBox.Application.Controllers
 
                 if (user == null)
                 {
-                    ModelState.AddModelError(string.Empty, "User with this email does not exist.");
-                    return View(model);
+                    ModelState.AddModelError("Email", "Invalid User");
+                    return View("Login",model);
                 }
 
-               if (!await _userManager.IsEmailConfirmedAsync(user))
+               /*if (!await _userManager.IsEmailConfirmedAsync(user))
                 {
-                    ModelState.AddModelError(string.Empty, "User with this email exists,  but not verified.");
-                    return View(model);
-                }
+                    ModelState.AddModelError("Email", "User with this email exists,  but not verified.");
+                    return View("Login", model);
+                }*/
 
                 var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, lockoutOnFailure: false);
                 if (result.Succeeded)
@@ -102,6 +102,12 @@ namespace ItLabs.MBox.Application.Controllers
 
 
                     return RedirectToLocal(returnUrl);
+                }
+
+                if (!result.Succeeded)
+                {
+                    ModelState.AddModelError("Email", "Invalid User");
+                    return View("Login", model);
                 }
 
                 if (result.RequiresTwoFactor)
@@ -145,7 +151,8 @@ namespace ItLabs.MBox.Application.Controllers
             var user = _userManager.CreateUser(model.Name, model.Email, Role.Listener, model.Password).Result;
             if (user == null)
             {
-                return View(model);
+                ModelState.AddModelError("Email", "Email already exists!");
+                return View("Register", model);
             }
             var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
 

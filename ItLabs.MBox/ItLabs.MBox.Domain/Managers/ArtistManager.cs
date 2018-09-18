@@ -28,10 +28,10 @@ namespace ItLabs.MBox.Domain.Managers
                 .Select(x => x.Artist).ToList();
         }
 
-        public IList<Artist> GetSearchedArtists(int recordLabelId, int toSkip, int toTake, string search)
+        public IList<Artist> GetSearchedArtists(int recordLabelId, int toSkip, int toTake, string searchValue)
         {
             return _repository.Get<RecordLabelArtist>(
-                filter: x => x.RecordLabelId == recordLabelId && x.Artist.User.Name.Contains(search),
+                filter: x => x.RecordLabelId == recordLabelId && (x.Artist.User.Name.ToUpper().Contains(searchValue.ToUpper()) || x.Artist.User.Email.ToUpper().Contains(searchValue.ToUpper())),
                 includeProperties: $"{nameof(Artist)}.{nameof(Artist.User)}",
                 skip: toSkip,
                 take: toTake)
