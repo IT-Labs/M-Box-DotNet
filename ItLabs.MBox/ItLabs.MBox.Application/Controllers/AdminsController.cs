@@ -61,7 +61,7 @@ namespace ItLabs.MBox.Application.Controllers
             }
             var code = await _userManager.GeneratePasswordResetTokenAsync(user);
             var callbackUrl = Url.ResetPasswordCallbackLink(user.Id.ToString(), code, Request.Scheme);
-            await _emailManager.SendMail(EmailTemplateType.InvitedRecordLabel, model.Email, callbackUrl);
+            await _emailManager.PerpareSendMail(EmailTemplateType.InvitedRecordLabel, model.Email, callbackUrl);
 
             return View("SuccessfullyInvited");
 

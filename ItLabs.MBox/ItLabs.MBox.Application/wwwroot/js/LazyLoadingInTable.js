@@ -1,7 +1,7 @@
 ﻿var modelJSValue = {};
 var lazyLoadingUrl = $("#lazyLoadingUrl").val();
 
-jQuery(document).ready(function () {
+$(document).ready(function () {
     modelJSValue.RecordLabels = $("#recordlabels").val();
     modelJSValue.Take = $("#take").val();
     modelJSValue.Skip = $("#skip").val();
@@ -14,7 +14,7 @@ $(window).on("scroll", function () {
     if ((scrollHeight - scrollPosition) / scrollHeight === 0) {
         modelJSValue.Skip = parseInt(modelJSValue.Skip) + parseInt(modelJSValue.Take);
         modelJSValue.Take = 10;
-        var toSend = jQuery.param(modelJSValue);
+        var toSend = $.param(modelJSValue);
 
         $.ajax({
             type: "GET",

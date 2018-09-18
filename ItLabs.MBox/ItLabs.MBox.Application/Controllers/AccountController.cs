@@ -165,7 +165,7 @@ namespace ItLabs.MBox.Application.Controllers
 
             var callbackUrl = Url.EmailConfirmationLink(user.Id.ToString(), code, Request.Scheme);
 
-            await _emailManager.SendMail(EmailTemplateType.SignUp, model.Email, callbackUrl);
+            await _emailManager.PerpareSendMail(EmailTemplateType.SignUp, model.Email, callbackUrl);
 
             return View("RegisterMailHasBeenSent");
         }
@@ -303,7 +303,7 @@ namespace ItLabs.MBox.Application.Controllers
             // visit https://go.microsoft.com/fwlink/?LinkID=532713
             var code = await _userManager.GeneratePasswordResetTokenAsync(user);
             var callbackUrl = Url.ResetPasswordCallbackLink(user.Id.ToString(), code, Request.Scheme);
-            await _emailManager.SendMail(EmailTemplateType.ForgotPassword, model.Email, callbackUrl);
+            await _emailManager.PerpareSendMail(EmailTemplateType.ForgotPassword, model.Email, callbackUrl);
             return RedirectToAction(nameof(ForgotPasswordConfirmation));
         }
 

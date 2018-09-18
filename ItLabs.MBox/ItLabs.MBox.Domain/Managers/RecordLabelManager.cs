@@ -36,13 +36,13 @@ namespace ItLabs.MBox.Domain.Managers
             {
                 artist.IsDeleted = true;
                 _repository.Update<Artist>(artist, user.Id);
-                _emailsManager.SendMail(EmailTemplateType.DeletedArtist, artist.User.Email, "");
+                _emailsManager.PerpareSendMail(EmailTemplateType.DeletedArtist, artist.User.Email, "");
             }
             foreach (var rla in recordLabelArtists)
             {
                 _repository.Delete(rla);
             }
-            _emailsManager.SendMail(EmailTemplateType.DeletedRecordLabel, user.Email, "");
+            _emailsManager.PerpareSendMail(EmailTemplateType.DeletedRecordLabel, user.Email, "");
             _repository.Delete<RecordLabel>(user.Id);
             _repository.Delete(user);
             _repository.Save();

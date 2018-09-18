@@ -79,7 +79,7 @@ namespace ItLabs.MBox.Application.Controllers
             _artistsManager.AddArtistToRecordLabel(artist, recordLabel);
             var code = await _userManager.GeneratePasswordResetTokenAsync(user);
             var callbackUrl = Url.ResetPasswordCallbackLink(artist.Id.ToString(), code, Request.Scheme);
-            await _emailsManager.SendMail(EmailTemplateType.InvitedArtist, model.Email, callbackUrl);
+            await _emailsManager.PerpareSendMail(EmailTemplateType.InvitedArtist, model.Email, callbackUrl);
 
             return View("SuccessfullyInvitedArtist");
 
