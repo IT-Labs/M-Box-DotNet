@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -10,8 +11,10 @@ using ItLabs.MBox.Contracts.Enums;
 using ItLabs.MBox.Contracts.Interfaces;
 using ItLabs.MBox.Domain.Managers;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.Internal;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace ItLabs.MBox.Application.Controllers
 {
@@ -86,8 +89,6 @@ namespace ItLabs.MBox.Application.Controllers
 
         }
 
-
-
         public IActionResult MyAccount()
         {
             ViewData["Message"] = "Artists";
@@ -110,28 +111,38 @@ namespace ItLabs.MBox.Application.Controllers
             model.PagingList = _artistsManager.GetRecordLabelArtists(model.RecordLabelId, model.Skip, model.Take);
             return RedirectToAction("Index", "RecordLabels");
         }
+
+
         [HttpGet]
         public IActionResult AddMultipleArtists()
         {
             return View();
         }
-        //[HttpPost("UploadCsvFile")]
-        //public async Task<IActionResult> UploadCsvFile(IFormFile file)
-        //{
 
-        //    // full path to file in temp location
-        //    var filePath = Path.GetTempFileName();
-        //    file.
 
-        //    if (file.Length > 0)
-        //    {
-        //        using (var stream = new FileStream(filePath, FileMode.Create))
-        //        {
-
-        //        }
-        //    }
-
-        //    return View("AddMultipleArtists");
-        //}
+        [HttpPost]
+        public IActionResult UploadCsvFile(List<IFormFile> files)
+        {
+            var recordLabelId = Convert.ToInt32(_userManager.GetUserId(HttpContext.User));
+            var response = _recordLabelManager.ValidateCsvFile(files[0], Convert.ToInt32(_userManager.GetUserId(HttpContext.User)));
+            if(response.Errors.Count != 0)
+            {
+                return View("AddMultipleArtists", response);
+            }
+            var numberOfCreated = _recordLabelManager.CreateMultipleArtists(response.ArtistsToBeAdded,recordLabelId);
+            if(numberOfCreated != 0)
+                Task.Run(() => SendMails(response.ArtistsToBeAdded));
+            //return number of created
+            return View("SuccessfullyAddedMultiple");
+        }
+        private void SendMails(IList<Artist> artistsToBeAdded)
+        {
+            foreach (var artist in artistsToBeAdded)
+            {
+                var code = _userManager.GeneratePasswordResetTokenAsync(artist.User).Result;
+                var callbackUrl = Url.ResetPasswordCallbackLink(artist.User.Id.ToString(), code, Request.Scheme);
+                _emailsManager.PerpareSendMail(EmailTemplateType.InvitedArtist, artist.User.Email, callbackUrl);
+            }
+        }
     }
 }

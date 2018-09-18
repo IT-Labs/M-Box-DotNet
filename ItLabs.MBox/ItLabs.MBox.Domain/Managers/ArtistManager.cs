@@ -5,16 +5,20 @@ using System.Linq;
 using ItLabs.MBox.Data;
 using System;
 using System.Linq.Expressions;
+using ItLabs.MBox.Contracts.Enums;
+using System.Threading.Tasks;
 
 namespace ItLabs.MBox.Domain.Managers
 {
     public class ArtistManager : BaseManager<Artist>, IArtistManager
     {
         private IRepository _repository;
+        private IEmailsManager _emailsManager;
 
-        public ArtistManager(IRepository repository) : base(repository)
+        public ArtistManager(IRepository repository, IEmailsManager emailsManager) : base(repository)
         {
             _repository = repository;
+            _emailsManager = emailsManager;
         }
 
         public IList<Artist> GetRecordLabelArtists(int recordLabelId, int toSkip, int toTake)
@@ -69,5 +73,7 @@ namespace ItLabs.MBox.Domain.Managers
             _repository.Create(new RecordLabelArtist() { RecordLabel = recordLabel, Artist = artist }, recordLabel.Id);
             _repository.Save();
         }
+
+        
     }
 }

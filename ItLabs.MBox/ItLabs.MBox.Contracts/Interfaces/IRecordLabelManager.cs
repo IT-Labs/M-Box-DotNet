@@ -1,4 +1,6 @@
-﻿using ItLabs.MBox.Contracts.Entities;
+﻿using ItLabs.MBox.Contracts.Dtos;
+using ItLabs.MBox.Contracts.Entities;
+using Microsoft.AspNetCore.Http;
 using System.Collections.Generic;
 
 namespace ItLabs.MBox.Contracts.Interfaces
@@ -7,7 +9,9 @@ namespace ItLabs.MBox.Contracts.Interfaces
     {
         IList<RecordLabel> GetAllRecordLabels();
         IList<RecordLabel> GetNextRecordLabels(int skip, int take);
-        void DeleteRecordLabel(ApplicationUser user);
+        IList<Artist> DeleteRecordLabel(ApplicationUser user);
         IList<RecordLabel> GetSearchedRecordLabels(string searchValue, int toSkip, int toTake);
+        AddMultipleArtistsDto ValidateCsvFile(IFormFile formFile, int recordLabelId);
+        int CreateMultipleArtists(IList<Artist> artistsToBeAdded, int recordLabelId);
     }
 }

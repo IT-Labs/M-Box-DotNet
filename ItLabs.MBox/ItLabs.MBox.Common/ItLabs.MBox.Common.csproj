@@ -15,4 +15,8 @@
     <PackageReference Include="System.Linq.Expressions" Version="4.3.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\ItLabs.MBox.Contracts\ItLabs.MBox.Contracts.csproj" />
+  </ItemGroup>
+
 </Project>

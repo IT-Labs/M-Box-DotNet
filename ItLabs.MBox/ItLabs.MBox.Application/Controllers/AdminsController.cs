@@ -9,6 +9,11 @@ using Microsoft.AspNetCore.Identity;
 using System.Threading.Tasks;
 using System.Linq;
 using System;
+using Microsoft.AspNetCore.Http.Internal;
+using System.Collections.Generic;
+using Microsoft.AspNetCore.Http;
+using System.IO;
+using System.ComponentModel.DataAnnotations;
 
 namespace ItLabs.MBox.Application.Controllers
 {
@@ -17,13 +22,14 @@ namespace ItLabs.MBox.Application.Controllers
     {
         private IRecordLabelManager _recordLabelManager;
         private readonly MBoxUserManager _userManager;
-        private readonly IEmailsManager _emailManager;
+        private readonly IEmailsManager _emailsManager;
+
 
         public AdminsController(IRecordLabelManager recordLabelManager, MBoxUserManager userManager, IEmailsManager emailManager)
         {
             _recordLabelManager = recordLabelManager;
             _userManager = userManager;
-            _emailManager = emailManager;
+            _emailsManager = emailManager;
         }
 
         [HttpGet]
@@ -61,7 +67,7 @@ namespace ItLabs.MBox.Application.Controllers
             }
             var code = await _userManager.GeneratePasswordResetTokenAsync(user);
             var callbackUrl = Url.ResetPasswordCallbackLink(user.Id.ToString(), code, Request.Scheme);
-            await _emailManager.PerpareSendMail(EmailTemplateType.InvitedRecordLabel, model.Email, callbackUrl);
+            await _emailsManager.PerpareSendMail(EmailTemplateType.InvitedRecordLabel, model.Email, callbackUrl);
 
             return View("SuccessfullyInvited");
 
@@ -86,7 +92,7 @@ namespace ItLabs.MBox.Application.Controllers
             var model = new PagingModel<RecordLabel>() { Skip = 0, Take = 20 };
             model.PagingList = _recordLabelManager.GetNextRecordLabels(model.Skip, model.Take);
             var user = _userManager.FindByIdAsync(recordLabelId.ToString()).Result;
-
+            
             if (user == null)
                 return View("Index",model);
 
@@ -94,6 +100,6 @@ namespace ItLabs.MBox.Application.Controllers
             return View("Index",model);
 
         }
-
+        
     }
 }

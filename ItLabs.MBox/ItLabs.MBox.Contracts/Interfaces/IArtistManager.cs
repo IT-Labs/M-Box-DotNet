@@ -12,5 +12,6 @@ namespace ItLabs.MBox.Contracts.Interfaces
         IList<Artist> GetRecordLabelArtists(int recordLabelId, int skip, int take);
         void AddArtistToRecordLabel(Artist artist, RecordLabel recordLabel);
         IList<Artist> GetSearchedArtists(int recordLabelId, int skip, int take, string search);
+        
     }
 }

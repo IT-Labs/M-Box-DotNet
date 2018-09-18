@@ -1,4 +1,5 @@
-﻿
+﻿@using ItLabs.MBox.Contracts.Dtos
+@model AddMultipleArtistsDto
 @{
     ViewData["Title"] = "AddMultipleArtists";
 }
@@ -17,12 +18,20 @@
                         <div class="col-md-2"></div>
                         <div class="col-md-6" style="margin-top: 30px">
                             <input class="btn btn-primary" type="submit" value="Upload" />
-                            </div>
                         </div>
                     </div>
+                </div>
                 <div class="col-md-3"></div>
             </div>
         </form>
+        @if (Model != null)
+        {
+            @foreach (var somethin in Model.Errors)
+            {
+                <p class="alert-danger">@somethin</p>
+                <br />
+            }
+       }
     </div>
     <div class="col-md-3"></div>
 </div>
