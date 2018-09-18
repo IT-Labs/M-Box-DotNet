@@ -66,7 +66,7 @@ namespace ItLabs.MBox.Application.Controllers
             return View("SuccessfullyInvited");
 
         }
-        [HttpGet]
+        [HttpPost]
         public IActionResult Search(string search)
         {
             var model = new PagingModel<RecordLabel>() { Skip = 0, Take = 20 };
