@@ -32,7 +32,7 @@ namespace ItLabs.MBox.Domain.Managers
             return Task.CompletedTask;
         }
 
-        public void SentContactFormMail(string name, string email, string message)
+        public void PrepareContactFormMail(string name, string email, string message)
         {
             var recieverMail = _repository.Get<Configuration>(filter: x => x.Key == ConfigurationKey.ContactFormRecieverMail).FirstOrDefault().Value;
             var template = _repository.GetAll<EmailTemplate>().Where(x => x.Type == EmailTemplateType.ContactForm).FirstOrDefault();

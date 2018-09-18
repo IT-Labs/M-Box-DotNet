@@ -9,6 +9,6 @@ namespace ItLabs.MBox.Contracts.Interfaces
     public interface IEmailsManager
     {
         Task PerpareSendMail(EmailTemplateType type, string email, string callbackUrl);
-        void SentContactFormMail(string name, string email, string message);
+        void PrepareContactFormMail(string name, string email, string message);
     }
 }

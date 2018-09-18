@@ -1,45 +1,35 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Claims;
-using System.Threading.Tasks;
+﻿using ItLabs.MBox.Application.Models.AccountViewModels;
+using ItLabs.MBox.Common.Extentions;
+using ItLabs.MBox.Contracts.Entities;
+using ItLabs.MBox.Contracts.Enums;
+using ItLabs.MBox.Contracts.Interfaces;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
-using ItLabs.MBox.Contracts.Entities;
-using ItLabs.MBox.Domain.Managers;
-using ItLabs.MBox.Application.Models.AccountViewModels;
-
-using ItLabs.MBox.Contracts.Enums;
-using ItLabs.MBox.Domain;
-using Microsoft.EntityFrameworkCore;
-using ItLabs.MBox.Contracts.Interfaces;
-using Microsoft.AspNetCore.Hosting;
+using System;
+using System.Security.Claims;
+using System.Threading.Tasks;
 
 namespace ItLabs.MBox.Application.Controllers
 {
     [Authorize]
     [Route("[controller]/[action]")]
-    public class AccountController : Controller
+    public class AccountController : BaseController
     {
-        private readonly MBoxUserManager _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly IEmailsManager _emailManager;
         private readonly ILogger _logger;
         private readonly IArtistManager _artistsManager;
 
         public AccountController(
-            MBoxUserManager userManager,
+            UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
             IEmailsManager emailManager,
             ILogger<AccountController> logger,
-            IArtistManager manager)
+            IArtistManager manager):base(userManager)
         {
-            _userManager = userManager;
             _signInManager = signInManager;
             _emailManager = emailManager;
             _logger = logger;

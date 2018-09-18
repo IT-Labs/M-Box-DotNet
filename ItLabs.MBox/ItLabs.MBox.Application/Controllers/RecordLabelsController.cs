@@ -1,44 +1,38 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
-using ItLabs.MBox.Application.Models;
+﻿using ItLabs.MBox.Application.Models;
 using ItLabs.MBox.Application.Models.RecordLabelViewModels;
+using ItLabs.MBox.Common.Extentions;
 using ItLabs.MBox.Contracts.Entities;
 using ItLabs.MBox.Contracts.Enums;
 using ItLabs.MBox.Contracts.Interfaces;
-using ItLabs.MBox.Domain.Managers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.Internal;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace ItLabs.MBox.Application.Controllers
 {
     [Authorize(Roles = nameof(Role.RecordLabel))]
-    public class RecordLabelsController : Controller
+    public class RecordLabelsController : BaseController
     {
         private IArtistManager _artistsManager;
-        private readonly MBoxUserManager _userManager;
+       
         private readonly IEmailsManager _emailsManager;
         private readonly IRecordLabelManager _recordLabelManager;
 
-        public RecordLabelsController(IArtistManager artistsManager, MBoxUserManager userManager, IEmailsManager emailsManager, IRecordLabelManager recordLabelManager)
+        public RecordLabelsController(IArtistManager artistsManager, UserManager<ApplicationUser> userManager, IEmailsManager emailsManager, IRecordLabelManager recordLabelManager): base(userManager)
         {
             _artistsManager = artistsManager;
-            _userManager = userManager;
             _emailsManager = emailsManager;
             _recordLabelManager = recordLabelManager;
+            
         }
 
         public IActionResult Index()
         {
-            var recordLabelId = System.Convert.ToInt32(_userManager.GetUserId(HttpContext.User));
-
-            DashboardViewModel model = new DashboardViewModel() { RecordLabelId = recordLabelId, Skip = 0, Take = 20 };
+            DashboardViewModel model = new DashboardViewModel() { RecordLabelId = CurrentLoggedUser, Skip = 0, Take = 20 };
             model.PagingList = _artistsManager.GetRecordLabelArtists(model.RecordLabelId, model.Skip, model.Take);
 
             return View(model);
@@ -47,10 +41,7 @@ namespace ItLabs.MBox.Application.Controllers
         [HttpGet]
         public IActionResult GetRecordLabelArtists([FromQuery] DashboardViewModel model)
         {
-            var recordLabelId = System.Convert.ToInt32(_userManager.GetUserId(HttpContext.User));
-
             model.PagingList = _artistsManager.GetRecordLabelArtists(model.RecordLabelId, model.Skip, model.Take).ToList();
-
             return View("NextArtists", model);
         }
 
@@ -64,8 +55,7 @@ namespace ItLabs.MBox.Application.Controllers
         {
             if (!ModelState.IsValid)
                 return View(model);
-            var recordLabelId = Convert.ToInt32(_userManager.GetUserId(HttpContext.User));
-            var recordLabel = _recordLabelManager.GetOne(filter: x => x.Id == recordLabelId, includeProperties: $"{nameof(User)}");
+            var recordLabel = _recordLabelManager.GetOne(filter: x => x.Id == CurrentLoggedUser, includeProperties: $"{nameof(User)}");
             if (recordLabel == null)
                 return View("AddNewArtist", model);
 
@@ -77,7 +67,7 @@ namespace ItLabs.MBox.Application.Controllers
                 return View("AddNewArtist", model);
             }
 
-            _artistsManager.Create(new Artist { User = user }, recordLabelId);
+            _artistsManager.Create(new Artist { User = user }, CurrentLoggedUser);
             _artistsManager.Save();
             var artist = _artistsManager.GetOne(filter: x => x.User == user, includeProperties: $"{nameof(User)}");
             _artistsManager.AddArtistToRecordLabel(artist, recordLabel);
@@ -98,9 +88,8 @@ namespace ItLabs.MBox.Application.Controllers
         [HttpPost]
         public IActionResult Search(string search)
         {
-            var recordLabelId = System.Convert.ToInt32(_userManager.GetUserId(HttpContext.User));
 
-            DashboardViewModel model = new DashboardViewModel() { RecordLabelId = recordLabelId, Skip = 0, Take = 20 };
+            DashboardViewModel model = new DashboardViewModel() { RecordLabelId = CurrentLoggedUser, Skip = 0, Take = 20 };
 
             if (search != null)
             {
@@ -123,13 +112,12 @@ namespace ItLabs.MBox.Application.Controllers
         [HttpPost]
         public IActionResult UploadCsvFile(List<IFormFile> files)
         {
-            var recordLabelId = Convert.ToInt32(_userManager.GetUserId(HttpContext.User));
-            var response = _recordLabelManager.ValidateCsvFile(files[0], Convert.ToInt32(_userManager.GetUserId(HttpContext.User)));
+            var response = _recordLabelManager.ValidateCsvFile(files[0], CurrentLoggedUser);
             if(response.Errors.Count != 0)
             {
                 return View("AddMultipleArtists", response);
             }
-            var numberOfCreated = _recordLabelManager.CreateMultipleArtists(response.ArtistsToBeAdded,recordLabelId);
+            var numberOfCreated = _recordLabelManager.CreateMultipleArtists(response.ArtistsToBeAdded,CurrentLoggedUser);
             if(numberOfCreated != 0)
                 Task.Run(() => SendMails(response.ArtistsToBeAdded));
             //return number of created

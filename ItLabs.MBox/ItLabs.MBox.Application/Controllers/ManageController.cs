@@ -1,27 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Text.Encodings.Web;
-using System.Threading.Tasks;
+﻿using ItLabs.MBox.Application.Models.ManageViewModels;
+using ItLabs.MBox.Contracts.Entities;
+using ItLabs.MBox.Contracts.Interfaces;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
-using ItLabs.MBox.Contracts.Entities;
-using ItLabs.MBox.Application.Models.ManageViewModels;
-using ItLabs.MBox.Contracts.Interfaces;
-using ItLabs.MBox.Domain.Managers;
+using System;
+using System.Linq;
+using System.Text;
+using System.Text.Encodings.Web;
+using System.Threading.Tasks;
 
 namespace ItLabs.MBox.Application.Controllers
 {
     [Authorize]
     [Route("[controller]/[action]")]
-    public class ManageController : Controller
+    public class ManageController : BaseController
     {
-        private readonly MBoxUserManager _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly IEmailsManager _emailManager;
         private readonly ILogger _logger;
@@ -31,13 +27,12 @@ namespace ItLabs.MBox.Application.Controllers
         private const string RecoveryCodesKey = nameof(RecoveryCodesKey);
 
         public ManageController(
-         MBoxUserManager userManager,
+         UserManager<ApplicationUser> userManager,
           SignInManager<ApplicationUser> signInManager,
           IEmailsManager emailSender,
           ILogger<ManageController> logger,
-          UrlEncoder urlEncoder)
+          UrlEncoder urlEncoder):base(userManager)
         {
-            _userManager = userManager;
             _signInManager = signInManager;
             _emailManager = emailSender;
             _logger = logger;

@@ -4,7 +4,9 @@ using ItLabs.MBox.Contracts.Enums;
 using ItLabs.MBox.Contracts.Interfaces;
 using ItLabs.MBox.Data;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using System.Collections.Generic;
+using ItLabs.MBox.Common.Extentions;
 using System.ComponentModel.DataAnnotations;
 using System.IO;
 using System.Linq;
@@ -15,9 +17,9 @@ namespace ItLabs.MBox.Domain.Managers
     public class RecordLabelManager : BaseManager<RecordLabel>, IRecordLabelManager
     {
         private readonly IRepository _repository;
-        private readonly MBoxUserManager _userManager;
         private readonly IEmailsManager _emailsManager;
-        public RecordLabelManager(IRepository repository, IEmailsManager emailsManager, MBoxUserManager userManager) : base(repository)
+        private readonly UserManager<ApplicationUser> _userManager;
+        public RecordLabelManager(IRepository repository, IEmailsManager emailsManager, UserManager<ApplicationUser> userManager) : base(repository)
         {
             _repository = repository;
             _emailsManager = emailsManager;

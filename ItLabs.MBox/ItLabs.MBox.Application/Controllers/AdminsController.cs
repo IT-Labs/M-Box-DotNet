@@ -1,34 +1,26 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
+﻿using ItLabs.MBox.Application.Models;
+using ItLabs.MBox.Common.Extentions;
+using ItLabs.MBox.Contracts.Entities;
 using ItLabs.MBox.Contracts.Enums;
 using ItLabs.MBox.Contracts.Interfaces;
-using ItLabs.MBox.Domain.Managers;
-using ItLabs.MBox.Application.Models;
-using ItLabs.MBox.Contracts.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
-using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
 using System.Linq;
-using System;
-using Microsoft.AspNetCore.Http.Internal;
-using System.Collections.Generic;
-using Microsoft.AspNetCore.Http;
-using System.IO;
-using System.ComponentModel.DataAnnotations;
+using System.Threading.Tasks;
 
 namespace ItLabs.MBox.Application.Controllers
 {
     [Authorize(Roles = nameof(Role.SuperAdmin))]
-    public class AdminsController : Controller
+    public class AdminsController : BaseController
     {
         private IRecordLabelManager _recordLabelManager;
-        private readonly MBoxUserManager _userManager;
         private readonly IEmailsManager _emailsManager;
 
 
-        public AdminsController(IRecordLabelManager recordLabelManager, MBoxUserManager userManager, IEmailsManager emailManager)
+        public AdminsController(IRecordLabelManager recordLabelManager, UserManager<ApplicationUser> userManager, IEmailsManager emailManager):base(userManager)
         {
             _recordLabelManager = recordLabelManager;
-            _userManager = userManager;
             _emailsManager = emailManager;
         }
 
@@ -65,6 +57,8 @@ namespace ItLabs.MBox.Application.Controllers
                 ModelState.AddModelError("EMail", "Email already exists");
                 return View("AddNewRecordLabel",model);
             }
+            _recordLabelManager.Create(new RecordLabel() {User=user },CurrentLoggedUser);
+            _recordLabelManager.Save();
             var code = await _userManager.GeneratePasswordResetTokenAsync(user);
             var callbackUrl = Url.ResetPasswordCallbackLink(user.Id.ToString(), code, Request.Scheme);
             await _emailsManager.PerpareSendMail(EmailTemplateType.InvitedRecordLabel, model.Email, callbackUrl);

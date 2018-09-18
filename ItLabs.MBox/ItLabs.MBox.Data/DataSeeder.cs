@@ -34,7 +34,7 @@ namespace ItLabs.MBox.Data
                 context.ApplicationUsers.Add(admin);
                 context.UserRoles.Add(new IdentityUserRole<int>() { UserId = admin.Id, RoleId = 1});
 
-                context.SaveChanges();
+                
             }
             if (!context.Roles.Any())
             {
@@ -43,7 +43,7 @@ namespace ItLabs.MBox.Data
                 context.ApplicationRoles.Add(new ApplicationRole() { CreatedBy = (int)Role.SuperAdmin, Type = Role.Artist, Id = (int)Role.Artist, Name = Role.Artist.ToString(), NormalizedName = Role.Artist.ToString().ToUpper() });
                 context.ApplicationRoles.Add(new ApplicationRole() { CreatedBy = (int)Role.SuperAdmin, Type = Role.Listener, Id = (int)Role.Listener, Name = Role.Listener.ToString(), NormalizedName = Role.Listener.ToString().ToUpper() });
 
-                context.SaveChanges();
+                
             }
             if (!context.EmailTemplates.Any())
             {
@@ -55,8 +55,30 @@ namespace ItLabs.MBox.Data
                 context.EmailTemplates.Add(new EmailTemplate() { CreatedBy = (int)Role.SuperAdmin, Id = (int)EmailTemplateType.InvitedArtist, Type = EmailTemplateType.InvitedArtist, Name = "InvitedArtist", Subject = "Create Your M Box Account", Body = "Dear [Name], <br>Your Record Label has invited you to join M Box. <br> M Box is a page where you can customize a page with all your music.<br> [Link]<br><br>Regards, <br>M Box", LinkText = "Click here to get started" });
                 context.EmailTemplates.Add(new EmailTemplate() { CreatedBy = (int)Role.SuperAdmin, Id = (int)EmailTemplateType.ContactForm, Type = EmailTemplateType.ContactForm, Name = "ContactForm", Subject = "M Box About Page Mail" });
 
-                context.SaveChanges();
+                
             }
+            context.SaveChanges();
+            //if (!context.RecordLabels.Any())
+            //{
+            //    var recordLabel = new ApplicationUser();
+            //    var passAdmin = new PasswordHasher<ApplicationUser>();
+            //    recordLabel.Id = (int)Role.RecordLabel;
+            //    recordLabel.Email = "testrl@gmail.com";
+            //    recordLabel.Name = "Record Label";
+            //    recordLabel.IsActivated = true;
+            //    recordLabel.NormalizedEmail = recordLabel.Email.ToUpper();
+            //    recordLabel.NormalizedUserName = recordLabel.Email.ToUpper();
+            //    recordLabel.SecurityStamp = "be0aefcf-bf66-40b7-a3a6-d42f58ef0beb";
+            //    recordLabel.LockoutEnabled = true;
+            //    recordLabel.UserName = recordLabel.Email;
+            //    recordLabel.PasswordHash = passAdmin.HashPassword(recordLabel, "record!23");
+            //    recordLabel.CreatedBy = (int)Role.SuperAdmin;
+            //    recordLabel.EmailConfirmed = true;
+            //    context.ApplicationUsers.Add(recordLabel);
+            //    context.UserRoles.Add(new IdentityUserRole<int>() { UserId = recordLabel.Id, RoleId = 1 });
+
+            //    context.SaveChanges();
+            //}
         }
     }
 }
