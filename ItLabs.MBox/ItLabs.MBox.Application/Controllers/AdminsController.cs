@@ -66,19 +66,10 @@ namespace ItLabs.MBox.Application.Controllers
             return View("SuccessfullyInvited");
 
         }
-        [HttpPost]
+        [HttpGet]
         public IActionResult Search(string search)
         {
-            var user = _userManager.FindByIdAsync(recordLabelId.ToString()).Result;
-            _recordLabelManager.DeleteRecordLabel(user);
             var model = new PagingModel<RecordLabel>() { Skip = 0, Take = 20 };
-            model.PagingList = _recordLabelManager.GetNextRecordLabels(model.Skip, model.Take);
-            return View("Index",model);
-
-        }
-
-        {
-           var model = new PagingModel<RecordLabel>() { Skip = 0, Take = 20 };
 
             if (search != null)
             {
@@ -88,6 +79,15 @@ namespace ItLabs.MBox.Application.Controllers
 
             model.PagingList = _recordLabelManager.GetNextRecordLabels(model.Skip, model.Take);
             return RedirectToAction("Index", "Admins");
+        }
+        [HttpPost]
+        public IActionResult DeleteRecordLabel(int recordLabelId)
+        {
+            var user = _userManager.FindByIdAsync(recordLabelId.ToString()).Result;
+            _recordLabelManager.DeleteRecordLabel(user);
+            var model = new PagingModel<RecordLabel>() { Skip = 0, Take = 20 };
+            model.PagingList = _recordLabelManager.GetNextRecordLabels(model.Skip, model.Take);
+            return View("Index", model);
         }
     }
 }
