@@ -1,0 +1,98 @@
+﻿<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+@{
+    ViewData["Title"] = "AddNewSong";
+}
+
+@section Scripts{
+    <script type="text/javascript" src="~/js/EditDetailsOnButtonClick.js"></script>
+}
+
+<div class="container-fluid">
+    <hr />
+    <div class="row">
+        <div class="col-md-4 col-sm-4">
+
+        </div>
+        <div class="col-md-8 col-sm-8">
+            <div class="row">
+                <div class="col-md-6 col-sm-6">
+                    <form asp-area="" asp-controller="" asp-action="" method="get">
+                        <button type="submit" class="btn btn-block btn-default" style="margin: 5px">Cancel</button>
+                    </form>
+                </div>
+                <div class="col-md-6 col-sm-6">
+                    <form asp-area="" asp-controller="" asp-action="" method="get">
+                        <button type="submit" class="btn btn-block btn-primary" style="margin: 5px">Publish</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <hr />
+    <div class="row">
+        <div class="col-md-6 col-sm-6">
+            <div class="row" style="text-align: center">
+                <div class="col-md-8 col-sm-8">
+                    <input class="form-control" placeholder="Song Name" id="songName" disabled>
+                </div>
+                <div class="col-md-1 col-sm-1">
+                    <button class="btn btn-default edit" id="editSongName" onclick="editDetails()">
+                        <i class="glyphicon glyphicon-edit"></i>
+                    </button>
+                </div>
+                <div class="col-md-1 col-sm-1">
+                    <button class="btn btn-success save" id="saveSongName" onclick="saveDetails()">
+                        <i class="glyphicon glyphicon-ok"></i>
+                    </button>
+                </div>
+                <div class="col-md-1 col-sm-1">
+                    <button class="btn btn-danger cansel" id="cancelSongName" onclick="cancelEditiong()">
+                        <i class="glyphicon glyphicon-remove"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="row" style="text-align: center">
+                song logo
+            </div>
+            <div class="row" style="text-align: center">
+                By: artist
+            </div>
+            <div class="row" style="text-align: center">
+                <div class="col-md-2 col-sm-2">
+                    <label>Album Name:</label>             
+                </div>
+                <div class="col-md-6 col-sm-6">
+                    <input class="form-control" placeholder="Album Name" id="songName" disabled>
+                </div>
+                <div class="col-md-1 col-sm-1">
+                    <button class="btn btn-default edit" id="edit" onclick="editDetails()">
+                        <i class="glyphicon glyphicon-edit"></i>
+                    </button>
+                </div>
+                <div class="col-md-1 col-sm-1">
+                    <button class="btn btn-success save" id="save" onclick="saveDetails()">
+                        <i class="glyphicon glyphicon-ok"></i>
+                    </button>
+                </div>
+                <div class="col-md-1 col-sm-1">
+                    <button class="btn btn-danger cansel" id="cancel" onclick="cancelEditiong()">
+                        <i class="glyphicon glyphicon-remove"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="row" style="text-align: center">
+                genre
+            </div>
+            <div class="row" style="text-align: center">
+                release date
+            </div>
+            <div class="row" style="text-align: center">
+                links
+            </div>
+        </div>
+
+        <div class="col-md-6 col-sm-6">
+
+        </div>
+    </div>
+</div>

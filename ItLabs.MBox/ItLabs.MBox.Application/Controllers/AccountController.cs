@@ -74,15 +74,15 @@ namespace ItLabs.MBox.Application.Controllers
 
                 if (user == null)
                 {
-                    ModelState.AddModelError("Email", "Invalid User");
+                    ModelState.AddModelError("Email", "Password or e-mail are incorect");
                     return View("Login",model);
                 }
 
-               if (!await _userManager.IsEmailConfirmedAsync(user))
+               /*if (!await _userManager.IsEmailConfirmedAsync(user))
                 {
                     ModelState.AddModelError("Email", "User with this email exists,  but not verified.");
                     return View("Login", model);
-                }
+                }*/
 
                 var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, lockoutOnFailure: false);
                 if (result.Succeeded)
@@ -98,6 +98,10 @@ namespace ItLabs.MBox.Application.Controllers
                     if (_userManager.IsInRoleAsync(appuser, nameof(Role.RecordLabel)).Result)
                     {
                         return RedirectToAction("Index", "RecordLabels");
+                    }
+                    if (_userManager.IsInRoleAsync(appuser, nameof(Role.Artist)).Result)
+                    {
+                        return RedirectToAction("Index", "Artists");
                     }
 
 
@@ -154,9 +158,9 @@ namespace ItLabs.MBox.Application.Controllers
                 ModelState.AddModelError("Email", "Email already exists!");
                 return View("Register", model);
             }
-            var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+            var code = _userManager.GenerateEmailConfirmationTokenAsync(user).Result;
 
-            if (!string.IsNullOrWhiteSpace(code))
+            if (string.IsNullOrWhiteSpace(code))
             {
                 await _userManager.DeleteAsync(user);
                 ModelState.AddModelError("", "Unable to create activation code.");

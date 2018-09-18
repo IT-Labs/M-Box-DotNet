@@ -24,7 +24,7 @@ namespace ItLabs.MBox.Application.Models.AccountViewModels
 
         [DataType(DataType.Password)]
         [Display(Name = "Confirm password")]
-        [PasswordValidation(Minimum = 8, Maximum = 100)]
+        [PasswordValidation(Minimum = 8, Maximum = 64)]
         [Compare("Password", ErrorMessage = "The passwords do not match.")]
         public string ConfirmPassword { get; set; }
     }
