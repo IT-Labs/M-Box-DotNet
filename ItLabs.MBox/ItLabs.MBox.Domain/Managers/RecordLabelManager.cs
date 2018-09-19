@@ -158,14 +158,16 @@ namespace ItLabs.MBox.Domain.Managers
             //prepare the emails set the dto
             IList<MailDto> mailingList = new List<MailDto>();
             var template = _repository.GetAll<EmailTemplate>().Where(c => c.Type == EmailTemplateType.DeletedArtist).FirstOrDefault();
-            var mailDto = new MailDto();
+            
             foreach (var artist in artists)
             {
-                mailDto.EmailAddress = artist.User.Email;
-                mailDto.Subject = template.Subject;
-                mailDto.Body = template.Body.Replace("[Name]", artist.User.Name);
-                mailingList.Add(mailDto);
+                var artistDto = new MailDto();
+                artistDto.EmailAddress = artist.User.Email;
+                artistDto.Subject = template.Subject;
+                artistDto.Body = template.Body.Replace("[Name]", artist.User.Name);
+                mailingList.Add(artistDto);
             }
+            var mailDto = new MailDto();
             template = _repository.GetAll<EmailTemplate>().Where(c => c.Type == EmailTemplateType.DeletedRecordLabel).FirstOrDefault();
             mailDto.EmailAddress = recordLabel.Email;
             mailDto.Subject = template.Subject;

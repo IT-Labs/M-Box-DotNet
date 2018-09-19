@@ -131,9 +131,10 @@ namespace ItLabs.MBox.Application.Controllers
             //prepare the emails set the dto
             IList<MailDto> mailingList = new List<MailDto>();
             var template = _emailsManager.GetOne(filter: c => c.Type == EmailTemplateType.InvitedArtist);
-            var mailDto = new MailDto();
+            
             foreach (var artist in artists)
             {
+                var mailDto = new MailDto();
                 mailDto.EmailAddress = artist.User.Email;
                 mailDto.Subject = template.Subject;
                 mailDto.Body = template.Body.Replace("[Name]", artist.User.Name);

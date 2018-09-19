@@ -93,7 +93,7 @@ namespace ItLabs.MBox.Application.Controllers
                 return View("Index",model);
 
             _recordLabelManager.DeleteRecordLabel(user);
-            model.PagingList = _recordLabelManager.GetNextRecordLabels(model.Skip, model.Take);
+            model.PagingList = _recordLabelManager.GetSearchedRecordLabels(string.Empty, model.Skip, model.Take).ToList();
             return View("Index",model);
 
         }
