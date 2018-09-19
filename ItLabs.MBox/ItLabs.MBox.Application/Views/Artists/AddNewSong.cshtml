@@ -31,33 +31,33 @@
     <hr />
     <div class="row">
         <div class="col-md-6 col-sm-6">
-            <div class="row" style="text-align: center">
+            <div class="row">
                 <div class="col-md-8 col-sm-8">
                     <input class="form-control" placeholder="Song Name" id="songName" disabled>
                 </div>
                 <div class="col-md-1 col-sm-1">
-                    <button class="btn btn-default edit editDetails" onclick="editDetails('songName')">
+                    <button class="btn btn-default edit editDetails" id="editName" onclick="editDetails('songName', 'editName', 'saveName', 'cancelName')">
                         <i class="glyphicon glyphicon-edit"></i>
                     </button>
                 </div>
                 <div class="col-md-1 col-sm-1">
-                    <button class="btn btn-success save saveDetails" onclick="saveDetails('songName')">
+                    <button class="btn btn-success save saveDetails" id="saveName" onclick="saveDetails('songName', 'editName', 'saveName', 'cancelName')">
                         <i class="glyphicon glyphicon-ok"></i>
                     </button>
                 </div>
                 <div class="col-md-1 col-sm-1">
-                    <button class="btn btn-danger canselDetails" onclick="cancelEditiong('songName')">
+                    <button class="btn btn-danger cancelDetails" id="cancelName" onclick="cancelEditiong('songName', 'editName', 'saveName', 'cancelName')">
                         <i class="glyphicon glyphicon-remove"></i>
                     </button>
                 </div>
             </div>
-            <div class="row" style="text-align: center">
+            <div class="row">
                 song logo
             </div>
-            <div class="row" style="text-align: center">
-                By: artist
+            <div class="row">
+                <label>By: artist name</label>
             </div>
-            <div class="row" style="text-align: center">
+            <div class="row">
                 <div class="col-md-2 col-sm-2">
                     <label>Album Name:</label>             
                 </div>
@@ -65,34 +65,64 @@
                     <input class="form-control" placeholder="Album Name" id="albumName" disabled>
                 </div>
                 <div class="col-md-1 col-sm-1">
-                    <button class="btn btn-default edit editDetails" onclick="editDetails('albumName')">
+                    <button class="btn btn-default edit editDetails" id="editAlbum" onclick="editDetails('albumName', 'editAlbum', 'saveAlbum', 'cancelAlbum')">
                         <i class="glyphicon glyphicon-edit"></i>
                     </button>
                 </div>
                 <div class="col-md-1 col-sm-1">
-                    <button class="btn btn-success saveDetails" onclick="saveDetails('albumName')">
+                    <button class="btn btn-success saveDetails" id="saveAlbum" onclick="saveDetails('albumName', 'editAlbum', 'saveAlbum', 'cancelAlbum')">
                         <i class="glyphicon glyphicon-ok"></i>
                     </button>
                 </div>
                 <div class="col-md-1 col-sm-1">
-                    <button class="btn btn-danger canselDetails" onclick="cancelEditiong('albumName')">
+                    <button class="btn btn-danger cancelDetails" id="cancelAlbum" onclick="cancelEditiong('albumName', 'editAlbum', 'saveAlbum', 'cancelAlbum')">
                         <i class="glyphicon glyphicon-remove"></i>
                     </button>
                 </div>
             </div>
-            <div class="row" style="text-align: center">
+            <div class="row">
                 genre
             </div>
-            <div class="row" style="text-align: center">
-                release date
+            <div class="row">
+                <div class="col-md-3 col-sm-3" style="margin-top: 5px">
+                    <label>Release Date:</label>
+                </div>
+                <div class="col-md-7 col-sm-7" >
+                    <input class="form-control" type="date"/>
+                </div>
             </div>
-            <div class="row" style="text-align: center">
-                links
+            <div class="row" style="margin-top: 15px">
+                <div class="col-md-6 col-sm-6">
+                    <a target=”_blank” href="">Youtube</a>
+                    
+                </div>
+                <div class="col-md-6 col-sm-6" style="border-left: solid 2px #d3d3d3">
+                    <a target=”_blank” href="">Vimeo</a>
+                </div>
             </div>
         </div>
 
-        <div class="col-md-6 col-sm-6">
-
+        <div class="col-md-6 col-sm-6" style="border-left: solid 2px #d3d3d3">
+            <div class="row">
+                <div class="col-md-1 col-sm-1">
+                    <button class="btn btn-default edit editDetails" id="editLyrics" onclick="editDetails('songLyrics', 'editLyrics', 'saveLyrics', 'cancelLyrics')">
+                        <i class="glyphicon glyphicon-edit"></i>
+                    </button>
+                </div>
+                <div class="col-md-1 col-sm-1" >
+                    <button class="btn btn-success saveDetails" id="saveLyrics" onclick="saveDetails('songLyrics', 'editLyrics', 'saveLyrics', 'cancelLyrics')">
+                        <i class="glyphicon glyphicon-ok"></i>
+                    </button>
+                </div>
+                <div class="col-md-1 col-sm-1">
+                    <button class="btn btn-danger cancelDetails" id="cancelLyrics" onclick="cancelEditiong('songLyrics', 'editLyrics', 'saveLyrics', 'cancelLyrics')">
+                        <i class="glyphicon glyphicon-remove"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="row" style="padding: 12px;">
+                <textarea  class="form-control" maxlength="10000" style="margin-top: 5px; height: 550px; resize: none" name="Message" id="songLyrics" disabled></textarea>
+            </div>
         </div>
     </div>
 </div>

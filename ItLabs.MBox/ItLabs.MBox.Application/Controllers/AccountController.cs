@@ -102,7 +102,7 @@ namespace ItLabs.MBox.Application.Controllers
 
                 if (!result.Succeeded)
                 {
-                    ModelState.AddModelError("Email", "Invalid User");
+                    ModelState.AddModelError("Email", "Password or e-mail are incorect");
                     return View("Login", model);
                 }
 
