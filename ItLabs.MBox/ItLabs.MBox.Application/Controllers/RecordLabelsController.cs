@@ -1,6 +1,7 @@
 ﻿using ItLabs.MBox.Application.Models;
 using ItLabs.MBox.Application.Models.RecordLabelViewModels;
 using ItLabs.MBox.Common.Extentions;
+using ItLabs.MBox.Contracts;
 using ItLabs.MBox.Contracts.Entities;
 using ItLabs.MBox.Contracts.Enums;
 using ItLabs.MBox.Contracts.Interfaces;
@@ -32,8 +33,8 @@ namespace ItLabs.MBox.Application.Controllers
 
         public IActionResult Index()
         {
-            DashboardViewModel model = new DashboardViewModel() { RecordLabelId = CurrentLoggedUser, Skip = 0, Take = 20 };
-            model.PagingList = _artistsManager.GetRecordLabelArtists(model.RecordLabelId, model.Skip, model.Take);
+            DashboardViewModel model = new DashboardViewModel() { RecordLabelId = CurrentLoggedUser, Skip = MBoxConstants.initialSkip, Take = MBoxConstants.initialTakeTabel };
+            model.PagingList = _artistsManager.GetSearchedArtists(model.RecordLabelId, model.Skip, model.Take, string.Empty);
 
             return View(model);
         }
@@ -41,7 +42,7 @@ namespace ItLabs.MBox.Application.Controllers
         [HttpGet]
         public IActionResult GetRecordLabelArtists([FromQuery] DashboardViewModel model)
         {
-            model.PagingList = _artistsManager.GetRecordLabelArtists(model.RecordLabelId, model.Skip, model.Take).ToList();
+            model.PagingList = _artistsManager.GetSearchedArtists(model.RecordLabelId, model.Skip, model.Take, string.Empty).ToList();
             return View("NextArtists", model);
         }
 
@@ -89,7 +90,7 @@ namespace ItLabs.MBox.Application.Controllers
         public IActionResult Search(string search)
         {
 
-            DashboardViewModel model = new DashboardViewModel() { RecordLabelId = CurrentLoggedUser, Skip = 0, Take = 20 };
+            DashboardViewModel model = new DashboardViewModel() { RecordLabelId = CurrentLoggedUser, Skip = MBoxConstants.initialSkip, Take = MBoxConstants.initialTakeTabel };
 
             if (search != null)
             {
@@ -97,7 +98,7 @@ namespace ItLabs.MBox.Application.Controllers
                 return View("Index", model);
             }
 
-            model.PagingList = _artistsManager.GetRecordLabelArtists(model.RecordLabelId, model.Skip, model.Take);
+            model.PagingList = _artistsManager.GetSearchedArtists(model.RecordLabelId, model.Skip, model.Take, string.Empty);
             return RedirectToAction("Index", "RecordLabels");
         }
 

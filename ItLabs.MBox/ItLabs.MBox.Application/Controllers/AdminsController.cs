@@ -1,5 +1,6 @@
 ﻿using ItLabs.MBox.Application.Models;
 using ItLabs.MBox.Common.Extentions;
+using ItLabs.MBox.Contracts;
 using ItLabs.MBox.Contracts.Entities;
 using ItLabs.MBox.Contracts.Enums;
 using ItLabs.MBox.Contracts.Interfaces;
@@ -27,15 +28,15 @@ namespace ItLabs.MBox.Application.Controllers
         [HttpGet]
         public IActionResult Index()
         {   
-            var model = new PagingModel<RecordLabel>() { Skip = 0, Take = 20 };
-            model.PagingList = _recordLabelManager.GetNextRecordLabels(model.Skip, model.Take);
+            var model = new PagingModel<RecordLabel>() { Skip = MBoxConstants.initialSkip, Take = MBoxConstants.initialTakeTabel };
+            model.PagingList = _recordLabelManager.GetSearchedRecordLabels(string.Empty, model.Skip, model.Take).ToList();
             return View(model);
         }
 
         [HttpGet]
         public IActionResult GetNextRecordLabels([FromQuery] PagingModel<RecordLabel> model)
         {
-            model.PagingList = _recordLabelManager.GetNextRecordLabels(model.Skip, model.Take).ToList();
+            model.PagingList = _recordLabelManager.GetSearchedRecordLabels(string.Empty, model.Skip, model.Take).ToList();
             return View("NextRecordLabels", model);
         }
 
@@ -69,7 +70,7 @@ namespace ItLabs.MBox.Application.Controllers
         [HttpPost]
         public IActionResult Search(string search)
         {
-            var model = new PagingModel<RecordLabel>() { Skip = 0, Take = 20 };
+            var model = new PagingModel<RecordLabel>() { Skip = MBoxConstants.initialSkip, Take = MBoxConstants.initialTakeTabel };
 
             if (search != null)
             {
@@ -77,14 +78,14 @@ namespace ItLabs.MBox.Application.Controllers
                 return View("Index", model);
             }
 
-            model.PagingList = _recordLabelManager.GetNextRecordLabels(model.Skip, model.Take);
+            model.PagingList = _recordLabelManager.GetSearchedRecordLabels(string.Empty, model.Skip, model.Take).ToList();
             return RedirectToAction("Index", "Admins");
         }
         [HttpPost]
         public IActionResult DeleteRecordLabel(int recordLabelId)
         {
-            var model = new PagingModel<RecordLabel>() { Skip = 0, Take = 20 };
-            model.PagingList = _recordLabelManager.GetNextRecordLabels(model.Skip, model.Take);
+            var model = new PagingModel<RecordLabel>() { Skip = MBoxConstants.initialSkip, Take = MBoxConstants.initialTakeTabel };
+            model.PagingList = _recordLabelManager.GetSearchedRecordLabels(string.Empty, model.Skip, model.Take).ToList();
             var user = _userManager.FindByIdAsync(recordLabelId.ToString()).Result;
             
             if (user == null)

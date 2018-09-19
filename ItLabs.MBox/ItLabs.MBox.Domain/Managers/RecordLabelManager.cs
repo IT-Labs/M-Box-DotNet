@@ -26,7 +26,7 @@ namespace ItLabs.MBox.Domain.Managers
             _userManager = userManager;
         }
 
-        public IList<RecordLabel> GetAllRecordLabels()
+        /*public IList<RecordLabel> GetAllRecordLabels()
         {
             return _repository.GetAll<RecordLabel>(
                 includeProperties: $"{nameof(RecordLabel.User)},{nameof(RecordLabel.RecordLabelArtists)}").ToList();
@@ -36,7 +36,7 @@ namespace ItLabs.MBox.Domain.Managers
         {
             return _repository.GetAll<RecordLabel>(
                 includeProperties: $"{nameof(RecordLabel.User)},{nameof(RecordLabel.RecordLabelArtists)}", skip: toSkip, take: toTake).ToList();
-        }
+        }*/
         public IList<Artist> DeleteRecordLabel(ApplicationUser user)
         {
             var recordLabelArtists = _repository.Get<RecordLabelArtist>(filter: x => x.RecordLabel.User == user, includeProperties: $"{nameof(Artist)}.{nameof(Artist.User)},{nameof(RecordLabel)}");
