@@ -43,6 +43,8 @@ namespace ItLabs.MBox.Application.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> Login(string returnUrl = null)
         {
+            if (HttpContext.User.Identity.IsAuthenticated)
+                return RedirectToLocal(returnUrl);
             // Clear the existing external cookie to ensure a clean login process
             await HttpContext.SignOutAsync(IdentityConstants.ExternalScheme);
 

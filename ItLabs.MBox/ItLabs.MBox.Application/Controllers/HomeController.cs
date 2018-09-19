@@ -2,6 +2,7 @@
 using ItLabs.MBox.Contracts;
 using ItLabs.MBox.Contracts.Entities;
 using ItLabs.MBox.Contracts.Interfaces;
+using ItLabs.MBox.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
@@ -15,12 +16,14 @@ namespace ItLabs.MBox.Application.Controllers
         private IArtistManager _artistsManager;
         private IRecordLabelManager _recordLabelManager;
         private IEmailsManager _emailManager;
-        public HomeController(ISongManager songsManager, IArtistManager artistsManager, IRecordLabelManager recordLabelManager, IEmailsManager emailManager, UserManager<ApplicationUser> userManager) : base(userManager)
+        private IRepository _repository;
+        public HomeController(IRepository repository, ISongManager songsManager, IArtistManager artistsManager, IRecordLabelManager recordLabelManager, IEmailsManager emailManager, UserManager<ApplicationUser> userManager) : base(userManager)
         {
             _songsManager = songsManager;
             _artistsManager = artistsManager;
             _recordLabelManager = recordLabelManager;
             _emailManager = emailManager;
+            _repository = repository;
         }
 
         public IActionResult Index()
@@ -38,7 +41,10 @@ namespace ItLabs.MBox.Application.Controllers
         public IActionResult About()
         {
             ViewData["Message"] = "About page";
-            AboutViewModel model = new AboutViewModel{WeCooperateWith = _recordLabelManager.GetAllRecordLabels()};
+            AboutViewModel model = new AboutViewModel{
+                WeCooperateWith = _repository.GetAll<RecordLabel>(
+                includeProperties: $"{nameof(RecordLabel.User)},{nameof(RecordLabel.RecordLabelArtists)}").ToList()
+            };
             return View(model);
         }
 
@@ -46,12 +52,17 @@ namespace ItLabs.MBox.Application.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult About(AboutViewModel model)
         {
+            model.WeCooperateWith = _repository.GetAll<RecordLabel>(
+                includeProperties: $"{nameof(RecordLabel.User)},{nameof(RecordLabel.RecordLabelArtists)}").ToList();
+
             ViewData["Message"] = "About page";
             if (ModelState.IsValid)
             {
                 _emailManager.PrepareContactFormMail(model.Name, model.Email, model.Message);
-            }
-            model.WeCooperateWith = _recordLabelManager.GetAllRecordLabels();
+                ModelState.AddModelError("Message", "Message successfully sent");
+                return RedirectToAction("About", "Home");
+            }        
+
             return View(model);
         }
 
@@ -66,8 +77,8 @@ namespace ItLabs.MBox.Application.Controllers
         public IActionResult RecordLabels()
         {
             ViewData["Message"] = "RecordLabels";
-            var model = new PagingModel<RecordLabel>() { Skip = 0, Take = 25 };
-            model.PagingList = _recordLabelManager.GetNextRecordLabels(model.Skip, model.Take);
+            var model = new PagingModel<RecordLabel>() { Skip = MBoxConstants.initialSkip, Take = MBoxConstants.initialTakeHomeLists };
+            model.PagingList = _recordLabelManager.GetSearchedRecordLabels(string.Empty, model.Skip, model.Take).ToList();
             return View(model);
         }
 
@@ -75,7 +86,7 @@ namespace ItLabs.MBox.Application.Controllers
         public IActionResult GetNextRecordLabels([FromQuery] PagingModel<RecordLabel> model)
         {
             ViewData["Message"] = "RecordLabels";
-            model.PagingList = _recordLabelManager.GetNextRecordLabels(model.Skip, model.Take).ToList() ;
+            model.PagingList = _recordLabelManager.GetSearchedRecordLabels(string.Empty, model.Skip, model.Take).ToList();
             return View("NextRecordLabels", model);
         }
 

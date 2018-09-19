@@ -7,8 +7,8 @@ namespace ItLabs.MBox.Contracts.Interfaces
 {
     public interface IRecordLabelManager : IBaseManager<RecordLabel>
     {
-        IList<RecordLabel> GetAllRecordLabels();
-        IList<RecordLabel> GetNextRecordLabels(int skip, int take);
+        //IList<RecordLabel> GetAllRecordLabels();
+        //IList<RecordLabel> GetNextRecordLabels(int skip, int take);
         void DeleteRecordLabel(ApplicationUser user);
         IList<RecordLabel> GetSearchedRecordLabels(string searchValue, int toSkip, int toTake);
         AddMultipleArtistsDto ValidateCsvFile(IFormFile formFile, int recordLabelId);
