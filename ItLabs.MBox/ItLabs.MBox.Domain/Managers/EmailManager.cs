@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Mail;
 using System.Threading.Tasks;
+using ItLabs.MBox.Contracts.Dtos;
 using ItLabs.MBox.Contracts.Entities;
 using ItLabs.MBox.Contracts.Enums;
 using ItLabs.MBox.Contracts.Interfaces;
@@ -21,7 +23,7 @@ namespace ItLabs.MBox.Domain.Managers
             _repository = repository;
 
         }
-        public Task PerpareSendMail(EmailTemplateType type, string email, string callbackUrl)
+        public void PerpareSendMail(EmailTemplateType type, string email, string callbackUrl)
         {
             var template = _repository.GetAll<EmailTemplate>().Where(c => c.Type == type).FirstOrDefault();
             var user = _repository.GetAll<ApplicationUser>().Where(x => x.Email == email).FirstOrDefault();
@@ -29,7 +31,6 @@ namespace ItLabs.MBox.Domain.Managers
             if (bodyToSend.Contains("[Link]"))
                 bodyToSend = bodyToSend.Replace("[Link]", "<a href=" + callbackUrl + ">" + template.LinkText + "</a>");
             SendMailSmtp(email, template.Subject, bodyToSend);
-            return Task.CompletedTask;
         }
 
         public void PrepareContactFormMail(string name, string email, string message)
@@ -70,6 +71,48 @@ namespace ItLabs.MBox.Domain.Managers
                 };
                 client.Send(msg);
             }
+        }
+        public void SendMultipleMailSmtp(IList<MailDto> mailingList, IList<Configuration> configuration)
+        {
+            var awsSesFromAddress = configuration.Where(x => x.Key == ConfigurationKey.AwsSesFromAddress).FirstOrDefault().Value;
+            var awsSesUsername = configuration.Where(x => x.Key == ConfigurationKey.AwsSesUsername).FirstOrDefault().Value;
+            var awsSesPassword = configuration.Where(x => x.Key == ConfigurationKey.AwsSesPassword).FirstOrDefault().Value;
+            var awsSesHost = configuration.Where(x => x.Key == ConfigurationKey.AwsSesHost).FirstOrDefault().Value;
+            var awsSesPort = Int32.Parse(configuration.Where(x => x.Key == ConfigurationKey.AwsSesPort).FirstOrDefault().Value);
+            var testReceiverEmail = configuration.Where(x => x.Key == ConfigurationKey.TestReceiverEmail).FirstOrDefault().Value;
+            var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
+
+            using (var client = new SmtpClient(awsSesHost, awsSesPort))
+            {
+                foreach(var userToSendTo in mailingList)
+                {
+                    var email = userToSendTo.EmailAddress;
+                    var subject = userToSendTo.Subject;
+                    var bodyToSend = userToSendTo.Body;
+
+                    if (environment == EnvironmentName.Development || environment == EnvironmentName.Staging)
+                        email = testReceiverEmail;
+
+                    client.Credentials = new NetworkCredential(awsSesUsername, awsSesPassword);
+                    client.EnableSsl = true;
+                    var msg = new MailMessage(
+                              awsSesFromAddress,
+                              email,
+                              subject,
+                              bodyToSend
+                        )
+                    {
+                        IsBodyHtml = true
+                    };
+                    client.Send(msg);
+                }
+                
+            }
+            
+        }
+        public IList<Configuration> GetConfiguration()
+        {
+            return _repository.GetAll<Configuration>().ToList();
         }
     }
 }

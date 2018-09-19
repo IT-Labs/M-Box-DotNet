@@ -51,17 +51,18 @@ namespace ItLabs.MBox.Application.Controllers
             if (!ModelState.IsValid)
                 return View(model);
 
-            var user = _userManager.CreateUser(model.Name, model.Email, Role.RecordLabel).Result;
-            if(user == null)
+            var response = _userManager.CreateUser(model.Name, model.Email, Role.RecordLabel);
+            if(response == null)
             {
                 ModelState.AddModelError("EMail", "Email already exists");
                 return View("AddNewRecordLabel",model);
             }
+            var user = response.Result;
             _recordLabelManager.Create(new RecordLabel() {User=user },CurrentLoggedUser);
             _recordLabelManager.Save();
             var code = await _userManager.GeneratePasswordResetTokenAsync(user);
             var callbackUrl = Url.ResetPasswordCallbackLink(user.Id.ToString(), code, Request.Scheme);
-            await _emailsManager.PerpareSendMail(EmailTemplateType.InvitedRecordLabel, model.Email, callbackUrl);
+            _emailsManager.PerpareSendMail(EmailTemplateType.InvitedRecordLabel, model.Email, callbackUrl);
 
             return View("SuccessfullyInvited");
 
@@ -85,12 +86,13 @@ namespace ItLabs.MBox.Application.Controllers
         {
             var model = new PagingModel<RecordLabel>() { Skip = 0, Take = 20 };
             model.PagingList = _recordLabelManager.GetNextRecordLabels(model.Skip, model.Take);
+
             var user = _userManager.FindByIdAsync(recordLabelId.ToString()).Result;
-            
             if (user == null)
                 return View("Index",model);
 
             _recordLabelManager.DeleteRecordLabel(user);
+            model.PagingList = _recordLabelManager.GetNextRecordLabels(model.Skip, model.Take);
             return View("Index",model);
 
         }

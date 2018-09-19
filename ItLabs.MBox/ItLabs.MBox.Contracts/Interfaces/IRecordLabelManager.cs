@@ -9,9 +9,10 @@ namespace ItLabs.MBox.Contracts.Interfaces
     {
         IList<RecordLabel> GetAllRecordLabels();
         IList<RecordLabel> GetNextRecordLabels(int skip, int take);
-        IList<Artist> DeleteRecordLabel(ApplicationUser user);
+        void DeleteRecordLabel(ApplicationUser user);
         IList<RecordLabel> GetSearchedRecordLabels(string searchValue, int toSkip, int toTake);
         AddMultipleArtistsDto ValidateCsvFile(IFormFile formFile, int recordLabelId);
         int CreateMultipleArtists(IList<Artist> artistsToBeAdded, int recordLabelId);
+        void prepareAndSendMails(IList<Artist> artists, ApplicationUser recordLabel);
     }
 }

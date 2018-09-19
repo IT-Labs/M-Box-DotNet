@@ -11,6 +11,7 @@ using System.ComponentModel.DataAnnotations;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Threading;
 
 namespace ItLabs.MBox.Domain.Managers
 {
@@ -37,7 +38,7 @@ namespace ItLabs.MBox.Domain.Managers
             return _repository.GetAll<RecordLabel>(
                 includeProperties: $"{nameof(RecordLabel.User)},{nameof(RecordLabel.RecordLabelArtists)}", skip: toSkip, take: toTake).ToList();
         }
-        public IList<Artist> DeleteRecordLabel(ApplicationUser user)
+        public void DeleteRecordLabel(ApplicationUser user)
         {
             var recordLabelArtists = _repository.Get<RecordLabelArtist>(filter: x => x.RecordLabel.User == user, includeProperties: $"{nameof(Artist)}.{nameof(Artist.User)},{nameof(RecordLabel)}");
             var artists = recordLabelArtists.Select(x => x.Artist);
@@ -50,12 +51,14 @@ namespace ItLabs.MBox.Domain.Managers
             {
                 _repository.Delete(rla);
             }
-            Task.Run(() => SendMails(artists.ToList()));
-            _emailsManager.PerpareSendMail(EmailTemplateType.DeletedRecordLabel, user.Email, "");
+
+            var recordLabel = user;
+
             _repository.Delete<RecordLabel>(user.Id);
             _repository.Delete(user);
             _repository.Save();
-            return artists.ToList();
+            prepareAndSendMails(artists.ToList(), recordLabel);
+
         }
 
         public IList<RecordLabel> GetSearchedRecordLabels(string searchValue, int toSkip, int toTake)
@@ -122,7 +125,13 @@ namespace ItLabs.MBox.Domain.Managers
                         addMultipleArtistsDto.Errors.Add("Artist limit (50) exceeded");
                         return addMultipleArtistsDto;
                     }
-                    var userCreated = _userManager.CreateUser(name, email, Role.Artist).Result;
+                    var response = _userManager.CreateUser(name, email, Role.Artist);
+                    if(response == null)
+                    {
+                        addMultipleArtistsDto.Errors.Add("Artist could not be created, try again!");
+                        return addMultipleArtistsDto;
+                    }
+                    var userCreated = response.Result;
                     var artist = new Artist() { User = userCreated};
                     addMultipleArtistsDto.ArtistsToBeAdded.Add(artist);
                     iteration++;
@@ -144,12 +153,34 @@ namespace ItLabs.MBox.Domain.Managers
             return counter;
         }
 
-        private void SendMails(IList<Artist> artists)
+        public void prepareAndSendMails(IList<Artist> artists , ApplicationUser recordLabel)
         {
+            //prepare the emails set the dto
+            IList<MailDto> mailingList = new List<MailDto>();
+            var template = _repository.GetAll<EmailTemplate>().Where(c => c.Type == EmailTemplateType.DeletedArtist).FirstOrDefault();
+            var mailDto = new MailDto();
             foreach (var artist in artists)
             {
-                _emailsManager.PerpareSendMail(EmailTemplateType.DeletedArtist, artist.User.Email, "");
+                mailDto.EmailAddress = artist.User.Email;
+                mailDto.Subject = template.Subject;
+                mailDto.Body = template.Body.Replace("[Name]", artist.User.Name);
+                mailingList.Add(mailDto);
             }
+            template = _repository.GetAll<EmailTemplate>().Where(c => c.Type == EmailTemplateType.DeletedRecordLabel).FirstOrDefault();
+            mailDto.EmailAddress = recordLabel.Email;
+            mailDto.Subject = template.Subject;
+            mailDto.Body = template.Body.Replace("[Name]", recordLabel.Name);
+            mailingList.Add(mailDto);
+
+            var configuration = _repository.GetAll<Configuration>().ToList();
+            //fire and forget
+            new Thread(() =>
+            {
+                Thread.CurrentThread.IsBackground = true;
+                _emailsManager.SendMultipleMailSmtp(mailingList, configuration);
+            }).Start();
+            
+            
         }
     }
 }

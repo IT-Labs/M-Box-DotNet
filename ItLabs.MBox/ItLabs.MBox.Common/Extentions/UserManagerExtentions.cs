@@ -14,6 +14,10 @@ namespace ItLabs.MBox.Common.Extentions
                 password = Guid.NewGuid().ToString();
 
             var user = new ApplicationUser { Name = name, UserName = email, Email = email };
+            if(userManager.FindByEmailAsync(email).Result != null)
+            {
+                return null;
+            }
             var result = userManager.CreateAsync(user, password).Result;
             if (!result.Succeeded)
             {

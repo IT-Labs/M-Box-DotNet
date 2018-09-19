@@ -142,12 +142,13 @@ namespace ItLabs.MBox.Application.Controllers
             if (!ModelState.IsValid)
                 return View(model);
 
-            var user = _userManager.CreateUser(model.Name, model.Email, Role.Listener, model.Password).Result;
-            if (user == null)
+            var response = _userManager.CreateUser(model.Name, model.Email, Role.Listener, model.Password);
+            if (response == null)
             {
                 ModelState.AddModelError("Email", "Email already exists!");
                 return View("Register", model);
             }
+            var user = response.Result;
             var code = _userManager.GenerateEmailConfirmationTokenAsync(user).Result;
 
             if (string.IsNullOrWhiteSpace(code))
@@ -159,7 +160,7 @@ namespace ItLabs.MBox.Application.Controllers
 
             var callbackUrl = Url.EmailConfirmationLink(user.Id.ToString(), code, Request.Scheme);
 
-            await _emailManager.PerpareSendMail(EmailTemplateType.SignUp, model.Email, callbackUrl);
+            _emailManager.PerpareSendMail(EmailTemplateType.SignUp, model.Email, callbackUrl);
 
             return View("RegisterMailHasBeenSent");
         }
@@ -297,7 +298,7 @@ namespace ItLabs.MBox.Application.Controllers
             // visit https://go.microsoft.com/fwlink/?LinkID=532713
             var code = await _userManager.GeneratePasswordResetTokenAsync(user);
             var callbackUrl = Url.ResetPasswordCallbackLink(user.Id.ToString(), code, Request.Scheme);
-            await _emailManager.PerpareSendMail(EmailTemplateType.ForgotPassword, model.Email, callbackUrl);
+            _emailManager.PerpareSendMail(EmailTemplateType.ForgotPassword, model.Email, callbackUrl);
             return RedirectToAction(nameof(ForgotPasswordConfirmation));
         }
 
@@ -310,13 +311,14 @@ namespace ItLabs.MBox.Application.Controllers
 
         [HttpGet]
         [AllowAnonymous]
-        public IActionResult ResetPassword(string code = null)
+        public IActionResult ResetPassword(string userId, string code = null)
         {
-            if (code == null)
+            if (code == null )
             {
                 throw new ApplicationException("A code must be supplied for password reset.");
             }
             var model = new ResetPasswordViewModel { Code = code };
+            model.Email = _userManager.FindByIdAsync(userId).Result.Email;
             return View(model);
         }
 
