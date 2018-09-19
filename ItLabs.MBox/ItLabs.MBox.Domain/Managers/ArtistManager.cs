@@ -24,7 +24,7 @@ namespace ItLabs.MBox.Domain.Managers
         public IList<Artist> GetSearchedArtists(int recordLabelId, int toSkip, int toTake, string searchValue)
         {
             return _repository.Get<RecordLabelArtist>(
-                filter: x => x.RecordLabelId == recordLabelId && (x.Artist.User.Name.ToUpper().Contains(searchValue.ToUpper()) || x.Artist.User.Email.ToUpper().Contains(searchValue.ToUpper())),
+                filter: x => x.RecordLabelId == recordLabelId && x.Artist.IsDeleted == false && (x.Artist.User.Name.ToUpper().Contains(searchValue.ToUpper()) || x.Artist.User.Email.ToUpper().Contains(searchValue.ToUpper())),
                 includeProperties: $"{nameof(Artist)}.{nameof(Artist.User)}",
                 skip: toSkip,
                 take: toTake)
@@ -46,6 +46,18 @@ namespace ItLabs.MBox.Domain.Managers
             _repository.Save();
         }
 
-        
+        public void DeleteArtist(int recordLabelId, int artistlId)
+        {
+            var artist = _repository.GetOne<Artist>(x => x.Id == artistlId, includeProperties: $"{ nameof(Artist.User)}");
+            var recordLabelArtist = _repository.GetById<RecordLabelArtist>(recordLabelId);
+
+            artist.IsDeleted = true;
+            _repository.Update<Artist>(artist, recordLabelId);
+
+            _repository.Delete(recordLabelArtist);
+            _repository.Save();
+
+            _emailsManager.PerpareSendMail(EmailTemplateType.DeletedArtist, artist.User.Email, "");
+        }
     }
 }

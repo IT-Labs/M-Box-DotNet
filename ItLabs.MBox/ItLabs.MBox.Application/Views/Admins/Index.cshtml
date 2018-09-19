@@ -60,11 +60,8 @@
                             <form asp-area="" asp-controller="Admins" asp-action="DeleteRecordLabel" method="post" onsubmit="return confirm('Are you sure');">
                                 @Html.Hidden("recordLabelId", rl.User.Id)
                                 <button type="submit" class="btn btn-danger" >Delete
-                                    <i class="glyphicon glyphicon-trash"></i></button>
-                               
+                                    <i class="glyphicon glyphicon-trash"></i></button>                             
                             </form>
-
-
                         </td>
                     </tr>
                 }

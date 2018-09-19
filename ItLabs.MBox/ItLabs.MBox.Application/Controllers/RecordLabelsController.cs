@@ -20,7 +20,7 @@ namespace ItLabs.MBox.Application.Controllers
     [Authorize(Roles = nameof(Role.RecordLabel))]
     public class RecordLabelsController : BaseController
     {
-        private IArtistManager _artistsManager;
+        private readonly IArtistManager _artistsManager;
        
         private readonly IEmailsManager _emailsManager;
         private readonly IRecordLabelManager _recordLabelManager;
@@ -151,6 +151,17 @@ namespace ItLabs.MBox.Application.Controllers
                 _emailsManager.SendMultipleMailSmtp(mailingList, configuration);
             }).Start();
             //fire and forget
+        }
+
+        [HttpPost]
+        public IActionResult DeleteArtist(int artistlId)
+        {
+            _artistsManager.DeleteArtist(CurrentLoggedUser, artistlId);
+
+            var model = new DashboardViewModel() { Skip = MBoxConstants.initialSkip, Take = MBoxConstants.initialTakeTabel };
+            model.PagingList = _artistsManager.GetSearchedArtists(CurrentLoggedUser, model.Skip, model.Take, string.Empty).ToList();
+
+            return View("Index", model);
         }
     }
 }
