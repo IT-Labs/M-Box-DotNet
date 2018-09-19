@@ -43,6 +43,8 @@ namespace ItLabs.MBox.Application.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> Login(string returnUrl = null)
         {
+            if (HttpContext.User.Identity.IsAuthenticated)
+                return RedirectToLocal(returnUrl);
             // Clear the existing external cookie to ensure a clean login process
             await HttpContext.SignOutAsync(IdentityConstants.ExternalScheme);
 
@@ -68,11 +70,11 @@ namespace ItLabs.MBox.Application.Controllers
                     return View("Login",model);
                 }
 
-                /*if (!await _userManager.IsEmailConfirmedAsync(user))
+                if (!await _userManager.IsEmailConfirmedAsync(user))
                 {
                     ModelState.AddModelError("Email", "User with this email exists,  but not verified.");
                     return View("Login", model);
-                }*/
+                }
 
                 var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, lockoutOnFailure: false);
                 if (result.Succeeded)

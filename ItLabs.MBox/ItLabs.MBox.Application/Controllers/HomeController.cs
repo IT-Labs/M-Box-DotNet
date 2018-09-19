@@ -52,14 +52,17 @@ namespace ItLabs.MBox.Application.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult About(AboutViewModel model)
         {
+            model.WeCooperateWith = _repository.GetAll<RecordLabel>(
+                includeProperties: $"{nameof(RecordLabel.User)},{nameof(RecordLabel.RecordLabelArtists)}").ToList();
+
             ViewData["Message"] = "About page";
             if (ModelState.IsValid)
             {
                 _emailManager.PrepareContactFormMail(model.Name, model.Email, model.Message);
+                ModelState.AddModelError("Message", "Message successfully sent");
                 return RedirectToAction("About", "Home");
-            }
-            model.WeCooperateWith = _repository.GetAll<RecordLabel>(
-                includeProperties: $"{nameof(RecordLabel.User)},{nameof(RecordLabel.RecordLabelArtists)}").ToList();
+            }        
+
             return View(model);
         }
 
