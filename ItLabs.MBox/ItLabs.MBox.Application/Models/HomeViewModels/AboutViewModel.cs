@@ -13,13 +13,14 @@ namespace ItLabs.MBox.Application.Models
 
         [Required]
         [Display(Name = "Name")]
-        [StringLength(50, ErrorMessage = "The {0} cannot contain more than {1} characters!", MinimumLength = 1)]
+        [StringLength(50, ErrorMessage = "The {0} cannot contain more than {1} characters!", MinimumLength = 2)]
         public string Name { get; set; }
         [Required]
         [EmailAddress(ErrorMessage = "The Email should be in example@example.com format!")]
         [Display(Name = "Email")]
         public string Email { get; set; }
         [Required]
+        [Display(Name = "Message")]
         public string Message { get; set; }
     }
 }

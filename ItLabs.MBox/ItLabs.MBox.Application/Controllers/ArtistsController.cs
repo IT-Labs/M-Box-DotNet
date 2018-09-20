@@ -1,4 +1,5 @@
 ﻿using ItLabs.MBox.Application.Models;
+using ItLabs.MBox.Application.Models.ArtistsViewModel;
 using ItLabs.MBox.Contracts;
 using ItLabs.MBox.Contracts.Entities;
 using ItLabs.MBox.Contracts.Enums;
@@ -48,6 +49,17 @@ namespace ItLabs.MBox.Application.Controllers
         public IActionResult AddNewSong()
         {
             return View();
+        }
+
+        [HttpPost]
+        public IActionResult AddNewSong(AddNewSongViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                return RedirectToAction("Index");
+            }
+
+            return View(model);
         }
     }
 }
