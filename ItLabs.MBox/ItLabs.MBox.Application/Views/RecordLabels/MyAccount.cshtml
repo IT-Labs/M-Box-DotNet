@@ -1,6 +1,85 @@
-﻿
+﻿<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+@section Scripts{
+    <script type="text/javascript" src="~/js/EditDetailsOnButtonClick.js"></script>
+}
+
 @{
     ViewData["Title"] = "MyAccount";
 }
 
-<h2>MyAccount</h2>
+<div class="container-fluid" style="text-align: center">
+    <div class="row" style="margin: 15px">
+        <div class="col-md-8 col-sm-8">
+            <input class="form-control" placeholder="Song Name" id="RecordLabelName" disabled>
+        </div>
+        <div class="col-md-1 col-sm-1">
+            <button class="btn btn-default edit editDetails" id="editRecordLabelName" onclick="editDetails('RecordLabelName', 'editRecordLabelName', 'saveRecordLabelName', 'cancelRecordLabelName')">
+                <i class="glyphicon glyphicon-edit"></i>
+            </button>
+        </div>
+        <div class="col-md-1 col-sm-1">
+            <button class="btn btn-success save saveDetails" id="saveRecordLabelName" onclick="saveDetails('RecordLabelName', 'editRecordLabelName', 'saveRecordLabelName', 'cancelRecordLabelName')">
+                <i class="glyphicon glyphicon-ok"></i>
+            </button>
+        </div>
+        <div class="col-md-1 col-sm-1">
+            <button class="btn btn-danger cancelDetails" id="cancelRecordLabelName" onclick="cancelEditiong('RecordLabelName', 'editRecordLabelName', 'saveRecordLabelName', 'cancelRecordLabelName')">
+                <i class="glyphicon glyphicon-remove"></i>
+            </button>
+        </div>
+    </div>
+    <div class="row" style="margin: 15px">
+        rl logo
+    </div>
+    <div class="row" style="margin: 15px">
+        <div class="row">           
+            <div class="col-md-8 col-sm-8">
+                <label>Contact Information</label>
+            </div>
+            <div class="col-md-1 col-sm-1">
+                <button class="btn btn-default edit editDetails" id="editContactInfo" onclick="editDetails('contactInfo', 'editContactInfo', 'saveContactInfo', 'cancelContactInfo')">
+                    <i class="glyphicon glyphicon-edit"></i>
+                </button>
+            </div>
+            <div class="col-md-1 col-sm-1">
+                <button class="btn btn-success save saveDetails" id="saveContactInfo" onclick="saveDetails('contactInfo', 'editContactInfo', 'saveContactInfo', 'cancelContactInfo')">
+                    <i class="glyphicon glyphicon-ok"></i>
+                </button>
+            </div>
+            <div class="col-md-1 col-sm-1">
+                <button class="btn btn-danger cancelDetails" id="cancelContactInfo" onclick="cancelEditiong('contactInfo', 'editContactInfo', 'saveContactInfo', 'cancelContactInfo')">
+                    <i class="glyphicon glyphicon-remove"></i>
+                </button>
+            </div>
+        </div>
+        <div class="row">
+                <textarea class="form-control" maxlength="350" style="margin-top: 5px; height: 200px; resize: none; text-align: center" name="ContactInfo" id="contactInfo" disabled></textarea>
+        </div>
+    </div>
+    <div class="row" style="margin: 15px">
+        <div class="row">
+            <div class="col-md-8 col-sm-8">
+                <label>Other Information About Record Label</label>
+            </div>
+            <div class="col-md-1 col-sm-1">
+                <button class="btn btn-default edit editDetails" id="editOtherInfo" onclick="editDetails('otherInfo', 'editOtherInfo', 'saveOtherInfo', 'cancelOtherInfo')">
+                    <i class="glyphicon glyphicon-edit"></i>
+                </button>
+            </div>
+            <div class="col-md-1 col-sm-1">
+                <button class="btn btn-success save saveDetails" id="saveOtherInfo" onclick="saveDetails('otherInfo', 'editOtherInfo', 'saveOtherInfo', 'cancelOtherInfo')">
+                    <i class="glyphicon glyphicon-ok"></i>
+                </button>
+            </div>
+            <div class="col-md-1 col-sm-1">
+                <button class="btn btn-danger cancelDetails" id="cancelOtherInfo" onclick="cancelEditiong('otherInfo', 'editOtherInfo', 'saveOtherInfo', 'cancelOtherInfo')">
+                    <i class="glyphicon glyphicon-remove"></i>
+                </button>
+            </div>
+        </div>
+        <div class="row">
+            <textarea class="form-control" maxlength="1000" style="margin-top: 5px; height: 300px; resize: none; text-align: center" name="InfoAboutRecordLabel" id="otherInfo" disabled></textarea>
+        </div>
+    </div>
+</div>

@@ -1,4 +1,5 @@
-﻿
+﻿@using ItLabs.MBox.Application.Models
+@model PagingModel<Song>
 @{
     ViewData["Title"] = "MySongs";
 }
@@ -12,9 +13,9 @@
         </div>
         <div class="col-md-8 col-sm-8" style="margin-top: 5px">
             <div class="row">
-                <form id="searchForm" asp-area="" asp-controller="RecordLabels" asp-action="Search" method="post">
+                <form id="searchForm" asp-area="" asp-controller="Artists" asp-action="Search" method="post">
                     <div class="col-md-9 col-sm-9">
-                        @Html.TextBox("search", null, new { @class = "form-control" })
+                        @Html.TextBox("searchValue", null, new { @class = "form-control" })
                     </div>
                     <div class="col-md-3 col-sm-3">
                         <input id="searchButton" type="submit" value="Search" class="btn btn-default btn-block" />
@@ -33,9 +34,26 @@
                     <th>Delete Song</th>
                 </tr>
             </thead>
-
             <tbody id="artists">
-               
+                @foreach (Song song in Model.PagingList)
+                {
+                    <tr class="search">
+                        <td>@song.Name
+
+                        </td>
+                        <td>@song.AlbumName</td>
+                        <td>@song.Genre</td>
+                        <td>
+                            <form asp-area="" asp-controller="" asp-action="" method="post" onsubmit="return confirm('Are you sure');">
+                                
+                                <button type="submit" class="btn btn-danger">
+                                    Delete
+                                    <i class="glyphicon glyphicon-trash"></i>
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                }
             </tbody>
         </table>
     </div>

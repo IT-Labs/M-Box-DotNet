@@ -9,5 +9,6 @@ namespace ItLabs.MBox.Contracts.Interfaces
     {
         IList<Song> GetRecentlyAddedSongs(int number);
         IList<Song> GetMostPopularArtistSongs(int number);
+        IList<Song> GetArtistSongs(int ArtistId, int skip, int take, string searchValue);
     }
 }
