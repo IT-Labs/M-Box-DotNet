@@ -2,6 +2,7 @@
 @inject UserManager<ApplicationUser> UserManager
 @using ItLabs.MBox.Contracts.Enums
 @using ItLabs.MBox.Application.Models.ArtistsViewModel
+
 @{
     ViewData["Title"] = "AddNewSong";
     var user = await UserManager.GetUserAsync(User);
@@ -35,7 +36,7 @@
     </div>
     <hr />
 
-    <form asp-controller="Artists" asp-action="About" method="post">
+    
         <div class="row">
             <div class="col-md-6 col-sm-6">
                 <div class="row">
@@ -180,5 +181,5 @@
                 </div>
             </div>
         </div>
-    </form>
+    
 </div>
