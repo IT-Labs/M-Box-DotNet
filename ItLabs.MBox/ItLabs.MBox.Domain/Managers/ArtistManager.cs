@@ -49,7 +49,7 @@ namespace ItLabs.MBox.Domain.Managers
         public void DeleteArtist(int recordLabelId, int artistlId)
         {
             var artist = _repository.GetOne<Artist>(x => x.Id == artistlId, includeProperties: $"{ nameof(Artist.User)}");
-            var recordLabelArtist = _repository.GetOne<RecordLabelArtist>(x=>x.RecordLabel.Id == recordLabelId);
+            var recordLabelArtist = _repository.GetOne<RecordLabelArtist>(x => x.Artist.Id == artistlId);
 
             artist.IsDeleted = true;
             _repository.Update<Artist>(artist, recordLabelId);

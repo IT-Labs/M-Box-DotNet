@@ -78,11 +78,11 @@ namespace ItLabs.MBox.Domain.Managers
             using (var reader = new StreamReader(formFile.OpenReadStream()))
             {
                 var validator = new EmailAddressAttribute();
-                int iteration = 0;
+                int iteration = 1;
                 while ((result = reader.ReadLine()) != null)
                 {
                     var parts = result.Split(",");
-                    if (parts[0] == null || parts[1] == null || parts.Length > 2)
+                    if (parts.Length > 2 || parts.Length < 2)
                     {
                         addMultipleArtistsDto.Errors.Add("Invalid format detected(has to be: Artist Email, Artist Name), row(s): " + iteration);
                         return addMultipleArtistsDto;
@@ -121,7 +121,7 @@ namespace ItLabs.MBox.Domain.Managers
                         return addMultipleArtistsDto;
                     }
                     var userCreated = response.Result;
-                    var artist = new Artist() { User = userCreated};
+                    var artist = new Artist() { User = userCreated };
                     addMultipleArtistsDto.ArtistsToBeAdded.Add(artist);
                     iteration++;
                 }
