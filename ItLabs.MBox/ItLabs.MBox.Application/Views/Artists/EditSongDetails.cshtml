@@ -1,0 +1,185 @@
+﻿<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+@inject UserManager<ApplicationUser> UserManager
+@using ItLabs.MBox.Contracts.Enums
+@using ItLabs.MBox.Application.Models.ArtistsViewModel
+
+@{
+    ViewData["Title"] = "AddNewSong";
+    var user = await UserManager.GetUserAsync(User);
+}
+@section Scripts{
+    <script type="text/javascript" src="~/js/EditDetailsOnButtonClick.js"></script>
+}
+
+@model AddNewSongViewModel
+
+<div class="container-fluid">
+    <hr />
+    <div class="row">
+
+        <div class="col-md-4 col-sm-4">
+        </div>
+        <div class="col-md-8 col-sm-8">
+            <div class="row">
+                <div class="col-md-6 col-sm-6">
+                    <form asp-area="" asp-controller="Artists" asp-action="Index" method="get">
+                        <button type="submit" class="btn btn-block btn-default" style="margin: 5px">Cancel</button>
+                    </form>
+                </div>
+                <div class="col-md-6 col-sm-6">
+                    <form asp-area="" asp-controller="" asp-action="" method="get">
+                        <button type="submit" class="btn btn-block btn-primary" style="margin: 5px">Publish</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <hr />
+
+
+    <div class="row">
+        <div class="col-md-6 col-sm-6">
+            <div class="row">
+                <div class="col-md-8 col-sm-8">
+                    <input class="form-control" placeholder="Song Name" id="songName" disabled>
+                </div>
+                <div class="col-md-1 col-sm-1">
+                    <button class="btn btn-default edit editDetails" id="editName" onclick="editDetails('songName', 'editName', 'saveName', 'cancelName')">
+                        <i class="glyphicon glyphicon-edit"></i>
+                    </button>
+                </div>
+                <div class="col-md-1 col-sm-1">
+                    <button class="btn btn-success save saveDetails" id="saveName" onclick="saveDetails('songName', 'editName', 'saveName', 'cancelName')">
+                        <i class="glyphicon glyphicon-ok"></i>
+                    </button>
+                </div>
+                <div class="col-md-1 col-sm-1">
+                    <button class="btn btn-danger cancelDetails" id="cancelName" onclick="cancelEditiong('songName', 'editName', 'saveName', 'cancelName')">
+                        <i class="glyphicon glyphicon-remove"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="row">
+                song logo
+            </div>
+            <div class="row" style="margin-bottom: 15px; margin-top: 15px">
+                <label>By: @user.Name</label>
+            </div>
+            <div class="row">
+                <div class="col-md-2 col-sm-2">
+                    <label>Album Name:</label>
+                </div>
+                <div class="col-md-6 col-sm-6">
+                    <input class="form-control" placeholder="Album Name" id="albumName" disabled>
+                </div>
+                <div class="col-md-1 col-sm-1">
+                    <button class="btn btn-default edit editDetails" id="editAlbum" onclick="editDetails('albumName', 'editAlbum', 'saveAlbum', 'cancelAlbum')">
+                        <i class="glyphicon glyphicon-edit"></i>
+                    </button>
+                </div>
+                <div class="col-md-1 col-sm-1">
+                    <button class="btn btn-success saveDetails" id="saveAlbum" onclick="saveDetails('albumName', 'editAlbum', 'saveAlbum', 'cancelAlbum')">
+                        <i class="glyphicon glyphicon-ok"></i>
+                    </button>
+                </div>
+                <div class="col-md-1 col-sm-1">
+                    <button class="btn btn-danger cancelDetails" id="cancelAlbum" onclick="cancelEditiong('albumName', 'editAlbum', 'saveAlbum', 'cancelAlbum')">
+                        <i class="glyphicon glyphicon-remove"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="row" style="margin-bottom: 15px">
+                <div class="col-md-4 col-sm-3" style="margin-top: 5px">
+                    <label>Genre:</label>
+                </div>
+                <div class="col-md-6 col-sm-6">
+                    @Html.DropDownList("Genres", new SelectList(Enum.GetValues(typeof(Genres))), "", new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3 col-sm-3" style="margin-top: 5px">
+                    <label>Release Date:</label>
+                </div>
+                <div class="col-md-7 col-sm-7">
+                    <input class="form-control" type="date" />
+                </div>
+            </div>
+            <div class="row" style="margin-top: 15px">
+                <div class="col-md-6 col-sm-6">
+                    <div class="row" style="text-align: center">
+                        <a target="_blank" href="" id="youtubeLink">Youtube</a>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-2 col-sm-2">
+                            <button class="btn btn-default edit editDetails" id="editYoutube" onclick="editLink('youtubeLink', 'youtubeLinkUrl', 'editYoutube', 'saveYoutube', 'cancelYoutube')">
+                                <i class="glyphicon glyphicon-edit"></i>
+                            </button>
+                        </div>
+                        <div class="col-md-2 col-sm-2">
+                            <button class="btn btn-success saveDetails" id="saveYoutube" onclick="saveLink('youtubeLink', 'youtubeLinkUrl', 'editYoutube', 'saveYoutube', 'cancelYoutube')">
+                                <i class="glyphicon glyphicon-ok"></i>
+                            </button>
+                        </div>
+                        <div class="col-md-2 col-sm-2">
+                            <button class="btn btn-danger cancelDetails" id="cancelYoutube" onclick="cancelEditiongLink('youtubeLink', 'youtubeLinkUrl', 'editYoutube', 'saveYoutube', 'cancelYoutube')">
+                                <i class="glyphicon glyphicon-remove"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="row" style="padding: 8px">
+                        <input class="form-control" placeholder="Youtube Link" id="youtubeLinkUrl">
+                    </div>
+                </div>
+
+                <div class="col-md-6 col-sm-6" style="border-left: solid 2px #d3d3d3">
+                    <div class="row" style="text-align: center">
+                        <a target="_blank" href="" id="vimeoLink">Vimeo </a>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-2 col-sm-2">
+                            <button class="btn btn-default edit editDetails" id="editVimeo" onclick="editLink('vimeoLink', 'vimeoLinkUrl', 'editVimeo', 'saveVimeo', 'cancelVimeo')">
+                                <i class="glyphicon glyphicon-edit"></i>
+                            </button>
+                        </div>
+                        <div class="col-md-2 col-sm-2">
+                            <button class="btn btn-success saveDetails" id="saveVimeo" onclick="saveLink('vimeoLink', 'vimeoLinkUrl', 'editVimeo', 'saveVimeo', 'cancelVimeo')">
+                                <i class="glyphicon glyphicon-ok"></i>
+                            </button>
+                        </div>
+                        <div class="col-md-2 col-sm-2">
+                            <button class="btn btn-danger cancelDetails" id="cancelVimeo" onclick="cancelEditiongLink('vimeoLink', 'vimeoLinkUrl', 'editVimeo', 'saveVimeo', 'cancelVimeo')">
+                                <i class="glyphicon glyphicon-remove"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="row" style="padding: 8px">
+                        <input class="form-control" placeholder="Vimeo Link" id="vimeoLinkUrl">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 col-sm-6" style="border-left: solid 2px #d3d3d3">
+            <div class="row">
+                <div class="col-md-1 col-sm-1">
+                    <button class="btn btn-default edit editDetails" id="editLyrics" onclick="editDetails('songLyrics', 'editLyrics', 'saveLyrics', 'cancelLyrics')">
+                        <i class="glyphicon glyphicon-edit"></i>
+                    </button>
+                </div>
+                <div class="col-md-1 col-sm-1">
+                    <button class="btn btn-success saveDetails" id="saveLyrics" onclick="saveDetails('songLyrics', 'editLyrics', 'saveLyrics', 'cancelLyrics')">
+                        <i class="glyphicon glyphicon-ok"></i>
+                    </button>
+                </div>
+                <div class="col-md-1 col-sm-1">
+                    <button class="btn btn-danger cancelDetails" id="cancelLyrics" onclick="cancelEditiong('songLyrics', 'editLyrics', 'saveLyrics', 'cancelLyrics')">
+                        <i class="glyphicon glyphicon-remove"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="row" style="padding: 12px;">
+                <textarea class="form-control" maxlength="10000" style="margin-top: 5px; height: 550px; resize: none" name="Message" id="songLyrics" disabled></textarea>
+            </div>
+        </div>
+    </div>
+
+</div>

@@ -5,9 +5,9 @@ namespace ItLabs.MBox.Application.Models.AccountViewModels
 {
     public class RegisterViewModel
     {
-        [Required(ErrorMessage = "Name must contain more than 1 alphanumeric characters!")]
+        [Required(ErrorMessage = "Name must contain more than 2 alphanumeric characters!")]
         [Display(Name = "Name")]
-        [StringLength(50, ErrorMessage = "The {0} cannot contain more than {1} characters!", MinimumLength = 1)]
+        [StringLength(50, ErrorMessage = "The {0} cannot contain more than {1} characters!", MinimumLength = 2)]
         public string Name { get; set; }
 
         [Required]

@@ -56,3 +56,15 @@ namespace ItLabs.MBox.Domain.Managers
         }
     }
 }
+
+
+            artist.IsDeleted = true;
+            _repository.Update<Artist>(artist, recordLabelId);
+
+            _repository.Delete(recordLabelArtist);
+            _repository.Save();
+
+            _emailsManager.PerpareSendMail(EmailTemplateType.DeletedArtist, artist.User.Email, "");
+        }
+    }
+}

@@ -84,7 +84,7 @@ namespace ItLabs.MBox.Domain.Managers
                     if (string.IsNullOrEmpty(result) || string.IsNullOrWhiteSpace(result))
                         continue;
                     var parts = result.Split(",");
-                    if (parts[0] == null || parts[1] == null || parts.Length > 2)
+                    if (parts.Length > 2 || parts.Length < 2)
                     {
                         addMultipleArtistsDto.Errors.Add("Invalid format detected(has to be: Artist Email, Artist Name), row(s): " + iteration);
                         return addMultipleArtistsDto;

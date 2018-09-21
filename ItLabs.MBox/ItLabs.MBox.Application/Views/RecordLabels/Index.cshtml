@@ -57,10 +57,10 @@
                                 <i class="fa fa-user-circle" style="font-size:35px"></i>
                             }
                             @artist.User.Picture
-                            <input id="recordlabels" type="hidden" value="@Html.Raw(Json.Serialize(new List<RecordLabel>()))" />
+                            <input id="recordlabels" type="hidden" value="@Html.Raw(Json.Serialize(new List<Artist>()))" />
                             <input id="take" type="hidden" value="@Html.Raw(Json.Serialize(Model.Take))" />
                             <input id="skip" type="hidden" value="@Html.Raw(Json.Serialize(Model.Skip))" />
-                            <input id="lazyLoadingUrl" type="hidden" value="/RecordLabels/GetNextArtists" />
+                            <input id="lazyLoadingUrl" type="hidden" value="/RecordLabels/GetRecordLabelArtists" />
                         </td>
                         <td>@artist.User.Name</td>
                         <td>@artist.User.Email</td>

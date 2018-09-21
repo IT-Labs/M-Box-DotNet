@@ -1,98 +1,92 @@
 ﻿<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+@inject UserManager<ApplicationUser> UserManager
+@using ItLabs.MBox.Contracts.Enums
+@using ItLabs.MBox.Application.Models.ArtistsViewModel
 @{
     ViewData["Title"] = "AddNewSong";
+    var user = await UserManager.GetUserAsync(User);
 }
-
-@section Scripts{
-    <script type="text/javascript" src="~/js/EditDetailsOnButtonClick.js"></script>
-}
-
+@model AddNewSongViewModel
 <div class="container-fluid">
     <hr />
     <div class="row">
-        <div class="col-md-4 col-sm-4">
-
-        </div>
-        <div class="col-md-8 col-sm-8">
-            <div class="row">
-                <div class="col-md-6 col-sm-6">
-                    <form asp-area="" asp-controller="" asp-action="" method="get">
-                        <button type="submit" class="btn btn-block btn-default" style="margin: 5px">Cancel</button>
-                    </form>
-                </div>
-                <div class="col-md-6 col-sm-6">
-                    <form asp-area="" asp-controller="" asp-action="" method="get">
-                        <button type="submit" class="btn btn-block btn-primary" style="margin: 5px">Publish</button>
-                    </form>
-                </div>
-            </div>
+        <div class="row" style="padding: 15px">
+            <form asp-area="" asp-controller="Artists" asp-action="Index" method="get">
+                <button type="submit" class="btn btn-block btn-default" style="margin: 5px">Cancel</button>
+            </form>
         </div>
     </div>
-    <hr />
     <div class="row">
-        <div class="col-md-6 col-sm-6">
-            <div class="row" style="text-align: center">
-                <div class="col-md-8 col-sm-8">
-                    <input class="form-control" placeholder="Song Name" id="songName" disabled>
+        <form asp-controller="Artists" asp-action="AddNewSong" method="post">
+            <button type="submit" class="btn btn-block btn-primary" style="margin: 5px">Publish</button>
+            <div class="col-md-6 col-sm-6">
+                <div class="row form-group" style="margin: 15px">
+                    <input asp-for="SongName" class="form-control" placeholder="Song Name">
+                    <span asp-validation-for="SongName" class="text-danger"></span>
                 </div>
-                <div class="col-md-1 col-sm-1">
-                    <button class="btn btn-default edit editDetails" onclick="editDetails('songName')">
-                        <i class="glyphicon glyphicon-edit"></i>
-                    </button>
+                <div class="row" style="margin: 15px">
+                    song logo
                 </div>
-                <div class="col-md-1 col-sm-1">
-                    <button class="btn btn-success save saveDetails" onclick="saveDetails('songName')">
-                        <i class="glyphicon glyphicon-ok"></i>
-                    </button>
+                <div class="row" style="margin: 15px">
+                    <label>By: @user.Name</label>
                 </div>
-                <div class="col-md-1 col-sm-1">
-                    <button class="btn btn-danger canselDetails" onclick="cancelEditiong('songName')">
-                        <i class="glyphicon glyphicon-remove"></i>
-                    </button>
+                <div class="row" style="margin: 15px">
+                    <div class="col-md-2 col-sm-2">
+                        <label>Album Name:</label>
+                    </div>
+                    <div class="col-md-6 col-sm-6">
+                        <input asp-for="AlbumName" class="form-control" placeholder="Album Name" id="albumName">
+                        <span asp-validation-for="AlbumName" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="row" style="margin: 15px">
+                    <div class="col-md-4 col-sm-3" style="margin-top: 5px">
+                        <label>Genre:</label>
+                    </div>
+                    <div class="col-md-6 col-sm-6">
+                        @Html.DropDownListFor(x => x.Genres, new SelectList(Enum.GetValues(typeof(Genres))), "", new { @class = "form-control" })
+                        <span asp-validation-for="Genres" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="row" style="margin: 15px">
+                    <div class="col-md-3 col-sm-3" style="margin-top: 5px">
+                        <label>Release Date:</label>
+                    </div>
+                    <div class="col-md-7 col-sm-7">
+                        <input asp-for="ReleaseDate" class="form-control" type="date" />
+                        <span asp-validation-for="ReleaseDate" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="row" style="margin: 15px">
+                    <div class="col-md-6 col-sm-6">
+                        <div class="row" style="text-align: center">
+                            <label>Youtube</label>
+                        </div>
+                        <div class="row" style="padding: 8px">
+                            <input asp-for="YoutubeLink" class="form-control" placeholder="Youtube Link" id="youtubeLinkUrl">
+                            <span asp-validation-for="YoutubeLink" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-sm-6" style="border-left: solid 2px #d3d3d3">
+                        <div class="row" style="text-align: center">
+                            <label>Vimeo</label>
+                        </div>
+                        <div class="row" style="padding: 8px">
+                            <input asp-for="VimeoLink" class="form-control" placeholder="Vimeo Link" id="vimeoLinkUrl">
+                            <span asp-validation-for="VimeoLink" class="text-danger"></span>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="row" style="text-align: center">
-                song logo
-            </div>
-            <div class="row" style="text-align: center">
-                By: artist
-            </div>
-            <div class="row" style="text-align: center">
-                <div class="col-md-2 col-sm-2">
-                    <label>Album Name:</label>             
+            <div class="col-md-6 col-sm-6" style="border-left: solid 2px #d3d3d3">
+                <div class="row" style="text-align: center">
+                    <label>Song Lyrics</label>
                 </div>
-                <div class="col-md-6 col-sm-6">
-                    <input class="form-control" placeholder="Album Name" id="albumName" disabled>
-                </div>
-                <div class="col-md-1 col-sm-1">
-                    <button class="btn btn-default edit editDetails" onclick="editDetails('albumName')">
-                        <i class="glyphicon glyphicon-edit"></i>
-                    </button>
-                </div>
-                <div class="col-md-1 col-sm-1">
-                    <button class="btn btn-success saveDetails" onclick="saveDetails('albumName')">
-                        <i class="glyphicon glyphicon-ok"></i>
-                    </button>
-                </div>
-                <div class="col-md-1 col-sm-1">
-                    <button class="btn btn-danger canselDetails" onclick="cancelEditiong('albumName')">
-                        <i class="glyphicon glyphicon-remove"></i>
-                    </button>
+                <div class="row" style="padding: 12px;">
+                    <textarea asp-for="SongLyrics" class="form-control" maxlength="10000" style="margin-top: 5px; height: 550px; resize: none" name="Message" id="songLyrics"></textarea>
+                    <span asp-validation-for="SongLyrics" class="text-danger"></span>
                 </div>
             </div>
-            <div class="row" style="text-align: center">
-                genre
-            </div>
-            <div class="row" style="text-align: center">
-                release date
-            </div>
-            <div class="row" style="text-align: center">
-                links
-            </div>
-        </div>
-
-        <div class="col-md-6 col-sm-6">
-
-        </div>
+        </form>
     </div>
 </div>
