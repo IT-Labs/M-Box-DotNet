@@ -4,6 +4,7 @@ using ItLabs.MBox.Contracts;
 using ItLabs.MBox.Contracts.Entities;
 using ItLabs.MBox.Contracts.Enums;
 using ItLabs.MBox.Contracts.Interfaces;
+using ItLabs.MBox.Data;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -13,10 +14,12 @@ namespace ItLabs.MBox.Application.Controllers
     [Authorize(Roles = nameof(Role.Artist))]
     public class ArtistsController : BaseController
     {
+        private readonly IRepository _repository;
         private readonly ISongManager _songManager;
-        public ArtistsController(ISongManager songManager, UserManager<ApplicationUser> userManager) : base(userManager)
+        public ArtistsController(IRepository repository, ISongManager songManager, UserManager<ApplicationUser> userManager) : base(userManager)
         {
             _songManager = songManager;
+            _repository = repository;
         }
         public IActionResult Index()
         {
@@ -54,12 +57,37 @@ namespace ItLabs.MBox.Application.Controllers
         [HttpPost]
         public IActionResult AddNewSong(AddNewSongViewModel model)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                return RedirectToAction("Index");
+                return View(model);
             }
 
-            return View(model);
+            _songManager.Create(new Song()
+            {
+                Name = model.SongName,
+                AlbumName = model.AlbumName,
+                Genre = model.Genres.ToString(),
+                VimeoLink = model.VimeoLink,
+                YouTubeLink = model.YoutubeLink,
+                ReleaseDate = model.ReleaseDate,
+                Lyrics = model.SongLyrics,
+                ArtistId = CurrentLoggedUser
+            }, CurrentLoggedUser);
+
+            _songManager.Save();
+
+            return View("SuccessfullyPublishedSong");
+        }
+
+        [HttpPost]
+        public IActionResult DeleteSong(int songId)
+        {
+            var song = _repository.GetOne<Song>(filter: x => x.ArtistId == CurrentLoggedUser && x.Id == songId);
+
+            _repository.Delete(song);
+            _repository.Save();
+
+            return RedirectToAction("Index");
         }
     }
 }

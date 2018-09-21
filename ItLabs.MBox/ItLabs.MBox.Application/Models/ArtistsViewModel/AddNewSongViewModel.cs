@@ -14,12 +14,11 @@ namespace ItLabs.MBox.Application.Models.ArtistsViewModel
         [StringLength(100, ErrorMessage = "The {0} cannot contain more than {1} characters!", MinimumLength = 2)]
         public string SongName { get; set; }
 
-        [Required(ErrorMessage = "Name must contain more than 2 alphanumeric characters!")]
+
         [Display(Name = "Album Name")]
         [StringLength(100, ErrorMessage = "The {0} cannot contain more than {1} characters!", MinimumLength = 2)]
         public string AlbumName { get; set; }
 
-        [Required]
         public DateTime ReleaseDate { get; set; }
 
         [Required]
@@ -28,7 +27,7 @@ namespace ItLabs.MBox.Application.Models.ArtistsViewModel
         [Required]
         public string VimeoLink { get; set; }
 
-        [Required]
+
         public Genres Genres { get; set; }
 
         [StringLength(10000, ErrorMessage = "The {0} cannot contain more than {1} characters!")]

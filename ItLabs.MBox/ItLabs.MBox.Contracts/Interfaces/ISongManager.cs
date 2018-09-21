@@ -5,7 +5,7 @@ using System.Text;
 
 namespace ItLabs.MBox.Contracts.Interfaces
 {
-    public interface ISongManager
+    public interface ISongManager : IBaseManager<Song>
     {
         IList<Song> GetRecentlyAddedSongs(int number);
         IList<Song> GetMostPopularArtistSongs(int number);

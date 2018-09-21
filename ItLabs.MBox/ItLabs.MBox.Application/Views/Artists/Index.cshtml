@@ -44,8 +44,8 @@
                         <td>@song.AlbumName</td>
                         <td>@song.Genre</td>
                         <td>
-                            <form asp-area="" asp-controller="" asp-action="" method="post" onsubmit="return confirm('Are you sure');">
-                                
+                            <form asp-area="" asp-controller="Artists" asp-action="DeleteSong" method="post" onsubmit="return confirm('Are you sure?');">
+                                @Html.Hidden("songId", song.Id)
                                 <button type="submit" class="btn btn-danger">
                                     Delete
                                     <i class="glyphicon glyphicon-trash"></i>

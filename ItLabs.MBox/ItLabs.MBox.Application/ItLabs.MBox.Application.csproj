@@ -47,4 +47,10 @@
     <Folder Include="Models\AdminViewModels\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Update="Views\Shared\SuccessfullyPublishedSong.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+  </ItemGroup>
+
 </Project>
