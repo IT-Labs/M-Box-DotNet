@@ -1,5 +1,4 @@
-﻿
-@{
+﻿@{
     Layout = null;
 }
 
@@ -9,6 +8,10 @@
 {
     <tr class="search">
         <td>
+            @if (@artist.User.Picture == null)
+            {
+                <i class="fa fa-user-circle" style="font-size:35px"></i>
+            }
             @artist.User.Picture
         </td>
         <td>@artist.User.Name</td>

@@ -39,19 +39,34 @@ namespace ItLabs.MBox.Application.Controllers
             return View(model);
         }
 
+        [HttpGet]
+        public IActionResult GetArtistSongs([FromQuery] PagingModel<Song> model)
+        {
+            if (string.IsNullOrEmpty(model.SearchQuery) || string.IsNullOrWhiteSpace(model.SearchQuery))
+            {
+                model.PagingList = _songManager.GetArtistSongs(CurrentLoggedUserId, model.Skip, model.Take, string.Empty);
+            }
+            else
+            {
+                model.PagingList = _songManager.GetArtistSongs(CurrentLoggedUserId, model.Skip, model.Take, model.SearchQuery);
+            }
+
+            return View("NextSongs", model);
+        }
+
         public IActionResult Search(string searchValue)
         {
             var model = new PagingModel<Song>() { Skip = MBoxConstants.initialSkip, Take = MBoxConstants.initialTakeTabel };
-
-            if (searchValue != null)
+            if (!string.IsNullOrWhiteSpace(searchValue))
             {
                 model.PagingList = _songManager.GetArtistSongs(CurrentLoggedUserId, model.Skip, model.Take, searchValue);
                 return View("Index", model);
             }
 
-            model.PagingList = _songManager.GetArtistSongs(CurrentLoggedUserId, model.Skip, model.Take, string.Empty);
             return RedirectToAction("Index", "Artists");
         }
+
+
 
         public IActionResult MyAccount()
         {

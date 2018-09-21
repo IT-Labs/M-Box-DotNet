@@ -82,7 +82,7 @@ namespace ItLabs.MBox.Application.Controllers
         {
             var model = new PagingModel<RecordLabel>() { Skip = MBoxConstants.initialSkip, Take = MBoxConstants.initialTakeTabel };
 
-            if (string.IsNullOrWhiteSpace(search))
+            if (!string.IsNullOrWhiteSpace(search))
             {
                 model.PagingList = _recordLabelManager.GetRecordLabels(search, model.Skip, model.Take);
                 return View("Index", model);

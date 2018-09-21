@@ -1,4 +1,46 @@
-﻿@{
+﻿@using ItLabs.MBox.Application.Models
+
+@{
     ViewData["Title"] = "Contact";
 }
-<h3>@ViewData["Message"]</h3>
+
+@section Scripts{
+    <script type="text/javascript" src="~/js/LazyLoadingRecordLabels.js"></script>
+}
+
+@model PagingModel<Artist>
+
+<div class="container-fluid">
+    <ul id="recordLabelsListId" class="list-group recordLabelList" style="list-style:none;">
+        @foreach (Artist artist in Model.PagingList)
+        {
+            <li class="col-sm-2 table-bordered seperateResults">
+                <div>
+                    <div class="row">
+                        <div>
+                            <div class="text-center text">
+                                <h5>@artist.User.Name</h5>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div>
+                            <img class="img-circle img-responsive artistAlign artistImage" src="~/images/kendrick-lamar-getty-paul-marotta.jpg" />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div>
+                            <div class="text-center text">
+                                @if (!artist.IsDeleted)
+                                {
+                                    <h5>@artist.RecordLabelName</h5>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </li>
+        }
+    </ul>
+    <button name="LoadMore" class="btn btn-primary center-block" id="loadmorebutton"> Load More</button>
+</div>
