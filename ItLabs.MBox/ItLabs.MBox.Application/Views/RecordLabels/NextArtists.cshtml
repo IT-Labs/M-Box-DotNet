@@ -1,23 +1,25 @@
-﻿@using ItLabs.MBox.Application.Models.RecordLabelViewModels
-
+﻿
 @{
     Layout = null;
 }
 
-@model DashboardViewModel
+@model PagingModel<Artist>
 
 @foreach (Artist artist in Model.PagingList)
 {
     <tr class="search">
         <td>
-            @artist.User.Picture;
+            @artist.User.Picture
         </td>
         <td>@artist.User.Name</td>
         <td>@artist.User.Email</td>
         <td>
-            <button class="btn btn-danger">
-                Delete <i class="glyphicon glyphicon-trash"></i>
-            </button>
+            <form asp-area="" asp-controller="RecordLabels" asp-action="DeleteArtist" method="post" onsubmit="return confirm('Are you sure');">
+                @Html.Hidden("artistlId", artist.User.Id)
+                <button type="submit" class="btn btn-danger">
+                    Delete <i class="glyphicon glyphicon-trash"></i>
+                </button>
+            </form>
         </td>
     </tr>
 }

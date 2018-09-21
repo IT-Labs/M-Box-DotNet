@@ -1,5 +1,4 @@
 ﻿using ItLabs.MBox.Application.Models;
-using ItLabs.MBox.Application.Models.RecordLabelViewModels;
 using ItLabs.MBox.Common.Extentions;
 using ItLabs.MBox.Contracts.Dtos;
 using ItLabs.MBox.Contracts;
@@ -13,7 +12,6 @@ using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
-using System.Threading.Tasks;
 
 namespace ItLabs.MBox.Application.Controllers
 {
@@ -35,16 +33,24 @@ namespace ItLabs.MBox.Application.Controllers
 
         public IActionResult Index()
         {
-            DashboardViewModel model = new DashboardViewModel() { RecordLabelId = CurrentLoggedUserId, Skip = MBoxConstants.initialSkip, Take = MBoxConstants.initialTakeTabel };
-            model.PagingList = _artistsManager.GetRecordLabelArtists(model.RecordLabelId, model.Skip, model.Take, string.Empty);
+            PagingModel<Artist> model = new PagingModel<Artist>() {Skip = MBoxConstants.initialSkip, Take = MBoxConstants.initialTakeTabel };
+            model.PagingList = _artistsManager.GetRecordLabelArtists(CurrentLoggedUserId, model.Skip, model.Take, string.Empty);
             return View(model);
 
         }
 
         [HttpGet]
-        public IActionResult GetRecordLabelArtists([FromQuery] DashboardViewModel model)
+        public IActionResult GetRecordLabelArtists([FromQuery] PagingModel<Artist> model)
         {
-            model.PagingList = _artistsManager.GetRecordLabelArtists(model.RecordLabelId, model.Skip, model.Take, string.Empty).ToList();
+            if (string.IsNullOrEmpty(model.SearchQuery) || string.IsNullOrWhiteSpace(model.SearchQuery))
+            {
+                model.PagingList = _artistsManager.GetRecordLabelArtists(CurrentLoggedUserId, model.Skip, model.Take, string.Empty).ToList();
+            }
+            else
+            {
+                model.PagingList = _artistsManager.GetRecordLabelArtists(CurrentLoggedUserId, model.Skip, model.Take, model.SearchQuery).ToList();
+            }
+
             return View("NextArtists", model);
         }
 
@@ -85,7 +91,7 @@ namespace ItLabs.MBox.Application.Controllers
             return View("SuccessfullyInvitedArtist");
 
         }
-
+        [HttpGet]
         public IActionResult MyAccount()
         {
             ViewData["Message"] = "Artists";
@@ -95,16 +101,12 @@ namespace ItLabs.MBox.Application.Controllers
         [HttpPost]
         public IActionResult Search(string search)
         {
-
-            DashboardViewModel model = new DashboardViewModel() { RecordLabelId = CurrentLoggedUserId, Skip = MBoxConstants.initialSkip, Take = MBoxConstants.initialTakeTabel };
-
+            PagingModel<Artist> model = new PagingModel<Artist>() { Skip = MBoxConstants.initialSkip, Take = MBoxConstants.initialTakeTabel };
             if (search != null)
             {
-                model.PagingList = _artistsManager.GetRecordLabelArtists(model.RecordLabelId, model.Skip, model.Take, search);
+                model.PagingList = _artistsManager.GetRecordLabelArtists(CurrentLoggedUserId, model.Skip, model.Take, search);
                 return View("Index", model);
             }
-
-            model.PagingList = _artistsManager.GetRecordLabelArtists(model.RecordLabelId, model.Skip, model.Take, string.Empty);
             return RedirectToAction("Index", "RecordLabels");
         }
 

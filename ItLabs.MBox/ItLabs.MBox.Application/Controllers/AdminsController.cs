@@ -19,7 +19,7 @@ namespace ItLabs.MBox.Application.Controllers
         private readonly IEmailsManager _emailsManager;
 
 
-        public AdminsController(IRecordLabelManager recordLabelManager, UserManager<ApplicationUser> userManager, IEmailsManager emailManager):base(userManager)
+        public AdminsController(IRecordLabelManager recordLabelManager, UserManager<ApplicationUser> userManager, IEmailsManager emailManager) : base(userManager)
         {
             _recordLabelManager = recordLabelManager;
             _emailsManager = emailManager;
@@ -27,7 +27,7 @@ namespace ItLabs.MBox.Application.Controllers
 
         [HttpGet]
         public IActionResult Index()
-        {   
+        {
             var model = new PagingModel<RecordLabel>() { Skip = MBoxConstants.initialSkip, Take = MBoxConstants.initialTakeTabel };
             model.PagingList = _recordLabelManager.GetRecordLabels(string.Empty, model.Skip, model.Take).ToList();
 
@@ -37,7 +37,15 @@ namespace ItLabs.MBox.Application.Controllers
         [HttpGet]
         public IActionResult GetNextRecordLabels([FromQuery] PagingModel<RecordLabel> model)
         {
-            model.PagingList = _recordLabelManager.GetRecordLabels(string.Empty, model.Skip, model.Take).ToList();
+            if (string.IsNullOrEmpty(model.SearchQuery) || string.IsNullOrWhiteSpace(model.SearchQuery))
+            {
+                model.PagingList = _recordLabelManager.GetRecordLabels(string.Empty, model.Skip, model.Take).ToList();
+            }
+            else
+            {
+                model.PagingList = _recordLabelManager.GetRecordLabels(model.SearchQuery, model.Skip, model.Take).ToList();
+            }
+
             return View("NextRecordLabels", model);
         }
 
@@ -54,13 +62,13 @@ namespace ItLabs.MBox.Application.Controllers
                 return View(model);
 
             var response = _userManager.CreateUser(model.Name, model.Email, Role.RecordLabel);
-            if(response == null)
+            if (response == null)
             {
                 ModelState.AddModelError("EMail", "Email already exists");
-                return View("AddNewRecordLabel",model);
+                return View("AddNewRecordLabel", model);
             }
             var user = response.Result;
-            _recordLabelManager.Create(new RecordLabel() {User=user },CurrentLoggedUserId);
+            _recordLabelManager.Create(new RecordLabel() { User = user }, CurrentLoggedUserId);
             _recordLabelManager.Save();
             var code = await _userManager.GeneratePasswordResetTokenAsync(user);
             var callbackUrl = Url.ResetPasswordCallbackLink(user.Id.ToString(), code, Request.Scheme);

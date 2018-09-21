@@ -23,23 +23,23 @@ namespace ItLabs.MBox.Application.Controllers
         }
         public IActionResult Index()
         {
-            var model = new PagingModel<Song>() { ArtistlId = CurrentLoggedUserId, Skip = MBoxConstants.initialSkip, Take = MBoxConstants.initialTakeTabel };
-            model.PagingList = _songManager.GetArtistSongs(model.ArtistlId, model.Skip, model.Take, string.Empty);
+            var model = new PagingModel<Song>() { Skip = MBoxConstants.initialSkip, Take = MBoxConstants.initialTakeTabel };
+            model.PagingList = _songManager.GetArtistSongs(CurrentLoggedUserId, model.Skip, model.Take, string.Empty);
 
             return View(model);
         }
 
         public IActionResult Search(string searchValue)
         {
-            var model = new PagingModel<Song>() { ArtistlId = CurrentLoggedUserId, Skip = MBoxConstants.initialSkip, Take = MBoxConstants.initialTakeTabel };
+            var model = new PagingModel<Song>() { Skip = MBoxConstants.initialSkip, Take = MBoxConstants.initialTakeTabel };
 
             if (searchValue != null)
             {
-                model.PagingList = _songManager.GetArtistSongs(model.ArtistlId, model.Skip, model.Take, searchValue);
+                model.PagingList = _songManager.GetArtistSongs(CurrentLoggedUserId, model.Skip, model.Take, searchValue);
                 return View("Index", model);
             }
 
-            model.PagingList = _songManager.GetArtistSongs(model.ArtistlId, model.Skip, model.Take, string.Empty);
+            model.PagingList = _songManager.GetArtistSongs(CurrentLoggedUserId, model.Skip, model.Take, string.Empty);
             return RedirectToAction("Index", "Artists");
         }
 

@@ -5,6 +5,7 @@ $(document).ready(function () {
     modelJSValue.RecordLabels = $("#recordlabels").val();
     modelJSValue.Take = $("#take").val();
     modelJSValue.Skip = $("#skip").val();
+    
 });
 
 $(window).on("scroll", function () {
@@ -14,6 +15,7 @@ $(window).on("scroll", function () {
     if ((scrollHeight - scrollPosition) / scrollHeight === 0) {
         modelJSValue.Skip = parseInt(modelJSValue.Skip) + parseInt(modelJSValue.Take);
         modelJSValue.Take = 10;
+        modelJSValue.SearchQuery = $("#searchBox").val();
         var toSend = $.param(modelJSValue);
 
         $.ajax({
@@ -22,7 +24,7 @@ $(window).on("scroll", function () {
             url: lazyLoadingUrl,
             data: toSend,
             success: function (result) {
-                $("#recordLabelsList").append(result);
+                $("#listToAppend").append(result);
             }
         });
     }

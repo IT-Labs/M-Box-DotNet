@@ -77,6 +77,9 @@ namespace ItLabs.MBox.Domain.Managers
             var testReceiverEmail = configuration.Where(x => x.Key == ConfigurationKey.TestReceiverEmail).FirstOrDefault().Value;
             var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
 
+            if (environment == EnvironmentName.Development || environment == EnvironmentName.Staging)
+                emailToSend.EmailAddress = testReceiverEmail;
+
             using (var client = new SmtpClient(awsSesHost, awsSesPort))
             {
                 client.Credentials = new NetworkCredential(awsSesUsername, awsSesPassword);
