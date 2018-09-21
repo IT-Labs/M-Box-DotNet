@@ -1,0 +1,24 @@
+﻿@{
+    ViewData["Title"] = "NextSongs";
+}
+
+@model PagingModel<Song>
+
+@foreach (Song song in Model.PagingList)
+{
+    <tr class="search">
+        <td>
+            @song.Name
+        </td>
+        <td>@song.AlbumName</td>
+        <td>@song.Genre</td>
+        <td>
+            <form asp-area="" asp-controller="Artists" asp-action="DeleteSong" method="post" onsubmit="return confirm('Are you sure?');">
+                @Html.Hidden("songId", song.Id)
+                <button type="submit" class="btn btn-danger">Delete
+                    <i class="glyphicon glyphicon-trash"></i>
+                </button>
+            </form>
+        </td>
+    </tr>
+}

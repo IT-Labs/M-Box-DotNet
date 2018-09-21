@@ -15,7 +15,7 @@
             <div class="row">
                 <form id="searchForm" asp-area="" asp-controller="Artists" asp-action="Search" method="post">
                     <div class="col-md-9 col-sm-9">
-                        @Html.TextBox("searchValue", null, new { @class = "form-control" })
+                        @Html.TextBox("searchValue", null, new { @id = "searchBox", @class = "form-control" })
                     </div>
                     <div class="col-md-3 col-sm-3">
                         <input id="searchButton" type="submit" value="Search" class="btn btn-default btn-block" />
@@ -34,20 +34,23 @@
                     <th>Delete Song</th>
                 </tr>
             </thead>
-            <tbody id="artists">
+            <tbody id="listToAppend">
                 @foreach (Song song in Model.PagingList)
                 {
                     <tr class="search">
-                        <td>@song.Name
-
+                        <td>
+                            @song.Name
+                            <input id="recordlabels" type="hidden" value="@Html.Raw(Json.Serialize(new List<Song>()))" />
+                            <input id="take" type="hidden" value="@Html.Raw(Json.Serialize(Model.Take))" />
+                            <input id="skip" type="hidden" value="@Html.Raw(Json.Serialize(Model.Skip))" />
+                            <input id="lazyLoadingUrl" type="hidden" value="/Artists/GetArtistSongs" />
                         </td>
                         <td>@song.AlbumName</td>
                         <td>@song.Genre</td>
                         <td>
                             <form asp-area="" asp-controller="Artists" asp-action="DeleteSong" method="post" onsubmit="return confirm('Are you sure?');">
                                 @Html.Hidden("songId", song.Id)
-                                <button type="submit" class="btn btn-danger">
-                                    Delete
+                                <button type="submit" class="btn btn-danger">Delete
                                     <i class="glyphicon glyphicon-trash"></i>
                                 </button>
                             </form>

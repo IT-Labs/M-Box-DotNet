@@ -102,7 +102,7 @@ namespace ItLabs.MBox.Application.Controllers
         public IActionResult Search(string search)
         {
             PagingModel<Artist> model = new PagingModel<Artist>() { Skip = MBoxConstants.initialSkip, Take = MBoxConstants.initialTakeTabel };
-            if (search != null)
+            if (!string.IsNullOrWhiteSpace(search))
             {
                 model.PagingList = _artistsManager.GetRecordLabelArtists(CurrentLoggedUserId, model.Skip, model.Take, search);
                 return View("Index", model);
