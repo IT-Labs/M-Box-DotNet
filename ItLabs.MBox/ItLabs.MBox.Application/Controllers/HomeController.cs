@@ -34,6 +34,8 @@ namespace ItLabs.MBox.Application.Controllers
         {
             if (HttpContext.User.IsInRole(nameof(Role.SuperAdmin)))
                 return RedirectToAction("Index", "Admins");
+            if (HttpContext.User.IsInRole(nameof(Role.RecordLabel)))
+                return RedirectToAction("Index", "RecordLabels");
 
             ViewData["Message"] = "Home";
             HomeViewModel model = new HomeViewModel
@@ -50,6 +52,8 @@ namespace ItLabs.MBox.Application.Controllers
         {
             if (HttpContext.User.IsInRole(nameof(Role.SuperAdmin)))
                 return RedirectToAction("Index", "Admins");
+            if (HttpContext.User.IsInRole(nameof(Role.RecordLabel)))
+                return RedirectToAction("Index", "RecordLabels");
 
             ViewData["Message"] = "About page";
             AboutViewModel model = new AboutViewModel
@@ -78,22 +82,37 @@ namespace ItLabs.MBox.Application.Controllers
             return View(model);
         }
 
-
+        [HttpGet]
         public IActionResult Artists()
         {
+            if (HttpContext.User.IsInRole(nameof(Role.SuperAdmin)))
+                return RedirectToAction("Index", "Admins");
+            if (HttpContext.User.IsInRole(nameof(Role.RecordLabel)))
+                return RedirectToAction("Index", "RecordLabels");
+
             ViewData["Message"] = "Artists";
 
-            return View();
+            var model = new PagingModel<Artist>() { };
+            model.PagingList = _repository.GetAll<Artist>(includeProperties: $"{nameof(Artist.User)}," +
+                                   $"{nameof(Artist.Follows)}," +
+                                   $"{nameof(Artist.RecordLabelArtists)}.{nameof(RecordLabel)}.{nameof(RecordLabel.User)}").ToList();
+
+            return View(model);
         }
+
         [HttpGet]
         public IActionResult RecordLabels()
         {
             if (HttpContext.User.IsInRole(nameof(Role.SuperAdmin)))
                 return RedirectToAction("Index", "Admins");
+            if(HttpContext.User.IsInRole(nameof(Role.RecordLabel)))
+                return RedirectToAction("Index", "RecordLabels");
 
             ViewData["Message"] = "RecordLabels";
+
             var model = new PagingModel<RecordLabel>() { Skip = MBoxConstants.initialSkip, Take = MBoxConstants.initialTakeHomeLists };
             model.PagingList = _recordLabelManager.GetRecordLabels(string.Empty, model.Skip, model.Take).ToList();
+
             return View(model);
         }
 

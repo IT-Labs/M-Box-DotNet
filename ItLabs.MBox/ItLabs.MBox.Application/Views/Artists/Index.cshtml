@@ -1,4 +1,8 @@
 ﻿@using ItLabs.MBox.Application.Models
+@section Scripts{
+    <script type="text/javascript" src="~/js/LazyLoadingInTable.js"></script>
+}
+
 @model PagingModel<Song>
 @{
     ViewData["Title"] = "MySongs";
@@ -50,7 +54,8 @@
                         <td>
                             <form asp-area="" asp-controller="Artists" asp-action="DeleteSong" method="post" onsubmit="return confirm('Are you sure?');">
                                 @Html.Hidden("songId", song.Id)
-                                <button type="submit" class="btn btn-danger">Delete
+                                <button type="submit" class="btn btn-danger">
+                                    Delete
                                     <i class="glyphicon glyphicon-trash"></i>
                                 </button>
                             </form>
