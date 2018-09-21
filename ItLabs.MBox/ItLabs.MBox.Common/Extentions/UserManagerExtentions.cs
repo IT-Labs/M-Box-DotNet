@@ -24,7 +24,6 @@ namespace ItLabs.MBox.Common.Extentions
                 return null;
             }
             var roleResult = userManager.AddToRoleAsync(user, role.ToString()).Result;
-
             if (!roleResult.Succeeded)
             {
                 return null;

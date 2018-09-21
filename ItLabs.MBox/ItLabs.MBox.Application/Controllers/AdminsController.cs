@@ -59,7 +59,7 @@ namespace ItLabs.MBox.Application.Controllers
                 return View("AddNewRecordLabel",model);
             }
             var user = response.Result;
-            _recordLabelManager.Create(new RecordLabel() {User=user },CurrentLoggedUser);
+            _recordLabelManager.Create(new RecordLabel() {User=user },CurrentLoggedUserId);
             _recordLabelManager.Save();
             var code = await _userManager.GeneratePasswordResetTokenAsync(user);
             var callbackUrl = Url.ResetPasswordCallbackLink(user.Id.ToString(), code, Request.Scheme);
@@ -73,30 +73,23 @@ namespace ItLabs.MBox.Application.Controllers
         {
             var model = new PagingModel<RecordLabel>() { Skip = MBoxConstants.initialSkip, Take = MBoxConstants.initialTakeTabel };
 
-            if (search != null)
+            if (string.IsNullOrWhiteSpace(search))
             {
                 model.PagingList = _recordLabelManager.GetSearchedRecordLabels(search, model.Skip, model.Take);
                 return View("Index", model);
             }
 
-            model.PagingList = _recordLabelManager.GetSearchedRecordLabels(string.Empty, model.Skip, model.Take).ToList();
             return RedirectToAction("Index", "Admins");
         }
         [HttpPost]
         public IActionResult DeleteRecordLabel(int recordLabelId)
         {
-            var model = new PagingModel<RecordLabel>() { Skip = MBoxConstants.initialSkip, Take = MBoxConstants.initialTakeTabel };
-            model.PagingList = _recordLabelManager.GetSearchedRecordLabels(string.Empty, model.Skip, model.Take).ToList();
-
             var user = _userManager.FindByIdAsync(recordLabelId.ToString()).Result;
             if (user == null)
-                return View("Index",model);
+                return RedirectToAction("Index");
 
             _recordLabelManager.DeleteRecordLabel(user);
-            model.PagingList = _recordLabelManager.GetSearchedRecordLabels(string.Empty, model.Skip, model.Take).ToList();
-            return View("Index",model);
-
+            return RedirectToAction("Index");
         }
-        
     }
 }

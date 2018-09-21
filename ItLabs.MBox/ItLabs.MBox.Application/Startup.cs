@@ -61,7 +61,7 @@ namespace ItLabs.MBox.Application
 
             /// AWS SERVICES HERE
             services.AddDefaultAWSOptions(Configuration.GetAWSOptions());
-            //services.AddAWSService<IAmazonS3>();
+            services.AddAWSService<IAmazonS3>();
             //services.AddAWSService<IAmazonDynamoDB>();
 
             

@@ -30,7 +30,14 @@ namespace ItLabs.MBox.Domain.Managers
             var bodyToSend = template.Body.Replace("[Name]", user.Name);
             if (bodyToSend.Contains("[Link]"))
                 bodyToSend = bodyToSend.Replace("[Link]", "<a href=" + callbackUrl + ">" + template.LinkText + "</a>");
-            SendMailSmtp(email, template.Subject, bodyToSend);
+            var mail = new MailDto()
+            {
+                EmailAddress = email,
+                Subject = template.Subject,
+                Body = bodyToSend
+            };
+            var configuration = _repository.GetAll<Configuration>().ToList();
+            SendMailSmtp(mail, configuration);
         }
 
         public void PrepareContactFormMail(string name, string email, string message)
@@ -38,23 +45,37 @@ namespace ItLabs.MBox.Domain.Managers
             var recieverMail = _repository.Get<Configuration>(filter: x => x.Key == ConfigurationKey.ContactFormRecieverMail).FirstOrDefault().Value;
             var template = _repository.GetAll<EmailTemplate>().Where(x => x.Type == EmailTemplateType.ContactForm).FirstOrDefault();
             var bodyToSend = message + "<br> <br> Sender:<br>Name: " + name + "<br>Email Address: " + email;
-            SendMailSmtp(recieverMail, template.Subject, bodyToSend);
+            var configuration = _repository.GetAll<Configuration>().ToList();
+            var mail = new MailDto()
+            {
+                EmailAddress = email,
+                Subject = template.Subject,
+                Body = bodyToSend
+            };
+            SendMailSmtp(mail,configuration);
         }
 
-
-        public void SendMailSmtp(string email, string subject, string bodyToSend)
+        public void SendMultipleMails(IList<MailDto> mailingList, IList<Configuration> configuration)
         {
-            var configuration = _repository.GetAll<Configuration>();
+            foreach(var mail in mailingList)
+            {
+                SendMailSmtp(mail,configuration);
+            } 
+        }
+        public IList<Configuration> GetConfiguration()
+        {
+            return _repository.GetAll<Configuration>().ToList();
+        }
+
+        private void SendMailSmtp(MailDto emailToSend, IList<Configuration> configuration)
+        {
             var awsSesFromAddress = configuration.Where(x => x.Key == ConfigurationKey.AwsSesFromAddress).FirstOrDefault().Value;
             var awsSesUsername = configuration.Where(x => x.Key == ConfigurationKey.AwsSesUsername).FirstOrDefault().Value;
             var awsSesPassword = configuration.Where(x => x.Key == ConfigurationKey.AwsSesPassword).FirstOrDefault().Value;
             var awsSesHost = configuration.Where(x => x.Key == ConfigurationKey.AwsSesHost).FirstOrDefault().Value;
             var awsSesPort = Int32.Parse(configuration.Where(x => x.Key == ConfigurationKey.AwsSesPort).FirstOrDefault().Value);
             var testReceiverEmail = configuration.Where(x => x.Key == ConfigurationKey.TestReceiverEmail).FirstOrDefault().Value;
-
             var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
-            if (environment == EnvironmentName.Development || environment == EnvironmentName.Staging)
-                email = testReceiverEmail;
 
             using (var client = new SmtpClient(awsSesHost, awsSesPort))
             {
@@ -62,57 +83,15 @@ namespace ItLabs.MBox.Domain.Managers
                 client.EnableSsl = true;
                 var msg = new MailMessage(
                           awsSesFromAddress,
-                          email,
-                          subject,
-                          bodyToSend
+                          emailToSend.EmailAddress,
+                          emailToSend.Subject,
+                          emailToSend.Body
                     )
                 {
                     IsBodyHtml = true
                 };
                 client.Send(msg);
             }
-        }
-        public void SendMultipleMailSmtp(IList<MailDto> mailingList, IList<Configuration> configuration)
-        {
-            var awsSesFromAddress = configuration.Where(x => x.Key == ConfigurationKey.AwsSesFromAddress).FirstOrDefault().Value;
-            var awsSesUsername = configuration.Where(x => x.Key == ConfigurationKey.AwsSesUsername).FirstOrDefault().Value;
-            var awsSesPassword = configuration.Where(x => x.Key == ConfigurationKey.AwsSesPassword).FirstOrDefault().Value;
-            var awsSesHost = configuration.Where(x => x.Key == ConfigurationKey.AwsSesHost).FirstOrDefault().Value;
-            var awsSesPort = Int32.Parse(configuration.Where(x => x.Key == ConfigurationKey.AwsSesPort).FirstOrDefault().Value);
-            var testReceiverEmail = configuration.Where(x => x.Key == ConfigurationKey.TestReceiverEmail).FirstOrDefault().Value;
-            var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
-
-            using (var client = new SmtpClient(awsSesHost, awsSesPort))
-            {
-                foreach(var userToSendTo in mailingList)
-                {
-                    var email = userToSendTo.EmailAddress;
-                    var subject = userToSendTo.Subject;
-                    var bodyToSend = userToSendTo.Body;
-
-                    if (environment == EnvironmentName.Development || environment == EnvironmentName.Staging)
-                        email = testReceiverEmail;
-
-                    client.Credentials = new NetworkCredential(awsSesUsername, awsSesPassword);
-                    client.EnableSsl = true;
-                    var msg = new MailMessage(
-                              awsSesFromAddress,
-                              email,
-                              subject,
-                              bodyToSend
-                        )
-                    {
-                        IsBodyHtml = true
-                    };
-                    client.Send(msg);
-                }
-                
-            }
-            
-        }
-        public IList<Configuration> GetConfiguration()
-        {
-            return _repository.GetAll<Configuration>().ToList();
         }
     }
 }

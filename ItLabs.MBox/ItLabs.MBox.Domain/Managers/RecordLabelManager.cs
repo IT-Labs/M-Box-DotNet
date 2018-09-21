@@ -46,7 +46,7 @@ namespace ItLabs.MBox.Domain.Managers
             _repository.Delete<RecordLabel>(user.Id);
             _repository.Delete(user);
             _repository.Save();
-            prepareAndSendMails(artists.ToList(), recordLabel);
+            PrepareAndSendMails(artists.ToList(), recordLabel);
 
         }
 
@@ -78,9 +78,11 @@ namespace ItLabs.MBox.Domain.Managers
             using (var reader = new StreamReader(formFile.OpenReadStream()))
             {
                 var validator = new EmailAddressAttribute();
-                int iteration = 0;
+                int iteration = 1;
                 while ((result = reader.ReadLine()) != null)
                 {
+                    if (string.IsNullOrEmpty(result) || string.IsNullOrWhiteSpace(result))
+                        continue;
                     var parts = result.Split(",");
                     if (parts[0] == null || parts[1] == null || parts.Length > 2)
                     {
@@ -109,45 +111,40 @@ namespace ItLabs.MBox.Domain.Managers
                         iteration++;
                         continue;
                     }
-                    if (_repository.Get<RecordLabelArtist>(filter: x => x.RecordLabel.Id == recordLabelId).Count() > 50)
-                    {
-                        addMultipleArtistsDto.Errors.Add("Artist limit (50) exceeded");
-                        return addMultipleArtistsDto;
-                    }
-                    var response = _userManager.CreateUser(name, email, Role.Artist);
-                    if(response == null)
-                    {
-                        addMultipleArtistsDto.Errors.Add("Artist could not be created, try again!");
-                        return addMultipleArtistsDto;
-                    }
-                    var userCreated = response.Result;
-                    var artist = new Artist() { User = userCreated};
-                    addMultipleArtistsDto.ArtistsToBeAdded.Add(artist);
+                    var response = new ApplicationUser() { Name = name, Email = email };
+                    addMultipleArtistsDto.UsersToBeAdded.Add(response);
                     iteration++;
                 }
             }
             return addMultipleArtistsDto;
         }
 
-        public int CreateMultipleArtists(IList<Artist> artistsToBeAdded, int recordLabelId)
+        public List<Artist> CreateMultipleArtists(IList<ApplicationUser> usersToBeAdded, int recordLabelId)
         {
-            int counter = 0;
-            foreach (var artist in artistsToBeAdded)
+            var artistList = new List<Artist>();
+            foreach (var user in usersToBeAdded)
             {
+                var returned = _userManager.CreateUser(user.Name, user.Email, Role.Artist);
+                if (returned == null)
+                {
+                    return null;
+                }
+                var addedUser = returned.Result;
+                var artist = new Artist() { User = addedUser, RecordLabelArtists = new List<RecordLabelArtist> { new RecordLabelArtist { RecordLabelId = recordLabelId } } };
+                artistList.Add(artist);
                 _repository.Create<Artist>(artist, recordLabelId);
-                _repository.Create<RecordLabelArtist>(new RecordLabelArtist() { Artist = artist, RecordLabel = _repository.GetById<RecordLabel>(recordLabelId) }, recordLabelId);
-                counter++;
+                _repository.Save();
             }
-            _repository.Save();
-            return counter;
+            
+            return artistList;
         }
 
-        public void prepareAndSendMails(IList<Artist> artists , ApplicationUser recordLabel)
+        private void PrepareAndSendMails(IList<Artist> artists, ApplicationUser recordLabel)
         {
             //prepare the emails set the dto
             IList<MailDto> mailingList = new List<MailDto>();
             var template = _repository.GetAll<EmailTemplate>().Where(c => c.Type == EmailTemplateType.DeletedArtist).FirstOrDefault();
-            
+
             foreach (var artist in artists)
             {
                 var artistDto = new MailDto();
@@ -168,10 +165,14 @@ namespace ItLabs.MBox.Domain.Managers
             new Thread(() =>
             {
                 Thread.CurrentThread.IsBackground = true;
-                _emailsManager.SendMultipleMailSmtp(mailingList, configuration);
+                _emailsManager.SendMultipleMails(mailingList, configuration);
             }).Start();
-            
-            
+
+
+        }
+        public int GetNumberOfArtists(int recordLabelId)
+        {
+            return _repository.GetCount<RecordLabelArtist>(filter: x => x.RecordLabel.Id == recordLabelId);
         }
     }
 }

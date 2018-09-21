@@ -40,16 +40,11 @@ namespace ItLabs.MBox.Domain.Managers
                                    orderBy: x => x.OrderByDescending(y => y.Follows.Count),
                                    take: number).ToList();
         }
-        public void AddArtistToRecordLabel(Artist artist, RecordLabel recordLabel)
-        {
-            _repository.Create(new RecordLabelArtist() { RecordLabel = recordLabel, Artist = artist }, recordLabel.Id);
-            _repository.Save();
-        }
 
         public void DeleteArtist(int recordLabelId, int artistlId)
         {
             var artist = _repository.GetOne<Artist>(x => x.Id == artistlId, includeProperties: $"{ nameof(Artist.User)}");
-            var recordLabelArtist = _repository.GetOne<RecordLabelArtist>(x=>x.RecordLabel.Id == recordLabelId);
+            var recordLabelArtist = _repository.GetOne<RecordLabelArtist>(x=>x.Artist.Id == artistlId);
 
             artist.IsDeleted = true;
             _repository.Update<Artist>(artist, recordLabelId);

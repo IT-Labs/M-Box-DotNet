@@ -12,7 +12,7 @@ namespace ItLabs.MBox.Contracts.Interfaces
     {
         void PerpareSendMail(EmailTemplateType type, string email, string callbackUrl);
         void PrepareContactFormMail(string name, string email, string message);
-        void SendMultipleMailSmtp(IList<MailDto> mailingList, IList<Configuration> configuration);
+        void SendMultipleMails(IList<MailDto> mailingList, IList<Configuration> configuration);
         IList<Configuration> GetConfiguration();
     }
 }

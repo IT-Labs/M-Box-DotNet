@@ -72,6 +72,7 @@ namespace ItLabs.MBox.Data
                         auditableEntity.Entity.DateCreated = DateTime.UtcNow;
                     }
                 }
+
             }
             foreach (var auditableEntity in ChangeTracker.Entries<ApplicationUser>())
             {

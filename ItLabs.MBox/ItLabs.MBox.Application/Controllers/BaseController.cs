@@ -12,6 +12,6 @@ namespace ItLabs.MBox.Application.Controllers
         {
             _userManager = userManager;
         }
-        protected int CurrentLoggedUser => Int32.Parse(_userManager.GetUserId(HttpContext.User));
+        protected int CurrentLoggedUserId => Int32.Parse(_userManager.GetUserId(HttpContext.User));
     }
 }

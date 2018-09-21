@@ -131,6 +131,8 @@ namespace ItLabs.MBox.Application.Controllers
         [AllowAnonymous]
         public IActionResult Register(string returnUrl = null)
         {
+            if (HttpContext.User.Identity.IsAuthenticated)
+                return RedirectToLocal(returnUrl);
             ViewData["ReturnUrl"] = returnUrl;
             return View();
         }

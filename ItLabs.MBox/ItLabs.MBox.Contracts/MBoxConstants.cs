@@ -10,5 +10,6 @@ namespace ItLabs.MBox.Contracts
         public static int initialSkip = 0;
         public static int initialTakeTabel = 20;
         public static int initialTakeHomeLists= 25;
+        public static int MaximumArtistsAllowed = 50;
     }
 }

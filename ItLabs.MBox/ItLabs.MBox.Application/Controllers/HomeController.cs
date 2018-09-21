@@ -1,12 +1,16 @@
 ﻿using ItLabs.MBox.Application.Models;
 using ItLabs.MBox.Contracts;
 using ItLabs.MBox.Contracts.Entities;
+using ItLabs.MBox.Contracts.Enums;
 using ItLabs.MBox.Contracts.Interfaces;
 using ItLabs.MBox.Data;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Net.Http.Headers;
 
 namespace ItLabs.MBox.Application.Controllers
 {
@@ -28,6 +32,9 @@ namespace ItLabs.MBox.Application.Controllers
 
         public IActionResult Index()
         {
+            if (HttpContext.User.IsInRole(nameof(Role.SuperAdmin)))
+                return RedirectToAction("Index", "Admins");
+
             ViewData["Message"] = "Home";
             HomeViewModel model = new HomeViewModel
             {
@@ -35,13 +42,18 @@ namespace ItLabs.MBox.Application.Controllers
                 MostFollowedArtists = _artistsManager.GetMostFollowedArtists(MBoxConstants.HomeItemsToDisplay),
                 MostPopularArtistSongs = _songsManager.GetMostPopularArtistSongs(MBoxConstants.HomeItemsToDisplay)
             };
+
             return View(model);
         }
         [HttpGet]
         public IActionResult About()
         {
+            if (HttpContext.User.IsInRole(nameof(Role.SuperAdmin)))
+                return RedirectToAction("Index", "Admins");
+
             ViewData["Message"] = "About page";
-            AboutViewModel model = new AboutViewModel{
+            AboutViewModel model = new AboutViewModel
+            {
                 WeCooperateWith = _repository.GetAll<RecordLabel>(
                 includeProperties: $"{nameof(RecordLabel.User)},{nameof(RecordLabel.RecordLabelArtists)}").ToList()
             };
@@ -61,7 +73,7 @@ namespace ItLabs.MBox.Application.Controllers
                 _emailManager.PrepareContactFormMail(model.Name, model.Email, model.Message);
                 ModelState.AddModelError("Message", "Message successfully sent");
                 return RedirectToAction("About", "Home");
-            }        
+            }
 
             return View(model);
         }
@@ -76,6 +88,9 @@ namespace ItLabs.MBox.Application.Controllers
         [HttpGet]
         public IActionResult RecordLabels()
         {
+            if (HttpContext.User.IsInRole(nameof(Role.SuperAdmin)))
+                return RedirectToAction("Index", "Admins");
+
             ViewData["Message"] = "RecordLabels";
             var model = new PagingModel<RecordLabel>() { Skip = MBoxConstants.initialSkip, Take = MBoxConstants.initialTakeHomeLists };
             model.PagingList = _recordLabelManager.GetSearchedRecordLabels(string.Empty, model.Skip, model.Take).ToList();
@@ -95,5 +110,11 @@ namespace ItLabs.MBox.Application.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+        public IActionResult UploadFile()
+        {
+
+            return View();
+        }
+        
     }
 }

@@ -9,12 +9,12 @@ namespace ItLabs.MBox.Contracts.Dtos
     {
         public IList<string> Errors;
 
-        public IList<Artist> ArtistsToBeAdded;
+        public IList<ApplicationUser> UsersToBeAdded;
 
         public AddMultipleArtistsDto()
         {
             Errors = new List<string>();
-            ArtistsToBeAdded = new List<Artist>();
+            UsersToBeAdded = new List<ApplicationUser>();
         }
     }
 }
