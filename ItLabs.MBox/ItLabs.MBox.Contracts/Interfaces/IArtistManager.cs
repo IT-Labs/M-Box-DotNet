@@ -6,7 +6,7 @@ namespace ItLabs.MBox.Contracts.Interfaces
     public interface IArtistManager : IBaseManager<Artist>
     {
         IList<Artist> GetMostFollowedArtists(int number);
-        IList<Artist> GetSearchedArtists(int recordLabelId, int skip, int take, string search);
+        IList<Artist> GetRecordLabelArtists(int recordLabelId, int skip, int take, string search);
         void DeleteArtist(int recordLabelId ,int artistlId);
     }
 }

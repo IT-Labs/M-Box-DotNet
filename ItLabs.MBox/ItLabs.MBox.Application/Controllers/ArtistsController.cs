@@ -23,7 +23,7 @@ namespace ItLabs.MBox.Application.Controllers
         }
         public IActionResult Index()
         {
-            var model = new PagingModel<Song>() { ArtistlId = CurrentLoggedUser, Skip = MBoxConstants.initialSkip, Take = MBoxConstants.initialTakeTabel };
+            var model = new PagingModel<Song>() { ArtistlId = CurrentLoggedUserId, Skip = MBoxConstants.initialSkip, Take = MBoxConstants.initialTakeTabel };
             model.PagingList = _songManager.GetArtistSongs(model.ArtistlId, model.Skip, model.Take, string.Empty);
 
             return View(model);
@@ -31,7 +31,7 @@ namespace ItLabs.MBox.Application.Controllers
 
         public IActionResult Search(string searchValue)
         {
-            var model = new PagingModel<Song>() { ArtistlId = CurrentLoggedUser, Skip = MBoxConstants.initialSkip, Take = MBoxConstants.initialTakeTabel };
+            var model = new PagingModel<Song>() { ArtistlId = CurrentLoggedUserId, Skip = MBoxConstants.initialSkip, Take = MBoxConstants.initialTakeTabel };
 
             if (searchValue != null)
             {
@@ -71,8 +71,8 @@ namespace ItLabs.MBox.Application.Controllers
                 YouTubeLink = model.YoutubeLink,
                 ReleaseDate = model.ReleaseDate,
                 Lyrics = model.SongLyrics,
-                ArtistId = CurrentLoggedUser
-            }, CurrentLoggedUser);
+                ArtistId = CurrentLoggedUserId
+            }, CurrentLoggedUserId);
 
             _songManager.Save();
 
@@ -82,7 +82,7 @@ namespace ItLabs.MBox.Application.Controllers
         [HttpPost]
         public IActionResult DeleteSong(int songId)
         {
-            var song = _repository.GetOne<Song>(filter: x => x.ArtistId == CurrentLoggedUser && x.Id == songId);
+            var song = _repository.GetOne<Song>(filter: x => x.ArtistId == CurrentLoggedUserId && x.Id == songId);
 
             _repository.Delete(song);
             _repository.Save();

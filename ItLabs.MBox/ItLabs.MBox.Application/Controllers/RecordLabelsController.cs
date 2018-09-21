@@ -36,7 +36,7 @@ namespace ItLabs.MBox.Application.Controllers
         public IActionResult Index()
         {
             DashboardViewModel model = new DashboardViewModel() { RecordLabelId = CurrentLoggedUserId, Skip = MBoxConstants.initialSkip, Take = MBoxConstants.initialTakeTabel };
-            model.PagingList = _artistsManager.GetSearchedArtists(model.RecordLabelId, model.Skip, model.Take, string.Empty);
+            model.PagingList = _artistsManager.GetRecordLabelArtists(model.RecordLabelId, model.Skip, model.Take, string.Empty);
             return View(model);
 
         }
@@ -44,7 +44,7 @@ namespace ItLabs.MBox.Application.Controllers
         [HttpGet]
         public IActionResult GetRecordLabelArtists([FromQuery] DashboardViewModel model)
         {
-            model.PagingList = _artistsManager.GetSearchedArtists(model.RecordLabelId, model.Skip, model.Take, string.Empty).ToList();
+            model.PagingList = _artistsManager.GetRecordLabelArtists(model.RecordLabelId, model.Skip, model.Take, string.Empty).ToList();
             return View("NextArtists", model);
         }
 
@@ -100,11 +100,11 @@ namespace ItLabs.MBox.Application.Controllers
 
             if (search != null)
             {
-                model.PagingList = _artistsManager.GetSearchedArtists(model.RecordLabelId, model.Skip, model.Take, search);
+                model.PagingList = _artistsManager.GetRecordLabelArtists(model.RecordLabelId, model.Skip, model.Take, search);
                 return View("Index", model);
             }
 
-            model.PagingList = _artistsManager.GetSearchedArtists(model.RecordLabelId, model.Skip, model.Take, string.Empty);
+            model.PagingList = _artistsManager.GetRecordLabelArtists(model.RecordLabelId, model.Skip, model.Take, string.Empty);
             return RedirectToAction("Index", "RecordLabels");
         }
 

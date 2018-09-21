@@ -93,7 +93,7 @@ namespace ItLabs.MBox.Application.Controllers
 
             ViewData["Message"] = "RecordLabels";
             var model = new PagingModel<RecordLabel>() { Skip = MBoxConstants.initialSkip, Take = MBoxConstants.initialTakeHomeLists };
-            model.PagingList = _recordLabelManager.GetSearchedRecordLabels(string.Empty, model.Skip, model.Take).ToList();
+            model.PagingList = _recordLabelManager.GetRecordLabels(string.Empty, model.Skip, model.Take).ToList();
             return View(model);
         }
 
@@ -101,7 +101,7 @@ namespace ItLabs.MBox.Application.Controllers
         public IActionResult GetNextRecordLabels([FromQuery] PagingModel<RecordLabel> model)
         {
             ViewData["Message"] = "RecordLabels";
-            model.PagingList = _recordLabelManager.GetSearchedRecordLabels(string.Empty, model.Skip, model.Take).ToList();
+            model.PagingList = _recordLabelManager.GetRecordLabels(string.Empty, model.Skip, model.Take).ToList();
             return View("NextRecordLabels", model);
         }
 

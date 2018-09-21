@@ -50,7 +50,7 @@ namespace ItLabs.MBox.Domain.Managers
 
         }
 
-        public IList<RecordLabel> GetSearchedRecordLabels(string searchValue, int toSkip, int toTake)
+        public IList<RecordLabel> GetRecordLabels(string searchValue, int toSkip, int toTake)
         {
             return _repository.Get<RecordLabel>(
                 filter: x => x.User.Name.ToUpper().Contains(searchValue.ToUpper()) || x.User.Email.ToUpper().Contains(searchValue.ToUpper()),

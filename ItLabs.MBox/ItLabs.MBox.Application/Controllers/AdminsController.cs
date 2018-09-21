@@ -29,14 +29,15 @@ namespace ItLabs.MBox.Application.Controllers
         public IActionResult Index()
         {   
             var model = new PagingModel<RecordLabel>() { Skip = MBoxConstants.initialSkip, Take = MBoxConstants.initialTakeTabel };
-            model.PagingList = _recordLabelManager.GetSearchedRecordLabels(string.Empty, model.Skip, model.Take).ToList();
+            model.PagingList = _recordLabelManager.GetRecordLabels(string.Empty, model.Skip, model.Take).ToList();
+
             return View(model);
         }
 
         [HttpGet]
         public IActionResult GetNextRecordLabels([FromQuery] PagingModel<RecordLabel> model)
         {
-            model.PagingList = _recordLabelManager.GetSearchedRecordLabels(string.Empty, model.Skip, model.Take).ToList();
+            model.PagingList = _recordLabelManager.GetRecordLabels(string.Empty, model.Skip, model.Take).ToList();
             return View("NextRecordLabels", model);
         }
 
@@ -75,7 +76,7 @@ namespace ItLabs.MBox.Application.Controllers
 
             if (string.IsNullOrWhiteSpace(search))
             {
-                model.PagingList = _recordLabelManager.GetSearchedRecordLabels(search, model.Skip, model.Take);
+                model.PagingList = _recordLabelManager.GetRecordLabels(search, model.Skip, model.Take);
                 return View("Index", model);
             }
 

@@ -21,7 +21,7 @@ namespace ItLabs.MBox.Domain.Managers
             _emailsManager = emailsManager;
         }
 
-        public IList<Artist> GetSearchedArtists(int recordLabelId, int toSkip, int toTake, string searchValue)
+        public IList<Artist> GetRecordLabelArtists(int recordLabelId, int toSkip, int toTake, string searchValue)
         {
             return _repository.Get<RecordLabelArtist>(
                 filter: x => x.RecordLabelId == recordLabelId && x.Artist.IsDeleted == false && (x.Artist.User.Name.ToUpper().Contains(searchValue.ToUpper()) || x.Artist.User.Email.ToUpper().Contains(searchValue.ToUpper())),
@@ -45,18 +45,6 @@ namespace ItLabs.MBox.Domain.Managers
         {
             var artist = _repository.GetOne<Artist>(x => x.Id == artistlId, includeProperties: $"{ nameof(Artist.User)}");
             var recordLabelArtist = _repository.GetOne<RecordLabelArtist>(x=>x.Artist.Id == artistlId);
-
-            artist.IsDeleted = true;
-            _repository.Update<Artist>(artist, recordLabelId);
-
-            _repository.Delete(recordLabelArtist);
-            _repository.Save();
-
-            _emailsManager.PerpareSendMail(EmailTemplateType.DeletedArtist, artist.User.Email, "");
-        }
-    }
-}
-
 
             artist.IsDeleted = true;
             _repository.Update<Artist>(artist, recordLabelId);

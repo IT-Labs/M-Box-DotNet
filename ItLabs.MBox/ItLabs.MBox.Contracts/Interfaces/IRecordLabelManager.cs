@@ -8,7 +8,7 @@ namespace ItLabs.MBox.Contracts.Interfaces
     public interface IRecordLabelManager : IBaseManager<RecordLabel>
     {
         void DeleteRecordLabel(ApplicationUser user);
-        IList<RecordLabel> GetSearchedRecordLabels(string searchValue, int toSkip, int toTake);
+        IList<RecordLabel> GetRecordLabels(string searchValue, int toSkip, int toTake);
         AddMultipleArtistsDto ValidateCsvFile(IFormFile formFile, int recordLabelId);
         List<Artist> CreateMultipleArtists(IList<ApplicationUser> usersToBeAdded, int recordLabelId);
         int GetNumberOfArtists(int recordLabelId);
