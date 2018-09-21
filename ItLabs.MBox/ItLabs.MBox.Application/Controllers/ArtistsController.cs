@@ -6,8 +6,12 @@ using ItLabs.MBox.Contracts.Enums;
 using ItLabs.MBox.Contracts.Interfaces;
 using ItLabs.MBox.Data;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Collections.Generic;
+using System.IO;
 
 namespace ItLabs.MBox.Application.Controllers
 {
@@ -16,10 +20,16 @@ namespace ItLabs.MBox.Application.Controllers
     {
         private readonly IRepository _repository;
         private readonly ISongManager _songManager;
-        public ArtistsController(IRepository repository, ISongManager songManager, UserManager<ApplicationUser> userManager) : base(userManager)
+        private readonly IS3Manager _s3Manager;
+        private readonly IEmailsManager _emailsManager;
+        private readonly IConfigurationManager _configurationManager;
+        public ArtistsController(IRepository repository, ISongManager songManager, UserManager<ApplicationUser> userManager, IS3Manager s3Manager, IEmailsManager emailsManager, IConfigurationManager configurationManager) : base(userManager)
         {
             _songManager = songManager;
             _repository = repository;
+            _s3Manager = s3Manager;
+            _emailsManager = emailsManager;
+            _configurationManager = configurationManager;
         }
         public IActionResult Index()
         {
@@ -55,13 +65,25 @@ namespace ItLabs.MBox.Application.Controllers
         }
 
         [HttpPost]
-        public IActionResult AddNewSong(AddNewSongViewModel model)
+        public IActionResult AddNewSong(AddNewSongViewModel model, List<IFormFile> uploadedFiles)
         {
+            /*
             if (!ModelState.IsValid)
             {
                 return View(model);
             }
+            if (uploadedFiles.Count != 0)
+            {
+                if(uploadedFiles[0].Length > Math.Pow(1024, 2) * 3)
+                {
+                    return View(model);
+                }
+                var fullpath = Path.GetTempFileName() + uploadedFiles[0].FileName;
+                
+                _s3Manager.UploadFileAsync(fullpath,);
 
+            }
+            */
             _songManager.Create(new Song()
             {
                 Name = model.SongName,

@@ -15,13 +15,14 @@ namespace ItLabs.MBox.Domain.Managers
         {
             _client = client;
         }
-        public async Task UploadFileAsync(string bucketName)
+        public async Task UploadFileAsync(string filePath, string bucketName)
         {
             try
             {
+                //Need to register the credentials, and should be working
                 var fileTransferUtility = new TransferUtility(_client);
                 var ImageName = Guid.NewGuid().ToString();
-                //await fileTransferUtility.UploadAsync(filePath, bucketName);
+                await fileTransferUtility.UploadAsync(filePath, bucketName,ImageName);
             }
             catch (Exception up)
             {

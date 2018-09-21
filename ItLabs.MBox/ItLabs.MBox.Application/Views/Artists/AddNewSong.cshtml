@@ -17,7 +17,7 @@
         </div>
     </div>
     <div class="row">
-        <form asp-controller="Artists" asp-action="AddNewSong" method="post">
+        <form asp-controller="Artists" asp-action="AddNewSong" method="post" enctype="multipart/form-data">
             <button type="submit" class="btn btn-block btn-primary" style="margin: 5px">Publish</button>
             <div class="col-md-6 col-sm-6">
                 <div class="row form-group" style="margin: 15px">
@@ -25,7 +25,8 @@
                     <span asp-validation-for="SongName" class="text-danger"></span>
                 </div>
                 <div class="row" style="margin: 15px">
-                    song logo
+                    <p>Upload Song image here:</p>
+                    <input class="btn-default btn" type="file" id="uploadedFiles" name="uploadedFiles" accept=".jpg,.jpeg,.png">
                 </div>
                 <div class="row" style="margin: 15px">
                     <label>By: @user.Name</label>
