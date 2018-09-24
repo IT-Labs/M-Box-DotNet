@@ -28,7 +28,7 @@ namespace ItLabs.MBox.Application.Controllers
             SignInManager<ApplicationUser> signInManager,
             IEmailsManager emailManager,
             ILogger<AccountController> logger,
-            IArtistManager manager):base(userManager)
+            IArtistManager manager) : base(userManager)
         {
             _signInManager = signInManager;
             _emailManager = emailManager;
@@ -67,14 +67,14 @@ namespace ItLabs.MBox.Application.Controllers
                 if (user == null)
                 {
                     ModelState.AddModelError("Email", "Password or e-mail are incorect");
-                    return View("Login",model);
+                    return View("Login", model);
                 }
 
-                /*if (!await _userManager.IsEmailConfirmedAsync(user))
+                if (!await _userManager.IsEmailConfirmedAsync(user))
                 {
                     ModelState.AddModelError("Email", "User with this email exists,  but not verified.");
                     return View("Login", model);
-                }*/
+                }
 
                 var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, lockoutOnFailure: false);
                 if (result.Succeeded)
@@ -290,12 +290,18 @@ namespace ItLabs.MBox.Application.Controllers
         {
             if (!ModelState.IsValid)
                 return View(model);
-
             var user = await _userManager.FindByEmailAsync(model.Email);
-            if (user == null || !(await _userManager.IsEmailConfirmedAsync(user)))
+
+            if(user == null)
             {
-                // Don't reveal that the user does not exist or is not confirmed
-                return RedirectToAction(nameof(ForgotPasswordConfirmation));
+                ModelState.AddModelError("Email", "Incorect e-mail");
+                return View("ForgotPassword", model);
+            }
+
+            if (!await _userManager.IsEmailConfirmedAsync(user))
+            {
+                ModelState.AddModelError("Email", "User with this email exists,  but not verified.");
+                return View("ForgotPassword", model);
             }
 
             // For more information on how to enable account confirmation and password reset please
@@ -317,7 +323,7 @@ namespace ItLabs.MBox.Application.Controllers
         [AllowAnonymous]
         public IActionResult ResetPassword(string userId, string code = null)
         {
-            if (code == null )
+            if (code == null)
             {
                 throw new ApplicationException("A code must be supplied for password reset.");
             }
@@ -356,8 +362,8 @@ namespace ItLabs.MBox.Application.Controllers
             {
                 return RedirectToAction(nameof(ResetPasswordConfirmation));
             }
-            
-            
+
+
             AddErrors(result);
             return View();
         }
