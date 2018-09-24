@@ -58,27 +58,6 @@ namespace ItLabs.MBox.Data
                 
             }
             context.SaveChanges();
-            //if (!context.RecordLabels.Any())
-            //{
-            //    var recordLabel = new ApplicationUser();
-            //    var passAdmin = new PasswordHasher<ApplicationUser>();
-            //    recordLabel.Id = (int)Role.RecordLabel;
-            //    recordLabel.Email = "testrl@gmail.com";
-            //    recordLabel.Name = "Record Label";
-            //    recordLabel.IsActivated = true;
-            //    recordLabel.NormalizedEmail = recordLabel.Email.ToUpper();
-            //    recordLabel.NormalizedUserName = recordLabel.Email.ToUpper();
-            //    recordLabel.SecurityStamp = "be0aefcf-bf66-40b7-a3a6-d42f58ef0beb";
-            //    recordLabel.LockoutEnabled = true;
-            //    recordLabel.UserName = recordLabel.Email;
-            //    recordLabel.PasswordHash = passAdmin.HashPassword(recordLabel, "record!23");
-            //    recordLabel.CreatedBy = (int)Role.SuperAdmin;
-            //    recordLabel.EmailConfirmed = true;
-            //    context.ApplicationUsers.Add(recordLabel);
-            //    context.UserRoles.Add(new IdentityUserRole<int>() { UserId = recordLabel.Id, RoleId = 1 });
-
-            //    context.SaveChanges();
-            //}
         }
     }
 }

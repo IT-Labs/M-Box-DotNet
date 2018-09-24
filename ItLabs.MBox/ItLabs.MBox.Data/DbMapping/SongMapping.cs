@@ -10,8 +10,8 @@ namespace ItLabs.MBox.Data.DbMapping
         {
             builder.ToTable("Songs");
             builder.HasKey(c => c.Id);
-            builder.Property(c => c.Name).HasMaxLength(50);
-            builder.Property(c => c.AlbumName).HasMaxLength(50);
+            builder.Property(c => c.Name).HasMaxLength(100);
+            builder.Property(c => c.AlbumName).HasMaxLength(100);
             builder.Property(c => c.ReleaseDate).HasColumnType("Date");
             builder.Property(c => c.Picture).HasMaxLength(50);
             builder.HasIndex(c => c.Picture).IsUnique();
