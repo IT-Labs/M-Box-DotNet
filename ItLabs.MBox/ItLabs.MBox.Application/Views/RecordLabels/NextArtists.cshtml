@@ -1,18 +1,15 @@
 ﻿@{
     Layout = null;
 }
-
+@using ItLabs.MBox.Domain.Managers
+@inject S3Manager  _s3Manager
 @model PagingModel<Artist>
 
 @foreach (Artist artist in Model.PagingList)
 {
     <tr class="search">
         <td>
-            @if (@artist.User.Picture == null)
-            {
-                <i class="fa fa-user-circle" style="font-size:35px"></i>
-            }
-            @artist.User.Picture
+            <img src="@_s3Manager.GetImageLink(artist.User.Picture)" />
         </td>
         <td>@artist.User.Name</td>
         <td>@artist.User.Email</td>

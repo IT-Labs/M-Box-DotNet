@@ -20,14 +20,14 @@ namespace ItLabs.MBox.Application.Controllers
     {
         private readonly IRepository _repository;
         private readonly ISongManager _songManager;
-        //private readonly IS3Manager _s3Manager;
+        private readonly IS3Manager _s3Manager;
         private readonly IEmailsManager _emailsManager;
         //private readonly IConfigurationManager _configurationManager;
-        public ArtistsController(IRepository repository, ISongManager songManager, UserManager<ApplicationUser> userManager, IEmailsManager emailsManager) : base(userManager)
+        public ArtistsController(IRepository repository, ISongManager songManager, UserManager<ApplicationUser> userManager, IEmailsManager emailsManager, IS3Manager s3Manager) : base(userManager)
         {
             _songManager = songManager;
             _repository = repository;
-            //_s3Manager = s3Manager;
+            _s3Manager = s3Manager;
             _emailsManager = emailsManager;
             //_configurationManager = configurationManager;
         }
@@ -82,23 +82,40 @@ namespace ItLabs.MBox.Application.Controllers
         [HttpPost]
         public IActionResult AddNewSong(AddNewSongViewModel model, List<IFormFile> uploadedFiles)
         {
-            
+            var imageS3Name = string.Empty;
             if (!ModelState.IsValid)
             {
                 return View(model);
             }
-            /*if (uploadedFiles.Count != 0)
+            if (uploadedFiles.Count != 0)
             {
-                if(uploadedFiles[0].Length > Math.Pow(1024, 2) * 3)
+                var formFile = uploadedFiles[0];
+                if (formFile.Length > Math.Pow(1024, 2) * 3)
                 {
                     return View(model);
                 }
-                var fullpath = Path.GetTempFileName() + uploadedFiles[0].FileName;
                 
-                _s3Manager.UploadFileAsync(fullpath,);
+                var path = Path.GetFullPath(formFile.FileName);
 
+                using (var stream = new FileStream(path, FileMode.Create))
+                {
+                    formFile.CopyToAsync(stream);
+                }
+
+                var uploadedImageName = _s3Manager.UploadFileAsync(path);
+                imageS3Name = uploadedImageName.Result;
+
+                if (System.IO.File.Exists(path))
+                {
+                    System.IO.File.Delete(path);
+                }
+
+                
             }
-            */
+            if (string.IsNullOrEmpty(imageS3Name))
+            {
+                imageS3Name = "DefaultSong.jpg";
+            }
             _songManager.Create(new Song()
             {
                 Name = model.SongName,
@@ -108,6 +125,7 @@ namespace ItLabs.MBox.Application.Controllers
                 YouTubeLink = model.YoutubeLink,
                 ReleaseDate = model.ReleaseDate,
                 Lyrics = model.SongLyrics,
+                Picture = imageS3Name,
                 ArtistId = CurrentLoggedUserId
             }, CurrentLoggedUserId);
 
@@ -120,7 +138,7 @@ namespace ItLabs.MBox.Application.Controllers
         public IActionResult DeleteSong(int songId)
         {
             var song = _repository.GetOne<Song>(filter: x => x.ArtistId == CurrentLoggedUserId && x.Id == songId);
-
+            _s3Manager.DeleteFile(song.Picture);
             _repository.Delete(song);
             _repository.Save();
 
@@ -133,6 +151,41 @@ namespace ItLabs.MBox.Application.Controllers
             song.Song = _repository.GetOne<Song>(filter: x => x.ArtistId == CurrentLoggedUserId && x.Id == songId);
 
             return View("EditSongDetails", song);
+        }
+        [HttpPost]
+        public IActionResult ChangePicture(List<IFormFile> uploadedFiles)
+        {
+            var imageS3Name = string.Empty;
+            if (uploadedFiles.Count == 0)
+            {
+                return RedirectToAction("MyAccount");
+            }
+            var formFile = uploadedFiles[0];
+
+            if (formFile.Length > Math.Pow(1024, 2) * 3)
+            {
+                return RedirectToAction("MyAccount");
+            }
+
+            var path = Path.GetFullPath(formFile.FileName);
+
+            using (var stream = new FileStream(path, FileMode.Create))
+            {
+                formFile.CopyToAsync(stream);
+            }
+
+            var uploadedImageName = _s3Manager.UploadFileAsync(path);
+            imageS3Name = uploadedImageName.Result;
+
+            if (System.IO.File.Exists(path))
+            {
+                System.IO.File.Delete(path);
+            }
+
+            var currentUser = _userManager.FindByIdAsync(CurrentLoggedUserId.ToString()).Result;
+            currentUser.Picture = imageS3Name;
+            _userManager.UpdateAsync(currentUser);
+            return RedirectToAction("MyAccount");
         }
     }
 }

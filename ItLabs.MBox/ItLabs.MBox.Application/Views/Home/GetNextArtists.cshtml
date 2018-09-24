@@ -1,4 +1,7 @@
 ﻿@using ItLabs.MBox.Application.Models
+
+@using ItLabs.MBox.Domain.Managers
+@inject S3Manager  _s3Manager
 @model PagingModel<Artist>
 @{
     Layout = null;
@@ -17,7 +20,7 @@
             </div>
             <div class="row">
                 <div>
-                    <img class="img-circle img-responsive artistAlign artistImage" src="~/images/kendrick-lamar-getty-paul-marotta.jpg" />
+                    <img class="img-circle img-responsive artistAlign artistImage" src="@_s3Manager.GetImageLink(artist.User.Picture)" />
                 </div>
             </div>
             <div class="row">

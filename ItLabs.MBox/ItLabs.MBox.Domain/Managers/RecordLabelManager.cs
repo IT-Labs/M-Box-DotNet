@@ -19,12 +19,14 @@ namespace ItLabs.MBox.Domain.Managers
     {
         private readonly IRepository _repository;
         private readonly IEmailsManager _emailsManager;
+        private readonly IS3Manager _s3Manager;
         private readonly UserManager<ApplicationUser> _userManager;
-        public RecordLabelManager(IRepository repository, IEmailsManager emailsManager, UserManager<ApplicationUser> userManager) : base(repository)
+        public RecordLabelManager(IRepository repository, IEmailsManager emailsManager, UserManager<ApplicationUser> userManager, IS3Manager s3Manager) : base(repository)
         {
             _repository = repository;
             _emailsManager = emailsManager;
             _userManager = userManager;
+            _s3Manager = s3Manager;
         }
 
         public void DeleteRecordLabel(ApplicationUser user)
@@ -34,6 +36,8 @@ namespace ItLabs.MBox.Domain.Managers
             foreach (var artist in artists)
             {
                 artist.IsDeleted = true;
+                if (!user.Picture.Equals("DefaultArtist.png"))
+                    _s3Manager.DeleteFile(artist.User.Picture);
                 _repository.Update<Artist>(artist, user.Id);
             }
             foreach (var rla in recordLabelArtists)
@@ -42,7 +46,8 @@ namespace ItLabs.MBox.Domain.Managers
             }
 
             var recordLabel = user;
-
+            if(!user.Picture.Equals("DefaultRecordLabel.png"))
+                _s3Manager.DeleteFile(user.Picture);
             _repository.Delete<RecordLabel>(user.Id);
             _repository.Delete(user);
             _repository.Save();

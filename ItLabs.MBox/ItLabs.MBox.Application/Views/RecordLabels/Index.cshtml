@@ -1,5 +1,6 @@
 ﻿<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-
+@using ItLabs.MBox.Domain.Managers
+@inject S3Manager  _s3Manager
 @section Scripts{
     <script type="text/javascript" src="~/js/LazyLoadingInTable.js"></script>
 }
@@ -51,11 +52,8 @@
                 {
                     <tr class="search">
                         <td>
-                            @if(@artist.User.Picture == null)
-                            {
-                                <i class="fa fa-user-circle" style="font-size:35px"></i>
-                            }
-                            @artist.User.Picture
+                            
+                            <img class="img-circle" style="height: 35px; width: 35px" src="@_s3Manager.GetImageLink(artist.User.Picture)" />
                             <input id="recordlabels" type="hidden" value="@Html.Raw(Json.Serialize(new List<Artist>()))" />
                             <input id="take" type="hidden" value="@Html.Raw(Json.Serialize(Model.Take))" />
                             <input id="skip" type="hidden" value="@Html.Raw(Json.Serialize(Model.Skip))" />

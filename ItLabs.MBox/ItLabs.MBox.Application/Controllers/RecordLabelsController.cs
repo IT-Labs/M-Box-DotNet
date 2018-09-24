@@ -12,6 +12,8 @@ using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
+using System;
+using System.IO;
 
 namespace ItLabs.MBox.Application.Controllers
 {
@@ -19,16 +21,16 @@ namespace ItLabs.MBox.Application.Controllers
     public class RecordLabelsController : BaseController
     {
         private readonly IArtistManager _artistsManager;
-       
+        private readonly IS3Manager _s3Manager;
         private readonly IEmailsManager _emailsManager;
         private readonly IRecordLabelManager _recordLabelManager;
 
-        public RecordLabelsController(IArtistManager artistsManager, UserManager<ApplicationUser> userManager, IEmailsManager emailsManager, IRecordLabelManager recordLabelManager): base(userManager)
+        public RecordLabelsController(IArtistManager artistsManager, UserManager<ApplicationUser> userManager, IEmailsManager emailsManager, IRecordLabelManager recordLabelManager, IS3Manager s3Manager): base(userManager)
         {
             _artistsManager = artistsManager;
             _emailsManager = emailsManager;
             _recordLabelManager = recordLabelManager;
-            
+            _s3Manager = s3Manager;
         }
 
         public IActionResult Index()
@@ -184,6 +186,41 @@ namespace ItLabs.MBox.Application.Controllers
             _artistsManager.DeleteArtist(CurrentLoggedUserId, artistlId);
 
             return RedirectToAction("Index");
+        }
+        [HttpPost]
+        public IActionResult ChangePicture(List<IFormFile> uploadedFiles)
+        {
+            var imageS3Name = string.Empty;
+            if (uploadedFiles.Count == 0)
+            {
+                return RedirectToAction("MyAccount");
+            }
+            var formFile = uploadedFiles[0];
+
+            if (formFile.Length > Math.Pow(1024, 2) * 3)
+            {
+                return RedirectToAction("MyAccount");
+            }
+
+            var path = Path.GetFullPath(formFile.FileName);
+
+            using (var stream = new FileStream(path, FileMode.Create))
+            {
+                formFile.CopyToAsync(stream);
+            }
+
+            var uploadedImageName = _s3Manager.UploadFileAsync(path);
+            imageS3Name = uploadedImageName.Result;
+
+            if (System.IO.File.Exists(path))
+            {
+                System.IO.File.Delete(path);
+            }
+
+            var currentUser = _userManager.FindByIdAsync(CurrentLoggedUserId.ToString()).Result;
+            currentUser.Picture = imageS3Name;
+            _userManager.UpdateAsync(currentUser);
+            return RedirectToAction("MyAccount");
         }
     }
 }

@@ -1,4 +1,6 @@
 ﻿<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+@using ItLabs.MBox.Domain.Managers
+@inject S3Manager  _s3Manager
 @inject UserManager<ApplicationUser> UserManager
 
 @section Scripts{
@@ -16,7 +18,18 @@
         </div>
         <div class="col-md-6 col-sm-6">
             <div class="row" style="margin: 20px">
-                picture
+                <img class="img-circle img-responsive center-block" style="height:350px; width:350px" src="@_s3Manager.GetImageLink(user.Picture)">
+            </div>
+            <div class="row" style="margin:20px">
+                <form asp-controller="Artists" asp-action="ChangePicture" method="post" enctype="multipart/form-data">
+                    <div class="col-sm-8 col-md-8">
+                        <p>Change profle picture:</p>
+                        <input class="btn-default btn" type="file" id="uploadedFiles" name="uploadedFiles" accept=".jpg,.jpeg,.png">
+                    </div>
+                    <div class="col-sm-4 col-md-4" style="margin-top:35px; ">
+                        <button type="submit" class="btn btn-primary">Upload</button>
+                    </div>
+                </form>
             </div>
             <div class="row" style="margin: 20px">
                 <div class="col-md-8 col-sm-8">

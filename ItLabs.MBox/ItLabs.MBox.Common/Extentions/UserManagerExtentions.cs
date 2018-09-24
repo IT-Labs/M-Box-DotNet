@@ -18,6 +18,14 @@ namespace ItLabs.MBox.Common.Extentions
             {
                 return null;
             }
+            if (role == Role.RecordLabel)
+            {
+                user.Picture = "DefaultRecordLabel.png";
+            }
+            if (role == Role.Artist)
+            {
+                user.Picture = "DefaultArtist.png";
+            }
             var result = userManager.CreateAsync(user, password).Result;
             if (!result.Succeeded)
             {
@@ -28,7 +36,7 @@ namespace ItLabs.MBox.Common.Extentions
             {
                 return null;
             }
-
+            
             return Task.FromResult(user);
 
         }

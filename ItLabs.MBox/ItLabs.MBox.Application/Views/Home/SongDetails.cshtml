@@ -1,4 +1,6 @@
-﻿
+﻿@using ItLabs.MBox.Domain.Managers
+@inject S3Manager  _s3Manager
+
 @{
     ViewData["Title"] = "SongDetails";
 }
@@ -17,7 +19,7 @@
                 <h3>Song name: @Model.SongDetails.Name</h3>
             </div>
             <div class="row">
-                song logo
+                <img class="img-responsive" style="height:350px; width:500px" src="@_s3Manager.GetImageLink(Model.SongDetails.Picture)">
             </div>
             <div class="row" style="margin-bottom: 15px; margin-top: 15px">
                 <h3>By: @Model.SongDetails.Artist.User.Name</h3>
@@ -29,7 +31,7 @@
                 <h3>Genre: @Model.SongDetails.Genre</h3>
             </div>
             <div class="row">
-                <h3>By: @Model.SongDetails.ReleaseDate</h3>
+                <h3>Release Date: @Model.SongDetails.ReleaseDate.ToShortDateString()</h3>
             </div>
             <div class="row" style="margin-top: 15px">
                 <div class="col-md-6 col-sm-6">

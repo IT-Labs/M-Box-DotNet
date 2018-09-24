@@ -1,5 +1,6 @@
 ﻿@using ItLabs.MBox.Application.Models
-
+@using ItLabs.MBox.Domain.Managers
+@inject S3Manager  _s3Manager
 @model PagingModel<RecordLabel>
 
 @{
@@ -29,7 +30,7 @@
                 </div>
                 <div class="row">
                     <div>
-                        <img class="img-responsive center-block text-center" src="~/images/travis-scott-astroworld-cover-art.jpg" />
+                        <img class="img-responsive center-block text-center" src="@_s3Manager.GetImageLink(rl.User.Picture)" />
                     </div>
                 </div>
             </li>

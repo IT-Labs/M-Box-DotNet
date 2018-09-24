@@ -1,7 +1,8 @@
 ﻿@using ItLabs.MBox.Contracts.Enums
 @using ItLabs.MBox.Application.Models.ArtistsViewModel
 @using ItLabs.MBox.Contracts.Interfaces
-
+@using ItLabs.MBox.Domain.Managers
+@inject S3Manager  _s3Manager
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 @inject UserManager<ApplicationUser> UserManager
 
@@ -47,7 +48,7 @@
                 </div>
             </div>
             <div class="row">
-                song logo
+                <img class="img-responsive" style="height:350px; width:500px" src="@_s3Manager.GetImageLink(Model.Song.Picture)">
             </div>
             <div class="row" style="margin-bottom: 15px; margin-top: 15px">
                 <label>By: @user.Name</label>

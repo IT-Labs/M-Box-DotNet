@@ -7,6 +7,8 @@ namespace ItLabs.MBox.Contracts.Interfaces
 {
     public interface IS3Manager
     {
-        Task UploadFileAsync(string filePath, string bucketName);
+        Task<string> UploadFileAsync(string filePath);
+        string GetImageLink(string imageName);
+        void DeleteFile(string fileName);
     }
 }

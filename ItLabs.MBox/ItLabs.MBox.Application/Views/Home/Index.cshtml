@@ -1,6 +1,7 @@
 ﻿@using ItLabs.MBox.Application.Models;
 @using ItLabs.MBox.Contracts.Entities
-
+@using ItLabs.MBox.Domain.Managers
+@inject S3Manager _s3Manager
 @{
     ViewData["Title"] = "Home Page";
 }
@@ -36,7 +37,7 @@
                             </div>
                             <div class="row">
                                 <div>
-                                    <img class="img-responsive center-block text-center songImage" src="~/images/travis-scott-astroworld-cover-art.jpg" />
+                                    <img class="img-responsive center-block text-center songImage" src="@_s3Manager.GetImageLink(song.Picture)" />
                                 </div>
                             </div>
                             <div class="row">
@@ -91,7 +92,7 @@
                             </div>
                             <div class="row">
                                 <div>
-                                    <img class="img-circle img-responsive artistAlign artistImage" src="~/images/kendrick-lamar-getty-paul-marotta.jpg" />
+                                    <img class="img-circle img-responsive artistAlign artistImage" src="@_s3Manager.GetImageLink(artist.User.Picture)" />
                                 </div>
                             </div>
                             <div class="row">
@@ -135,7 +136,7 @@
                             </div>
                             <div class="row">
                                 <div>
-                                    <img class="img-responsive center-block text-center songImage" src="~/images/travis-scott-astroworld-cover-art.jpg" />
+                                    <img class="img-responsive center-block text-center songImage" src="@_s3Manager.GetImageLink(song.Picture)" />
                                 </div>
                             </div>
                             <div class="row">

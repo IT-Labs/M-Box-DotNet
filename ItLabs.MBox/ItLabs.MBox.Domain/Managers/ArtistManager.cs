@@ -12,13 +12,14 @@ namespace ItLabs.MBox.Domain.Managers
 {
     public class ArtistManager : BaseManager<Artist>, IArtistManager
     {
-        private IRepository _repository;
-        private IEmailsManager _emailsManager;
-
-        public ArtistManager(IRepository repository, IEmailsManager emailsManager) : base(repository)
+        private readonly IRepository _repository;
+        private readonly IEmailsManager _emailsManager;
+        private readonly IS3Manager _s3Manager;
+        public ArtistManager(IRepository repository, IEmailsManager emailsManager, IS3Manager s3Manager) : base(repository)
         {
             _repository = repository;
             _emailsManager = emailsManager;
+            _s3Manager = s3Manager;
         }
 
         public IList<Artist> GetRecordLabelArtists(int recordLabelId, int toSkip, int toTake, string searchValue)
@@ -55,6 +56,8 @@ namespace ItLabs.MBox.Domain.Managers
             var recordLabelArtist = _repository.GetOne<RecordLabelArtist>(x=>x.Artist.Id == artistlId);
 
             artist.IsDeleted = true;
+            if (!artist.User.Picture.Equals("DefaultArtist.png"))
+                _s3Manager.DeleteFile(artist.User.Picture);
             _repository.Update<Artist>(artist, recordLabelId);
 
             _repository.Delete(recordLabelArtist);
