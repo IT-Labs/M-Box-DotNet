@@ -134,7 +134,7 @@ namespace ItLabs.MBox.Application.Controllers
             {
                 return View(response);
             }
-            if(_recordLabelManager.GetNumberOfArtists(CurrentLoggedUserId) + response.UsersToBeAdded.Count > MBoxConstants.MaximumArtistsAllowed)
+            if(_recordLabelManager.GetNumberOfArtists(CurrentLoggedUserId) + response.UsersToBeAdded.Count >= MBoxConstants.MaximumArtistsAllowed)
             {
                 response.Errors.Add("Artist Limit (50) exceeded");
                 return View(response);

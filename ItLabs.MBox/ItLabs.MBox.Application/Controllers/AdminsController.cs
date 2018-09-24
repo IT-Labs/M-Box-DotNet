@@ -58,6 +58,7 @@ namespace ItLabs.MBox.Application.Controllers
         [HttpPost]
         public async Task<IActionResult> AddNewRecordLabelAsync(InviteViewModel model)
         {
+            model.Email.Trim();
             if (!ModelState.IsValid)
                 return View(model);
 
