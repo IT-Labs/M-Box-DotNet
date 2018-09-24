@@ -1,4 +1,7 @@
 ﻿@using ItLabs.MBox.Application.Models
+@using ItLabs.MBox.Domain.Managers
+@inject UserManager<ApplicationUser> UserManager
+@inject ArtistManager ArtistManager
 @section Scripts{
     <script type="text/javascript" src="~/js/LazyLoadingInTable.js"></script>
 }
@@ -6,14 +9,24 @@
 @model PagingModel<Song>
 @{
     ViewData["Title"] = "MySongs";
+    var user = await UserManager.GetUserAsync(User);
+    var artist = ArtistManager.GetOne(filter: x => x.Id == user.Id);
 }
 
 <div class="container-fluid">
     <div class="row" style="margin-top: 25px">
         <div class="col-md-4 col-sm-4">
-            <form asp-area="" asp-controller="Artists" asp-action="AddNewSong" method="get">
-                <button type="submit" class="btn btn-block btn-primary" style="margin: 5px">Add New Song</button>
-            </form>
+            @if (artist.IsDeleted == false)
+            {
+                <form asp-area="" asp-controller="Artists" asp-action="AddNewSong" method="get">
+                    <button type="submit" class="btn btn-block btn-primary" style="margin: 5px">Add New Song</button>
+                </form>
+            }
+            else
+            {
+                <button type="submit" class="btn btn-block btn-primary" style="margin: 5px" disabled>Add New Song</button>
+            }
+
         </div>
         <div class="col-md-8 col-sm-8" style="margin-top: 5px">
             <div class="row">

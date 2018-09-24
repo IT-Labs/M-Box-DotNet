@@ -16,7 +16,7 @@ namespace ItLabs.MBox.Application.Models
         [StringLength(50, ErrorMessage = "The {0} cannot contain more than {1} characters!", MinimumLength = 2)]
         public string Name { get; set; }
         [Required]
-        [EmailAddress(ErrorMessage = "The Email should be in example@example.com format!")]
+        [EmailAddress(ErrorMessage = "Email address should be in format example@exp.exp!")]
         [Display(Name = "Email")]
         public string Email { get; set; }
         [Required]

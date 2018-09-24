@@ -1,4 +1,5 @@
 ﻿@using ItLabs.MBox.Application.Models
+@model PagingModel<Artist>
 
 @{
     ViewData["Title"] = "Artists";
@@ -8,13 +9,13 @@
     <script type="text/javascript" src="~/js/LazyLoadingRecordLabels.js"></script>
 }
 
-@model PagingModel<Artist>
+
 
 <div class="container-fluid">
-    <ul id="recordLabelsListId" class="list-group recordLabelList" style="list-style:none;">
+    <ul id="recordLabelsListId" class="list-group" style="list-style:none;">
         @foreach (Artist artist in Model.PagingList)
         {
-            <li class="col-sm-2 table-bordered seperateRecordLabelItems">
+            <li class="col-sm-2 table-bordered" style="margin: 3.2%">
                 <div class="row">
                     <div>
                         <div class="text-center text">
