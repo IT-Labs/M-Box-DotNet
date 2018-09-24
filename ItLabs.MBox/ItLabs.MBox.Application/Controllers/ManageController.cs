@@ -1,5 +1,6 @@
 ﻿using ItLabs.MBox.Application.Models.ManageViewModels;
 using ItLabs.MBox.Contracts.Entities;
+using ItLabs.MBox.Contracts.Enums;
 using ItLabs.MBox.Contracts.Interfaces;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
@@ -129,6 +130,9 @@ namespace ItLabs.MBox.Application.Controllers
         [HttpGet]
         public async Task<IActionResult> ChangePassword()
         {
+            if (HttpContext.User.IsInRole(nameof(Role.SuperAdmin)))
+                return RedirectToAction("Index", "Admins");
+
             var user = await _userManager.GetUserAsync(User);
             if (user == null)
             {
@@ -171,7 +175,7 @@ namespace ItLabs.MBox.Application.Controllers
             _logger.LogInformation("User changed their password successfully.");
             StatusMessage = "Your password has been changed.";
 
-            return RedirectToAction(nameof(ChangePassword));
+            return View("SuccessfullyAddedMultiple");
         }
 
         [HttpGet]

@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Text;
 
 namespace ItLabs.MBox.Application.Controllers
 {
@@ -22,14 +23,12 @@ namespace ItLabs.MBox.Application.Controllers
         private readonly ISongManager _songManager;
         private readonly IS3Manager _s3Manager;
         private readonly IEmailsManager _emailsManager;
-        //private readonly IConfigurationManager _configurationManager;
         public ArtistsController(IRepository repository, ISongManager songManager, UserManager<ApplicationUser> userManager, IEmailsManager emailsManager, IS3Manager s3Manager) : base(userManager)
         {
             _songManager = songManager;
             _repository = repository;
             _s3Manager = s3Manager;
             _emailsManager = emailsManager;
-            //_configurationManager = configurationManager;
         }
         public IActionResult Index()
         {
@@ -83,19 +82,24 @@ namespace ItLabs.MBox.Application.Controllers
         public IActionResult AddNewSong(AddNewSongViewModel model, List<IFormFile> uploadedFiles)
         {
             var imageS3Name = string.Empty;
+
             if (!ModelState.IsValid)
             {
                 return View(model);
             }
             if (uploadedFiles.Count != 0)
-            {
                 var formFile = uploadedFiles[0];
-                if (formFile.Length > Math.Pow(1024, 2) * 3)
-                {
-                    return View(model);
+                if (formFile.Length > Math.Pow(1024, 2) * 3){
+                	return View(model);
                 }
-                
+
                 var path = Path.GetFullPath(formFile.FileName);
+            if (ytLink.ToLower().StartsWith("www") || ytLink.ToLower().StartsWith("y"))
+                ytLink = "https://" + ytLink;
+
+            var vimeoLink = model.VimeoLink;
+            if (vimeoLink.ToLower().StartsWith("www") || vimeoLink.ToLower().StartsWith("v"))
+                vimeoLink = "https://" + vimeoLink;
 
                 using (var stream = new FileStream(path, FileMode.Create))
                 {
@@ -115,14 +119,15 @@ namespace ItLabs.MBox.Application.Controllers
             if (string.IsNullOrEmpty(imageS3Name))
             {
                 imageS3Name = "DefaultSong.jpg";
-            }
             _songManager.Create(new Song()
             {
+                
+
                 Name = model.SongName,
                 AlbumName = model.AlbumName,
                 Genre = model.Genres.ToString(),
-                VimeoLink = model.VimeoLink,
-                YouTubeLink = model.YoutubeLink,
+                VimeoLink = vimeoLink,
+                YouTubeLink = ytLink,
                 ReleaseDate = model.ReleaseDate,
                 Lyrics = model.SongLyrics,
                 Picture = imageS3Name,

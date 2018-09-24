@@ -24,11 +24,11 @@ namespace ItLabs.MBox.Application.Models.ArtistsViewModel
         public DateTime ReleaseDate { get; set; }
 
         [Required(ErrorMessage = "Please enter a valid YouTube link!")]
-        [RegularExpression(@"^(http(s?)\:\/\/)(www\.youtube\.com|youtu\.?be)\/.+$", ErrorMessage = "Please enter a valid Youtube link!")]
+        [RegularExpression(@"^(http(s?)\:\/\/)?(www\.)?(youtube\.com|youtu\.?be)\/.+$", ErrorMessage = "Please enter a valid Youtube link!")]
         public string YoutubeLink { get; set; }
 
         [Required(ErrorMessage = "Please enter a valid Vimeo link!")]
-        [RegularExpression(@"(http|https)?:\/\/(www\.)?vimeo.com\/(?:channels\/(?:\w+\/)?|groups\/([^\/]*)\/videos\/|)(\d+)(?:|\/\?)", ErrorMessage = "Please enter a valid Vimeo link!")]
+        [RegularExpression(@"^(http(s?)\:\/\/)?(www\.)?vimeo.com\/(?:channels\/(?:\w+\/)?|groups\/([^\/]*)\/videos\/|)(\d+)(?:|\/\?)", ErrorMessage = "Please enter a valid Vimeo link!")]
         public string VimeoLink { get; set; }
 
 

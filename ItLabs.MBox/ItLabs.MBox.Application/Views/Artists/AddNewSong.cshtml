@@ -32,8 +32,14 @@
             <div class="row" style="margin: 15px">
                 <div class="col-md-6 col-sm-6">
                     <div class="row form-group" style="margin: 15px">
-                        <input asp-for="SongName" class="form-control" placeholder="Song Name">
-                        <span asp-validation-for="SongName" class="text-danger"></span>
+                        <div class="col-md-2 col-sm-2">
+                            <label>Song Name:</label>
+                        </div>
+                        <div class="col-md-6 col-sm-6">
+                            <input asp-for="SongName" class="form-control" placeholder="Song Name">
+                            <span asp-validation-for="SongName" class="text-danger"></span>
+                        </div>
+                        
                     </div>
                     <div class="row" style="margin: 15px">
                         <p>Upload Song image here:</p>
@@ -100,7 +106,6 @@
                     </div>
                 </div>
             </div>
-
         </form>
     </div>
 </div>

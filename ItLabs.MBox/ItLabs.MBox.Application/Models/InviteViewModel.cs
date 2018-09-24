@@ -5,7 +5,7 @@ namespace ItLabs.MBox.Application.Models
     public class InviteViewModel
     {
         [Required]
-        [EmailAddress(ErrorMessage = "The Email should be in example@example.com format!")]
+        [EmailAddress(ErrorMessage = "Email address should be in format example@exp.exp!")]
         public string Email { get; set; }
 
         [Required]
