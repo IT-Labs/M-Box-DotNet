@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Text;
 
 namespace ItLabs.MBox.Application.Controllers
 {
@@ -20,16 +21,12 @@ namespace ItLabs.MBox.Application.Controllers
     {
         private readonly IRepository _repository;
         private readonly ISongManager _songManager;
-        //private readonly IS3Manager _s3Manager;
         private readonly IEmailsManager _emailsManager;
-        //private readonly IConfigurationManager _configurationManager;
         public ArtistsController(IRepository repository, ISongManager songManager, UserManager<ApplicationUser> userManager, IEmailsManager emailsManager) : base(userManager)
         {
             _songManager = songManager;
             _repository = repository;
-            //_s3Manager = s3Manager;
             _emailsManager = emailsManager;
-            //_configurationManager = configurationManager;
         }
         public IActionResult Index()
         {
@@ -82,30 +79,30 @@ namespace ItLabs.MBox.Application.Controllers
         [HttpPost]
         public IActionResult AddNewSong(AddNewSongViewModel model, List<IFormFile> uploadedFiles)
         {
-            
+
+
             if (!ModelState.IsValid)
             {
                 return View(model);
             }
-            /*if (uploadedFiles.Count != 0)
-            {
-                if(uploadedFiles[0].Length > Math.Pow(1024, 2) * 3)
-                {
-                    return View(model);
-                }
-                var fullpath = Path.GetTempFileName() + uploadedFiles[0].FileName;
-                
-                _s3Manager.UploadFileAsync(fullpath,);
 
-            }
-            */
+            var ytLink = model.YoutubeLink;
+            if (ytLink.ToLower().StartsWith("www") || ytLink.ToLower().StartsWith("y"))
+                ytLink = "https://" + ytLink;
+
+            var vimeoLink = model.VimeoLink;
+            if (vimeoLink.ToLower().StartsWith("www") || vimeoLink.ToLower().StartsWith("v"))
+                vimeoLink = "https://" + vimeoLink;
+
             _songManager.Create(new Song()
             {
+                
+
                 Name = model.SongName,
                 AlbumName = model.AlbumName,
                 Genre = model.Genres.ToString(),
-                VimeoLink = model.VimeoLink,
-                YouTubeLink = model.YoutubeLink,
+                VimeoLink = vimeoLink,
+                YouTubeLink = ytLink,
                 ReleaseDate = model.ReleaseDate,
                 Lyrics = model.SongLyrics,
                 ArtistId = CurrentLoggedUserId
