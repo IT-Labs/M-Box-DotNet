@@ -82,30 +82,23 @@ namespace ItLabs.MBox.Application.Controllers
         public IActionResult AddNewSong(AddNewSongViewModel model, List<IFormFile> uploadedFiles)
         {
             var imageS3Name = string.Empty;
-
             if (!ModelState.IsValid)
             {
                 return View(model);
             }
+
             if (uploadedFiles.Count != 0)
+            {
                 var formFile = uploadedFiles[0];
-                if (formFile.Length > Math.Pow(1024, 2) * 3){
-                	return View(model);
+                if (formFile.Length > Math.Pow(1024, 2) * 3)
+                {
+                    return View(model);
                 }
-
                 var path = Path.GetFullPath(formFile.FileName);
-            if (ytLink.ToLower().StartsWith("www") || ytLink.ToLower().StartsWith("y"))
-                ytLink = "https://" + ytLink;
-
-            var vimeoLink = model.VimeoLink;
-            if (vimeoLink.ToLower().StartsWith("www") || vimeoLink.ToLower().StartsWith("v"))
-                vimeoLink = "https://" + vimeoLink;
-
                 using (var stream = new FileStream(path, FileMode.Create))
                 {
                     formFile.CopyToAsync(stream);
                 }
-
                 var uploadedImageName = _s3Manager.UploadFileAsync(path);
                 imageS3Name = uploadedImageName.Result;
 
@@ -114,15 +107,20 @@ namespace ItLabs.MBox.Application.Controllers
                     System.IO.File.Delete(path);
                 }
 
-                
             }
             if (string.IsNullOrEmpty(imageS3Name))
-            {
                 imageS3Name = "DefaultSong.jpg";
+
+            var ytLink = model.YoutubeLink;
+            if (ytLink.ToLower().StartsWith("www") || ytLink.ToLower().StartsWith("y"))
+                ytLink = "https://" + ytLink;
+
+            var vimeoLink = model.VimeoLink;
+            if (vimeoLink.ToLower().StartsWith("www") || vimeoLink.ToLower().StartsWith("v"))
+                vimeoLink = "https://" + vimeoLink;
+
             _songManager.Create(new Song()
             {
-                
-
                 Name = model.SongName,
                 AlbumName = model.AlbumName,
                 Genre = model.Genres.ToString(),
@@ -137,8 +135,8 @@ namespace ItLabs.MBox.Application.Controllers
             _songManager.Save();
 
             return View("SuccessfullyPublishedSong");
-        }
 
+        }
         [HttpPost]
         public IActionResult DeleteSong(int songId)
         {
