@@ -69,7 +69,7 @@ namespace ItLabs.MBox.Application.Controllers
             var recordLabel = _recordLabelManager.GetOne(filter: x => x.Id == CurrentLoggedUserId, includeProperties: $"{nameof(User)}");
             if (recordLabel == null)
                 return View(model);
-            if(_recordLabelManager.GetNumberOfArtists(CurrentLoggedUserId) > MBoxConstants.MaximumArtistsAllowed)
+            if(_recordLabelManager.GetNumberOfArtists(CurrentLoggedUserId) >= MBoxConstants.MaximumArtistsAllowed)
             {
                 ModelState.AddModelError("Email", "Artist limit (50) reached. Cannot add new artist.");
                 return View( model);
@@ -134,7 +134,7 @@ namespace ItLabs.MBox.Application.Controllers
             {
                 return View(response);
             }
-            if(_recordLabelManager.GetNumberOfArtists(CurrentLoggedUserId) + response.UsersToBeAdded.Count >= MBoxConstants.MaximumArtistsAllowed)
+            if(_recordLabelManager.GetNumberOfArtists(CurrentLoggedUserId) + response.UsersToBeAdded.Count > MBoxConstants.MaximumArtistsAllowed)
             {
                 response.Errors.Add("Artist Limit (50) exceeded");
                 return View(response);
