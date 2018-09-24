@@ -31,6 +31,14 @@ namespace ItLabs.MBox.Domain.Managers
                 .Select(x => x.Artist).ToList();
         }
 
+        public IList<Artist> GetArtists(int toSkip, int toTake)
+        {
+            return _repository.GetAll<Artist>(includeProperties: $"{nameof(Artist.User)}," +
+                                   $"{nameof(Artist.RecordLabelArtists)}.{nameof(RecordLabel)}.{nameof(RecordLabel.User)}",
+                                   skip: toSkip,
+                                   take: toTake).ToList();
+        }
+
         public IList<Artist> GetMostFollowedArtists(int number)
         {
             return _repository.GetAll<Artist>(

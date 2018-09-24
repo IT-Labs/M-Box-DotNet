@@ -1,4 +1,5 @@
-﻿using ItLabs.MBox.Contracts.Enums;
+﻿using ItLabs.MBox.Contracts.Entities;
+using ItLabs.MBox.Contracts.Enums;
 using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
@@ -35,5 +36,7 @@ namespace ItLabs.MBox.Application.Models.ArtistsViewModel
 
         [StringLength(10000, ErrorMessage = "The {0} cannot contain more than {1} characters!")]
         public string SongLyrics { get; set; }
+
+        public Song Song { get; set; }
     }
 }

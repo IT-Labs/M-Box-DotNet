@@ -1,7 +1,7 @@
 ﻿@using ItLabs.MBox.Application.Models
 
 @{
-    ViewData["Title"] = "Contact";
+    ViewData["Title"] = "Artists";
 }
 
 @section Scripts{
@@ -14,28 +14,30 @@
     <ul id="recordLabelsListId" class="list-group recordLabelList" style="list-style:none;">
         @foreach (Artist artist in Model.PagingList)
         {
-            <li class="col-sm-2 table-bordered seperateResults">
-                <div>
-                    <div class="row">
-                        <div>
-                            <div class="text-center text">
-                                <h5>@artist.User.Name</h5>
-                            </div>
+            <li class="col-sm-2 table-bordered seperateRecordLabelItems">
+                <div class="row">
+                    <div>
+                        <div class="text-center text">
+                            <h5>@artist.User.Name</h5>
+                            <input id="recordlabels" type="hidden" value="@Html.Raw(Json.Serialize(new List<Artist>()))" />
+                            <input id="take" type="hidden" value="@Html.Raw(Json.Serialize(Model.Take))" />
+                            <input id="skip" type="hidden" value="@Html.Raw(Json.Serialize(Model.Skip))" />
+                            <input id="lazyLoadingUrl" type="hidden" value="/Home/GetNextArtists" />
                         </div>
                     </div>
-                    <div class="row">
-                        <div>
-                            <img class="img-circle img-responsive artistAlign artistImage" src="~/images/kendrick-lamar-getty-paul-marotta.jpg" />
-                        </div>
+                </div>
+                <div class="row">
+                    <div>
+                        <img class="img-circle img-responsive artistAlign artistImage" src="~/images/kendrick-lamar-getty-paul-marotta.jpg" />
                     </div>
-                    <div class="row">
-                        <div>
-                            <div class="text-center text">
-                                @if (!artist.IsDeleted)
-                                {
-                                    <h5>@artist.RecordLabelName</h5>
-                                }
-                            </div>
+                </div>
+                <div class="row">
+                    <div>
+                        <div class="text-center text">
+                            @if (!artist.IsDeleted)
+                            {
+                                <h5>@artist.RecordLabelName</h5>
+                            }
                         </div>
                     </div>
                 </div>

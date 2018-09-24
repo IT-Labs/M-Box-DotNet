@@ -8,7 +8,12 @@
 {
     <tr class="search">
         <td>
-            @song.Name
+            <form asp-area="" asp-controller="Artists" asp-action="EditSongDetails" method="post">
+                <button type="submit" class="btn btn-link">
+                    @Html.Hidden("songId", song.Id)
+                    @song.Name
+                </button>
+            </form>
         </td>
         <td>@song.AlbumName</td>
         <td>@song.Genre</td>

@@ -1,47 +1,34 @@
-﻿<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-@inject UserManager<ApplicationUser> UserManager
-@using ItLabs.MBox.Contracts.Enums
+﻿@using ItLabs.MBox.Contracts.Enums
 @using ItLabs.MBox.Application.Models.ArtistsViewModel
+@using ItLabs.MBox.Contracts.Interfaces
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+@inject UserManager<ApplicationUser> UserManager
 
 @{
     ViewData["Title"] = "AddNewSong";
     var user = await UserManager.GetUserAsync(User);
+
 }
 @section Scripts{
     <script type="text/javascript" src="~/js/EditDetailsOnButtonClick.js"></script>
 }
-
 @model AddNewSongViewModel
-
 <div class="container-fluid">
     <hr />
-    <div class="row">
-
+    <div class="row" style="margin: 15px">
         <div class="col-md-4 col-sm-4">
-        </div>
-        <div class="col-md-8 col-sm-8">
-            <div class="row">
-                <div class="col-md-6 col-sm-6">
-                    <form asp-area="" asp-controller="Artists" asp-action="Index" method="get">
-                        <button type="submit" class="btn btn-block btn-default" style="margin: 5px">Cancel</button>
-                    </form>
-                </div>
-                <div class="col-md-6 col-sm-6">
-                    <form asp-area="" asp-controller="" asp-action="" method="get">
-                        <button type="submit" class="btn btn-block btn-primary" style="margin: 5px">Publish</button>
-                    </form>
-                </div>
-            </div>
+            <form asp-area="" asp-controller="Artists" asp-action="Index" method="post">
+                <button type="submit" class="btn btn-block btn-default">Back</button>
+            </form>
         </div>
     </div>
-    <hr />
-
-
-    <div class="row">
+    <div class="row" style="margin: 15px">
         <div class="col-md-6 col-sm-6">
             <div class="row">
                 <div class="col-md-8 col-sm-8">
-                    <input class="form-control" placeholder="Song Name" id="songName" disabled>
+                    <input class="form-control" value=@Model.Song.Name id="songName" disabled>
+
                 </div>
                 <div class="col-md-1 col-sm-1">
                     <button class="btn btn-default edit editDetails" id="editName" onclick="editDetails('songName', 'editName', 'saveName', 'cancelName')">
@@ -70,7 +57,7 @@
                     <label>Album Name:</label>
                 </div>
                 <div class="col-md-6 col-sm-6">
-                    <input class="form-control" placeholder="Album Name" id="albumName" disabled>
+                    <input class="form-control" value=@Model.Song.AlbumName id="albumName" disabled>
                 </div>
                 <div class="col-md-1 col-sm-1">
                     <button class="btn btn-default edit editDetails" id="editAlbum" onclick="editDetails('albumName', 'editAlbum', 'saveAlbum', 'cancelAlbum')">
@@ -101,7 +88,7 @@
                     <label>Release Date:</label>
                 </div>
                 <div class="col-md-7 col-sm-7">
-                    <input class="form-control" type="date" />
+                    <input class="form-control" type="date" value=@Model.Song.ReleaseDate />
                 </div>
             </div>
             <div class="row" style="margin-top: 15px">
@@ -127,10 +114,9 @@
                         </div>
                     </div>
                     <div class="row" style="padding: 8px">
-                        <input class="form-control" placeholder="Youtube Link" id="youtubeLinkUrl">
+                        <input class="form-control" value=@Model.Song.YouTubeLink id="youtubeLinkUrl">
                     </div>
                 </div>
-
                 <div class="col-md-6 col-sm-6" style="border-left: solid 2px #d3d3d3">
                     <div class="row" style="text-align: center">
                         <a target="_blank" href="" id="vimeoLink">Vimeo </a>
@@ -153,7 +139,7 @@
                         </div>
                     </div>
                     <div class="row" style="padding: 8px">
-                        <input class="form-control" placeholder="Vimeo Link" id="vimeoLinkUrl">
+                        <input class="form-control" value=@Model.Song.VimeoLink id="vimeoLinkUrl">
                     </div>
                 </div>
             </div>
@@ -177,9 +163,8 @@
                 </div>
             </div>
             <div class="row" style="padding: 12px;">
-                <textarea class="form-control" maxlength="10000" style="margin-top: 5px; height: 550px; resize: none" name="Message" id="songLyrics" disabled></textarea>
+                <textarea class="form-control" maxlength="10000" style="margin-top: 5px; height: 550px; resize: none" name="Message" id="songLyrics" disabled>@Model.Song.Lyrics</textarea>
             </div>
         </div>
     </div>
-
 </div>

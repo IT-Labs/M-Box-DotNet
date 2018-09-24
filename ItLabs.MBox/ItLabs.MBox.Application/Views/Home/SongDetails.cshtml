@@ -1,0 +1,56 @@
+﻿
+@{
+    ViewData["Title"] = "SongDetails";
+}
+@model HomeViewModel
+
+<div class="container-fluid">
+    <hr />
+    <div class="row" style="margin: 15px">
+        <div class="col-md-4 col-sm-4">
+            <a class="btn btn-block btn-default" href="javascript:history.go(-1)">Back</a>
+        </div>
+    </div>
+    <div class="row" style="margin: 15px">
+        <div class="col-md-6 col-sm-6">
+            <div class="row">
+                <h3>Song name: @Model.SongDetails.Name</h3>
+            </div>
+            <div class="row">
+                song logo
+            </div>
+            <div class="row" style="margin-bottom: 15px; margin-top: 15px">
+                <h3>By: @Model.SongDetails.Artist.User.Name</h3>
+            </div>
+            <div class="row">
+                <h3>Album name: @Model.SongDetails.AlbumName</h3>
+            </div>
+            <div class="row" style="margin-bottom: 15px">
+                <h3>Genre: @Model.SongDetails.Genre</h3>
+            </div>
+            <div class="row">
+                <h3>By: @Model.SongDetails.ReleaseDate</h3>
+            </div>
+            <div class="row" style="margin-top: 15px">
+                <div class="col-md-6 col-sm-6">
+                    <div class="row" style="text-align: center">
+                        <a target="_blank" href=@Model.SongDetails.YouTubeLink id="youtubeLink" style="font-size: x-large">Youtube</a>
+                    </div>
+                </div>
+                <div class="col-md-6 col-sm-6" style="border-left: solid 2px #d3d3d3">
+                    <div class="row" style="text-align: center">
+                        <a target="_blank" href=@Model.SongDetails.VimeoLink id="vimeoLink" style="font-size: x-large">Vimeo </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 col-sm-6" style="border-left: solid 2px #d3d3d3">
+            <div class="row" style="text-align: center">
+                <h3>Song Lyrics</h3>
+            </div>
+            <div class="row" style="padding: 12px;">
+                <textarea class="form-control" maxlength="10000" style="margin-top: 5px; height: 550px; resize: none;" name="Message" id="songLyrics" disabled>@Model.SongDetails.Lyrics</textarea>
+            </div>
+        </div>
+    </div>
+</div>

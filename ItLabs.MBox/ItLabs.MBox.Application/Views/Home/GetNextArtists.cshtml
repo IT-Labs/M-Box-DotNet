@@ -1,0 +1,36 @@
+﻿@using ItLabs.MBox.Application.Models
+@model PagingModel<Artist>
+@{
+    Layout = null;
+}
+
+@foreach (Artist artist in Model.PagingList)
+{
+    <li class="col-sm-2 table-bordered seperateRecordLabelItems">
+        <div>
+            <div class="row">
+                <div>
+                    <div class="text-center text">
+                        <h5>@artist.User.Name</h5>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div>
+                    <img class="img-circle img-responsive artistAlign artistImage" src="~/images/kendrick-lamar-getty-paul-marotta.jpg" />
+                </div>
+            </div>
+            <div class="row">
+                <div>
+                    <div class="text-center text">
+                        @if (!artist.IsDeleted)
+                        {
+                            <h5>@artist.RecordLabelName</h5>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </li>
+}
+

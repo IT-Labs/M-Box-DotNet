@@ -11,60 +11,68 @@
 }
 
 <div class="container-fluid" style="text-align: center">
-    <div class="row" style="margin: 20px">
-        picture
-    </div>
-    <div class="row" style="margin: 20px">
-        <div class="col-md-8 col-sm-8">
-            <input class="form-control" value="@user.Name" id="ArtistName" disabled>
+    <div class="row">
+        <div class="col-md-3 col-sm-3">
         </div>
-        <div class="col-md-1 col-sm-1">
-            <button class="btn btn-default edit editDetails" id="editArtistName" onclick="editDetails('ArtistName', 'editArtistName', 'saveArtistName', 'cancelArtistName')">
-                <i class="glyphicon glyphicon-edit"></i>
-            </button>
-        </div>
-        <div class="col-md-1 col-sm-1">
-            <button class="btn btn-success save saveDetails" id="saveArtistName" onclick="saveDetails('ArtistName', 'editArtistName', 'saveArtistName', 'cancelArtistName')">
-                <i class="glyphicon glyphicon-ok"></i>
-            </button>
-        </div>
-        <div class="col-md-1 col-sm-1">
-            <button class="btn btn-danger cancelDetails" id="cancelArtistName" onclick="cancelEditiong('ArtistName', 'editArtistName', 'saveArtistName', 'cancelArtistName')">
-                <i class="glyphicon glyphicon-remove"></i>
-            </button>
-        </div>
-    </div>
-    <div class="row" style="margin: 20px">
-        <div class="col-md-3 col-sm-3" style="margin-top: 5px">
-            <label>Date of Birth:</label>
-        </div>
-        <div class="col-md-7 col-sm-7">
-            <input class="form-control" type="date" />
-        </div>
-    </div>
-    <div class="row" style="margin: 20px">
-        <div class="row">
-            <div class="col-md-8 col-sm-8">
-                <label>Artist Bio</label>
+        <div class="col-md-6 col-sm-6">
+            <div class="row" style="margin: 20px">
+                picture
             </div>
-            <div class="col-md-1 col-sm-1">
-                <button class="btn btn-default edit editDetails" id="editBio" onclick="editDetails('contactInfo', 'editBio', 'saveBio', 'cancelBio')">
-                    <i class="glyphicon glyphicon-edit"></i>
-                </button>
+            <div class="row" style="margin: 20px">
+                <div class="col-md-8 col-sm-8">
+                    <input class="form-control" value="@user.Name" id="ArtistName" disabled>
+                </div>
+                <div class="col-md-1 col-sm-1">
+                    <button class="btn btn-default edit editDetails" id="editArtistName" onclick="editDetails('ArtistName', 'editArtistName', 'saveArtistName', 'cancelArtistName')">
+                        <i class="glyphicon glyphicon-edit"></i>
+                    </button>
+                </div>
+                <div class="col-md-1 col-sm-1">
+                    <button class="btn btn-success save saveDetails" id="saveArtistName" onclick="saveDetails('ArtistName', 'editArtistName', 'saveArtistName', 'cancelArtistName')">
+                        <i class="glyphicon glyphicon-ok"></i>
+                    </button>
+                </div>
+                <div class="col-md-1 col-sm-1">
+                    <button class="btn btn-danger cancelDetails" id="cancelArtistName" onclick="cancelEditiong('ArtistName', 'editArtistName', 'saveArtistName', 'cancelArtistName')">
+                        <i class="glyphicon glyphicon-remove"></i>
+                    </button>
+                </div>
             </div>
-            <div class="col-md-1 col-sm-1">
-                <button class="btn btn-success save saveDetails" id="saveBio" onclick="saveDetails('contactInfo', 'editBio', 'saveBio', 'cancelBio')">
-                    <i class="glyphicon glyphicon-ok"></i>
-                </button>
+            <div class="row" style="margin: 20px">
+                <div class="col-md-3 col-sm-3" style="margin-top: 5px">
+                    <label>Date of Birth:</label>
+                </div>
+                <div class="col-md-7 col-sm-7">
+                    <input class="form-control" type="date" />
+                </div>
             </div>
-            <div class="col-md-1 col-sm-1">
-                <button class="btn btn-danger cancelDetails" id="cancelBio" onclick="cancelEditiong('contactInfo', 'editBio', 'saveBio', 'cancelBio')">
-                    <i class="glyphicon glyphicon-remove"></i>
-                </button>
+            <div class="row" style="margin: 20px">
+                <div class="row">
+                    <div class="col-md-8 col-sm-8">
+                        <label>Artist Bio</label>
+                    </div>
+                    <div class="col-md-1 col-sm-1">
+                        <button class="btn btn-default edit editDetails" id="editBio" onclick="editDetails('contactInfo', 'editBio', 'saveBio', 'cancelBio')">
+                            <i class="glyphicon glyphicon-edit"></i>
+                        </button>
+                    </div>
+                    <div class="col-md-1 col-sm-1">
+                        <button class="btn btn-success save saveDetails" id="saveBio" onclick="saveDetails('contactInfo', 'editBio', 'saveBio', 'cancelBio')">
+                            <i class="glyphicon glyphicon-ok"></i>
+                        </button>
+                    </div>
+                    <div class="col-md-1 col-sm-1">
+                        <button class="btn btn-danger cancelDetails" id="cancelBio" onclick="cancelEditiong('contactInfo', 'editBio', 'saveBio', 'cancelBio')">
+                            <i class="glyphicon glyphicon-remove"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="row">
+                    <textarea class="form-control" maxlength="350" style="margin-top: 5px; height: 200px; resize: none; text-align: center" name="ContactInfo" id="contactInfo" disabled></textarea>
+                </div>
             </div>
         </div>
-        <div class="row">
-            <textarea class="form-control" maxlength="350" style="margin-top: 5px; height: 200px; resize: none; text-align: center" name="ContactInfo" id="contactInfo" disabled></textarea>
+        <div class="col-md-3 col-sm-3">
         </div>
     </div>
 </div>

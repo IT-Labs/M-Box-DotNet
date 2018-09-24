@@ -92,12 +92,18 @@ namespace ItLabs.MBox.Application.Controllers
 
             ViewData["Message"] = "Artists";
 
-            var model = new PagingModel<Artist>() { };
-            model.PagingList = _repository.GetAll<Artist>(includeProperties: $"{nameof(Artist.User)}," +
-                                   $"{nameof(Artist.Follows)}," +
-                                   $"{nameof(Artist.RecordLabelArtists)}.{nameof(RecordLabel)}.{nameof(RecordLabel.User)}").ToList();
+            var model = new PagingModel<Artist>() { Skip = MBoxConstants.initialSkip, Take = MBoxConstants.initialTakeHomeLists };
+            model.PagingList = _artistsManager.GetArtists(model.Skip, model.Take);
 
             return View(model);
+        }
+
+        [HttpGet]
+        public IActionResult GetNextArtists([FromQuery] PagingModel<Artist> model)
+        {
+            model.PagingList = _artistsManager.GetArtists(model.Skip, model.Take);
+
+            return View("GetNextArtists", model);
         }
 
         [HttpGet]
@@ -122,6 +128,17 @@ namespace ItLabs.MBox.Application.Controllers
             ViewData["Message"] = "RecordLabels";
             model.PagingList = _recordLabelManager.GetRecordLabels(string.Empty, model.Skip, model.Take).ToList();
             return View("NextRecordLabels", model);
+        }
+
+        [HttpPost]
+        public IActionResult SongDetails(int songId)
+        {
+            var songDetails = new HomeViewModel() { };
+            songDetails.SongDetails = _repository.GetOne<Song>(
+                filter: x => x.Id == songId,
+                includeProperties: $"{nameof(Song.Artist)}.{nameof(Artist.User)}");
+
+            return View(songDetails);
         }
 
 

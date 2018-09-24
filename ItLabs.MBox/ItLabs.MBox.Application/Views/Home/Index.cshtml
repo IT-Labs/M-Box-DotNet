@@ -25,11 +25,14 @@
                     <li class="col-sm-2 table-bordered seperateResults">
                         <div>
                             <div class="row">
-                                <div>
+                                <form asp-controller="Home" asp-action="SongDetails">
                                     <div class="text-center text">
-                                        <h5>@song.Name</h5>
+                                        <button type="submit" class="btn btn-link">
+                                            <h5>@song.Name</h5>
+                                            @Html.Hidden("songId", song.Id)
+                                        </button>
                                     </div>
-                                </div>
+                                </form>
                             </div>
                             <div class="row">
                                 <div>

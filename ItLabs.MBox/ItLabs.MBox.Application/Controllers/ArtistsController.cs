@@ -20,16 +20,16 @@ namespace ItLabs.MBox.Application.Controllers
     {
         private readonly IRepository _repository;
         private readonly ISongManager _songManager;
-        private readonly IS3Manager _s3Manager;
+        //private readonly IS3Manager _s3Manager;
         private readonly IEmailsManager _emailsManager;
-        private readonly IConfigurationManager _configurationManager;
-        public ArtistsController(IRepository repository, ISongManager songManager, UserManager<ApplicationUser> userManager, IS3Manager s3Manager, IEmailsManager emailsManager, IConfigurationManager configurationManager) : base(userManager)
+        //private readonly IConfigurationManager _configurationManager;
+        public ArtistsController(IRepository repository, ISongManager songManager, UserManager<ApplicationUser> userManager, IEmailsManager emailsManager) : base(userManager)
         {
             _songManager = songManager;
             _repository = repository;
-            _s3Manager = s3Manager;
+            //_s3Manager = s3Manager;
             _emailsManager = emailsManager;
-            _configurationManager = configurationManager;
+            //_configurationManager = configurationManager;
         }
         public IActionResult Index()
         {
@@ -82,12 +82,12 @@ namespace ItLabs.MBox.Application.Controllers
         [HttpPost]
         public IActionResult AddNewSong(AddNewSongViewModel model, List<IFormFile> uploadedFiles)
         {
-            /*
+            
             if (!ModelState.IsValid)
             {
                 return View(model);
             }
-            if (uploadedFiles.Count != 0)
+            /*if (uploadedFiles.Count != 0)
             {
                 if(uploadedFiles[0].Length > Math.Pow(1024, 2) * 3)
                 {
@@ -125,6 +125,14 @@ namespace ItLabs.MBox.Application.Controllers
             _repository.Save();
 
             return RedirectToAction("Index");
+        }
+
+        public IActionResult EditSongDetails(int songId)
+        {
+            var song = new AddNewSongViewModel() { };
+            song.Song = _repository.GetOne<Song>(filter: x => x.ArtistId == CurrentLoggedUserId && x.Id == songId);
+
+            return View("EditSongDetails", song);
         }
     }
 }
