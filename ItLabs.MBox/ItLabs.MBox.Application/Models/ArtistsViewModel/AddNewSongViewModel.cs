@@ -11,14 +11,14 @@ namespace ItLabs.MBox.Application.Models.ArtistsViewModel
 {
     public class AddNewSongViewModel
     {
-        [Required(ErrorMessage = "Name must contain more than 2 alphanumeric characters!")]
+        [Required()]
         [Display(Name = "Song Name")]
-        [StringLength(100, ErrorMessage = "The {0} cannot contain more than {1} characters!", MinimumLength = 2)]
+        [StringLength(100, ErrorMessage = "The {0} cannot contain more than {1} characters, or less than {2}!", MinimumLength = 2)]
         public string SongName { get; set; }
 
-        [Required(ErrorMessage = "Album Name must contain more than 2 alphanumeric characters!")]
+        [Required]
         [Display(Name = "Album Name")]
-        [StringLength(100, ErrorMessage = "The {0} cannot contain more than {1} characters!", MinimumLength = 2)]
+        [StringLength(100, ErrorMessage = "The {0} cannot contain more than {1} characters, or less than {2}", MinimumLength = 2)]
         public string AlbumName { get; set; }
 
         public DateTime ReleaseDate { get; set; }
