@@ -19,7 +19,7 @@ namespace ItLabs.MBox.Domain.Managers
         }
         public IList<Song> GetRecentlyAddedSongs(int number)
         {
-            return _repository.GetAll<Song>(includeProperties: $"{nameof(Artist)}.{nameof(Artist.User)}", orderBy: x => x.OrderByDescending(y => y.ReleaseDate), take: number).ToList();
+            return _repository.GetAll<Song>(includeProperties: $"{nameof(Artist)}.{nameof(Artist.User)}", orderBy: x => x.OrderByDescending(y => y.DateCreated), take: number).ToList();
 
         }
 
@@ -27,7 +27,7 @@ namespace ItLabs.MBox.Domain.Managers
         {
             var mostFollowedArtist = _repository.GetAll<Artist>(orderBy: x => x.OrderByDescending(y => y.Follows.Count)).FirstOrDefault();
             if (mostFollowedArtist == null) { return new List<Song>(); }
-            return _repository.Get<Song>(filter: x => x.Artist == mostFollowedArtist, includeProperties: $"{nameof(Artist)}.{nameof(Artist.User)}", orderBy: x => x.OrderByDescending(y => y.ReleaseDate), take: number)
+            return _repository.Get<Song>(filter: x => x.Artist == mostFollowedArtist, includeProperties: $"{nameof(Artist)}.{nameof(Artist.User)}", orderBy: x => x.OrderByDescending(y => y.DateCreated), take: number)
                 .ToList();
 
 
