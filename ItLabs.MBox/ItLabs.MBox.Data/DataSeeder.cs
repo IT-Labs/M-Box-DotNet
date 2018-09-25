@@ -4,6 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Linq;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 
 namespace ItLabs.MBox.Data
 {
@@ -13,6 +14,10 @@ namespace ItLabs.MBox.Data
         {
             var context = serviceProvider.GetRequiredService<MBoxDbContext>();
             context.Database.EnsureCreated();
+            if (context.Database.GetPendingMigrations().Any())
+            {
+                context.Database.Migrate();
+            }
             
             if (!context.ApplicationUsers.Any())
             {
