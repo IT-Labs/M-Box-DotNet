@@ -36,8 +36,10 @@
                     </button>
                 </div>
             </div>
-            <div class="row" style="margin: 15px">
-                <img class="img-responsive center-block" style="height:350px; width:350px" src="@_s3Manager.GetImageLink(user.Picture)">
+            <div class="row">
+                <div class="col-sm-12  my-account-img">
+                    <img src="@_s3Manager.GetImageLink(user.Picture)">
+                </div>
             </div>
             <div class="row" style="margin:15px">
                 <form asp-controller="RecordLabels" asp-action="ChangePicture" method="post" enctype="multipart/form-data">

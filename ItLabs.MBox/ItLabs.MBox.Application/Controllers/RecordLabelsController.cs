@@ -1,7 +1,7 @@
 ﻿using ItLabs.MBox.Application.Models;
 using ItLabs.MBox.Common.Extentions;
-using ItLabs.MBox.Contracts.Dtos;
 using ItLabs.MBox.Contracts;
+using ItLabs.MBox.Contracts.Dtos;
 using ItLabs.MBox.Contracts.Entities;
 using ItLabs.MBox.Contracts.Enums;
 using ItLabs.MBox.Contracts.Interfaces;
@@ -9,11 +9,11 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading;
-using System;
-using System.IO;
 
 namespace ItLabs.MBox.Application.Controllers
 {
@@ -209,8 +209,8 @@ namespace ItLabs.MBox.Application.Controllers
                 formFile.CopyToAsync(stream);
             }
 
-            var uploadedImageName = _s3Manager.UploadFileAsync(path);
-            imageS3Name = uploadedImageName.Result;
+            var uploadedImageName = _s3Manager.UploadFileAsync(path).Result;
+            imageS3Name = uploadedImageName;
 
             if (System.IO.File.Exists(path))
             {
@@ -219,7 +219,7 @@ namespace ItLabs.MBox.Application.Controllers
 
             var currentUser = _userManager.FindByIdAsync(CurrentLoggedUserId.ToString()).Result;
             currentUser.Picture = imageS3Name;
-            _userManager.UpdateAsync(currentUser);
+            var user = _userManager.UpdateAsync(currentUser).Result;
             return RedirectToAction("MyAccount");
         }
     }

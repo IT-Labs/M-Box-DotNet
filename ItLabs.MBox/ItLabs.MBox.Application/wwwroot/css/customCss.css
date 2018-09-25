@@ -1,4 +1,4 @@
-﻿.dropDownLi li a{
+﻿.dropDownLi li a {
     color: #d3d3d3 !important;
 }
 
@@ -10,42 +10,60 @@
 .dropDownMenu {
     background-color: #1c1b1b;
 }
+
 .vl {
     border-left: 1px solid black;
-    height:100%;
+    height: 100%;
     margin-top: 4%;
 }
+
 .alignforvl {
     height: 100%;
     margin-top: 4%;
     margin-left: 9%;
     margin-right: -8%;
 }
+
 .artistImage {
-    width: 80%;
-    height: 80%;
-    margin-left: auto;
-    margin-right: auto;
+    margin: 5px
 }
+
 .songImage {
     width: 80%;
     height: 80%;
-    display:block;
+    display: block;
     margin-left: auto;
     margin-right: auto;
 }
-.seperateLists{
-    margin-bottom:2%;
+
+.seperateLists {
+    margin-bottom: 2%;
 }
-.seperateResults{
-    margin-right:3.2%
+
+.seperateResults {
+    margin-right: 3.2%
 }
+
 .seperateRecordLabelItems {
     margin-right: 3.2%;
-    margin-bottom:4%;
+    margin-bottom: 4%;
 }
-.recordLabelList{
+
+.recordLabelList {
     margin-top: 3%
+}
+
+.my-account-img {
+    max-width: 100%;
+    overflow: hidden;
+    position: relative;
+    margin: 0 auto;
+}
+
+.my-account-img::before {
+    content: '';
+    display: block;
+    padding-top: 35%;
 }
 
 .recordLabelAboutList {
