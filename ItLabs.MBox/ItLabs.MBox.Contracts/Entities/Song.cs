@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ItLabs.MBox.Contracts.Enums;
+using System;
 
 namespace ItLabs.MBox.Contracts.Entities
 {
@@ -22,5 +23,17 @@ namespace ItLabs.MBox.Contracts.Entities
         public int ArtistId { get; set; }
 
         public virtual Artist Artist { get; set; }
+
+        public string PictureName
+        {
+            get
+            {
+                if (string.IsNullOrWhiteSpace(Picture))
+                {
+                    return MBoxConstants.DefaultSongImage;
+                }
+                return Picture;
+            }
+        }
     }
 }

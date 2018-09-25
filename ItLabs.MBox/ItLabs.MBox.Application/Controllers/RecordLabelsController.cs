@@ -1,5 +1,5 @@
 ﻿using ItLabs.MBox.Application.Models;
-using ItLabs.MBox.Common.Extentions;
+using ItLabs.MBox.Common.Extensions;
 using ItLabs.MBox.Contracts;
 using ItLabs.MBox.Contracts.Dtos;
 using ItLabs.MBox.Contracts.Entities;
@@ -25,7 +25,7 @@ namespace ItLabs.MBox.Application.Controllers
         private readonly IEmailsManager _emailsManager;
         private readonly IRecordLabelManager _recordLabelManager;
 
-        public RecordLabelsController(IArtistManager artistsManager, UserManager<ApplicationUser> userManager, IEmailsManager emailsManager, IRecordLabelManager recordLabelManager, IS3Manager s3Manager): base(userManager)
+        public RecordLabelsController(IArtistManager artistsManager, UserManager<ApplicationUser> userManager, IEmailsManager emailsManager, IRecordLabelManager recordLabelManager, IS3Manager s3Manager) : base(userManager)
         {
             _artistsManager = artistsManager;
             _emailsManager = emailsManager;
@@ -35,7 +35,7 @@ namespace ItLabs.MBox.Application.Controllers
 
         public IActionResult Index()
         {
-            PagingModel<Artist> model = new PagingModel<Artist>() {Skip = MBoxConstants.initialSkip, Take = MBoxConstants.initialTakeTabel };
+            PagingModel<Artist> model = new PagingModel<Artist>();
             model.PagingList = _artistsManager.GetRecordLabelArtists(CurrentLoggedUserId, model.Skip, model.Take, string.Empty);
             return View(model);
 
@@ -44,15 +44,7 @@ namespace ItLabs.MBox.Application.Controllers
         [HttpGet]
         public IActionResult GetRecordLabelArtists([FromQuery] PagingModel<Artist> model)
         {
-            if (string.IsNullOrEmpty(model.SearchQuery) || string.IsNullOrWhiteSpace(model.SearchQuery))
-            {
-                model.PagingList = _artistsManager.GetRecordLabelArtists(CurrentLoggedUserId, model.Skip, model.Take, string.Empty).ToList();
-            }
-            else
-            {
-                model.PagingList = _artistsManager.GetRecordLabelArtists(CurrentLoggedUserId, model.Skip, model.Take, model.SearchQuery).ToList();
-            }
-
+            model.PagingList = _artistsManager.GetRecordLabelArtists(CurrentLoggedUserId, model.Skip, model.Take, model.SearchQuery).ToList();
             return View("NextArtists", model);
         }
 
@@ -66,13 +58,15 @@ namespace ItLabs.MBox.Application.Controllers
         {
             if (!ModelState.IsValid)
                 return View(model);
+
             var recordLabel = _recordLabelManager.GetOne(filter: x => x.Id == CurrentLoggedUserId, includeProperties: $"{nameof(User)}");
             if (recordLabel == null)
                 return View(model);
-            if(_recordLabelManager.GetNumberOfArtists(CurrentLoggedUserId) >= MBoxConstants.MaximumArtistsAllowed)
+
+            if (_recordLabelManager.GetNumberOfArtists(CurrentLoggedUserId) >= MBoxConstants.MaximumArtistsAllowed)
             {
                 ModelState.AddModelError("Email", "Artist limit (50) reached. Cannot add new artist.");
-                return View( model);
+                return View(model);
             }
 
             var response = _userManager.CreateUser(model.Name, model.Email, Role.Artist);
@@ -80,15 +74,14 @@ namespace ItLabs.MBox.Application.Controllers
             if (response == null)
             {
                 ModelState.AddModelError("EMail", "Email already exists");
-                return View( model);
+                return View(model);
             }
             var user = response.Result;
-            _artistsManager.Create(new Artist { User = user,RecordLabelArtists = new List<RecordLabelArtist> { new RecordLabelArtist { RecordLabel = recordLabel } } }, CurrentLoggedUserId);
+            _artistsManager.Create(new Artist { User = user, RecordLabelArtists = new List<RecordLabelArtist> { new RecordLabelArtist { RecordLabel = recordLabel } } }, CurrentLoggedUserId);
             _artistsManager.Save();
-            var artist = _artistsManager.GetOne(filter: x => x.User == user, includeProperties: $"{nameof(User)}");
             var code = _userManager.GeneratePasswordResetTokenAsync(user).Result;
-            var callbackUrl = Url.ResetPasswordCallbackLink(artist.Id.ToString(), code, Request.Scheme);
-            _emailsManager.PerpareSendMail(EmailTemplateType.InvitedArtist, model.Email, callbackUrl);
+            var callbackUrl = Url.ResetPasswordCallbackLink(user.Id.ToString(), code, Request.Scheme);
+            _emailsManager.PrepareSendMail(EmailTemplateType.InvitedArtist, model.Email, callbackUrl);
 
             return View("SuccessfullyInvitedArtist");
 
@@ -103,7 +96,7 @@ namespace ItLabs.MBox.Application.Controllers
         [HttpPost]
         public IActionResult Search(string search)
         {
-            PagingModel<Artist> model = new PagingModel<Artist>() { Skip = MBoxConstants.initialSkip, Take = MBoxConstants.initialTakeTabel };
+            PagingModel<Artist> model = new PagingModel<Artist>();
             if (!string.IsNullOrWhiteSpace(search))
             {
                 model.PagingList = _artistsManager.GetRecordLabelArtists(CurrentLoggedUserId, model.Skip, model.Take, search);
@@ -130,25 +123,25 @@ namespace ItLabs.MBox.Application.Controllers
 
             var response = _recordLabelManager.ValidateCsvFile(files[0], CurrentLoggedUserId);
 
-            if(response.Errors.Count != 0)
+            if (response.Errors.Count != 0)
             {
                 return View(response);
             }
-            if(_recordLabelManager.GetNumberOfArtists(CurrentLoggedUserId) + response.UsersToBeAdded.Count > MBoxConstants.MaximumArtistsAllowed)
+            if (_recordLabelManager.GetNumberOfArtists(CurrentLoggedUserId) + response.UsersToBeAdded.Count > MBoxConstants.MaximumArtistsAllowed)
             {
                 response.Errors.Add("Artist Limit (50) exceeded");
                 return View(response);
             }
-            
-            var artistList = _recordLabelManager.CreateMultipleArtists(response.UsersToBeAdded,CurrentLoggedUserId);
 
-            if(artistList == null)
+            var artistList = _recordLabelManager.CreateMultipleArtists(response.UsersToBeAdded, CurrentLoggedUserId);
+
+            if (artistList == null)
             {
                 response.Errors.Add("An error occured while adding artists, try again!");
                 return View(response);
             }
 
-            if(artistList.Count != 0)
+            if (artistList.Count != 0)
                 SendActivationMails(artistList);
 
             return View("SuccessfullyAddedMultiple");
@@ -158,7 +151,7 @@ namespace ItLabs.MBox.Application.Controllers
             //prepare the emails set the dto
             IList<MailDto> mailingList = new List<MailDto>();
             var template = _emailsManager.GetOne(filter: c => c.Type == EmailTemplateType.InvitedArtist);
-            
+
             foreach (var artist in artists)
             {
                 var mailDto = new MailDto();
@@ -190,36 +183,26 @@ namespace ItLabs.MBox.Application.Controllers
         [HttpPost]
         public IActionResult ChangePicture(List<IFormFile> uploadedFiles)
         {
+            var model = new MyAccountViewModel();
             var imageS3Name = string.Empty;
             if (uploadedFiles.Count == 0)
             {
-                return RedirectToAction("MyAccount");
+                ModelState.AddModelError("Picture", "Please choose a picture!");
+                return View("MyAccount", model);
             }
+
             var formFile = uploadedFiles[0];
-
-            if (formFile.Length > Math.Pow(1024, 2) * 3)
+            if (formFile.Length > MBoxConstants.MaximumImageSizeAllowed)
             {
-                return RedirectToAction("MyAccount");
+                ModelState.AddModelError("Picture", "Maximum 3MB picture size allowed!");
+                return View("MyAccount", model);
             }
 
-            var path = Path.GetFullPath(formFile.FileName);
-
-            using (var stream = new FileStream(path, FileMode.Create))
-            {
-                formFile.CopyToAsync(stream);
-            }
-
-            var uploadedImageName = _s3Manager.UploadFileAsync(path).Result;
-            imageS3Name = uploadedImageName;
-
-            if (System.IO.File.Exists(path))
-            {
-                System.IO.File.Delete(path);
-            }
-
+            imageS3Name = _s3Manager.UploadFile(formFile);
             var currentUser = _userManager.FindByIdAsync(CurrentLoggedUserId.ToString()).Result;
             currentUser.Picture = imageS3Name;
-            var user = _userManager.UpdateAsync(currentUser).Result;
+
+            _userManager.UpdateAsync(currentUser).Wait();
             return RedirectToAction("MyAccount");
         }
     }

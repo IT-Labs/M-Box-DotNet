@@ -4,27 +4,19 @@ using Microsoft.AspNetCore.Identity;
 using System;
 using System.Threading.Tasks;
 
-namespace ItLabs.MBox.Common.Extentions
+namespace ItLabs.MBox.Common.Extensions
 {
-    public static class UserManagerExtentions
+    public static class UserManagerExtensions
     {
         public static Task<ApplicationUser> CreateUser(this UserManager<ApplicationUser> userManager, string name, string email, Role role, string password = null)
         {
             if (password == null)
                 password = Guid.NewGuid().ToString();
 
-            var user = new ApplicationUser { Name = name, UserName = email, Email = email };
-            if(userManager.FindByEmailAsync(email).Result != null)
+            var user = new ApplicationUser { Name = name.Trim(), UserName = email.Trim(), Email = email.Trim() };
+            if(userManager.FindByEmailAsync(email.Trim()).Result != null)
             {
                 return null;
-            }
-            if (role == Role.RecordLabel)
-            {
-                user.Picture = "DefaultRecordLabel.png";
-            }
-            if (role == Role.Artist)
-            {
-                user.Picture = "DefaultArtist.png";
             }
             var result = userManager.CreateAsync(user, password).Result;
             if (!result.Succeeded)

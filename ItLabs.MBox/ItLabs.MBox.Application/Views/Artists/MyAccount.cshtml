@@ -11,20 +11,21 @@
     ViewData["Title"] = "MyAccount";
     var user = await UserManager.GetUserAsync(User);
 }
-
+@model MyAccountViewModel
 <div class="container-fluid" style="text-align: center">
     <div class="row">
         <div class="col-md-3 col-sm-3">
         </div>
         <div class="col-md-6 col-sm-6">
             <div class="row" style="margin: 20px;height: 350px;width:500px">
-                <img class="img-circle img-responsive center-block" src="@_s3Manager.GetImageLink(user.Picture)">
+                <img class="img-circle img-responsive center-block" src="@_s3Manager.GetImageLink(user.PictureName)">
             </div>
             <div class="row" style="margin:20px">
                 <form asp-controller="Artists" asp-action="ChangePicture" method="post" enctype="multipart/form-data">
                     <div class="col-sm-8 col-md-8">
                         <p>Change profle picture:</p>
                         <input class="btn-default btn" type="file" id="uploadedFiles" name="uploadedFiles" accept=".jpg,.jpeg,.png">
+                        <span asp-validation-for="Picture" class="text-danger"></span>
                     </div>
                     <div class="col-sm-4 col-md-4" style="margin-top:35px; ">
                         <button type="submit" class="btn btn-primary">Upload</button>

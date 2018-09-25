@@ -53,7 +53,7 @@
                     <tr class="search">
                         <td>
                             
-                            <img class="img-circle" style="height: 35px; width: 35px" src="@_s3Manager.GetImageLink(artist.User.Picture)" />
+                            <img class="img-circle" style="height: 35px; width: 35px" src="@_s3Manager.GetImageLink(artist.PictureName)" />
                             <input id="recordlabels" type="hidden" value="@Html.Raw(Json.Serialize(new List<Artist>()))" />
                             <input id="take" type="hidden" value="@Html.Raw(Json.Serialize(Model.Take))" />
                             <input id="skip" type="hidden" value="@Html.Raw(Json.Serialize(Model.Skip))" />

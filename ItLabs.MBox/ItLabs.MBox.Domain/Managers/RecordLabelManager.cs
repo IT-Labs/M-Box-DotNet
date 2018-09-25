@@ -6,7 +6,7 @@ using ItLabs.MBox.Data;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using System.Collections.Generic;
-using ItLabs.MBox.Common.Extentions;
+using ItLabs.MBox.Common.Extensions;
 using System.ComponentModel.DataAnnotations;
 using System.IO;
 using System.Linq;
@@ -36,8 +36,7 @@ namespace ItLabs.MBox.Domain.Managers
             foreach (var artist in artists)
             {
                 artist.IsDeleted = true;
-                if (!user.Picture.Equals("DefaultArtist.png"))
-                    _s3Manager.DeleteFile(artist.User.Picture);
+
                 _repository.Update<Artist>(artist, user.Id);
             }
             foreach (var rla in recordLabelArtists)
@@ -46,8 +45,7 @@ namespace ItLabs.MBox.Domain.Managers
             }
 
             var recordLabel = user;
-            if(!user.Picture.Equals("DefaultRecordLabel.png"))
-                _s3Manager.DeleteFile(user.Picture);
+
             _repository.Delete<RecordLabel>(user.Id);
             _repository.Delete(user);
             _repository.Save();
@@ -55,7 +53,7 @@ namespace ItLabs.MBox.Domain.Managers
 
         }
 
-        public IList<RecordLabel> GetRecordLabels(string searchValue, int toSkip, int toTake)
+        public IList<RecordLabel> SearchRecordLabels(string searchValue, int toSkip, int toTake)
         {
             return _repository.Get<RecordLabel>(
                 filter: x => x.User.Name.ToUpper().Contains(searchValue.ToUpper()) || x.User.Email.ToUpper().Contains(searchValue.ToUpper()),

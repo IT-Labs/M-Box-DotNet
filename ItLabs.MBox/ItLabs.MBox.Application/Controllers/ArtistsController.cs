@@ -19,20 +19,18 @@ namespace ItLabs.MBox.Application.Controllers
     [Authorize(Roles = nameof(Role.Artist))]
     public class ArtistsController : BaseController
     {
-        private readonly IRepository _repository;
         private readonly ISongManager _songManager;
         private readonly IS3Manager _s3Manager;
         private readonly IEmailsManager _emailsManager;
-        public ArtistsController(IRepository repository, ISongManager songManager, UserManager<ApplicationUser> userManager, IEmailsManager emailsManager, IS3Manager s3Manager) : base(userManager)
+        public ArtistsController(ISongManager songManager, UserManager<ApplicationUser> userManager, IEmailsManager emailsManager, IS3Manager s3Manager) : base(userManager)
         {
             _songManager = songManager;
-            _repository = repository;
             _s3Manager = s3Manager;
             _emailsManager = emailsManager;
         }
         public IActionResult Index()
         {
-            var model = new PagingModel<Song>() { Skip = MBoxConstants.initialSkip, Take = MBoxConstants.initialTakeTabel };
+            var model = new PagingModel<Song>();
             model.PagingList = _songManager.GetArtistSongs(CurrentLoggedUserId, model.Skip, model.Take, string.Empty);
 
             return View(model);
@@ -41,31 +39,22 @@ namespace ItLabs.MBox.Application.Controllers
         [HttpGet]
         public IActionResult GetArtistSongs([FromQuery] PagingModel<Song> model)
         {
-            if (string.IsNullOrEmpty(model.SearchQuery) || string.IsNullOrWhiteSpace(model.SearchQuery))
-            {
-                model.PagingList = _songManager.GetArtistSongs(CurrentLoggedUserId, model.Skip, model.Take, string.Empty);
-            }
-            else
-            {
-                model.PagingList = _songManager.GetArtistSongs(CurrentLoggedUserId, model.Skip, model.Take, model.SearchQuery);
-            }
+            model.PagingList = _songManager.GetArtistSongs(CurrentLoggedUserId, model.Skip, model.Take, model.SearchQuery);
 
             return View("NextSongs", model);
         }
 
         public IActionResult Search(string searchValue)
         {
-            var model = new PagingModel<Song>() { Skip = MBoxConstants.initialSkip, Take = MBoxConstants.initialTakeTabel };
+            var model = new PagingModel<Song>();
             if (!string.IsNullOrWhiteSpace(searchValue))
             {
                 model.PagingList = _songManager.GetArtistSongs(CurrentLoggedUserId, model.Skip, model.Take, searchValue);
                 return View("Index", model);
             }
 
-            return RedirectToAction("Index", "Artists");
+            return RedirectToAction("Index");
         }
-
-
 
         public IActionResult MyAccount()
         {
@@ -90,26 +79,13 @@ namespace ItLabs.MBox.Application.Controllers
             if (uploadedFiles.Count != 0)
             {
                 var formFile = uploadedFiles[0];
-                if (formFile.Length > Math.Pow(1024, 2) * 3)
+                if (formFile.Length > MBoxConstants.MaximumImageSizeAllowed)
                 {
+                    ModelState.AddModelError("Picture", "Maximum 3MB picture size allowed!");
                     return View(model);
                 }
-                var path = Path.GetFullPath(formFile.FileName);
-                using (var stream = new FileStream(path, FileMode.Create))
-                {
-                    formFile.CopyToAsync(stream);
-                }
-                var uploadedImageName = _s3Manager.UploadFileAsync(path);
-                imageS3Name = uploadedImageName.Result;
-
-                if (System.IO.File.Exists(path))
-                {
-                    System.IO.File.Delete(path);
-                }
-
+                imageS3Name = _s3Manager.UploadFile(formFile);
             }
-            if (string.IsNullOrEmpty(imageS3Name))
-                imageS3Name = "DefaultSong.jpg";
 
             var ytLink = model.YoutubeLink;
             if (ytLink.ToLower().StartsWith("www") || ytLink.ToLower().StartsWith("y"))
@@ -140,54 +116,54 @@ namespace ItLabs.MBox.Application.Controllers
         [HttpPost]
         public IActionResult DeleteSong(int songId)
         {
-            var song = _repository.GetOne<Song>(filter: x => x.ArtistId == CurrentLoggedUserId && x.Id == songId);
-            _s3Manager.DeleteFile(song.Picture);
-            _repository.Delete(song);
-            _repository.Save();
+            var song = _songManager.GetOne(filter: x => x.ArtistId == CurrentLoggedUserId && x.Id == songId);
+            _songManager.Delete(song);
+            _songManager.Save();
 
             return RedirectToAction("Index");
         }
 
         public IActionResult EditSongDetails(int songId)
         {
-            var song = new AddNewSongViewModel() { };
-            song.Song = _repository.GetOne<Song>(filter: x => x.ArtistId == CurrentLoggedUserId && x.Id == songId);
+            var songObject = _songManager.GetOne(filter: x => x.ArtistId == CurrentLoggedUserId && x.Id == songId);
+            var song = new AddNewSongViewModel()
+            {
+                AlbumName = songObject.AlbumName,
+                GenreName = songObject.Genre,
+                ReleaseDate = songObject.ReleaseDate,
+                SongLyrics = songObject.Lyrics,
+                SongName = songObject.Name,
+                VimeoLink = songObject.VimeoLink,
+                YoutubeLink = songObject.YouTubeLink,
+                Picture = songObject.PictureName,
+            };
 
-            return View("EditSongDetails", song);
+            return View(song);
         }
         [HttpPost]
         public IActionResult ChangePicture(List<IFormFile> uploadedFiles)
         {
+            var model = new MyAccountViewModel();
             var imageS3Name = string.Empty;
             if (uploadedFiles.Count == 0)
             {
-                return RedirectToAction("MyAccount");
+                ModelState.AddModelError("Picture", "Please choose a picture!");
+                return View("MyAccount", model);
             }
             var formFile = uploadedFiles[0];
 
-            if (formFile.Length > Math.Pow(1024, 2) * 3)
+            if (formFile.Length > MBoxConstants.MaximumImageSizeAllowed)
             {
-                return RedirectToAction("MyAccount");
+                //Error Message
+                ModelState.AddModelError("Picture", "Maximum 3MB picture size allowed!");
+                return View("MyAccount", model);
             }
 
-            var path = Path.GetFullPath(formFile.FileName);
-
-            using (var stream = new FileStream(path, FileMode.Create))
-            {
-                formFile.CopyToAsync(stream);
-            }
-
-            var uploadedImageName = _s3Manager.UploadFileAsync(path);
-            imageS3Name = uploadedImageName.Result;
-
-            if (System.IO.File.Exists(path))
-            {
-                System.IO.File.Delete(path);
-            }
+            imageS3Name = _s3Manager.UploadFile(formFile);
 
             var currentUser = _userManager.FindByIdAsync(CurrentLoggedUserId.ToString()).Result;
             currentUser.Picture = imageS3Name;
-            _userManager.UpdateAsync(currentUser);
+            _userManager.UpdateAsync(currentUser).Wait();
             return RedirectToAction("MyAccount");
         }
     }

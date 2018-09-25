@@ -19,5 +19,16 @@ namespace ItLabs.MBox.Contracts.Entities
         public virtual int CreatedBy { get; set; }
         public virtual DateTime DateCreated { get; set; }
         public virtual ICollection<Follow> Follows { get; set; }
+        public string PictureName
+        {
+            get
+            {
+                if (string.IsNullOrWhiteSpace(Picture))
+                {
+                    return MBoxConstants.DefaultArtistImage;
+                }
+                return Picture;
+            }
+        }
     }
 }

@@ -22,22 +22,18 @@ namespace ItLabs.MBox.Domain.Managers
             _s3Manager = s3Manager;
         }
 
-        public IList<Artist> GetRecordLabelArtists(int recordLabelId, int toSkip, int toTake, string searchValue)
+        public IList<Artist> GetRecordLabelArtists(int? recordLabelId, int toSkip, int toTake, string searchValue)
         {
+            if(searchValue == null)
+            {
+                searchValue = "";
+            }
             return _repository.Get<RecordLabelArtist>(
                 filter: x => x.RecordLabelId == recordLabelId && x.Artist.IsDeleted == false && (x.Artist.User.Name.ToUpper().Contains(searchValue.ToUpper()) || x.Artist.User.Email.ToUpper().Contains(searchValue.ToUpper())),
                 includeProperties: $"{nameof(Artist)}.{nameof(Artist.User)}",
                 skip: toSkip,
                 take: toTake)
                 .Select(x => x.Artist).ToList();
-        }
-
-        public IList<Artist> GetArtists(int toSkip, int toTake)
-        {
-            return _repository.GetAll<Artist>(includeProperties: $"{nameof(Artist.User)}," +
-                                   $"{nameof(Artist.RecordLabelArtists)}.{nameof(RecordLabel)}.{nameof(RecordLabel.User)}",
-                                   skip: toSkip,
-                                   take: toTake).ToList();
         }
 
         public IList<Artist> GetMostFollowedArtists(int number)
@@ -56,14 +52,12 @@ namespace ItLabs.MBox.Domain.Managers
             var recordLabelArtist = _repository.GetOne<RecordLabelArtist>(x=>x.Artist.Id == artistlId);
 
             artist.IsDeleted = true;
-            if (!artist.User.Picture.Equals("DefaultArtist.png"))
-                _s3Manager.DeleteFile(artist.User.Picture);
             _repository.Update<Artist>(artist, recordLabelId);
 
             _repository.Delete(recordLabelArtist);
             _repository.Save();
 
-            _emailsManager.PerpareSendMail(EmailTemplateType.DeletedArtist, artist.User.Email, "");
+            _emailsManager.PrepareSendMail(EmailTemplateType.DeletedArtist, artist.User.Email, "");
         }
     }
 }

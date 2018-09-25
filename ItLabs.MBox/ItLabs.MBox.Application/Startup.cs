@@ -12,6 +12,10 @@ using ItLabs.MBox.Data;
 using ItLabs.MBox.Contracts.Interfaces;
 using StructureMap;
 using System;
+using ItLabs.MBox.Contracts.Dtos;
+using System.Linq;
+using StructureMap.Pipeline;
+using ItLabs.MBox.Contracts.Enums;
 
 namespace ItLabs.MBox.Application
 {
@@ -20,7 +24,7 @@ namespace ItLabs.MBox.Application
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
-            
+
         }
 
         public IConfiguration Configuration { get; }
@@ -28,7 +32,7 @@ namespace ItLabs.MBox.Application
         // This method gets called by the runtime. Use this method to add services to the container.
         public IServiceProvider ConfigureServices(IServiceCollection services)
         {
-            
+
             services.AddEntityFrameworkNpgsql().AddDbContext<MBoxDbContext>(opt =>
                 opt.UseNpgsql(Configuration.GetConnectionString("MBoxAplicationConnection")));
 
@@ -59,12 +63,25 @@ namespace ItLabs.MBox.Application
             });
 
 
+            var configManager = container.GetInstance<IConfigurationManager>();
+            var allConfig = configManager.GetAll();
+
+            var awsSettings = new AwsSettings
+            {
+                AwsS3AccessKey = allConfig.FirstOrDefault(x => x.Key == ConfigurationKey.AwsS3AccessKey)?.Value,
+                AwsS3SecretAccessKey = allConfig.FirstOrDefault(x => x.Key == ConfigurationKey.AwsS3SecretAccessKey)?.Value,
+                AwsS3BucketName = allConfig.FirstOrDefault(x => x.Key == ConfigurationKey.AwsS3BucketName)?.Value
+            };
+
+            container.Configure(config => { config.For<AwsSettings>().Use(awsSettings); });
+
+
             /// AWS SERVICES HERE
             services.AddDefaultAWSOptions(Configuration.GetAWSOptions());
             services.AddAWSService<IAmazonS3>();
             //services.AddAWSService<IAmazonDynamoDB>();
 
-            
+
 
             return container.GetInstance<IServiceProvider>();
         }
@@ -78,9 +95,9 @@ namespace ItLabs.MBox.Application
                 app.UseDeveloperExceptionPage();
                 app.UseDatabaseErrorPage();
             }
-            else 
+            else
             {
-                app.UseExceptionHandler("/Home/Error"); 
+                app.UseExceptionHandler("/Home/Error");
             }
 
             app.UseStaticFiles();

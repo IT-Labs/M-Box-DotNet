@@ -20,22 +20,18 @@ namespace ItLabs.MBox.Application.Controllers
         private IArtistManager _artistsManager;
         private IRecordLabelManager _recordLabelManager;
         private IEmailsManager _emailManager;
-        private IRepository _repository;
-        public HomeController(IRepository repository, ISongManager songsManager, IArtistManager artistsManager, IRecordLabelManager recordLabelManager, IEmailsManager emailManager, UserManager<ApplicationUser> userManager) : base(userManager)
+        public HomeController(ISongManager songsManager, IArtistManager artistsManager, IRecordLabelManager recordLabelManager, IEmailsManager emailManager, UserManager<ApplicationUser> userManager) : base(userManager)
         {
             _songsManager = songsManager;
             _artistsManager = artistsManager;
             _recordLabelManager = recordLabelManager;
             _emailManager = emailManager;
-            _repository = repository;
         }
 
         public IActionResult Index()
         {
-            if (HttpContext.User.IsInRole(nameof(Role.SuperAdmin)))
-                return RedirectToAction("Index", "Admins");
-            if (HttpContext.User.IsInRole(nameof(Role.RecordLabel)))
-                return RedirectToAction("Index", "RecordLabels");
+            if (!HasAccess())
+                return RedirectProperly();
 
             ViewData["Message"] = "Home";
             HomeViewModel model = new HomeViewModel
@@ -50,15 +46,13 @@ namespace ItLabs.MBox.Application.Controllers
         [HttpGet]
         public IActionResult About()
         {
-            if (HttpContext.User.IsInRole(nameof(Role.SuperAdmin)))
-                return RedirectToAction("Index", "Admins");
-            if (HttpContext.User.IsInRole(nameof(Role.RecordLabel)))
-                return RedirectToAction("Index", "RecordLabels");
+            if (!HasAccess())
+                return RedirectProperly();
 
             ViewData["Message"] = "About page";
             AboutViewModel model = new AboutViewModel
             {
-                WeCooperateWith = _repository.GetAll<RecordLabel>(
+                WeCooperateWith = _recordLabelManager.GetAll(
                 includeProperties: $"{nameof(RecordLabel.User)},{nameof(RecordLabel.RecordLabelArtists)}").ToList()
             };
             return View(model);
@@ -68,7 +62,7 @@ namespace ItLabs.MBox.Application.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult About(AboutViewModel model)
         {
-            model.WeCooperateWith = _repository.GetAll<RecordLabel>(
+            model.WeCooperateWith = _recordLabelManager.GetAll(
                 includeProperties: $"{nameof(RecordLabel.User)},{nameof(RecordLabel.RecordLabelArtists)}").ToList();
 
             ViewData["Message"] = "About page";
@@ -85,15 +79,17 @@ namespace ItLabs.MBox.Application.Controllers
         [HttpGet]
         public IActionResult Artists()
         {
-            if (HttpContext.User.IsInRole(nameof(Role.SuperAdmin)))
-                return RedirectToAction("Index", "Admins");
-            if (HttpContext.User.IsInRole(nameof(Role.RecordLabel)))
-                return RedirectToAction("Index", "RecordLabels");
+            if (!HasAccess())
+                return RedirectProperly();
 
             ViewData["Message"] = "Artists";
 
-            var model = new PagingModel<Artist>() { Skip = MBoxConstants.initialSkip, Take = MBoxConstants.initialTakeHomeLists };
-            model.PagingList = _artistsManager.GetArtists(model.Skip, model.Take);
+            var model = new PagingModel<Artist>();
+            model.PagingList = _artistsManager.Get(
+                includeProperties: $"{nameof(Artist.User)}," +
+                        $"{nameof(Artist.RecordLabelArtists)}.{nameof(RecordLabel)}.{nameof(RecordLabel.User)}",
+                skip: model.Skip,
+                take: model.Take).ToList();
 
             return View(model);
         }
@@ -101,7 +97,11 @@ namespace ItLabs.MBox.Application.Controllers
         [HttpGet]
         public IActionResult GetNextArtists([FromQuery] PagingModel<Artist> model)
         {
-            model.PagingList = _artistsManager.GetArtists(model.Skip, model.Take);
+            model.PagingList = _artistsManager.Get(
+                includeProperties: $"{nameof(Artist.User)}," +
+                        $"{nameof(Artist.RecordLabelArtists)}.{nameof(RecordLabel)}.{nameof(RecordLabel.User)}",
+                skip: model.Skip,
+                take: model.Take).ToList();
 
             return View("GetNextArtists", model);
         }
@@ -109,15 +109,13 @@ namespace ItLabs.MBox.Application.Controllers
         [HttpGet]
         public IActionResult RecordLabels()
         {
-            if (HttpContext.User.IsInRole(nameof(Role.SuperAdmin)))
-                return RedirectToAction("Index", "Admins");
-            if(HttpContext.User.IsInRole(nameof(Role.RecordLabel)))
-                return RedirectToAction("Index", "RecordLabels");
+            if (!HasAccess())
+                return RedirectProperly();
 
             ViewData["Message"] = "RecordLabels";
 
-            var model = new PagingModel<RecordLabel>() { Skip = MBoxConstants.initialSkip, Take = MBoxConstants.initialTakeHomeLists };
-            model.PagingList = _recordLabelManager.GetRecordLabels(string.Empty, model.Skip, model.Take).ToList();
+            var model = new PagingModel<RecordLabel>();
+            model.PagingList = _recordLabelManager.Get(skip: model.Skip, take: model.Take, includeProperties: $"{nameof(RecordLabel.User)}").ToList();
 
             return View(model);
         }
@@ -126,7 +124,7 @@ namespace ItLabs.MBox.Application.Controllers
         public IActionResult GetNextRecordLabels([FromQuery] PagingModel<RecordLabel> model)
         {
             ViewData["Message"] = "RecordLabels";
-            model.PagingList = _recordLabelManager.GetRecordLabels(string.Empty, model.Skip, model.Take).ToList();
+            model.PagingList = _recordLabelManager.Get(skip: model.Skip, take: model.Take, includeProperties: $"{nameof(RecordLabel.User)}").ToList();
             return View("NextRecordLabels", model);
         }
 
@@ -134,7 +132,7 @@ namespace ItLabs.MBox.Application.Controllers
         public IActionResult SongDetails(int songId)
         {
             var songDetails = new HomeViewModel() { };
-            songDetails.SongDetails = _repository.GetOne<Song>(
+            songDetails.SongDetails = _songsManager.GetOne(
                 filter: x => x.Id == songId,
                 includeProperties: $"{nameof(Song.Artist)}.{nameof(Artist.User)}");
 
@@ -151,6 +149,17 @@ namespace ItLabs.MBox.Application.Controllers
 
             return View();
         }
-        
+        private bool HasAccess()
+        {
+            return !((HttpContext.User.IsInRole(nameof(Role.SuperAdmin))) || (HttpContext.User.IsInRole(nameof(Role.RecordLabel))));
+        }
+        private IActionResult RedirectProperly()
+        {
+            if (HttpContext.User.IsInRole(nameof(Role.SuperAdmin)))
+                return RedirectToAction("Index", "Admins");
+            if (HttpContext.User.IsInRole(nameof(Role.RecordLabel)))
+                return RedirectToAction("Index", "RecordLabels");
+            return null;
+        }
     }
 }

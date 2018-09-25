@@ -16,6 +16,8 @@ namespace ItLabs.MBox.Application.Models.ArtistsViewModel
         [StringLength(100, ErrorMessage = "The {0} cannot contain more than {1} characters, or less than {2}!", MinimumLength = 2)]
         public string SongName { get; set; }
 
+        public string Picture;
+
         [Required]
         [Display(Name = "Album Name")]
         [StringLength(100, ErrorMessage = "The {0} cannot contain more than {1} characters, or less than {2}", MinimumLength = 2)]
@@ -34,9 +36,10 @@ namespace ItLabs.MBox.Application.Models.ArtistsViewModel
 
         public Genres Genres { get; set; }
 
+        public string GenreName { get; set; }
+
         [StringLength(10000, ErrorMessage = "The {0} cannot contain more than {1} characters!")]
         public string SongLyrics { get; set; }
 
-        public Song Song { get; set; }
     }
 }

@@ -28,7 +28,7 @@
         <div class="col-md-6 col-sm-6">
             <div class="row">
                 <div class="col-md-8 col-sm-8">
-                    <input class="form-control" value=@Model.Song.Name id="songName" disabled>
+                    <input class="form-control" value=@Model.SongName id="songName" disabled>
 
                 </div>
                 <div class="col-md-1 col-sm-1">
@@ -48,7 +48,7 @@
                 </div>
             </div>
             <div class="row">
-                <img class="img-responsive" style="height:350px; width:500px" src="@_s3Manager.GetImageLink(Model.Song.Picture)">
+                <img class="img-responsive" style="height:350px; width:500px" src="@_s3Manager.GetImageLink(Model.Picture)">
             </div>
             <div class="row" style="margin-bottom: 15px; margin-top: 15px">
                 <label>By: @user.Name</label>
@@ -58,7 +58,7 @@
                     <label>Album Name:</label>
                 </div>
                 <div class="col-md-6 col-sm-6">
-                    <input class="form-control" value=@Model.Song.AlbumName id="albumName" disabled>
+                    <input class="form-control" value=@Model.AlbumName id="albumName" disabled>
                 </div>
                 <div class="col-md-1 col-sm-1">
                     <button class="btn btn-default edit editDetails" id="editAlbum" onclick="editDetails('albumName', 'editAlbum', 'saveAlbum', 'cancelAlbum')">
@@ -81,7 +81,7 @@
                     <label>Genre:</label>
                 </div>
                 <div class="col-md-6 col-sm-6">
-                    @Html.DropDownList("Genres", new SelectList(Enum.GetValues(typeof(Genres))), "", new { @class = "form-control" })
+                    <label>@Model.GenreName</label>
                 </div>
             </div>
             <div class="row">
@@ -89,7 +89,7 @@
                     <label>Release Date:</label>
                 </div>
                 <div class="col-md-7 col-sm-7">
-                    <input class="form-control" type="date" value=@Model.Song.ReleaseDate />
+                    <input class="form-control" type="date" value=@Model.ReleaseDate />
                 </div>
             </div>
             <div class="row" style="margin-top: 15px">
@@ -115,7 +115,7 @@
                         </div>
                     </div>
                     <div class="row" style="padding: 8px">
-                        <input class="form-control" value=@Model.Song.YouTubeLink id="youtubeLinkUrl">
+                        <input class="form-control" value=@Model.YoutubeLink id="youtubeLinkUrl">
                     </div>
                 </div>
                 <div class="col-md-6 col-sm-6" style="border-left: solid 2px #d3d3d3">
@@ -140,7 +140,7 @@
                         </div>
                     </div>
                     <div class="row" style="padding: 8px">
-                        <input class="form-control" value=@Model.Song.VimeoLink id="vimeoLinkUrl">
+                        <input class="form-control" value=@Model.VimeoLink id="vimeoLinkUrl">
                     </div>
                 </div>
             </div>
@@ -164,7 +164,7 @@
                 </div>
             </div>
             <div class="row" style="padding: 12px;">
-                <textarea class="form-control" maxlength="10000" style="margin-top: 5px; height: 550px; resize: none" name="Message" id="songLyrics" disabled>@Model.Song.Lyrics</textarea>
+                <textarea class="form-control" maxlength="10000" style="margin-top: 5px; height: 550px; resize: none" name="Message" id="songLyrics" disabled>@Model.SongLyrics</textarea>
             </div>
         </div>
     </div>

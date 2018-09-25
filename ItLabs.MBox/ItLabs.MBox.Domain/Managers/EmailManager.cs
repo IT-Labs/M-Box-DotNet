@@ -21,9 +21,10 @@ namespace ItLabs.MBox.Domain.Managers
         public EmailManager(IRepository repository) : base(repository)
         {
             _repository = repository;
+            
 
         }
-        public void PerpareSendMail(EmailTemplateType type, string email, string callbackUrl)
+        public void PrepareSendMail(EmailTemplateType type, string email, string callbackUrl)
         {
             var template = _repository.GetAll<EmailTemplate>().Where(c => c.Type == type).FirstOrDefault();
             var user = _repository.GetAll<ApplicationUser>().Where(x => x.Email == email).FirstOrDefault();

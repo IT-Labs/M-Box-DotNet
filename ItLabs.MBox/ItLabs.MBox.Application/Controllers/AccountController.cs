@@ -1,5 +1,5 @@
 ﻿using ItLabs.MBox.Application.Models.AccountViewModels;
-using ItLabs.MBox.Common.Extentions;
+using ItLabs.MBox.Common.Extensions;
 using ItLabs.MBox.Contracts.Entities;
 using ItLabs.MBox.Contracts.Enums;
 using ItLabs.MBox.Contracts.Interfaces;
@@ -164,7 +164,7 @@ namespace ItLabs.MBox.Application.Controllers
 
             var callbackUrl = Url.EmailConfirmationLink(user.Id.ToString(), code, Request.Scheme);
 
-            _emailManager.PerpareSendMail(EmailTemplateType.SignUp, model.Email, callbackUrl);
+            _emailManager.PrepareSendMail(EmailTemplateType.SignUp, model.Email, callbackUrl);
 
             return View("RegisterMailHasBeenSent");
         }
@@ -308,7 +308,7 @@ namespace ItLabs.MBox.Application.Controllers
             // visit https://go.microsoft.com/fwlink/?LinkID=532713
             var code = await _userManager.GeneratePasswordResetTokenAsync(user);
             var callbackUrl = Url.ResetPasswordCallbackLink(user.Id.ToString(), code, Request.Scheme);
-            _emailManager.PerpareSendMail(EmailTemplateType.ForgotPassword, model.Email, callbackUrl);
+            _emailManager.PrepareSendMail(EmailTemplateType.ForgotPassword, model.Email, callbackUrl);
             return RedirectToAction(nameof(ForgotPasswordConfirmation));
         }
 

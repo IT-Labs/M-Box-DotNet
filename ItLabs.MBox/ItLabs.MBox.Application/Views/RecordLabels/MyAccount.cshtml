@@ -1,6 +1,7 @@
 ﻿@using ItLabs.MBox.Domain.Managers
 @inject S3Manager  _s3Manager
 @inject UserManager<ApplicationUser> UserManager
+@inject RecordLabelManager _recordLabelManager
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 @section Scripts{
     <script type="text/javascript" src="~/js/EditDetailsOnButtonClick.js"></script>
@@ -9,8 +10,9 @@
 @{
     ViewData["Title"] = "MyAccount";
     var user = await UserManager.GetUserAsync(User);
+    var recordLabel = _recordLabelManager.GetOne(x => x.Id == user.Id);
 }
-
+@model MyAccountViewModel
 <div class="container-fluid" style="text-align: center">
     <div class="row">
         <div class="col-md-3 col-sm-3">
@@ -38,7 +40,7 @@
             </div>
             <div class="row">
                 <div class="col-sm-12  my-account-img">
-                    <img src="@_s3Manager.GetImageLink(user.Picture)">
+                    <img src="@_s3Manager.GetImageLink(recordLabel.PictureName)">
                 </div>
             </div>
             <div class="row" style="margin:15px">
@@ -46,6 +48,7 @@
                     <div class="col-sm-8 col-md-8">
                         <p>Change profle picture:</p>
                         <input class="btn-default btn" type="file" id="uploadedFiles" name="uploadedFiles" accept=".jpg,.jpeg,.png">
+                        <span asp-validation-for="Picture" class="text-danger"></span>
                     </div>
                     <div class="col-sm-4 col-md-4" style="margin-top:35px; ">
                         <button type="submit" class="btn btn-primary">Upload</button>

@@ -8,5 +8,16 @@ namespace ItLabs.MBox.Contracts.Entities
 
         public virtual ApplicationUser User { get; set; }
         public virtual ICollection<RecordLabelArtist> RecordLabelArtists { get; set; }
+        public string PictureName
+        {
+            get
+            {
+                if (string.IsNullOrWhiteSpace(User.Picture))
+                {
+                    return MBoxConstants.DefaultRecordLabelImage;
+                }
+                return User.Picture;
+            }
+        }
     }
 }

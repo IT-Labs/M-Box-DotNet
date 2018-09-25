@@ -1,5 +1,5 @@
 ﻿using ItLabs.MBox.Application.Models;
-using ItLabs.MBox.Common.Extentions;
+using ItLabs.MBox.Common.Extensions;
 using ItLabs.MBox.Contracts;
 using ItLabs.MBox.Contracts.Entities;
 using ItLabs.MBox.Contracts.Enums;
@@ -18,7 +18,6 @@ namespace ItLabs.MBox.Application.Controllers
         private IRecordLabelManager _recordLabelManager;
         private readonly IEmailsManager _emailsManager;
 
-
         public AdminsController(IRecordLabelManager recordLabelManager, UserManager<ApplicationUser> userManager, IEmailsManager emailManager) : base(userManager)
         {
             _recordLabelManager = recordLabelManager;
@@ -28,8 +27,8 @@ namespace ItLabs.MBox.Application.Controllers
         [HttpGet]
         public IActionResult Index()
         {
-            var model = new PagingModel<RecordLabel>() { Skip = MBoxConstants.initialSkip, Take = MBoxConstants.initialTakeTabel };
-            model.PagingList = _recordLabelManager.GetRecordLabels(string.Empty, model.Skip, model.Take).ToList();
+            var model = new PagingModel<RecordLabel>();
+            model.PagingList = _recordLabelManager.Get(skip: model.Skip, take: model.Take, includeProperties: $"{nameof(RecordLabel.User)},{nameof(RecordLabel.RecordLabelArtists)}").ToList();
 
             return View(model);
         }
@@ -37,14 +36,7 @@ namespace ItLabs.MBox.Application.Controllers
         [HttpGet]
         public IActionResult GetNextRecordLabels([FromQuery] PagingModel<RecordLabel> model)
         {
-            if (string.IsNullOrEmpty(model.SearchQuery) || string.IsNullOrWhiteSpace(model.SearchQuery))
-            {
-                model.PagingList = _recordLabelManager.GetRecordLabels(string.Empty, model.Skip, model.Take).ToList();
-            }
-            else
-            {
-                model.PagingList = _recordLabelManager.GetRecordLabels(model.SearchQuery, model.Skip, model.Take).ToList();
-            }
+            model.PagingList = _recordLabelManager.SearchRecordLabels(model.SearchQuery, model.Skip, model.Take).ToList();
 
             return View("NextRecordLabels", model);
         }
@@ -56,24 +48,23 @@ namespace ItLabs.MBox.Application.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddNewRecordLabelAsync(InviteViewModel model)
+        public IActionResult AddNewRecordLabel(InviteViewModel model)
         {
-            model.Email.Trim();
             if (!ModelState.IsValid)
                 return View(model);
-
+            
             var response = _userManager.CreateUser(model.Name, model.Email, Role.RecordLabel);
             if (response == null)
             {
-                ModelState.AddModelError("EMail", "Email already exists");
-                return View("AddNewRecordLabel", model);
+                ModelState.AddModelError("Email", "Email already exists");
+                return View( model);
             }
             var user = response.Result;
             _recordLabelManager.Create(new RecordLabel() { User = user }, CurrentLoggedUserId);
             _recordLabelManager.Save();
-            var code = await _userManager.GeneratePasswordResetTokenAsync(user);
+            var code =  _userManager.GeneratePasswordResetTokenAsync(user).Result;
             var callbackUrl = Url.ResetPasswordCallbackLink(user.Id.ToString(), code, Request.Scheme);
-            _emailsManager.PerpareSendMail(EmailTemplateType.InvitedRecordLabel, model.Email, callbackUrl);
+            _emailsManager.PrepareSendMail(EmailTemplateType.InvitedRecordLabel, model.Email, callbackUrl);
 
             return View("SuccessfullyInvited");
 
@@ -81,11 +72,11 @@ namespace ItLabs.MBox.Application.Controllers
         [HttpPost]
         public IActionResult Search(string search)
         {
-            var model = new PagingModel<RecordLabel>() { Skip = MBoxConstants.initialSkip, Take = MBoxConstants.initialTakeTabel };
+            var model = new PagingModel<RecordLabel>();
 
             if (!string.IsNullOrWhiteSpace(search))
             {
-                model.PagingList = _recordLabelManager.GetRecordLabels(search, model.Skip, model.Take);
+                model.PagingList = _recordLabelManager.SearchRecordLabels(search, model.Skip, model.Take);
                 return View("Index", model);
             }
 

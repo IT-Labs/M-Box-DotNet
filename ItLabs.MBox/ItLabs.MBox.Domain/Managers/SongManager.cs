@@ -36,7 +36,7 @@ namespace ItLabs.MBox.Domain.Managers
         public IList<Song> GetArtistSongs(int artistId, int toSkip, int toTake, string searchValue)
         {
             return _repository.Get<Song>(
-                filter: x => x.ArtistId == artistId && (x.Name.ToUpper().Contains(searchValue.ToUpper()) || x.AlbumName.ToUpper().Contains(searchValue.ToUpper()) || x.Genre.ToUpper().Contains(searchValue.ToUpper())),
+                filter: x => x.ArtistId == artistId && (x.Name.ToUpper().Contains(searchValue.ToUpper()) || x.AlbumName.ToUpper().Contains(searchValue.ToUpper()) || x.Genre.ToString().ToUpper().Contains(searchValue.ToUpper())),
                 includeProperties: $"{nameof(Song.Artist)}",
                 skip: toSkip,
                 take: toTake

@@ -25,15 +25,19 @@
 }
 
 .artistImage {
-    margin: 5px
+    margin: 5px;
+    height: 80%;
+    width: 80%;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .songImage {
     width: 80%;
     height: 80%;
     display: block;
-    margin-left: auto;
-    margin-right: auto;
+    margin: 0 auto;
 }
 
 .seperateLists {

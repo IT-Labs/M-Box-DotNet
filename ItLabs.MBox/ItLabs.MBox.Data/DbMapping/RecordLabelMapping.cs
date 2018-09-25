@@ -12,6 +12,7 @@ namespace ItLabs.MBox.Data.DbMapping
             builder.HasKey(c => c.Id);
             builder.Property(c => c.AboutInfo);
             builder.Property(c => c.DateCreated).IsRequired().HasColumnType("Date");
+
             builder.HasMany(c => c.RecordLabelArtists).WithOne(c => c.RecordLabel);
             builder.Property(c => c.CreatedBy).IsRequired();
         }

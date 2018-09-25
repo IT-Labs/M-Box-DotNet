@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Configuration;
 
 namespace ItLabs.MBox.Contracts.Entities
 {
@@ -20,5 +21,17 @@ namespace ItLabs.MBox.Contracts.Entities
         public virtual ICollection<RecordLabelArtist> RecordLabelArtists { get; set; }
         public virtual ICollection<Follow> Follows { get; set; }
         public string RecordLabelName => RecordLabelArtists?.FirstOrDefault()?.RecordLabel?.User.Name;
+
+        public string PictureName
+        {
+            get
+            {
+                if (string.IsNullOrWhiteSpace(User.Picture))
+                {
+                    return MBoxConstants.DefaultArtistImage;
+                }
+                return User.Picture;
+            }
+        }
     }
 }
