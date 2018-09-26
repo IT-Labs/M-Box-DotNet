@@ -1,5 +1,6 @@
 ﻿using ItLabs.MBox.Contracts.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using System;
 
 namespace ItLabs.MBox.Data
@@ -7,7 +8,8 @@ namespace ItLabs.MBox.Data
     public class Repository<TContext> : ReadOnlyRepository<TContext>, IRepository
     where TContext : MBoxDbContext
     {
-        public Repository(TContext context) : base(context) { }
+        public ILogger _logger { get; set; }
+        public Repository(TContext context, ILogger<Repository<TContext>> logger) : base(context) { _logger = logger; }
 
         public virtual void Create<Entity>(Entity entity, int createdBy)
         where Entity : class, IEntity
@@ -52,7 +54,7 @@ namespace ItLabs.MBox.Data
             }
             catch (Exception e)
             {
-                throw new Exception(e.Message);
+                _logger.LogInformation(e.Message);
             }
         }
       

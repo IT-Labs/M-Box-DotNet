@@ -7,6 +7,7 @@ using ItLabs.MBox.Contracts.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -17,11 +18,13 @@ namespace ItLabs.MBox.Application.Controllers
     {
         private IRecordLabelManager _recordLabelManager;
         private readonly IEmailsManager _emailsManager;
+        private ILogger<AdminsController> _logger;
 
-        public AdminsController(IRecordLabelManager recordLabelManager, UserManager<ApplicationUser> userManager, IEmailsManager emailManager) : base(userManager)
+        public AdminsController(ILogger<AdminsController> logger,IRecordLabelManager recordLabelManager, UserManager<ApplicationUser> userManager, IEmailsManager emailManager) : base(userManager)
         {
             _recordLabelManager = recordLabelManager;
             _emailsManager = emailManager;
+            _logger = logger;
         }
 
         [HttpGet]
@@ -88,7 +91,7 @@ namespace ItLabs.MBox.Application.Controllers
             var user = _userManager.FindByIdAsync(recordLabelId.ToString()).Result;
             if (user == null)
                 return RedirectToAction("Index");
-
+ 
             _recordLabelManager.DeleteRecordLabel(user);
             return RedirectToAction("Index");
         }

@@ -1,6 +1,7 @@
 ﻿using ItLabs.MBox.Contracts.Entities;
 using ItLabs.MBox.Contracts.Interfaces;
 using ItLabs.MBox.Data;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,11 +14,15 @@ namespace ItLabs.MBox.Domain.Managers
     {
 
         private readonly IRepository _repository;
+        protected readonly ILogger _logger;
+        private IRepository repository;
 
-        public BaseManager(IRepository repository)
+        public BaseManager(IRepository repository, ILogger<T> logger)
         {
             _repository = repository;
+            _logger = logger;
         }
+
 
         public void Save()
         {
@@ -39,7 +44,7 @@ namespace ItLabs.MBox.Domain.Managers
             _repository.Delete<T>(entity);
         }
 
-        public  void Update(T entity, int? modifiedBy)
+        public void Update(T entity, int? modifiedBy)
         {
             _repository.Update(entity, modifiedBy);
         }

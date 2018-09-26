@@ -9,6 +9,7 @@ using System;
 using System.IO;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Logging;
 
 namespace ItLabs.MBox.Domain.Managers
 {
@@ -17,10 +18,12 @@ namespace ItLabs.MBox.Domain.Managers
 
         private readonly IConfigurationManager _configurationManager;
         private readonly IServiceProvider _serviceProvider;
-        public S3Manager(IConfigurationManager configurationManager,IServiceProvider serviceProvider)
+        private readonly ILogger<S3Manager> _logger;
+        public S3Manager(IConfigurationManager configurationManager,IServiceProvider serviceProvider, ILogger<S3Manager> logger)
         {
             _configurationManager = configurationManager;
             _serviceProvider = serviceProvider;
+            _logger= logger;
         }
         public string UploadFile(IFormFile formFile)
         {
@@ -38,7 +41,8 @@ namespace ItLabs.MBox.Domain.Managers
             }
             catch (Exception up)
             {
-                throw up;
+                _logger.LogInformation(up.Message);
+                return null;
             }
 
         }
@@ -58,7 +62,8 @@ namespace ItLabs.MBox.Domain.Managers
             }
             catch (Exception ex)
             {
-                throw ex;
+                _logger.LogInformation(ex.Message);
+                return "";
             }
         }
         public void DeleteFile(string fileName)
@@ -77,7 +82,7 @@ namespace ItLabs.MBox.Domain.Managers
             }
             catch (Exception ex)
             {
-                throw ex;
+                _logger.LogInformation(ex.Message);
             }
         }
     }

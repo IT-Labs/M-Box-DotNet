@@ -20,7 +20,7 @@ namespace ItLabs.MBox.Application.Controllers
     {
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly IEmailsManager _emailManager;
-        private readonly ILogger _logger;
+        private readonly ILogger<AccountController> _logger;
         private readonly IArtistManager _artistsManager;
 
         public AccountController(
@@ -79,7 +79,7 @@ namespace ItLabs.MBox.Application.Controllers
                 var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, lockoutOnFailure: false);
                 if (result.Succeeded)
                 {
-                    _logger.LogInformation("User logged in.");
+                    _logger.LogInformation("User with id: "+user.Id+" logged in.");
 
                     ApplicationUser appuser = await _userManager.FindByEmailAsync(model.Email);
 
@@ -165,7 +165,7 @@ namespace ItLabs.MBox.Application.Controllers
             var callbackUrl = Url.EmailConfirmationLink(user.Id.ToString(), code, Request.Scheme);
 
             _emailManager.PrepareSendMail(EmailTemplateType.SignUp, model.Email, callbackUrl);
-
+            _logger.LogInformation("User with id: "+user.Id+" has registered!");
             return View("RegisterMailHasBeenSent");
         }
 
@@ -175,8 +175,9 @@ namespace ItLabs.MBox.Application.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Logout()
         {
+            _logger.LogInformation("User "+CurrentLoggedUserId+" logged out.");
             await _signInManager.SignOutAsync();
-            _logger.LogInformation("User logged out.");
+            
             return RedirectToAction(nameof(HomeController.Index), "Home");
         }
 
@@ -352,14 +353,17 @@ namespace ItLabs.MBox.Application.Controllers
             user.EmailConfirmed = true;
             user.IsActivated = true;
             var updateResult = await _userManager.UpdateAsync(user);
+           
             if (!updateResult.Succeeded)
             {
+                _logger.LogInformation("User " +user.Id+" failed to reset password");
                 AddErrors(updateResult);
                 return View();
             }
             var result = await _userManager.ResetPasswordAsync(user, model.Code, model.Password);
             if (result.Succeeded)
             {
+                _logger.LogInformation("User " + user.Id + " reset his password!");
                 return RedirectToAction(nameof(ResetPasswordConfirmation));
             }
 

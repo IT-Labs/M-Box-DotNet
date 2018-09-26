@@ -118,19 +118,19 @@ namespace ItLabs.MBox.Application.Controllers
         {
             if (!files.Any())
             {
-                return View((new AddMultipleArtistsDto() { Errors = new List<string>() { "Please choose a file" } }));
+                return View(new List<string>() { "Please choose a file" });
             }
 
             var response = _recordLabelManager.ValidateCsvFile(files[0], CurrentLoggedUserId);
 
-            if (response.Errors.Count != 0)
+            if (response.Errors.Count > 0)
             {
-                return View(response);
+                return View(response.Errors);
             }
             if (_recordLabelManager.GetNumberOfArtists(CurrentLoggedUserId) + response.UsersToBeAdded.Count > MBoxConstants.MaximumArtistsAllowed)
             {
                 response.Errors.Add("Artist Limit (50) exceeded");
-                return View(response);
+                return View(response.Errors);
             }
 
             var artistList = _recordLabelManager.CreateMultipleArtists(response.UsersToBeAdded, CurrentLoggedUserId);
@@ -138,7 +138,7 @@ namespace ItLabs.MBox.Application.Controllers
             if (artistList == null)
             {
                 response.Errors.Add("An error occured while adding artists, try again!");
-                return View(response);
+                return View(response.Errors);
             }
 
             if (artistList.Count != 0)

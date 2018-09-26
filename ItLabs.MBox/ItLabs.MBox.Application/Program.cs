@@ -10,6 +10,7 @@ using Microsoft.Extensions.Logging;
 using ItLabs.MBox.Domain;
 using Microsoft.Extensions.DependencyInjection;
 using ItLabs.MBox.Data;
+using NLog.Web;
 
 namespace ItLabs.MBox.Application
 {
@@ -17,29 +18,54 @@ namespace ItLabs.MBox.Application
     {
         public static void Main(string[] args)
         {
-            var host = BuildWebHost(args);
 
-            using (var scope = host.Services.CreateScope())
+            
+
+
+            var logger = NLogBuilder.ConfigureNLog("nlog.config").GetCurrentClassLogger();
+            try
             {
-                var services = scope.ServiceProvider;
-                var context = services.GetRequiredService<MBoxDbContext>();
-                try
-                {
-                    DataSeeder.Initialize(services);
-                }
-                catch (Exception ex)
-                {
-                    var logger = services.GetRequiredService<ILogger<Program>>();
-                    logger.LogError(ex, "An error occurred seeding the DB.");
-                }
-            }
+                logger.Debug("init main");
+                var host = BuildWebHost(args);
 
-            host.Run();
+                using (var scope = host.Services.CreateScope())
+                {
+                    var services = scope.ServiceProvider;
+                    var context = services.GetRequiredService<MBoxDbContext>();
+                    try
+                    {
+                        DataSeeder.Initialize(services);
+                    }
+                    catch (Exception ex)
+                    {
+                        var loggerLocal = services.GetRequiredService<ILogger<Program>>();
+                        loggerLocal.LogError(ex, "An error occurred seeding the DB.");
+                    }
+                }
+
+                host.Run();
+            }
+            catch (Exception ex)
+            {
+                //NLog: catch setup errors
+                logger.Error(ex, "Stopped program because of exception");
+                throw;
+            }
+            finally
+            {
+                // Ensure to flush and stop internal timers/threads before application-exit (Avoid segmentation fault on Linux)
+                NLog.LogManager.Shutdown();
+            }
         }
 
         public static IWebHost BuildWebHost(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
-                .UseStartup<Startup>()
+                .UseStartup<Startup>().ConfigureLogging(logging =>
+                {
+                    logging.ClearProviders();
+                    logging.SetMinimumLevel(LogLevel.Trace);
+                })
+                .UseNLog()
                 .Build();
     }
 }

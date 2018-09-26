@@ -12,6 +12,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Threading;
+using Microsoft.Extensions.Logging;
 
 namespace ItLabs.MBox.Domain.Managers
 {
@@ -21,7 +22,7 @@ namespace ItLabs.MBox.Domain.Managers
         private readonly IEmailsManager _emailsManager;
         private readonly IS3Manager _s3Manager;
         private readonly UserManager<ApplicationUser> _userManager;
-        public RecordLabelManager(IRepository repository, IEmailsManager emailsManager, UserManager<ApplicationUser> userManager, IS3Manager s3Manager) : base(repository)
+        public RecordLabelManager(ILogger<RecordLabel> logger,IRepository repository, IEmailsManager emailsManager, UserManager<ApplicationUser> userManager, IS3Manager s3Manager) : base(repository,logger)
         {
             _repository = repository;
             _emailsManager = emailsManager;
@@ -89,25 +90,21 @@ namespace ItLabs.MBox.Domain.Managers
                     var parts = result.Split(",");
                     if (parts.Length > 2 || parts.Length < 2)
                     {
-                        addMultipleArtistsDto.Errors.Add("Invalid format detected(has to be: Artist Email, Artist Name), row(s): " + iteration);
-                        return addMultipleArtistsDto;
+                        addMultipleArtistsDto.Errors.Add("Invalid format detected(has to be: Artist Email, Artist Name), row: " + iteration);
                     }
                     var email = parts[0];
                     var name = parts[1];
                     if (email.Length > 320)
                     {
-                        addMultipleArtistsDto.Errors.Add("Max length of email (320) exceeded, row(s):  " + iteration);
-                        return addMultipleArtistsDto;
+                        addMultipleArtistsDto.Errors.Add("Max length of email (320) exceeded, row:  " + iteration);
                     }
                     if (name.Length > 50)
                     {
-                        addMultipleArtistsDto.Errors.Add("Max length of Artist Name (50) exceeded, row(s):  " + iteration);
-                        return addMultipleArtistsDto;
+                        addMultipleArtistsDto.Errors.Add("Max length of Artist Name (50) exceeded, row:  " + iteration);
                     }
                     if (!validator.IsValid(email))
                     {
-                        addMultipleArtistsDto.Errors.Add("Invalid Email format (example@example.com), row(s): " + iteration);
-                        return addMultipleArtistsDto;
+                        addMultipleArtistsDto.Errors.Add("Invalid Email format (example@example.com), row: " + iteration);
                     }
                     if (_userManager.FindByEmailAsync(email).Result != null)
                     {

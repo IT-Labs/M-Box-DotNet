@@ -4,15 +4,11 @@ using ItLabs.MBox.Contracts;
 using ItLabs.MBox.Contracts.Entities;
 using ItLabs.MBox.Contracts.Enums;
 using ItLabs.MBox.Contracts.Interfaces;
-using ItLabs.MBox.Data;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Text;
 
 namespace ItLabs.MBox.Application.Controllers
 {
@@ -72,7 +68,7 @@ namespace ItLabs.MBox.Application.Controllers
         [HttpPost]
         public IActionResult AddNewSong(AddNewSongViewModel model, List<IFormFile> uploadedFiles)
         {
-            var imageS3Name = string.Empty;
+            string imageS3Name = null;
             if (!ModelState.IsValid)
             {
                 return View(model);

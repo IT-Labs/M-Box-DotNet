@@ -8,6 +8,7 @@ using ItLabs.MBox.Data;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -20,14 +21,15 @@ namespace ItLabs.MBox.Application.Controllers
         private ISongManager _songsManager;
         private IArtistManager _artistsManager;
         private IRecordLabelManager _recordLabelManager;
+        private ILogger<HomeController> _logger;
         private IEmailsManager _emailManager;
-        public HomeController(ISongManager songsManager, IArtistManager artistsManager, IRecordLabelManager recordLabelManager, IEmailsManager emailManager, UserManager<ApplicationUser> userManager) : base(userManager)
+        public HomeController(ILogger<HomeController>  logger,ISongManager songsManager, IArtistManager artistsManager, IRecordLabelManager recordLabelManager, IEmailsManager emailManager, UserManager<ApplicationUser> userManager) : base(userManager)
         {
             _songsManager = songsManager;
             _artistsManager = artistsManager;
             _recordLabelManager = recordLabelManager;
             _emailManager = emailManager;
-
+            _logger = logger;
         }
 
         public IActionResult Index()

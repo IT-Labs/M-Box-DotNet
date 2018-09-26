@@ -10,6 +10,7 @@ using ItLabs.MBox.Contracts.Enums;
 using ItLabs.MBox.Contracts.Interfaces;
 using ItLabs.MBox.Data;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Logging;
 
 namespace ItLabs.MBox.Domain.Managers
 {
@@ -17,12 +18,9 @@ namespace ItLabs.MBox.Domain.Managers
     {
         private readonly IRepository _repository;
 
-
-        public EmailManager(IRepository repository) : base(repository)
+        public EmailManager(IRepository repository, ILogger<EmailTemplate> logger) : base(repository,logger)
         {
             _repository = repository;
-            
-
         }
         public void PrepareSendMail(EmailTemplateType type, string email, string callbackUrl)
         {
@@ -81,20 +79,27 @@ namespace ItLabs.MBox.Domain.Managers
             if (environment == EnvironmentName.Development || environment == EnvironmentName.Staging)
                 emailToSend.EmailAddress = testReceiverEmail;
 
-            using (var client = new SmtpClient(awsSesHost, awsSesPort))
+            try
             {
-                client.Credentials = new NetworkCredential(awsSesUsername, awsSesPassword);
-                client.EnableSsl = true;
-                var msg = new MailMessage(
-                          awsSesFromAddress,
-                          emailToSend.EmailAddress,
-                          emailToSend.Subject,
-                          emailToSend.Body
-                    )
+                using (var client = new SmtpClient(awsSesHost, awsSesPort))
                 {
-                    IsBodyHtml = true
-                };
-                client.Send(msg);
+                    client.Credentials = new NetworkCredential(awsSesUsername, awsSesPassword);
+                    client.EnableSsl = true;
+                    var msg = new MailMessage(
+                              awsSesFromAddress,
+                              emailToSend.EmailAddress,
+                              emailToSend.Subject,
+                              emailToSend.Body
+                        )
+                    {
+                        IsBodyHtml = true
+                    };
+                    client.Send(msg);
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogInformation(ex.Message);
             }
         }
     }

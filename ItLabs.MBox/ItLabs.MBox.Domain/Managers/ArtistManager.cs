@@ -1,12 +1,11 @@
-﻿using ItLabs.MBox.Contracts.Interfaces;
-using ItLabs.MBox.Contracts.Entities;
+﻿using ItLabs.MBox.Contracts.Entities;
+using ItLabs.MBox.Contracts.Enums;
+using ItLabs.MBox.Contracts.Interfaces;
+using ItLabs.MBox.Data;
+using Microsoft.Extensions.Logging;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using ItLabs.MBox.Data;
-using System;
-using System.Linq.Expressions;
-using ItLabs.MBox.Contracts.Enums;
-using System.Threading.Tasks;
 
 namespace ItLabs.MBox.Domain.Managers
 {
@@ -15,7 +14,8 @@ namespace ItLabs.MBox.Domain.Managers
         private readonly IRepository _repository;
         private readonly IEmailsManager _emailsManager;
         private readonly IS3Manager _s3Manager;
-        public ArtistManager(IRepository repository, IEmailsManager emailsManager, IS3Manager s3Manager) : base(repository)
+
+        public ArtistManager(IRepository repository, IEmailsManager emailsManager, IS3Manager s3Manager, ILogger<Artist> logger) : base(repository,logger)
         {
             _repository = repository;
             _emailsManager = emailsManager;
@@ -50,14 +50,19 @@ namespace ItLabs.MBox.Domain.Managers
         {
             var artist = _repository.GetOne<Artist>(x => x.Id == artistlId, includeProperties: $"{ nameof(Artist.User)}");
             var recordLabelArtist = _repository.GetOne<RecordLabelArtist>(x=>x.Artist.Id == artistlId);
-
             artist.IsDeleted = true;
-            _repository.Update<Artist>(artist, recordLabelId);
-
-            _repository.Delete(recordLabelArtist);
-            _repository.Save();
-
-            _emailsManager.PrepareSendMail(EmailTemplateType.DeletedArtist, artist.User.Email, "");
+            try
+            {
+                _repository.Update<Artist>(artist, recordLabelId);
+                _repository.Delete(recordLabelArtist);
+                _repository.Save();
+                _emailsManager.PrepareSendMail(EmailTemplateType.DeletedArtist, artist.User.Email, "");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogInformation(ex.Message);
+            }
+            
         }
     }
 }

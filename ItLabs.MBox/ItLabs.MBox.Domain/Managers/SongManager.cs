@@ -2,6 +2,7 @@
 using ItLabs.MBox.Contracts.Interfaces;
 using ItLabs.MBox.Data;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,7 +14,7 @@ namespace ItLabs.MBox.Domain.Managers
     {
         private IRepository _repository;
 
-        public SongManager(IRepository repository):base(repository)
+        public SongManager(IRepository repository, ILogger<Song> logger):base(repository,logger)
         {
             _repository = repository;
         }
