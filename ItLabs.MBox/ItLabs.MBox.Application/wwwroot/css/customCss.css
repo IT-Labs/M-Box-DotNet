@@ -107,8 +107,14 @@
     }
 
 
-.card-container {
-    height: 250px;
+.card-container-song {
+    height: 270px;
+}
+.card-container-artist {
+    height: 225px;
+}
+.card-container-record {
+    height: 200px;
 }
 
 .card-song-img-hold {

@@ -85,11 +85,11 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-3 col-sm-3" style="margin-top: 5px">
+                <div class="col-md-3 col-sm-3" >
                     <label>Release Date:</label>
                 </div>
                 <div class="col-md-7 col-sm-7">
-                    <input class="form-control" type="date" value=@Model.ReleaseDate />
+                    <label>@Model.ReleaseDate.ToShortDateString()</label>
                 </div>
             </div>
             <div class="row" style="margin-top: 15px">

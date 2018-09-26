@@ -16,11 +16,18 @@
     <ul id="recordLabelsListId" class="list-group" style="list-style:none;">
         @foreach (Artist artist in Model.PagingList)
         {
-            <li class="col-sm-2 card-container table-bordered" style="margin-right:3.2%; margin-bottom: 2%">
+            <li class="col-sm-2 card-container-artist table-bordered" style="margin-right:3.2%; margin-bottom: 2%">
                 <div class="row card-song-name">
                     <div>
                         <div class="text-center text">
-                            <h5>@artist.User.Name</h5>
+                            <form asp-controller="Home" asp-action="ArtistDetails">
+                                <div class="text-center text">
+                                    <button type="submit" class="btn btn-link">
+                                        <h5>@artist.User.Name</h5>
+                                        @Html.Hidden("artistId", artist.Id)
+                                    </button>
+                                </div>
+                            </form>
                             <input id="recordlabels" type="hidden" value="@Html.Raw(Json.Serialize(new List<Artist>()))" />
                             <input id="take" type="hidden" value="@Html.Raw(Json.Serialize(Model.Take))" />
                             <input id="skip" type="hidden" value="@Html.Raw(Json.Serialize(Model.Skip))" />
@@ -36,7 +43,7 @@
                         <div class="text-center text">
                             @if (!artist.IsDeleted)
                             {
-                                <h5>@artist.RecordLabelName</h5>
+                                <h5 style="margin-top:-7px">@artist.RecordLabelName</h5>
                             }
                         </div>
                     </div>

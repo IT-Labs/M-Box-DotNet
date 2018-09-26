@@ -1,4 +1,5 @@
 ﻿using ItLabs.MBox.Application.Models;
+using ItLabs.MBox.Application.Models.ArtistsViewModel;
 using ItLabs.MBox.Contracts;
 using ItLabs.MBox.Contracts.Entities;
 using ItLabs.MBox.Contracts.Enums;
@@ -165,8 +166,21 @@ namespace ItLabs.MBox.Application.Controllers
         [HttpPost]
         public IActionResult ArtistDetails(int artistId)
         {
-            var artist = _artistsManager.GetOne(x => x.Id == artistId,includeProperties:$"{nameof(Artist.User)},{nameof(Artist.Songs)}");
-            return View(artist);
+            var model = new ArtistDetailsViewModel();
+            model.Artist = _artistsManager.GetOne(x => x.Id == artistId,includeProperties:$"{nameof(Artist.User)},{nameof(Artist.Songs)}");
+            model.PagingModelSongs = new PagingModel<Song>() {PagingList = model.Artist.Songs.ToList() };
+            
+            return View(model);
+        }
+        [HttpPost]
+        public IActionResult GetNextSongs([FromBody] ArtistDetailsViewModel model)
+        {
+            model.PagingModelSongs.PagingList = _songsManager.Get(filter: x=>x.Artist.Id == model.Artist.Id,
+                skip: model.PagingModelSongs.Skip,
+                take: model.PagingModelSongs.Take,
+                includeProperties: $"{nameof(Artist)}" ).ToList();
+
+            return View("GetNextArtists", model);
         }
     }
 }

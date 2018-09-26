@@ -6,82 +6,74 @@
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 @using ItLabs.MBox.Domain.Managers
+@using ItLabs.MBox.Application.Models.ArtistsViewModel
 @inject S3Manager  _s3Manager
 @inject UserManager<ApplicationUser> UserManager
 
 @section Scripts{
-    <script type="text/javascript" src="~/js/EditDetailsOnButtonClick.js"></script>
+    <script type="text/javascript" src="~/js/LazyLoadSongs.js"></script>
 }
 
 @{
     ViewData["Title"] = "MyAccount";
     var user = await UserManager.GetUserAsync(User);
 }
-@model Artist
+@model ArtistDetailsViewModel
 <div class="container-fluid" style="text-align: center">
-    <div class="row" style="margin-bottom: 150px">
+    <div class="row" style="width:100%;height:150px;z-index:600;background:white;position:fixed;border-bottom: 1px solid black">
 
     </div>
-    <hr />
-    <div class="row">
-        <div class="col-sm-4" style="border-right: 1px solid grey; float: left">
+    <div class="row" style="margin-top:170px">
+        <div class="col-sm-4" style="border-right: 1px solid grey; float: left;position:fixed;height:550px;z-index:600">
             <div class="row">
-                <h2 asp-for="User.Name">@Model.User.Name</h2>
+                <h2 asp-for="User.Name">@Model.Artist.User.Name</h2>
             </div>
             <div class="row" style="margin-top:50px">
                 <label>Artist bio:</label>
             </div>
             <div class="row" style="margin-top:10px">
-                <textarea style="resize:none; width:250px"disabled>@Model.Bio</textarea>
+                <textarea style="resize:none; width:250px"disabled>@Model.Artist.Bio</textarea>
             </div>
         </div>
-        <div class="sol-sm-8">
-            <div class="row">
-                <img class="img img-circle" style="width:200px;height:200px;margin-left: -400px;margin-top:-150px" src="@_s3Manager.GetImageLink(Model.PictureName)" />
+        <div class="sol-sm-10" style="">
+            <div class="row" style="position:fixed;z-index:999">
+                <img class="img img-circle" style="width:200px;height:200px;margin-left: 500px;margin-top:-150px" src="@_s3Manager.GetImageLink(Model.Artist.PictureName)" />
             </div>
-            <div class="row">
+            <div class="row" style="position:relative;z-index:0">
 
-                <ul class="list-group seperateLists" style="list-style:none; margin-left: 40%; margin-top: -150px">
-                    @foreach (Song song in Model.Songs)
+                <ul id="songListId" class="list-group seperateLists" style="list-style:none;position:relative ;margin-left: 45%;margin-top:100px;margin-right:-150px">
+                    @foreach (Song song in Model.PagingModelSongs.PagingList)
                     {
-                        <li class="col-sm-3 table-bordered seperateResults">
-                            <div>
-                                <div class="row">
-                                    <form asp-controller="Home" asp-action="SongDetails">
-                                        <div class="text-center text">
-                                            <button type="submit" class="btn btn-link">
-                                                <h5>@song.Name</h5>
-                                                @Html.Hidden("songId", song.Id)
-                                            </button>
-                                        </div>
-                                    </form>
+                    <li class="col-sm-3 card-container-song table-bordered" style="margin-right:3.2%; margin-bottom: 2%;height:240px">
+                        <div>
+                            <div class="row card-song-name">
+                                <form asp-controller="Home" asp-action="SongDetails">
+                                    <div class="text-center text">
+                                        <button type="submit" class="btn btn-link">
+                                            <h5>@song.Name</h5>
+                                            @Html.Hidden("songId", song.Id)
+                                        </button>
+                                        @Html.Hidden("artistId",Model.Artist.Id)
+                                        <input id="songList" type="hidden" value="@Html.Raw(Json.Serialize(new List<Song>()))" />
+                                        <input id="take" type="hidden" value="@Html.Raw(Json.Serialize(Model.PagingModelSongs.Take))" />
+                                        <input id="skip" type="hidden" value="@Html.Raw(Json.Serialize(Model.PagingModelSongs.Skip))" />
+                                        <input id="lazyLoadingUrl" type="hidden" value="/Home/GetNextSongs" />
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="row card-song-img-hold">
+                                <img class="card-song-img" src="@_s3Manager.GetImageLink(song.PictureName)" />
+                            </div>
+                            <div class="row out-link-social">
+                                <div class="col-sm-6">
+                                    <a target=”_blank” href="@song.YouTubeLink">Youtube</a>
                                 </div>
-                                <div class="row">
-                                    <div>
-                                        <img class="img-responsive center-block text-center songImage" src="@_s3Manager.GetImageLink(song.PictureName)" />
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-sm-4 alignforvl">
-                                        <a target=”_blank” href="@song.YouTubeLink">Youtube</a>
-                                    </div>
-
-                                    <div class="col-sm-2">
-                                    </div>
-
-                                    <div class="col-sm-4 vl">
-                                        <a target=”_blank” href="@song.VimeoLink">Vimeo</a>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div>
-                                        <div class="text-center text">
-                                            <h5>@song.Artist.User.Name</h5>
-                                        </div>
-                                    </div>
+                                <div class="col-sm-6">
+                                    <a target=”_blank” href="@song.VimeoLink">Vimeo</a>
                                 </div>
                             </div>
-                        </li>
+                        </div>
+                    </li>
                     }
                 </ul>
             </div>

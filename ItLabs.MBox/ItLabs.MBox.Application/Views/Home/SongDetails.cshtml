@@ -19,7 +19,7 @@
                 <h3>Song name: @Model.SongDetails.Name</h3>
             </div>
             <div class="row">
-                <img class="img-responsive" style="height:350px; width:500px" src="@_s3Manager.GetImageLink(Model.SongDetails.Picture)">
+                <img class="img-responsive" style="height:350px; width:500px" src="@_s3Manager.GetImageLink(Model.SongDetails.PictureName)">
             </div>
             <div class="row" style="margin-bottom: 15px; margin-top: 15px">
                 <h3>By: @Model.SongDetails.Artist.User.Name</h3>

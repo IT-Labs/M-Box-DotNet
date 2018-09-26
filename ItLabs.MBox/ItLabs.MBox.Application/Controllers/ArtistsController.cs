@@ -77,8 +77,7 @@ namespace ItLabs.MBox.Application.Controllers
             {
                 return View(model);
             }
-
-            if (uploadedFiles.Count != 0)
+            if (uploadedFiles.Count > 0)
             {
                 var formFile = uploadedFiles[0];
                 if (formFile.Length > MBoxConstants.MaximumImageSizeAllowed)
