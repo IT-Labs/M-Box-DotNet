@@ -14,13 +14,13 @@
 @model MyAccountViewModel
 <div class="container-fluid" style="text-align: center">
     <div class="row">
-        <div class="col-md-3 col-sm-3">
+        <div class="col-md-2 col-sm-2">
         </div>
-        <div class="col-md-6 col-sm-6">
-            <div class="row" style="margin: 20px;height: 350px;width:500px">
-                <img class="img-circle img-responsive center-block" src="@_s3Manager.GetImageLink(user.PictureName)">
+        <div class="col-md-8 col-sm-8">
+            <div class="row" style="margin: 20px;">
+                <img class="img-circle img-responsive center-block" style="height:350px; width:500px" src="@_s3Manager.GetImageLink(user.PictureName)">
             </div>
-            <div class="row" style="margin:20px">
+            <div class="row" style="margin:20px;">
                 <form asp-controller="Artists" asp-action="ChangePicture" method="post" enctype="multipart/form-data">
                     <div class="col-sm-8 col-md-8">
                         <p>Change profle picture:</p>
@@ -86,7 +86,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-3 col-sm-3">
+        <div class="col-md-2 col-sm-2">
         </div>
     </div>
 </div>

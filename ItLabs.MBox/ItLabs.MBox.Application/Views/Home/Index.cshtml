@@ -23,9 +23,9 @@
                 {
                     @foreach (Song song in Model.RecentlyAddedSongs)
                     {
-                        <li class="col-sm-2 table-bordered seperateResults">
+                        <li class="col-sm-2 card-container table-bordered" style="margin-right:3.2%; margin-bottom: 2%">
                             <div>
-                                <div class="row">
+                                <div class="row card-song-name">
                                     <form asp-controller="Home" asp-action="SongDetails">
                                         <div class="text-center text">
                                             <button type="submit" class="btn btn-link">
@@ -35,29 +35,23 @@
                                         </div>
                                     </form>
                                 </div>
-                                <div class="row">
-                                    <div>
-                                        <img class="img-responsive center-block text-center songImage" src="@_s3Manager.GetImageLink(song.PictureName)" />
-                                    </div>
+                                <div class="row card-song-img-hold">
+                                    <img class="card-song-img" src="@_s3Manager.GetImageLink(song.PictureName)" />
                                 </div>
-                                <div class="row">
-                                    <div class="col-sm-4 alignforvl">
+                                <div class="row out-link-social">
+                                    <div class="col-sm-6">
                                         <a target=”_blank” href="@song.YouTubeLink">Youtube</a>
                                     </div>
-
-                                    <div class="col-sm-2">
-                                    </div>
-
-                                    <div class="col-sm-4 vl">
+                                    <div class="col-sm-6">
                                         <a target=”_blank” href="@song.VimeoLink">Vimeo</a>
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <div>
+
                                         <div class="text-center text">
                                             <h5>@song.Artist.User.Name</h5>
                                         </div>
-                                    </div>
+
                                 </div>
                             </div>
                         </li>
@@ -81,24 +75,21 @@
             {
                 @foreach (Artist artist in Model.MostFollowedArtists)
                 {
-                    <li class="col-sm-2 table-bordered seperateResults">
+                    <li class="col-sm-2 card-container table-bordered" style="margin-right:3.2%; margin-bottom: 2%">
                         <div>
-                            <div class="row">
-                                <div>
+                            <div class="row card-song-name">
+
                                     <form asp-controller="Home" asp-action="ArtistDetails">
-                                        <div class="text-center text">
+                                <div class="text-center text">
                                             <button type="submit" class="btn btn-link">
                                                 <h5>@artist.User.Name</h5>
                                                 @Html.Hidden("artistId", artist.Id)
                                             </button>
                                         </div>
                                     </form>
-                                </div>
                             </div>
-                            <div class="row">
-                                <div>
-                                    <img class="img-circle text-center center-block img-responsive artistAlign artistImage" src="@_s3Manager.GetImageLink(artist.PictureName)" />
-                                </div>
+                            <div class="row card-song-img-hold">
+                                <img class="card-song-img img-circle" src="@_s3Manager.GetImageLink(artist.PictureName)" />
                             </div>
                             <div class="row">
                                 <div>
@@ -130,37 +121,34 @@
             {
                 @foreach (Song song in Model.RecentlyAddedSongs)
                 {
-                    <li class="col-sm-2 table-bordered seperateResults">
+                    <li class="col-sm-2 card-container table-bordered" style="margin-right:3.2%; margin-bottom: 2%">
                         <div>
-                            <div class="row">
-                                <div>
+                            <div class="row card-song-name">
+                                <form asp-controller="Home" asp-action="SongDetails">
                                     <div class="text-center text">
-                                        <h5>@song.Name</h5>
+                                        <button type="submit" class="btn btn-link">
+                                            <h5>@song.Name</h5>
+                                            @Html.Hidden("songId", song.Id)
+                                        </button>
                                     </div>
-                                </div>
+                                </form>
                             </div>
-                            <div class="row">
-                                <div>
-                                    <img class="img-responsive center-block text-center songImage" src="@_s3Manager.GetImageLink(song.PictureName)" />
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-sm-4 alignforvl">
-                                    <a href="@song.YouTubeLink">Youtube</a>
-                                </div>
+                            <div class="row card-song-img-hold">
 
-                                <div class="col-sm-2">
-                                </div>
+                                <img class="card-song-img" src="@_s3Manager.GetImageLink(song.PictureName)" />
 
-                                <div class="col-sm-4 vl">
-                                    <a href="@song.VimeoLink">Vimeo</a>
+                            </div>
+                            <div class="row out-link-social">
+                                <div class="col-sm-6">
+                                    <a target=”_blank” href="@song.YouTubeLink">Youtube</a>
+                                </div>
+                                <div class="col-sm-6">
+                                    <a target=”_blank” href="@song.VimeoLink">Vimeo</a>
                                 </div>
                             </div>
                             <div class="row">
-                                <div>
-                                    <div class="text-center text">
-                                        <h5>@song.Artist.User.Name</h5>
-                                    </div>
+                                <div class="text-center text">
+                                    <h5>@song.Artist.User.Name</h5>
                                 </div>
                             </div>
                         </div>
