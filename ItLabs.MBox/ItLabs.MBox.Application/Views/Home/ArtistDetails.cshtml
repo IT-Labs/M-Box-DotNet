@@ -24,7 +24,7 @@
 
     </div>
     <div class="row" style="margin-top:170px">
-        <div class="col-sm-4" style="border-right: 1px solid grey; float: left;position:fixed;height:550px;z-index:600">
+        <div class="col-sm-3" style="border-right: 1px solid grey; float: left; position:fixed; height:550px; z-index:600">
             <div class="row">
                 <h2 asp-for="User.Name">@Model.Artist.User.Name</h2>
             </div>
@@ -32,10 +32,10 @@
                 <label>Artist bio:</label>
             </div>
             <div class="row" style="margin-top:10px">
-                <textarea style="resize:none; width:250px"disabled>@Model.Artist.Bio</textarea>
+                <textarea style="resize:none; width:250px; height: 400px" disabled>@Model.Artist.Bio</textarea>
             </div>
         </div>
-        <div class="sol-sm-10" style="">
+        <div class="sol-sm-9" style="">
             <div class="row" style="position:fixed;z-index:999">
                 <img class="img img-circle" style="width:200px;height:200px;margin-left: 500px;margin-top:-150px" src="@_s3Manager.GetImageLink(Model.Artist.PictureName)" />
             </div>

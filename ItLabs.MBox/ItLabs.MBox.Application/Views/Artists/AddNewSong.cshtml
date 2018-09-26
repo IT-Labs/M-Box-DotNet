@@ -2,6 +2,9 @@
 @inject UserManager<ApplicationUser> UserManager
 @using ItLabs.MBox.Contracts.Enums
 @using ItLabs.MBox.Application.Models.ArtistsViewModel
+@section Scripts{
+    <script type="text/javascript" src="~/js/dateRestriction.js"></script>
+}
 @{
     ViewData["Title"] = "AddNewSong";
     var user = await UserManager.GetUserAsync(User);
@@ -72,7 +75,7 @@
                             <label>Release Date:</label>
                         </div>
                         <div class="col-md-7 col-sm-7">
-                            <input asp-for="ReleaseDate" class="form-control" type="date" />
+                            <input asp-for="ReleaseDate"  type="date" id="releaseDate" />
                             <span asp-validation-for="ReleaseDate" class="text-danger"></span>
                         </div>
                     </div>
