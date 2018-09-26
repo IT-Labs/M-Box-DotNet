@@ -16,8 +16,8 @@
     <ul id="recordLabelsListId" class="list-group" style="list-style:none;">
         @foreach (Artist artist in Model.PagingList)
         {
-            <li class="col-sm-2 table-bordered" style="margin: 3.2%">
-                <div class="row">
+            <li class="col-sm-2 card-container table-bordered" style="margin-right:3.2%; margin-bottom: 2%">
+                <div class="row card-song-name">
                     <div>
                         <div class="text-center text">
                             <h5>@artist.User.Name</h5>
@@ -28,10 +28,8 @@
                         </div>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="artistImage">
-                        <img class="img-circle img-responsive center-block text-center "src="@_s3Manager.GetImageLink(artist.PictureName)" />
-                    </div>
+                <div class="row card-song-img-hold">
+                    <img class="card-song-img img-circle" src="@_s3Manager.GetImageLink(artist.PictureName)" />
                 </div>
                 <div class="row">
                     <div>

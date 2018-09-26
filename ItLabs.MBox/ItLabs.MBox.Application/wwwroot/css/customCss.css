@@ -41,7 +41,7 @@
 }
 
 .seperateLists {
-    margin-bottom: 2%;
+    margin-right: 2%;
 }
 
 .seperateResults {
@@ -105,3 +105,35 @@
         width: 285px;
         border-bottom: 1px solid #D3D3D3;
     }
+
+
+.card-container {
+    height: 250px;
+}
+
+.card-song-img-hold {
+    overflow: hidden;
+    width: 100%;
+    position: relative;
+    margin: 0;
+    padding: 15px 0;
+}
+
+.card-song-img-hold::before {
+        content: '';
+        display: block;
+        padding-top: 120px;
+        width: 100%;
+        position: absolute;
+}
+
+.card-song-img {
+    width: auto;
+    height: 120px;
+    margin: 0 auto;
+    display: block;
+}
+
+.out-link-social {
+    text-align: center;
+}
