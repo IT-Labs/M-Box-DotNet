@@ -172,15 +172,17 @@ namespace ItLabs.MBox.Application.Controllers
             
             return View(model);
         }
-        [HttpPost]
-        public IActionResult GetNextSongs([FromBody] ArtistDetailsViewModel model)
+        [HttpGet]
+        public IActionResult GetNextSongs([FromQuery] int ArtistId, [FromQuery] int Skip, [FromQuery]  int Take)
         {
-            model.PagingModelSongs.PagingList = _songsManager.Get(filter: x=>x.Artist.Id == model.Artist.Id,
-                skip: model.PagingModelSongs.Skip,
-                take: model.PagingModelSongs.Take,
-                includeProperties: $"{nameof(Artist)}" ).ToList();
+            var model = new PagingModel<Song>();
+            model.PagingList = _songsManager.Get(filter: x=>x.Artist.Id == ArtistId,
+                skip: Skip,
+                take: Take,
+                includeProperties: $"{nameof(Artist)}.{nameof(Artist.User)}" ).ToList();
 
-            return View("GetNextArtists", model);
+                
+            return View("NextSongs", model);
         }
     }
 }

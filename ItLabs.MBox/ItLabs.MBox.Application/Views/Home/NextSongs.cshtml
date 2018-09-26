@@ -1,17 +1,17 @@
 ﻿@using ItLabs.MBox.Application.Models.ArtistsViewModel
 @{
     ViewData["Title"] = "NextSongs";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = null;
 }
 @using ItLabs.MBox.Domain.Managers
 @inject S3Manager  _s3Manager
 @section Scripts{
     <script type="text/javascript" src="~/js/LazyLoadingRecordLabels.js"></script>
 }
-@model ArtistDetailsViewModel
-@foreach (Song song in Model.PagingModelSongs.PagingList)
+@model PagingModel<Song>
+@foreach (Song song in Model.PagingList)
 {
-    <li class="col-sm-3 card-container-song table-bordered" style="margin-right:3.2%; margin-bottom: 2%;height:240px">
+    <li class="col-sm-3 card-container-song table-bordered" style="width:200px;margin-right:3.2%; margin-bottom: 2%;height:240px">
         <div>
             <div class="row card-song-name">
                 <form asp-controller="Home" asp-action="SongDetails">

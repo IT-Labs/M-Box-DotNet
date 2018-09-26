@@ -9,6 +9,7 @@ namespace ItLabs.MBox.Contracts.Entities
         public Artist()
         {
             RecordLabelArtists = new List<RecordLabelArtist>();
+            User = new ApplicationUser();
         }
 
         public virtual string Bio { get; set; }

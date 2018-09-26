@@ -8,7 +8,8 @@ namespace ItLabs.MBox.Application.Models.ArtistsViewModel
 {
     public class ArtistDetailsViewModel
     {
-        public Artist Artist { get; set; }
         public PagingModel<Song> PagingModelSongs { get; set; }
+        public Artist Artist { get; set; }
+
     }
 }
