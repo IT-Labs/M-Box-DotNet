@@ -22,11 +22,13 @@ namespace ItLabs.MBox.Application.Controllers
         private readonly ISongManager _songManager;
         private readonly IS3Manager _s3Manager;
         private readonly IEmailsManager _emailsManager;
-        public ArtistsController(ISongManager songManager, UserManager<ApplicationUser> userManager, IEmailsManager emailsManager, IS3Manager s3Manager) : base(userManager)
+        private readonly IArtistManager _artistManager;
+        public ArtistsController(IArtistManager artistManager,ISongManager songManager, UserManager<ApplicationUser> userManager, IEmailsManager emailsManager, IS3Manager s3Manager) : base(userManager)
         {
             _songManager = songManager;
             _s3Manager = s3Manager;
             _emailsManager = emailsManager;
+            _artistManager = artistManager;
         }
         public IActionResult Index()
         {
@@ -166,5 +168,7 @@ namespace ItLabs.MBox.Application.Controllers
             _userManager.UpdateAsync(currentUser).Wait();
             return RedirectToAction("MyAccount");
         }
+
+        
     }
 }

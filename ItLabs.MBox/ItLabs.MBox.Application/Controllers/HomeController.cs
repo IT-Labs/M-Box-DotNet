@@ -26,6 +26,7 @@ namespace ItLabs.MBox.Application.Controllers
             _artistsManager = artistsManager;
             _recordLabelManager = recordLabelManager;
             _emailManager = emailManager;
+
         }
 
         public IActionResult Index()
@@ -160,6 +161,12 @@ namespace ItLabs.MBox.Application.Controllers
             if (HttpContext.User.IsInRole(nameof(Role.RecordLabel)))
                 return RedirectToAction("Index", "RecordLabels");
             return null;
+        }
+        [HttpPost]
+        public IActionResult ArtistDetails(int artistId)
+        {
+            var artist = _artistsManager.GetOne(x => x.Id == artistId,includeProperties:$"{nameof(Artist.User)},{nameof(Artist.Songs)}");
+            return View(artist);
         }
     }
 }

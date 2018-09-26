@@ -1,0 +1,92 @@
+﻿
+@{
+    ViewData["Title"] = "ArtistDetails";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+@using ItLabs.MBox.Domain.Managers
+@inject S3Manager  _s3Manager
+@inject UserManager<ApplicationUser> UserManager
+
+@section Scripts{
+    <script type="text/javascript" src="~/js/EditDetailsOnButtonClick.js"></script>
+}
+
+@{
+    ViewData["Title"] = "MyAccount";
+    var user = await UserManager.GetUserAsync(User);
+}
+@model Artist
+<div class="container-fluid" style="text-align: center">
+    <div class="row" style="margin-bottom: 150px">
+
+    </div>
+    <hr />
+    <div class="row">
+        <div class="col-sm-4" style="border-right: 1px solid grey; float: left">
+            <div class="row">
+                <h2 asp-for="User.Name">@Model.User.Name</h2>
+            </div>
+            <div class="row" style="margin-top:50px">
+                <label>Artist bio:</label>
+            </div>
+            <div class="row" style="margin-top:10px">
+                <textarea style="resize:none; width:250px"disabled>@Model.Bio</textarea>
+            </div>
+        </div>
+        <div class="sol-sm-8">
+            <div class="row">
+                <img class="img img-circle" style="width:200px;height:200px;margin-left: -400px;margin-top:-150px" src="@_s3Manager.GetImageLink(Model.PictureName)" />
+            </div>
+            <div class="row">
+
+                <ul class="list-group seperateLists" style="list-style:none; margin-left: 40%; margin-top: -150px">
+                    @foreach (Song song in Model.Songs)
+                    {
+                        <li class="col-sm-3 table-bordered seperateResults">
+                            <div>
+                                <div class="row">
+                                    <form asp-controller="Home" asp-action="SongDetails">
+                                        <div class="text-center text">
+                                            <button type="submit" class="btn btn-link">
+                                                <h5>@song.Name</h5>
+                                                @Html.Hidden("songId", song.Id)
+                                            </button>
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="row">
+                                    <div>
+                                        <img class="img-responsive center-block text-center songImage" src="@_s3Manager.GetImageLink(song.PictureName)" />
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-4 alignforvl">
+                                        <a target=”_blank” href="@song.YouTubeLink">Youtube</a>
+                                    </div>
+
+                                    <div class="col-sm-2">
+                                    </div>
+
+                                    <div class="col-sm-4 vl">
+                                        <a target=”_blank” href="@song.VimeoLink">Vimeo</a>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div>
+                                        <div class="text-center text">
+                                            <h5>@song.Artist.User.Name</h5>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                    }
+                </ul>
+            </div>
+        </div>
+
+    </div>
+</div>
+

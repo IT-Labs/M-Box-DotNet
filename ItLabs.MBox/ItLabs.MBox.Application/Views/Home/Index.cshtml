@@ -20,49 +20,49 @@
             }
             else
             {
-            {
-                @foreach (Song song in Model.RecentlyAddedSongs)
                 {
-                    <li class="col-sm-2 table-bordered seperateResults">
-                        <div>
-                            <div class="row">
-                                <form asp-controller="Home" asp-action="SongDetails">
-                                    <div class="text-center text">
-                                        <button type="submit" class="btn btn-link">
-                                            <h5>@song.Name</h5>
-                                            @Html.Hidden("songId", song.Id)
-                                        </button>
-                                    </div>
-                                </form>
-                            </div>
-                            <div class="row">
-                                <div>
-                                    <img class="img-responsive center-block text-center songImage" src="@_s3Manager.GetImageLink(song.PictureName)" />
+                    @foreach (Song song in Model.RecentlyAddedSongs)
+                    {
+                        <li class="col-sm-2 table-bordered seperateResults">
+                            <div>
+                                <div class="row">
+                                    <form asp-controller="Home" asp-action="SongDetails">
+                                        <div class="text-center text">
+                                            <button type="submit" class="btn btn-link">
+                                                <h5>@song.Name</h5>
+                                                @Html.Hidden("songId", song.Id)
+                                            </button>
+                                        </div>
+                                    </form>
                                 </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-sm-4 alignforvl">
-                                    <a target=”_blank” href="@song.YouTubeLink">Youtube</a>
-                                </div>
-
-                                <div class="col-sm-2">
-                                </div>
-
-                                <div class="col-sm-4 vl">
-                                    <a target=”_blank” href="@song.VimeoLink">Vimeo</a>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div>
-                                    <div class="text-center text">
-                                        <h5>@song.Artist.User.Name</h5>
+                                <div class="row">
+                                    <div>
+                                        <img class="img-responsive center-block text-center songImage" src="@_s3Manager.GetImageLink(song.PictureName)" />
                                     </div>
                                 </div>
+                                <div class="row">
+                                    <div class="col-sm-4 alignforvl">
+                                        <a target=”_blank” href="@song.YouTubeLink">Youtube</a>
+                                    </div>
+
+                                    <div class="col-sm-2">
+                                    </div>
+
+                                    <div class="col-sm-4 vl">
+                                        <a target=”_blank” href="@song.VimeoLink">Vimeo</a>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div>
+                                        <div class="text-center text">
+                                            <h5>@song.Artist.User.Name</h5>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                    </li>
+                        </li>
+                    }
                 }
-            }
             }
 
         </ul>
@@ -85,9 +85,14 @@
                         <div>
                             <div class="row">
                                 <div>
-                                    <div class="text-center text">
-                                        <h5>@artist.User.Name</h5>
-                                    </div>
+                                    <form asp-controller="Home" asp-action="ArtistDetails">
+                                        <div class="text-center text">
+                                            <button type="submit" class="btn btn-link">
+                                                <h5>@artist.User.Name</h5>
+                                                @Html.Hidden("artistId", artist.Id)
+                                            </button>
+                                        </div>
+                                    </form>
                                 </div>
                             </div>
                             <div class="row">
