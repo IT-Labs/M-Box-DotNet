@@ -9,9 +9,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Threading;
 
@@ -164,13 +162,12 @@ namespace ItLabs.MBox.Application.Controllers
                 mailingList.Add(mailDto);
             }
             var configuration = _emailsManager.GetConfiguration();
-            //fire and forget
+
             new Thread(() =>
             {
                 Thread.CurrentThread.IsBackground = true;
                 _emailsManager.SendMultipleMails(mailingList, configuration);
             }).Start();
-            //fire and forget
         }
 
         [HttpPost]
@@ -184,7 +181,7 @@ namespace ItLabs.MBox.Application.Controllers
         public IActionResult ChangePicture(List<IFormFile> uploadedFiles)
         {
             var model = new MyAccountViewModel();
-            var imageS3Name = string.Empty;
+            string imageS3Name = null;
             if (uploadedFiles.Count == 0)
             {
                 ModelState.AddModelError("Picture", "Please choose a picture!");

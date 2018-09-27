@@ -141,7 +141,7 @@ namespace ItLabs.MBox.Application.Controllers
         public IActionResult ChangePicture(List<IFormFile> uploadedFiles)
         {
             var model = new MyAccountViewModel();
-            var imageS3Name = string.Empty;
+            string imageS3Name = null;
             if (uploadedFiles.Count == 0)
             {
                 ModelState.AddModelError("Picture", "Please choose a picture!");
