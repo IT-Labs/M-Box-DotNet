@@ -52,3 +52,302 @@
 2018-09-26 19:06:45.9718 Info Adding target File Target[ownFile-web]
 2018-09-26 19:06:45.9859 Info Configured from an XML element in C:\Projects\M-Box-DotNet\ItLabs.MBox\ItLabs.MBox.Application\bin\Debug\netcoreapp2.0\nlog.config...
 2018-09-26 19:06:46.0267 Info Found 45 configuration items
+2018-10-01 15:29:39.8126 Info Message Template Auto Format enabled
+2018-10-01 15:29:39.8306 Info Loading assembly: NLog.Web.AspNetCore
+2018-10-01 15:29:39.9858 Info Adding target File Target[allfile]
+2018-10-01 15:29:40.0191 Info Adding target File Target[ownFile-web]
+2018-10-01 15:29:40.0191 Info Configured from an XML element in C:\Projects\M-Box-DotNet\ItLabs.MBox\ItLabs.MBox.Application\bin\Debug\netcoreapp2.0\nlog.config...
+2018-10-01 15:29:40.0461 Info Found 45 configuration items
+2018-10-01 15:30:28.6382 Info Message Template Auto Format enabled
+2018-10-01 15:30:28.6538 Info Loading assembly: NLog.Web.AspNetCore
+2018-10-01 15:30:28.7459 Info Adding target File Target[allfile]
+2018-10-01 15:30:28.7459 Info Adding target File Target[ownFile-web]
+2018-10-01 15:30:28.7648 Info Configured from an XML element in C:\Projects\M-Box-DotNet\ItLabs.MBox\ItLabs.MBox.Application\bin\Debug\netcoreapp2.0\nlog.config...
+2018-10-01 15:30:28.7890 Info Found 45 configuration items
+2018-10-01 15:46:19.3251 Info Message Template Auto Format enabled
+2018-10-01 15:46:19.3380 Info Loading assembly: NLog.Web.AspNetCore
+2018-10-01 15:46:19.4176 Info Adding target File Target[allfile]
+2018-10-01 15:46:19.4221 Info Adding target File Target[ownFile-web]
+2018-10-01 15:46:19.4221 Info Configured from an XML element in C:\Projects\M-Box-DotNet\ItLabs.MBox\ItLabs.MBox.Application\bin\Debug\netcoreapp2.0\nlog.config...
+2018-10-01 15:46:19.4467 Info Found 45 configuration items
+2018-10-01 15:55:40.5899 Info Message Template Auto Format enabled
+2018-10-01 15:55:40.6018 Info Loading assembly: NLog.Web.AspNetCore
+2018-10-01 15:55:40.6644 Info Adding target File Target[allfile]
+2018-10-01 15:55:40.6644 Info Adding target File Target[ownFile-web]
+2018-10-01 15:55:40.6784 Info Configured from an XML element in C:\Projects\M-Box-DotNet\ItLabs.MBox\ItLabs.MBox.Application\bin\Debug\netcoreapp2.0\NLog.config...
+2018-10-01 15:55:40.6961 Info Found 45 configuration items
+2018-10-01 15:55:40.7177 Info Configuration initialized.
+2018-10-01 15:55:40.7391 Info NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 4.5.10.8381. Product version: 4.5.10.
+2018-10-01 15:55:41.4731 Info Shutting down logging...
+2018-10-01 15:55:41.4969 Info Logger has been shut down.
+2018-10-01 15:56:12.1809 Info Message Template Auto Format enabled
+2018-10-01 15:56:12.1958 Info Loading assembly: NLog.Web.AspNetCore
+2018-10-01 15:56:12.2628 Info Adding target File Target[allfile]
+2018-10-01 15:56:12.2628 Info Adding target File Target[ownFile-web]
+2018-10-01 15:56:12.2754 Info Configured from an XML element in C:\Projects\M-Box-DotNet\ItLabs.MBox\ItLabs.MBox.Application\bin\Debug\netcoreapp2.0\NLog.config...
+2018-10-01 15:56:12.2927 Info Found 45 configuration items
+2018-10-01 15:56:12.3142 Info Configuration initialized.
+2018-10-01 15:56:12.3195 Info NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 4.5.10.8381. Product version: 4.5.10.
+2018-10-01 15:56:13.0528 Info Shutting down logging...
+2018-10-01 15:56:13.0752 Info Logger has been shut down.
+2018-10-01 15:56:42.7861 Info Message Template Auto Format enabled
+2018-10-01 15:56:42.7965 Info Loading assembly: NLog.Web.AspNetCore
+2018-10-01 15:56:42.8597 Info Adding target File Target[allfile]
+2018-10-01 15:56:42.8667 Info Adding target File Target[ownFile-web]
+2018-10-01 15:56:42.8667 Info Configured from an XML element in C:\Projects\M-Box-DotNet\ItLabs.MBox\ItLabs.MBox.Application\bin\Debug\netcoreapp2.0\NLog.config...
+2018-10-01 15:56:42.8919 Info Found 45 configuration items
+2018-10-01 15:56:42.9135 Info Configuration initialized.
+2018-10-01 15:56:42.9135 Info NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 4.5.10.8381. Product version: 4.5.10.
+2018-10-01 15:56:43.6505 Info Shutting down logging...
+2018-10-01 15:56:43.6750 Info Logger has been shut down.
+2018-10-01 15:57:54.2044 Info Message Template Auto Format enabled
+2018-10-01 15:57:54.2153 Info Loading assembly: NLog.Web.AspNetCore
+2018-10-01 15:57:54.2852 Info Adding target File Target[allfile]
+2018-10-01 15:57:54.2902 Info Adding target File Target[ownFile-web]
+2018-10-01 15:57:54.2902 Info Configured from an XML element in C:\Projects\M-Box-DotNet\ItLabs.MBox\ItLabs.MBox.Application\bin\Debug\netcoreapp2.0\NLog.config...
+2018-10-01 15:57:54.3149 Info Found 45 configuration items
+2018-10-01 15:57:54.3371 Info Configuration initialized.
+2018-10-01 15:57:54.3371 Info NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 4.5.10.8381. Product version: 4.5.10.
+2018-10-01 15:57:55.2883 Info Shutting down logging...
+2018-10-01 15:57:55.3211 Info Logger has been shut down.
+2018-10-01 16:04:07.3723 Info Message Template Auto Format enabled
+2018-10-01 16:04:07.3832 Info Loading assembly: NLog.Web.AspNetCore
+2018-10-01 16:04:07.4449 Info Adding target File Target[allfile]
+2018-10-01 16:04:07.4449 Info Adding target File Target[ownFile-web]
+2018-10-01 16:04:07.4566 Info Configured from an XML element in C:\Projects\M-Box-DotNet\ItLabs.MBox\ItLabs.MBox.Application\bin\Debug\netcoreapp2.0\NLog.config...
+2018-10-01 16:04:07.4737 Info Found 45 configuration items
+2018-10-01 16:04:07.4945 Info Configuration initialized.
+2018-10-01 16:04:07.4945 Info NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 4.5.10.8381. Product version: 4.5.10.
+2018-10-01 16:04:08.3848 Info Shutting down logging...
+2018-10-01 16:04:08.4077 Info Logger has been shut down.
+2018-10-01 16:12:31.0978 Info Message Template Auto Format enabled
+2018-10-01 16:12:31.1150 Info Loading assembly: NLog.Web.AspNetCore
+2018-10-01 16:12:31.2406 Info Adding target File Target[allfile]
+2018-10-01 16:12:31.2527 Info Adding target File Target[ownFile-web]
+2018-10-01 16:12:31.2527 Info Configured from an XML element in C:\Projects\M-Box-DotNet\ItLabs.MBox\ItLabs.MBox.Application\bin\Debug\netcoreapp2.0\nlog.config...
+2018-10-01 16:12:31.2905 Info Found 45 configuration items
+2018-10-01 16:12:37.7428 Info Message Template Auto Format enabled
+2018-10-01 16:12:37.7610 Info Loading assembly: NLog.Web.AspNetCore
+2018-10-01 16:12:37.8210 Info Adding target File Target[allfile]
+2018-10-01 16:12:37.8210 Info Adding target File Target[ownFile-web]
+2018-10-01 16:12:37.8331 Info Configured from an XML element in C:\Projects\M-Box-DotNet\ItLabs.MBox\ItLabs.MBox.Application\bin\Debug\netcoreapp2.0\nlog.config...
+2018-10-01 16:12:37.8651 Info Found 45 configuration items
+2018-10-01 16:12:37.9655 Info Configuration file change detected! Reloading in 1000ms...
+2018-10-01 16:12:37.9655 Info Configuration file change detected! Reloading in 1000ms...
+2018-10-01 16:12:37.9655 Info Configuration file change detected! Reloading in 1000ms...
+2018-10-01 16:12:39.0843 Info Message Template Auto Format enabled
+2018-10-01 16:12:39.0957 Info Loading assembly: NLog.Web.AspNetCore
+2018-10-01 16:12:39.1742 Info Adding target File Target[allfile]
+2018-10-01 16:12:39.1742 Info Adding target File Target[ownFile-web]
+2018-10-01 16:12:39.1912 Info Configured from an XML element in C:\Projects\M-Box-DotNet\ItLabs.MBox\ItLabs.MBox.Application\bin\Debug\netcoreapp2.0\NLog.config...
+2018-10-01 16:12:39.2138 Info Found 45 configuration items
+2018-10-01 16:12:39.2357 Info Configuration initialized.
+2018-10-01 16:12:39.2357 Info NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 4.5.10.8381. Product version: 4.5.10.
+2018-10-01 16:12:40.1270 Info Shutting down logging...
+2018-10-01 16:12:40.1503 Info Logger has been shut down.
+2018-10-01 16:13:17.2755 Info Message Template Auto Format enabled
+2018-10-01 16:13:17.2880 Info Loading assembly: NLog.Web.AspNetCore
+2018-10-01 16:13:17.3460 Info Adding target File Target[allfile]
+2018-10-01 16:13:17.3460 Info Adding target File Target[ownFile-web]
+2018-10-01 16:13:17.3460 Info Configured from an XML element in C:\Projects\M-Box-DotNet\ItLabs.MBox\ItLabs.MBox.Application\bin\Debug\netcoreapp2.0\NLog.config...
+2018-10-01 16:13:17.3757 Info Found 45 configuration items
+2018-10-01 16:13:17.3969 Info Configuration initialized.
+2018-10-01 16:13:17.3969 Info NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 4.5.10.8381. Product version: 4.5.10.
+2018-10-01 16:13:18.2743 Info Shutting down logging...
+2018-10-01 16:13:18.2997 Info Logger has been shut down.
+2018-10-01 16:14:10.3572 Info Message Template Auto Format enabled
+2018-10-01 16:14:10.3674 Info Loading assembly: NLog.Web.AspNetCore
+2018-10-01 16:14:10.4296 Info Adding target File Target[allfile]
+2018-10-01 16:14:10.4296 Info Adding target File Target[ownFile-web]
+2018-10-01 16:14:10.4413 Info Configured from an XML element in C:\Projects\M-Box-DotNet\ItLabs.MBox\ItLabs.MBox.Application\bin\Debug\netcoreapp2.0\NLog.config...
+2018-10-01 16:14:10.4599 Info Found 45 configuration items
+2018-10-01 16:14:10.4832 Info Configuration initialized.
+2018-10-01 16:14:10.4832 Info NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 4.5.10.8381. Product version: 4.5.10.
+2018-10-01 16:14:11.3286 Info Shutting down logging...
+2018-10-01 16:14:11.3520 Info Logger has been shut down.
+2018-10-01 16:16:38.2588 Info Message Template Auto Format enabled
+2018-10-01 16:16:38.2697 Info Loading assembly: NLog.Web.AspNetCore
+2018-10-01 16:16:38.3302 Info Adding target File Target[allfile]
+2018-10-01 16:16:38.3302 Info Adding target File Target[ownFile-web]
+2018-10-01 16:16:38.3449 Info Configured from an XML element in C:\Projects\M-Box-DotNet\ItLabs.MBox\ItLabs.MBox.Application\bin\Debug\netcoreapp2.0\NLog.config...
+2018-10-01 16:16:38.3617 Info Found 45 configuration items
+2018-10-01 16:16:38.3825 Info Configuration initialized.
+2018-10-01 16:16:38.3870 Info NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 4.5.10.8381. Product version: 4.5.10.
+2018-10-01 16:16:41.6686 Info Message Template Auto Format enabled
+2018-10-01 16:16:41.6686 Info Loading assembly: NLog.Web.AspNetCore
+2018-10-01 16:16:41.7544 Info Adding target File Target[allfile]
+2018-10-01 16:16:41.7614 Info Adding target File Target[ownFile-web]
+2018-10-01 16:16:41.7614 Info Configured from an XML element in C:\Projects\M-Box-DotNet\ItLabs.MBox\ItLabs.MBox.Application\bin\Debug\netcoreapp2.0\NLog.config...
+2018-10-01 16:16:41.7959 Info Found 45 configuration items
+2018-10-01 16:16:41.8172 Info Configuration initialized.
+2018-10-01 16:16:41.8172 Info NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 4.5.10.8381. Product version: 4.5.10.
+2018-10-01 16:16:42.7254 Info Shutting down logging...
+2018-10-01 16:16:42.7498 Info Logger has been shut down.
+2018-10-01 16:18:21.5724 Info Message Template Auto Format enabled
+2018-10-01 16:18:21.5842 Info Loading assembly: NLog.Web.AspNetCore
+2018-10-01 16:18:21.6442 Info Adding target File Target[allfile]
+2018-10-01 16:18:21.6442 Info Adding target File Target[ownFile-web]
+2018-10-01 16:18:21.6568 Info Configured from an XML element in C:\Projects\M-Box-DotNet\ItLabs.MBox\ItLabs.MBox.Application\bin\Debug\netcoreapp2.0\NLog.config...
+2018-10-01 16:18:21.6758 Info Found 45 configuration items
+2018-10-01 16:18:21.6962 Info Configuration initialized.
+2018-10-01 16:18:21.7011 Info NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 4.5.10.8381. Product version: 4.5.10.
+2018-10-01 16:18:22.5491 Info Shutting down logging...
+2018-10-01 16:18:22.5725 Info Logger has been shut down.
+2018-10-01 16:19:07.9079 Info Message Template Auto Format enabled
+2018-10-01 16:19:07.9210 Info Loading assembly: NLog.Web.AspNetCore
+2018-10-01 16:19:07.9868 Info Adding target File Target[allfile]
+2018-10-01 16:19:07.9868 Info Adding target File Target[ownFile-web]
+2018-10-01 16:19:07.9982 Info Configured from an XML element in C:\Projects\M-Box-DotNet\ItLabs.MBox\ItLabs.MBox.Application\bin\Debug\netcoreapp2.0\NLog.config...
+2018-10-01 16:19:08.0165 Info Found 45 configuration items
+2018-10-01 16:19:08.0399 Info Configuration initialized.
+2018-10-01 16:19:08.0447 Info NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 4.5.10.8381. Product version: 4.5.10.
+2018-10-01 16:19:08.8791 Info Shutting down logging...
+2018-10-01 16:19:08.9119 Info Logger has been shut down.
+2018-10-01 16:24:34.0348 Info Message Template Auto Format enabled
+2018-10-01 16:24:34.0451 Info Loading assembly: NLog.Web.AspNetCore
+2018-10-01 16:24:34.1036 Info Adding target File Target[allfile]
+2018-10-01 16:24:34.1036 Info Adding target File Target[ownFile-web]
+2018-10-01 16:24:34.1036 Info Configured from an XML element in C:\Projects\M-Box-DotNet\ItLabs.MBox\ItLabs.MBox.Application\bin\Debug\netcoreapp2.0\NLog.config...
+2018-10-01 16:24:34.1325 Info Found 45 configuration items
+2018-10-01 16:24:34.1526 Info Configuration initialized.
+2018-10-01 16:24:34.1526 Info NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 4.5.10.8381. Product version: 4.5.10.
+2018-10-01 16:24:34.9702 Info Shutting down logging...
+2018-10-01 16:24:34.9927 Info Logger has been shut down.
+2018-10-01 16:24:53.3886 Info Message Template Auto Format enabled
+2018-10-01 16:24:53.3886 Info Loading assembly: NLog.Web.AspNetCore
+2018-10-01 16:24:53.4569 Info Adding target File Target[allfile]
+2018-10-01 16:24:53.4652 Info Adding target File Target[ownFile-web]
+2018-10-01 16:24:53.4652 Info Configured from an XML element in C:\Projects\M-Box-DotNet\ItLabs.MBox\ItLabs.MBox.Application\bin\Debug\netcoreapp2.0\NLog.config...
+2018-10-01 16:24:53.4884 Info Found 45 configuration items
+2018-10-01 16:24:53.5083 Info Configuration initialized.
+2018-10-01 16:24:53.5083 Info NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 4.5.10.8381. Product version: 4.5.10.
+2018-10-01 16:24:54.3318 Info Shutting down logging...
+2018-10-01 16:24:54.3548 Info Logger has been shut down.
+2018-10-01 16:25:05.1031 Info Message Template Auto Format enabled
+2018-10-01 16:25:05.1219 Info Loading assembly: NLog.Web.AspNetCore
+2018-10-01 16:25:05.2346 Info Adding target File Target[allfile]
+2018-10-01 16:25:05.2487 Info Adding target File Target[ownFile-web]
+2018-10-01 16:25:05.2591 Info Configured from an XML element in C:\Projects\M-Box-DotNet\ItLabs.MBox\ItLabs.MBox.Application\bin\Debug\netcoreapp2.0\nlog.config...
+2018-10-01 16:25:05.2928 Info Found 45 configuration items
+2018-10-01 16:25:20.4652 Info Message Template Auto Format enabled
+2018-10-01 16:25:20.4772 Info Loading assembly: NLog.Web.AspNetCore
+2018-10-01 16:25:20.5463 Info Adding target File Target[allfile]
+2018-10-01 16:25:20.5463 Info Adding target File Target[ownFile-web]
+2018-10-01 16:25:20.5571 Info Configured from an XML element in C:\Projects\M-Box-DotNet\ItLabs.MBox\ItLabs.MBox.Application\bin\Debug\netcoreapp2.0\nlog.config...
+2018-10-01 16:25:20.5770 Info Found 45 configuration items
+2018-10-01 16:25:37.0438 Info Message Template Auto Format enabled
+2018-10-01 16:25:37.0554 Info Loading assembly: NLog.Web.AspNetCore
+2018-10-01 16:25:37.1125 Info Adding target File Target[allfile]
+2018-10-01 16:25:37.1180 Info Adding target File Target[ownFile-web]
+2018-10-01 16:25:37.1180 Info Configured from an XML element in C:\Projects\M-Box-DotNet\ItLabs.MBox\ItLabs.MBox.Application\bin\Debug\netcoreapp2.0\NLog.config...
+2018-10-01 16:25:37.1423 Info Found 45 configuration items
+2018-10-01 16:25:37.1626 Info Configuration initialized.
+2018-10-01 16:25:37.1671 Info NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 4.5.10.8381. Product version: 4.5.10.
+2018-10-01 16:25:38.7090 Info Shutting down logging...
+2018-10-01 16:25:38.7335 Info Logger has been shut down.
+2018-10-01 16:25:47.3675 Info Message Template Auto Format enabled
+2018-10-01 16:25:47.3775 Info Loading assembly: NLog.Web.AspNetCore
+2018-10-01 16:25:47.4300 Info Adding target File Target[allfile]
+2018-10-01 16:25:47.4300 Info Adding target File Target[ownFile-web]
+2018-10-01 16:25:47.4300 Info Configured from an XML element in C:\Projects\M-Box-DotNet\ItLabs.MBox\ItLabs.MBox.Application\bin\Debug\netcoreapp2.0\NLog.config...
+2018-10-01 16:25:47.4583 Info Found 45 configuration items
+2018-10-01 16:25:47.4789 Info Configuration initialized.
+2018-10-01 16:25:47.4789 Info NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 4.5.10.8381. Product version: 4.5.10.
+2018-10-01 16:25:48.8354 Info Shutting down logging...
+2018-10-01 16:25:48.8595 Info Logger has been shut down.
+2018-10-01 16:25:59.3109 Info Message Template Auto Format enabled
+2018-10-01 16:25:59.3109 Info Loading assembly: NLog.Web.AspNetCore
+2018-10-01 16:25:59.3967 Info Adding target File Target[allfile]
+2018-10-01 16:25:59.4017 Info Adding target File Target[ownFile-web]
+2018-10-01 16:25:59.4017 Info Configured from an XML element in C:\Projects\M-Box-DotNet\ItLabs.MBox\ItLabs.MBox.Application\bin\Debug\netcoreapp2.0\NLog.config...
+2018-10-01 16:25:59.4265 Info Found 45 configuration items
+2018-10-01 16:25:59.4470 Info Configuration initialized.
+2018-10-01 16:25:59.4470 Info NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 4.5.10.8381. Product version: 4.5.10.
+2018-10-01 16:26:00.9749 Info Shutting down logging...
+2018-10-01 16:26:00.9980 Info Logger has been shut down.
+2018-10-01 16:26:14.6288 Info Message Template Auto Format enabled
+2018-10-01 16:26:14.6475 Info Loading assembly: NLog.Web.AspNetCore
+2018-10-01 16:26:14.7080 Info Adding target File Target[allfile]
+2018-10-01 16:26:14.7127 Info Adding target File Target[ownFile-web]
+2018-10-01 16:26:14.7127 Info Configured from an XML element in C:\Projects\M-Box-DotNet\ItLabs.MBox\ItLabs.MBox.Application\bin\Debug\netcoreapp2.0\NLog.config...
+2018-10-01 16:26:14.7377 Info Found 45 configuration items
+2018-10-01 16:26:14.7584 Info Configuration initialized.
+2018-10-01 16:26:14.7584 Info NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 4.5.10.8381. Product version: 4.5.10.
+2018-10-01 16:26:15.4860 Info Shutting down logging...
+2018-10-01 16:26:15.5124 Info Logger has been shut down.
+2018-10-01 16:26:29.5233 Info Message Template Auto Format enabled
+2018-10-01 16:26:29.5355 Info Loading assembly: NLog.Web.AspNetCore
+2018-10-01 16:26:29.5983 Info Adding target File Target[allfile]
+2018-10-01 16:26:29.6030 Info Adding target File Target[ownFile-web]
+2018-10-01 16:26:29.6030 Info Configured from an XML element in C:\Projects\M-Box-DotNet\ItLabs.MBox\ItLabs.MBox.Application\bin\Debug\netcoreapp2.0\NLog.config...
+2018-10-01 16:26:29.6272 Info Found 45 configuration items
+2018-10-01 16:26:29.6475 Info Configuration initialized.
+2018-10-01 16:26:29.6518 Info NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 4.5.10.8381. Product version: 4.5.10.
+2018-10-01 16:26:30.3383 Info Shutting down logging...
+2018-10-01 16:26:30.3691 Info Logger has been shut down.
+2018-10-01 16:27:59.3584 Info Message Template Auto Format enabled
+2018-10-01 16:27:59.3690 Info Loading assembly: NLog.Web.AspNetCore
+2018-10-01 16:27:59.4342 Info Adding target File Target[allfile]
+2018-10-01 16:27:59.4342 Info Adding target File Target[ownFile-web]
+2018-10-01 16:27:59.4467 Info Configured from an XML element in C:\Projects\M-Box-DotNet\ItLabs.MBox\ItLabs.MBox.Application\bin\Debug\netcoreapp2.0\NLog.config...
+2018-10-01 16:27:59.4640 Info Found 45 configuration items
+2018-10-01 16:27:59.4855 Info Configuration initialized.
+2018-10-01 16:27:59.4947 Info NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 4.5.10.8381. Product version: 4.5.10.
+2018-10-01 16:28:00.2092 Info Shutting down logging...
+2018-10-01 16:28:00.2310 Info Logger has been shut down.
+2018-10-01 16:28:29.1012 Info Message Template Auto Format enabled
+2018-10-01 16:28:29.1117 Info Loading assembly: NLog.Web.AspNetCore
+2018-10-01 16:28:29.1741 Info Adding target File Target[allfile]
+2018-10-01 16:28:29.1741 Info Adding target File Target[ownFile-web]
+2018-10-01 16:28:29.1860 Info Configured from an XML element in C:\Projects\M-Box-DotNet\ItLabs.MBox\ItLabs.MBox.Application\bin\Debug\netcoreapp2.0\NLog.config...
+2018-10-01 16:28:29.2195 Info Found 45 configuration items
+2018-10-01 16:28:29.2395 Info Configuration initialized.
+2018-10-01 16:28:29.2436 Info NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 4.5.10.8381. Product version: 4.5.10.
+2018-10-01 16:28:29.9095 Info Shutting down logging...
+2018-10-01 16:28:29.9481 Info Logger has been shut down.
+2018-10-01 16:28:43.7761 Info Message Template Auto Format enabled
+2018-10-01 16:28:43.7761 Info Loading assembly: NLog.Web.AspNetCore
+2018-10-01 16:28:43.8426 Info Adding target File Target[allfile]
+2018-10-01 16:28:43.8426 Info Adding target File Target[ownFile-web]
+2018-10-01 16:28:43.8545 Info Configured from an XML element in C:\Projects\M-Box-DotNet\ItLabs.MBox\ItLabs.MBox.Application\bin\Debug\netcoreapp2.0\NLog.config...
+2018-10-01 16:28:43.8712 Info Found 45 configuration items
+2018-10-01 16:28:43.8911 Info Configuration initialized.
+2018-10-01 16:28:43.8911 Info NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 4.5.10.8381. Product version: 4.5.10.
+2018-10-01 16:28:44.5691 Info Shutting down logging...
+2018-10-01 16:28:44.5920 Info Logger has been shut down.
+2018-10-01 16:29:43.0767 Info Message Template Auto Format enabled
+2018-10-01 16:29:43.0899 Info Loading assembly: NLog.Web.AspNetCore
+2018-10-01 16:29:43.1515 Info Adding target File Target[allfile]
+2018-10-01 16:29:43.1515 Info Adding target File Target[ownFile-web]
+2018-10-01 16:29:43.1656 Info Configured from an XML element in C:\Projects\M-Box-DotNet\ItLabs.MBox\ItLabs.MBox.Application\bin\Debug\netcoreapp2.0\NLog.config...
+2018-10-01 16:29:43.1901 Info Found 45 configuration items
+2018-10-01 16:29:43.2419 Info Configuration initialized.
+2018-10-01 16:29:43.2524 Info NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 4.5.10.8381. Product version: 4.5.10.
+2018-10-01 16:29:44.4418 Info Shutting down logging...
+2018-10-01 16:29:44.4663 Info Logger has been shut down.
+2018-10-01 16:30:48.9949 Info Message Template Auto Format enabled
+2018-10-01 16:30:48.9949 Info Loading assembly: NLog.Web.AspNetCore
+2018-10-01 16:30:49.0744 Info Adding target File Target[allfile]
+2018-10-01 16:30:49.0744 Info Adding target File Target[ownFile-web]
+2018-10-01 16:30:49.0904 Info Configured from an XML element in C:\Projects\M-Box-DotNet\ItLabs.MBox\ItLabs.MBox.Application\bin\Debug\netcoreapp2.0\NLog.config...
+2018-10-01 16:30:49.1159 Info Found 45 configuration items
+2018-10-01 16:30:49.1436 Info Configuration initialized.
+2018-10-01 16:30:49.1436 Info NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 4.5.10.8381. Product version: 4.5.10.
+2018-10-01 16:30:50.2321 Info Shutting down logging...
+2018-10-01 16:30:50.2587 Info Logger has been shut down.
+2018-10-01 16:31:03.9067 Info Message Template Auto Format enabled
+2018-10-01 16:31:03.9168 Info Loading assembly: NLog.Web.AspNetCore
+2018-10-01 16:31:03.9775 Info Adding target File Target[allfile]
+2018-10-01 16:31:03.9878 Info Adding target File Target[ownFile-web]
+2018-10-01 16:31:03.9945 Info Configured from an XML element in C:\Projects\M-Box-DotNet\ItLabs.MBox\ItLabs.MBox.Application\bin\Debug\netcoreapp2.0\NLog.config...
+2018-10-01 16:31:04.0126 Info Found 45 configuration items
+2018-10-01 16:31:04.0337 Info Configuration initialized.
+2018-10-01 16:31:04.0337 Info NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 4.5.10.8381. Product version: 4.5.10.
+2018-10-01 16:31:06.2554 Info Shutting down logging...
+2018-10-01 16:31:06.2811 Info Logger has been shut down.
+2018-10-01 16:31:49.8892 Info Message Template Auto Format enabled
+2018-10-01 16:31:49.9085 Info Loading assembly: NLog.Web.AspNetCore
+2018-10-01 16:31:50.0200 Info Adding target File Target[allfile]
+2018-10-01 16:31:50.0338 Info Adding target File Target[ownFile-web]
+2018-10-01 16:31:50.0457 Info Configured from an XML element in C:\Projects\M-Box-DotNet\ItLabs.MBox\ItLabs.MBox.Application\bin\Debug\netcoreapp2.0\nlog.config...
+2018-10-01 16:31:50.0858 Info Found 45 configuration items

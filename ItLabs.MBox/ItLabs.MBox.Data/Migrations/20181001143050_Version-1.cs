@@ -295,7 +295,7 @@ namespace ItLabs.MBox.Data.Migrations
                 {
                     Id = table.Column<int>(type: "int4", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
-                    AlbumName = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: true),
+                    AlbumName = table.Column<string>(type: "varchar(100)", maxLength: 100, nullable: true),
                     ArtistId = table.Column<int>(type: "int4", nullable: false),
                     CreatedBy = table.Column<int>(type: "int4", nullable: false),
                     DateCreated = table.Column<DateTime>(type: "Date", nullable: false),
@@ -303,7 +303,7 @@ namespace ItLabs.MBox.Data.Migrations
                     Genre = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: true),
                     Lyrics = table.Column<string>(type: "text", nullable: true),
                     ModifiedBy = table.Column<int>(type: "int4", nullable: true),
-                    Name = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: true),
+                    Name = table.Column<string>(type: "varchar(100)", maxLength: 100, nullable: true),
                     Picture = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: true),
                     ReleaseDate = table.Column<DateTime>(type: "Date", nullable: false),
                     VimeoLink = table.Column<string>(type: "varchar(100)", maxLength: 100, nullable: true),

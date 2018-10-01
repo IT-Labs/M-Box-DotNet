@@ -13,7 +13,7 @@ using System;
 namespace ItLabs.MBox.Data.Migrations
 {
     [DbContext(typeof(MBoxDbContext))]
-    [Migration("20180911130855_Version-1")]
+    [Migration("20181001143050_Version-1")]
     partial class Version1
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -270,7 +270,7 @@ namespace ItLabs.MBox.Data.Migrations
                         .ValueGeneratedOnAdd();
 
                     b.Property<string>("AlbumName")
-                        .HasMaxLength(50);
+                        .HasMaxLength(100);
 
                     b.Property<int>("ArtistId");
 
@@ -289,7 +289,7 @@ namespace ItLabs.MBox.Data.Migrations
                     b.Property<int?>("ModifiedBy");
 
                     b.Property<string>("Name")
-                        .HasMaxLength(50);
+                        .HasMaxLength(100);
 
                     b.Property<string>("Picture")
                         .HasMaxLength(50);
