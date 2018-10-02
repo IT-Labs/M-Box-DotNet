@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -200,6 +201,49 @@ namespace ItLabs.MBox.Application.Controllers
             currentUser.Picture = imageS3Name;
 
             _userManager.UpdateAsync(currentUser).Wait();
+            return RedirectToAction("MyAccount");
+        }
+
+        [HttpPost]
+        public IActionResult EditName(string recordLabelName, int recordLabelId)
+        {
+            var model = new MyAccountViewModel();
+            var recordLabel = _recordLabelManager.GetOne(x => x.Id == recordLabelId, includeProperties: $"{ nameof(RecordLabel.User)}");
+
+            if (recordLabelName.Length < 2)
+            {
+                ModelState.AddModelError("Name", "The Name must contain at least 2 characters");
+                return View("MyAccount", model);
+            }
+            if (recordLabelName.Length > 50)
+            {
+                ModelState.AddModelError("Name", "The Name cannot contain more than 50 characters");
+                return View("MyAccount", model);
+            }
+
+            recordLabel.User.Name = recordLabelName;
+            _recordLabelManager.Update(recordLabel, recordLabel.Id);
+            _recordLabelManager.Save();
+
+            return  RedirectToAction("MyAccount");
+        }
+
+        [HttpPost]
+        public IActionResult EditInfo(string recordLabelInfo, int recordLabelId)
+        {
+            var model = new MyAccountViewModel();
+            var recordLabel = _recordLabelManager.GetOne(x => x.Id == recordLabelId, includeProperties: $"{ nameof(RecordLabel.User)}");
+
+            if (recordLabelInfo.Length > 350)
+            {
+                ModelState.AddModelError("RecordLabelInfo", "Cannot contain more than 350 characters");
+                return View("MyAccount", model);
+            }
+
+            recordLabel.AboutInfo = recordLabelInfo;
+            _recordLabelManager.Update(recordLabel, recordLabelId);
+            _recordLabelManager.Save();
+
             return RedirectToAction("MyAccount");
         }
     }

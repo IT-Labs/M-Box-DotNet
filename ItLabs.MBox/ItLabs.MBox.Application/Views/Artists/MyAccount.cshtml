@@ -2,7 +2,7 @@
 @using ItLabs.MBox.Domain.Managers
 @inject S3Manager  _s3Manager
 @inject UserManager<ApplicationUser> UserManager
-
+@inject ArtistManager _artistManager
 @section Scripts{
     <script type="text/javascript" src="~/js/EditDetailsOnButtonClick.js"></script>
 }
@@ -10,6 +10,7 @@
 @{
     ViewData["Title"] = "MyAccount";
     var user = await UserManager.GetUserAsync(User);
+    var artist = _artistManager.GetOne(x => x.Id == user.Id);
 }
 @model MyAccountViewModel
 <div class="container-fluid" style="text-align: center">
@@ -34,7 +35,11 @@
             </div>
             <div class="row" style="margin: 20px">
                 <div class="col-md-8 col-sm-8">
-                    <input class="form-control" value="@user.Name" id="ArtistName" disabled>
+                    <form asp-controller="Artists" asp-action="EditName" method="post" id="editName">
+                        @Html.Hidden("artistlId", artist.Id)
+                        <input asp-for="Name" class="form-control" value="@user.Name" id="ArtistName" name="artistName" disabled>
+                        <span asp-validation-for="Name" class="text-danger"></span>
+                    </form>
                 </div>
                 <div class="col-md-1 col-sm-1">
                     <button class="btn btn-default edit editDetails" id="editArtistName" onclick="editDetails('ArtistName', 'editArtistName', 'saveArtistName', 'cancelArtistName')">
@@ -42,7 +47,7 @@
                     </button>
                 </div>
                 <div class="col-md-1 col-sm-1">
-                    <button class="btn btn-success save saveDetails" id="saveArtistName" onclick="saveDetails('ArtistName', 'editArtistName', 'saveArtistName', 'cancelArtistName')">
+                    <button class="btn btn-success save saveDetails" id="saveArtistName" type="submit" form="editName">
                         <i class="glyphicon glyphicon-ok"></i>
                     </button>
                 </div>
@@ -66,24 +71,31 @@
                         <label>Artist Bio</label>
                     </div>
                     <div class="col-md-1 col-sm-1">
-                        <button class="btn btn-default edit editDetails" id="editBio" onclick="editDetails('contactInfo', 'editBio', 'saveBio', 'cancelBio')">
+                        <button class="btn btn-default edit editDetails" id="editBio" onclick="editDetails('bio', 'editBio', 'saveBio', 'cancelBio')">
                             <i class="glyphicon glyphicon-edit"></i>
                         </button>
                     </div>
                     <div class="col-md-1 col-sm-1">
-                        <button class="btn btn-success save saveDetails" id="saveBio" onclick="saveDetails('contactInfo', 'editBio', 'saveBio', 'cancelBio')">
+                        <button class="btn btn-success save saveDetails" type="submit" id="saveBio" form="editBio">
                             <i class="glyphicon glyphicon-ok"></i>
                         </button>
                     </div>
                     <div class="col-md-1 col-sm-1">
-                        <button class="btn btn-danger cancelDetails" id="cancelBio" onclick="cancelEditiong('contactInfo', 'editBio', 'saveBio', 'cancelBio')">
+                        <button class="btn btn-danger cancelDetails" id="cancelBio" onclick="cancelEditiong('bio', 'editBio', 'saveBio', 'cancelBio')">
                             <i class="glyphicon glyphicon-remove"></i>
                         </button>
                     </div>
                 </div>
                 <div class="row">
-                    <textarea class="form-control" maxlength="350" style="margin-top: 5px; height: 200px; resize: none; text-align: center" name="ContactInfo" id="contactInfo" disabled></textarea>
+                    <form asp-controller="Artists" asp-action="EditBio" method="post" id="editBio">
+                        @Html.Hidden("artistId", artist.Id)
+                        @Html.TextArea("ArtistBio", artist.Bio, new { @class = "form-control", maxlength = "350", style = "margin-top: 5px; height: 200px; text-align: center; resize: none", id="bio", name="artiatBio" })
+                        @Html.ValidationMessageFor(x => x.ArtistBio)
+                        <span asp-validation-for="ArtistBio" class="text-danger"></span>
+                        <button type="submit">Submit</button>
+                    </form>                   
                 </div>
+                
             </div>
         </div>
         <div class="col-md-2 col-sm-2">

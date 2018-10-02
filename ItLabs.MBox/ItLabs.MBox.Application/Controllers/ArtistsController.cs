@@ -172,6 +172,46 @@ namespace ItLabs.MBox.Application.Controllers
             model.PagingList = _songManager.Get(filter: x => x.ArtistId == CurrentLoggedUserId).ToList();
             return View(model);
         }
-        
+[HttpPost]
+        public IActionResult EditName(string artistName, int artistlId)
+        {
+            var model = new MyAccountViewModel();
+            var artist = _artistManager.GetOne(x => x.Id == artistlId, includeProperties: $"{ nameof(Artist.User)}");
+            if (artistName.Length < 2)
+            {
+                ModelState.AddModelError("Name", "The Name must contain at least 2 characters");
+                return View("MyAccount", model);
+            }
+            if (artistName.Length > 50)
+            {
+                ModelState.AddModelError("Name", "The Name cannot contain more than 50 characters");
+                return View("MyAccount", model);
+            }
+
+            artist.User.Name = artistName;
+            _artistManager.Update(artist, artistlId);
+            _artistManager.Save();
+
+            return RedirectToAction("MyAccount");
+        }
+
+        [HttpPost]
+        public IActionResult EditBio(string artiatBio, int artistId)
+        {
+            var model = new MyAccountViewModel();
+            var artist = _artistManager.GetOne(x => x.Id == artistId, includeProperties: $"{ nameof(Artist.User)}");
+
+            if (artiatBio.Length > 500)
+            {
+                ModelState.AddModelError("ArtistBio", "Cannot contain more than 500 characters");
+                return View("MyAccount", model);
+            }
+
+            artist.Bio = artiatBio;
+            _artistManager.Update(artist, artistId);
+            _artistManager.Save();
+
+            return RedirectToAction("MyAccount");
+        }
     }
 }
