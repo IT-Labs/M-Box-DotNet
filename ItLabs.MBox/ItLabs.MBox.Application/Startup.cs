@@ -1,21 +1,18 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using Amazon.S3;
+using ItLabs.MBox.Contracts.Dtos;
+using ItLabs.MBox.Contracts.Entities;
+using ItLabs.MBox.Contracts.Enums;
+using ItLabs.MBox.Contracts.Interfaces;
+using ItLabs.MBox.Data;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using ItLabs.MBox.Contracts.Entities;
-using ItLabs.MBox.Domain.Managers;
-using Amazon.S3;
-using Amazon.DynamoDBv2;
-using ItLabs.MBox.Data;
-using ItLabs.MBox.Contracts.Interfaces;
 using StructureMap;
 using System;
-using ItLabs.MBox.Contracts.Dtos;
 using System.Linq;
-using StructureMap.Pipeline;
-using ItLabs.MBox.Contracts.Enums;
 
 namespace ItLabs.MBox.Application
 {
@@ -64,14 +61,8 @@ namespace ItLabs.MBox.Application
 
 
             var configManager = container.GetInstance<IConfigurationManager>();
-            var allConfig = configManager.GetAll();
 
-            var awsSettings = new AwsSettings
-            {
-                AwsS3AccessKey = allConfig.FirstOrDefault(x => x.Key == ConfigurationKey.AwsS3AccessKey)?.Value,
-                AwsS3SecretAccessKey = allConfig.FirstOrDefault(x => x.Key == ConfigurationKey.AwsS3SecretAccessKey)?.Value,
-                AwsS3BucketName = allConfig.FirstOrDefault(x => x.Key == ConfigurationKey.AwsS3BucketName)?.Value
-            };
+            var awsSettings = InitializeAwsSettings(configManager);
 
             container.Configure(config => { config.For<AwsSettings>().Use(awsSettings); });
 
@@ -110,6 +101,27 @@ namespace ItLabs.MBox.Application
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
+        }
+
+        public AwsSettings InitializeAwsSettings(IConfigurationManager configManager)
+        {
+
+            var allConfig = configManager.GetAll();
+            Int32.TryParse(allConfig.FirstOrDefault(x => x.Key == ConfigurationKey.AwsSesPort)?.Value, out int port);
+
+            return new AwsSettings
+            {
+                AwsSesFromAddress = allConfig.FirstOrDefault(x => x.Key == ConfigurationKey.AwsSesFromAddress)?.Value,
+                AwsSesUsername = allConfig.FirstOrDefault(x => x.Key == ConfigurationKey.AwsSesUsername)?.Value,
+                AwsSesHost = allConfig.FirstOrDefault(x => x.Key == ConfigurationKey.AwsSesHost)?.Value,
+                AwsSesPassword = allConfig.FirstOrDefault(x => x.Key == ConfigurationKey.AwsSesPassword)?.Value,
+                AwsSesPort = port,
+                ContactFormRecieverMail = allConfig.FirstOrDefault(x => x.Key == ConfigurationKey.ContactFormRecieverMail)?.Value,
+                TestRecieverMail = allConfig.FirstOrDefault(x => x.Key == ConfigurationKey.TestReceiverEmail)?.Value,
+                AwsS3AccessKey = allConfig.FirstOrDefault(x => x.Key == ConfigurationKey.AwsS3AccessKey)?.Value,
+                AwsS3SecretAccessKey = allConfig.FirstOrDefault(x => x.Key == ConfigurationKey.AwsS3SecretAccessKey)?.Value,
+                AwsS3BucketName = allConfig.FirstOrDefault(x => x.Key == ConfigurationKey.AwsS3BucketName)?.Value,
+            };
         }
     }
 }

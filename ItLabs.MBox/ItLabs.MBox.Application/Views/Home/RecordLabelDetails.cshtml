@@ -1,0 +1,69 @@
+﻿@using ItLabs.MBox.Domain.Managers
+@using ItLabs.MBox.Application.Models.RecordLabelViewModels
+@inject S3Manager  _s3Manager
+@inject UserManager<ApplicationUser> UserManager
+
+@section Scripts{
+    <script type="text/javascript" src="~/js/LazyLoadArtists.js"></script>
+}
+
+@{
+    ViewData["Title"] = "MyAccount";
+    var user = await UserManager.GetUserAsync(User);
+}
+@model RecordLabelDetailsViewModel
+@{
+    ViewData["Title"] = "RecordLabelDetails";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container-fluid" style="text-align: center">
+    <div class="row">
+        <div class="col-sm-3" style="border-right : solid 1px black;height:800px;position:fixed">
+            <div class="row">
+                <h3 class="text-center" style="margin: 50px 25px 0px 50px">@Model.RecordLabel.User.Name</h3>
+                @Html.Hidden("recordLabelId", Model.RecordLabel.Id)
+                <input id="artists" type="hidden" value="@Html.Raw(Json.Serialize(new List<Artist>()))" />
+                <input id="take" type="hidden" value="@Html.Raw(Json.Serialize(Model.PagingModelArtists.Take))" />
+                <input id="skip" type="hidden" value="@Html.Raw(Json.Serialize(Model.PagingModelArtists.Skip))" />
+                <input id="lazyLoadingUrl" type="hidden" value="/Home/GetNextRecordLabelArtists" />
+            </div>
+            <div class="row">
+                <img class="img-responsive" style="height:300px;width: 400px;margin: 50px" src="@_s3Manager.GetImageLink(Model.RecordLabel.PictureName)" />
+            </div>
+            <div class="row">
+                <textarea style="resize:none; width:400px; height: 350px" disabled>@Model.RecordLabel.AboutInfo</textarea>
+            </div>
+        </div>
+        <div class="col-sm-9">
+            <ul id="artistListId" class="list-group seperateLists" style="list-style:none;position:relative ;margin-left: 65%;margin-top:100px;margin-right:-350px">
+                @foreach (var artist in Model.PagingModelArtists.PagingList)
+                {
+                <li class="col-sm-3 card-container-artist table-bordered" style="margin-right:3.2%; margin-bottom: 2%">
+                    <div class="row card-song-name">
+                        <div>
+                            <div class="text-center text">
+                                <form asp-controller="Home" asp-action="ArtistDetails">
+                                    <div class="text-center text">
+                                        <button type="submit" class="btn btn-link">
+                                            <h5>@artist.User.Name</h5>
+                                            @Html.Hidden("artistId", artist.Id)
+                                        </button>
+                                    </div>
+                                </form>
+                                
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row card-song-img-hold">
+                        <img class="card-song-img img-circle" src="@_s3Manager.GetImageLink(artist.PictureName)" />
+                    </div>
+                </li>
+                }
+            </ul>
+        </div>
+    </div>
+</div>
+
+
+

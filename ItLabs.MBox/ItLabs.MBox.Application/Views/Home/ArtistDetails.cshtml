@@ -35,6 +35,7 @@
                 <textarea style="resize:none; width:250px; height: 400px" disabled>@Model.Artist.Bio</textarea>
             </div>
         </div>
+        @Html.Hidden("artistId", Model.Artist.Id)
         <div class="sol-sm-9" style="">
             <div class="row" style="position:fixed;z-index:999">
                 <img class="img img-circle" style="width:200px;height:200px;margin-left: 500px;margin-top:-150px" src="@_s3Manager.GetImageLink(Model.Artist.PictureName)" />
@@ -44,36 +45,35 @@
                 <ul id="songListId" class="list-group seperateLists" style="list-style:none;position:relative ;margin-left: 45%;margin-top:100px;margin-right:-150px">
                     @foreach (Song song in Model.PagingModelSongs.PagingList)
                     {
-                    <li class="col-sm-3 card-container-song table-bordered" style="margin-right:3.2%; margin-bottom: 2%;height:240px">
-                        <div>
-                            <div class="row card-song-name">
-                                <form asp-controller="Home" asp-action="SongDetails">
-                                    <div class="text-center text">
-                                        <button type="submit" class="btn btn-link">
-                                            <h5>@song.Name</h5>
-                                            @Html.Hidden("songId", song.Id)
-                                        </button>
-                                        @Html.Hidden("artistId",Model.Artist.Id)
-                                        <input id="songList" type="hidden" value="@Html.Raw(Json.Serialize(new List<Song>()))" />
-                                        <input id="take" type="hidden" value="@Html.Raw(Json.Serialize(Model.PagingModelSongs.Take))" />
-                                        <input id="skip" type="hidden" value="@Html.Raw(Json.Serialize(Model.PagingModelSongs.Skip))" />
-                                        <input id="lazyLoadingUrl" type="hidden" value="/Home/GetNextSongs" />
+                        <li class="col-sm-3 card-container-song table-bordered" style="margin-right:3.2%; margin-bottom: 2%;height:240px">
+                            <div>
+                                <div class="row card-song-name">
+                                    <form asp-controller="Home" asp-action="SongDetails">
+                                        <div class="text-center text">
+                                            <button type="submit" class="btn btn-link">
+                                                <h5>@song.Name</h5>
+                                                @Html.Hidden("songId", song.Id)
+                                            </button>
+                                            <input id="songList" type="hidden" value="@Html.Raw(Json.Serialize(new List<Song>()))" />
+                                            <input id="take" type="hidden" value="@Html.Raw(Json.Serialize(Model.PagingModelSongs.Take))" />
+                                            <input id="skip" type="hidden" value="@Html.Raw(Json.Serialize(Model.PagingModelSongs.Skip))" />
+                                            <input id="lazyLoadingUrl" type="hidden" value="/Home/GetNextSongs" />
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="row card-song-img-hold">
+                                    <img class="card-song-img" src="@_s3Manager.GetImageLink(song.PictureName)" />
+                                </div>
+                                <div class="row out-link-social">
+                                    <div class="col-sm-6">
+                                        <a target=”_blank” href="@song.YouTubeLink">Youtube</a>
                                     </div>
-                                </form>
-                            </div>
-                            <div class="row card-song-img-hold">
-                                <img class="card-song-img" src="@_s3Manager.GetImageLink(song.PictureName)" />
-                            </div>
-                            <div class="row out-link-social">
-                                <div class="col-sm-6">
-                                    <a target=”_blank” href="@song.YouTubeLink">Youtube</a>
-                                </div>
-                                <div class="col-sm-6">
-                                    <a target=”_blank” href="@song.VimeoLink">Vimeo</a>
+                                    <div class="col-sm-6">
+                                        <a target=”_blank” href="@song.VimeoLink">Vimeo</a>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    </li>
+                        </li>
                     }
                 </ul>
             </div>

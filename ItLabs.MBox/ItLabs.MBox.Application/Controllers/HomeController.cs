@@ -1,5 +1,6 @@
 ﻿using ItLabs.MBox.Application.Models;
 using ItLabs.MBox.Application.Models.ArtistsViewModel;
+using ItLabs.MBox.Application.Models.RecordLabelViewModels;
 using ItLabs.MBox.Contracts;
 using ItLabs.MBox.Contracts.Entities;
 using ItLabs.MBox.Contracts.Enums;
@@ -23,7 +24,7 @@ namespace ItLabs.MBox.Application.Controllers
         private IRecordLabelManager _recordLabelManager;
         private ILogger<HomeController> _logger;
         private IEmailsManager _emailManager;
-        public HomeController(ILogger<HomeController>  logger,ISongManager songsManager, IArtistManager artistsManager, IRecordLabelManager recordLabelManager, IEmailsManager emailManager, UserManager<ApplicationUser> userManager) : base(userManager)
+        public HomeController(ILogger<HomeController> logger, ISongManager songsManager, IArtistManager artistsManager, IRecordLabelManager recordLabelManager, IEmailsManager emailManager, UserManager<ApplicationUser> userManager) : base(userManager)
         {
             _songsManager = songsManager;
             _artistsManager = artistsManager;
@@ -169,22 +170,48 @@ namespace ItLabs.MBox.Application.Controllers
         public IActionResult ArtistDetails(int artistId)
         {
             var model = new ArtistDetailsViewModel();
-            model.Artist = _artistsManager.GetOne(x => x.Id == artistId,includeProperties:$"{nameof(Artist.User)},{nameof(Artist.Songs)}");
-            model.PagingModelSongs = new PagingModel<Song>() {PagingList = model.Artist.Songs.ToList() };
-            
+            model.Artist = _artistsManager.GetOne(x => x.Id == artistId, includeProperties: $"{nameof(Artist.User)},{nameof(Artist.Songs)}");
+            model.PagingModelSongs = new PagingModel<Song>() { PagingList = model.Artist.Songs.Take(MBoxConstants.initialTakeHomeLists).ToList() };
+
+            return View(model);
+        }
+        [HttpPost]
+        public IActionResult RecordLabelDetails(int recordLabelId)
+        {
+            var model = new RecordLabelDetailsViewModel();
+            model.RecordLabel = _recordLabelManager.GetOne(filter: x => x.Id == recordLabelId, includeProperties: $"{nameof(RecordLabel.User)},{nameof(RecordLabel.RecordLabelArtists)}.{nameof(Artist)}.{nameof(Artist.User)}");
+            model.PagingModelArtists = new PagingModel<Artist>();
+            model.PagingModelArtists.PagingList = model.RecordLabel.RecordLabelArtists.Select(x => x.Artist).Take(MBoxConstants.initialTakeHomeLists).ToList();
+            return View(model);
+        }
+
+        [HttpGet]
+        public IActionResult GetNextSongs([FromQuery] int artistId, [FromQuery] int skip, [FromQuery]  int take)
+        {
+            var model = new PagingModel<Song>
+            {
+                PagingList = _songsManager.Get(filter: x => x.Artist.Id == artistId,
+                skip: skip,
+                take: take,
+                includeProperties: $"{nameof(Artist)}.{nameof(Artist.User)}").ToList()
+            };
+
             return View(model);
         }
         [HttpGet]
-        public IActionResult GetNextSongs([FromQuery] int ArtistId, [FromQuery] int Skip, [FromQuery]  int Take)
+        public IActionResult GetNextRecordLabelArtists([FromQuery] int recordLabelId, [FromQuery] int skip, [FromQuery]  int take)
         {
-            var model = new PagingModel<Song>();
-            model.PagingList = _songsManager.Get(filter: x=>x.Artist.Id == ArtistId,
-                skip: Skip,
-                take: Take,
-                includeProperties: $"{nameof(Artist)}.{nameof(Artist.User)}" ).ToList();
+            var recordLabel = _recordLabelManager.Get(filter: x => x.Id == recordLabelId,
+                includeProperties: $"{nameof(Artist.User)}," +
+                        $"{nameof(Artist.RecordLabelArtists)}.{nameof(Artist)}.{nameof(Artist.User)}").FirstOrDefault();
+            var model = new PagingModel<Artist>()
+            {
+                PagingList = recordLabel.RecordLabelArtists.Select(x => x.Artist).Skip(skip).Take(take).ToList(),
+                Skip = skip,
+                Take = take
+            };
 
-                
-            return View("NextSongs", model);
+            return View(model);
         }
     }
 }
