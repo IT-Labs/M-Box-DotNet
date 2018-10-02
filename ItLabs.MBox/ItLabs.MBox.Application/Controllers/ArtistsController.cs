@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace ItLabs.MBox.Application.Controllers
 {
@@ -164,6 +165,13 @@ namespace ItLabs.MBox.Application.Controllers
             return RedirectToAction("MyAccount");
         }
 
+        [HttpGet]
+        public IActionResult Followers()
+        {
+            var model = new PagingModel<Song>();
+            model.PagingList = _songManager.Get(filter: x => x.ArtistId == CurrentLoggedUserId).ToList();
+            return View(model);
+        }
         
     }
 }

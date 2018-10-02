@@ -9,8 +9,8 @@
 @inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> UserManager
 @inject S3Manager _s3Manager;
-@{ 
-   var user = UserManager.FindByIdAsync(UserManager.GetUserId(User)).Result;
+@{
+    var user = UserManager.FindByIdAsync(UserManager.GetUserId(User)).Result;
 }
 
 @if (SignInManager.IsSignedIn(User))
@@ -133,7 +133,11 @@
                             <button type="submit" class="btn btn-link navbar-btn navbar-link btn-block dropDownButton">My Songs</button>
                         </form>
                     </li>
-                    <li><a href="#">Followers</a></li>
+                    <li>
+                        <form asp-area="" asp-controller="Artists" asp-action="Followers" method="get" id="logoutForm" style="margin-left: 10px">
+                            <button type="submit" class="btn btn-link navbar-btn navbar-link btn-block dropDownButton">Followers</button>
+                        </form>
+                    </li>
                     <li><a href="#">Following</a></li>
                     <li>
                         <form asp-area="" asp-controller="Manage" asp-action="ChangePassword" method="get" id="logoutForm" style="margin-left: 10px">
