@@ -1,0 +1,60 @@
+﻿
+@{
+    ViewData["Title"] = "My Account";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section Scripts{
+    <script type="text/javascript" src="~/js/EditDetailsOnButtonClick.js"></script>
+}
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+@using ItLabs.MBox.Domain.Managers
+@inject S3Manager  _s3Manager
+
+
+@model ApplicationUser
+<div class="container-fluid" style="text-align: center">
+    <div class="row" style="width:59%;height:150px;z-index:600;background:white;position:fixed;border-bottom: 1px solid black">
+    </div>
+    <div class="row" style="margin-top:170px">
+        <div class="sol-sm-9" style="">
+            <div class="row" style="position:fixed;z-index:999">
+                <img class="img img-circle" style="width:200px;height:200px;margin-left: 490px;margin-top:-150px" src="@_s3Manager.GetImageLink(Model.PictureName)" />
+            </div>
+        </div>
+    </div>
+    <div class="row" style="margin:50px 350px 50px 350px;">
+        <form asp-controller="Listeners" asp-action="ChangePicture" method="post" enctype="multipart/form-data">
+            <div class="col-sm-8 col-md-8">
+                <p>Change profle picture:</p>
+                <input class="btn-default btn" type="file" id="uploadedFiles" name="uploadedFiles" accept=".jpg,.jpeg,.png">
+                <span asp-validation-for="Picture" class="text-danger"></span>
+            </div>
+            <div class="col-sm-4 col-md-4" style="margin-top:35px; ">
+                <button type="submit" class="btn btn-primary">Upload</button>
+            </div>
+        </form>
+    </div>
+    <div class="row" style="margin:50px 350px 50px 350px;">
+        <div class="col-md-8 col-sm-8">
+            <input class="form-control" value="@Model.Name" id="ArtistName" disabled>
+        </div>
+        <div class="col-md-1 col-sm-1">
+            <button class="btn btn-default edit editDetails" id="editArtistName" onclick="editDetails('ArtistName', 'editArtistName', 'saveArtistName', 'cancelArtistName')">
+                <i class="glyphicon glyphicon-edit"></i>
+            </button>
+        </div>
+        <div class="col-md-1 col-sm-1">
+            <button class="btn btn-success save saveDetails" id="saveArtistName" onclick="saveDetails('ArtistName', 'editArtistName', 'saveArtistName', 'cancelArtistName')">
+                <i class="glyphicon glyphicon-ok"></i>
+            </button>
+        </div>
+        <div class="col-md-1 col-sm-1">
+            <button class="btn btn-danger cancelDetails" id="cancelArtistName" onclick="cancelEditiong('ArtistName', 'editArtistName', 'saveArtistName', 'cancelArtistName')">
+                <i class="glyphicon glyphicon-remove"></i>
+            </button>
+        </div>
+    </div>
+</div>
+

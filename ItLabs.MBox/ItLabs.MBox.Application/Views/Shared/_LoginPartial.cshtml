@@ -4,9 +4,14 @@
 @using Microsoft.AspNetCore.Identity
 @using ItLabs.MBox.Contracts.Entities
 @using ItLabs.MBox.Contracts.Enums
+@using ItLabs.MBox.Domain.Managers;
 
 @inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> UserManager
+@inject S3Manager _s3Manager;
+@{ 
+   var user = UserManager.FindByIdAsync(UserManager.GetUserId(User)).Result;
+}
 
 @if (SignInManager.IsSignedIn(User))
 {
@@ -37,10 +42,21 @@
         <ul class="nav navbar-nav navbar-right">
             <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" style="margin: 0; padding: 0">
-                    <i class="fa fa-user-circle" style="font-size:35px; margin-top: 8px; margin-left: 8px"></i>
+                    @if (user.Picture != null)
+                    {
+                        <img class="img-circle" style=" width:45px;height:45px;font-size:35px; margin-top: 8px; margin-left: 8px" src="@_s3Manager.GetImageLink(user.PictureName)" />
+                    }
+                    else
+                    {
+                        <i class="fa fa-user-circle" style="font-size:35px; margin-top: 8px; margin-left: 8px"></i>
+                    }
                 </a>
                 <ul class="dropdown-menu dropDownMenu dropDownLi">
-                    <li><a href="#">My Account</a></li>
+                    <li>
+                        <form asp-area="" asp-controller="Listeners" asp-action="MyAccount" method="get" id="logoutForm" style="margin-left: 10px">
+                            <button type="submit" class="btn btn-link navbar-btn navbar-link btn-block dropDownButton">My Account</button>
+                        </form>
+                    </li>
                     <li><a href="#">Following</a></li>
                     <li><a asp-area="" asp-controller="Manage" asp-action="ChangePassword">Change Password</a></li>
                     <li>
@@ -57,7 +73,14 @@
         <ul class="nav navbar-nav navbar-right">
             <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" style="margin: 0; padding: 0">
-                    <i class="fa fa-user-circle" style="font-size:35px; margin-top: 8px; margin-left: 8px"></i>
+                    @if (user.Picture != null)
+                    {
+                        <img class="img-circle" style=" width:45px;height:45px;font-size:35px; margin-top: 8px; margin-left: 8px" src="@_s3Manager.GetImageLink(user.PictureName)" />
+                    }
+                    else
+                    {
+                        <i class="fa fa-user-circle" style="font-size:35px; margin-top: 8px; margin-left: 8px"></i>
+                    }
                 </a>
                 <ul class="dropdown-menu dropDownMenu dropDownLi">
                     <li>
@@ -90,7 +113,14 @@
         <ul class="nav navbar-nav navbar-right">
             <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" style="margin: 0; padding: 0">
-                    <i class="fa fa-user-circle" style="font-size:35px; margin-top: 8px; margin-left: 8px"></i>
+                    @if (user.Picture != null)
+                    {
+                        <img class="img-circle" style=" width:45px;height:45px;font-size:35px; margin-top: 8px; margin-left: 8px" src="@_s3Manager.GetImageLink(user.PictureName)" />
+                    }
+                    else
+                    {
+                        <i class="fa fa-user-circle" style="font-size:35px; margin-top: 8px; margin-left: 8px"></i>
+                    }
                 </a>
                 <ul class="dropdown-menu dropDownMenu dropDownLi">
                     <li>
