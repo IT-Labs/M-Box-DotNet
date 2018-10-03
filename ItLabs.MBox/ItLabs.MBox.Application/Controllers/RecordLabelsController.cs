@@ -234,6 +234,9 @@ namespace ItLabs.MBox.Application.Controllers
             var model = new MyAccountViewModel();
             var recordLabel = _recordLabelManager.GetOne(x => x.Id == recordLabelId, includeProperties: $"{ nameof(RecordLabel.User)}");
 
+            if (string.IsNullOrWhiteSpace(recordLabelInfo))
+                recordLabelInfo = "";
+
             if (recordLabelInfo.Length > 350)
             {
                 ModelState.AddModelError("RecordLabelInfo", "Cannot contain more than 350 characters");

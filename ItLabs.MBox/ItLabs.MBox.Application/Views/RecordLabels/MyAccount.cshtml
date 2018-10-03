@@ -85,8 +85,7 @@
                 <div class="row">
                     <form method="post" asp-controller="RecordLabels" asp-action="EditInfo" id="editRLInfo">
                         @Html.Hidden("recordLabelId", recordLabel.Id)
-                        @Html.TextArea("RecordLabelInfo", recordLabel.AboutInfo, new { @class = "form-control", disabled = "disabled", maxlength = "350", style = "margin-top: 5px; height: 200px; text-align: center; resize: none", id= "contactInfo", name= "recordLabelInfo" })
-                        @Html.ValidationMessageFor(x => x.RecordLabelInfo)
+                        @Html.TextArea("RecordLabelInfo", recordLabel.AboutInfo, new { @class = "form-control", disabled = "disabled", maxlength ="350", style = "margin-top: 5px; height: 200px; text-align: center; resize: none", id= "contactInfo", name= "recordLabelInfo" })
                         <span asp-validation-for="RecordLabelInfo" class="text-danger"></span>
                        
                     </form>

@@ -20,7 +20,7 @@ namespace ItLabs.MBox.Application.Controllers
         private readonly IS3Manager _s3Manager;
         private readonly IEmailsManager _emailsManager;
         private readonly IArtistManager _artistManager;
-        public ArtistsController(IArtistManager artistManager,ISongManager songManager, UserManager<ApplicationUser> userManager, IEmailsManager emailsManager, IS3Manager s3Manager) : base(userManager)
+        public ArtistsController(IArtistManager artistManager, ISongManager songManager, UserManager<ApplicationUser> userManager, IEmailsManager emailsManager, IS3Manager s3Manager) : base(userManager)
         {
             _songManager = songManager;
             _s3Manager = s3Manager;
@@ -172,7 +172,7 @@ namespace ItLabs.MBox.Application.Controllers
             model.PagingList = _songManager.Get(filter: x => x.ArtistId == CurrentLoggedUserId).ToList();
             return View(model);
         }
-[HttpPost]
+        [HttpPost]
         public IActionResult EditName(string artistName, int artistlId)
         {
             var model = new MyAccountViewModel();
@@ -196,22 +196,33 @@ namespace ItLabs.MBox.Application.Controllers
         }
 
         [HttpPost]
-        public IActionResult EditBio(string artiatBio, int artistId)
+        public IActionResult EditBio(string artistBio, int artistId)
         {
             var model = new MyAccountViewModel();
             var artist = _artistManager.GetOne(x => x.Id == artistId, includeProperties: $"{ nameof(Artist.User)}");
 
-            /*if (artiatBio.Length > 350)
+            if (string.IsNullOrWhiteSpace(artistBio))
+                artistBio = "";
+
+            if (artistBio.Length > 350)
             {
                 ModelState.AddModelError("ArtistBio", "Cannot contain more than 350 characters");
                 return View("MyAccount", model);
-            }*/
+            }
 
-            artist.Bio = artiatBio;
+            artist.Bio = artistBio;
             _artistManager.Update(artist, artistId);
             _artistManager.Save();
 
             return RedirectToAction("MyAccount");
+        }
+
+        [HttpPost]
+        public IActionResult EditSongName(string songName, int songId)
+        {
+
+
+            return RedirectToAction("EditSongDetails");
         }
     }
 }
