@@ -8,5 +8,6 @@ namespace ItLabs.MBox.Contracts.Interfaces
         IList<Artist> GetMostFollowedArtists(int number);
         IList<Artist> GetRecordLabelArtists(int? recordLabelId, int skip, int take, string search);
         void DeleteArtist(int recordLabelId ,int artistlId);
+        void ToggleFollow(int artistId, int currentLoggedUserId);
     }
 }

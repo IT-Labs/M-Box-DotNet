@@ -331,3 +331,5 @@ ASALocalRun/
 # Local History for Visual Studio
 .localhistory/
 appsettings.Staging.json
+*.txt
+/ItLabs.MBox/ItLabs.MBox.Application/internal-nlog.txt

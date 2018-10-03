@@ -220,18 +220,7 @@ namespace ItLabs.MBox.Application.Controllers
             }
             try
             {
-                var artist = _artistsManager.GetOne(filter: x => x.Id == artistId, includeProperties: $"{nameof(Artist.Follows)}.{nameof(Follow.Follower)}");
-                var user = _userManager.FindByIdAsync(CurrentLoggedUserId.ToString()).Result;
-                if (artist.Follows.Select(x => x.Follower).Contains(user))
-                {
-                    artist.Follows.Remove(artist.Follows.Where(x => x.Follower == user).FirstOrDefault());
-                }
-                else
-                {
-                    artist.Follows.Add(new Follow() {Artist = artist, Follower = user });
-                }
-                _artistsManager.Update(artist, CurrentLoggedUserId);
-                _artistsManager.Save();
+                _artistsManager.ToggleFollow(artistId,CurrentLoggedUserId);
                 return Ok();
             }catch(Exception ex)
             {

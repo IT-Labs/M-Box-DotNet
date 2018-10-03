@@ -2,6 +2,7 @@
 using ItLabs.MBox.Contracts.Enums;
 using ItLabs.MBox.Contracts.Interfaces;
 using ItLabs.MBox.Data;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -14,12 +15,14 @@ namespace ItLabs.MBox.Domain.Managers
         private readonly IRepository _repository;
         private readonly IEmailsManager _emailsManager;
         private readonly IS3Manager _s3Manager;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public ArtistManager(IRepository repository, IEmailsManager emailsManager, IS3Manager s3Manager, ILogger<Artist> logger) : base(repository,logger)
+        public ArtistManager(IRepository repository, IEmailsManager emailsManager, IS3Manager s3Manager, ILogger<Artist> logger, UserManager<ApplicationUser> userManager) : base(repository,logger)
         {
             _repository = repository;
             _emailsManager = emailsManager;
             _s3Manager = s3Manager;
+            _userManager = userManager;
         }
 
         public IList<Artist> GetRecordLabelArtists(int? recordLabelId, int toSkip, int toTake, string searchValue)
@@ -64,9 +67,20 @@ namespace ItLabs.MBox.Domain.Managers
             }
             
         }
-        public void Follow(int artistId, int followerId)
+        public void ToggleFollow(int artistId, int followerId)
         {
-
+            var artist = _repository.GetOne<Artist>(filter: x => x.Id == artistId, includeProperties: $"{nameof(Artist.Follows)}.{nameof(Follow.Follower)}");
+            var user = _userManager.FindByIdAsync(followerId.ToString()).Result;
+            if (artist.Follows.Select(x => x.Follower).Contains(user))
+            {
+                artist.Follows.Remove(artist.Follows.Where(x => x.Follower == user).FirstOrDefault());
+            }
+            else
+            {
+                artist.Follows.Add(new Follow() { Artist = artist, Follower = user });
+            }
+            _repository.Update(artist, followerId);
+            _repository.Save();
         }
     }
 }
