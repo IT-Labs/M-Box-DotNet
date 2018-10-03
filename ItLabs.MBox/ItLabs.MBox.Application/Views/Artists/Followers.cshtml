@@ -1,7 +1,47 @@
-﻿
-@{
-    ViewData["Title"] = "Followers";
-}
+﻿@using ItLabs.MBox.Domain.Managers
+@inject S3Manager  _s3Manager
+@model PagingModel<ApplicationUser>
+<div class="container-fluid">
+    <div class="row" style="margin-top: 25px">
+        <div class="col-md-9 col-sm-9" style="margin-top: 5px">
+            <div class="row">
+                <form id="searchForm" asp-area="" asp-controller="Artists" asp-action="SearchFollowers" method="post">
+                    <div class="col-md-9 col-sm-9">
+                        @Html.TextBox("searchValue", null, new { @id = "searchBox", @class = "form-control" })
+                    </div>
+                    <div class="col-md-3 col-sm-3">
+                        <input id="searchButton" type="submit" value="Search" class="btn btn-default btn-block" />
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="row" style="margin-top: 25px">
+        <table class="table table-striped" id="smartTabel">
+            <thead>
+                <tr>
+                    <th width="20%">Profile Picture</th>
+                    <th width="80%">Name</th>
+                </tr>
+            </thead>
 
-
-
+            <tbody id="listToAppend">
+                @foreach (ApplicationUser follower in Model.PagingList)
+                {
+                    <tr class="search">
+                        <td>
+                            <img class="img-circle" style="height: 35px; width: 35px" src="@_s3Manager.GetImageLink(follower.PictureName)" />
+                        </td>
+                        <td>
+                            @follower.Name
+                            <input id="followers" type="hidden" value="@Html.Raw(Json.Serialize(new List<ApplicationUser>()))" />
+                            <input id="take" type="hidden" value="@Html.Raw(Json.Serialize(Model.Take))" />
+                            <input id="skip" type="hidden" value="@Html.Raw(Json.Serialize(Model.Skip))" />
+                            <input id="lazyLoadingUrl" type="hidden" value="/Artists/GetNextFollowers" />
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

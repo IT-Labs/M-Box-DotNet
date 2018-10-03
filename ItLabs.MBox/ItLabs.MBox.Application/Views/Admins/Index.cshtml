@@ -23,7 +23,7 @@
             <div class="row">
                 <form id="searchForm" asp-area="" asp-controller="Admins" asp-action="Search" method="post">
                     <div class="col-md-9 col-sm-9">
-                        @Html.TextBox("search", null, new {@id= "searchBox" ,@class = "form-control" })
+                        @Html.TextBox("searchValue", null, new {@id= "searchBox" ,@class = "form-control" })
                     </div>
                     <div class="col-md-3 col-sm-3">
                         <input id="searchButton" type="submit" value="Search" class="btn btn-default btn-block" />

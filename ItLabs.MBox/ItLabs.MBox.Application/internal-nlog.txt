@@ -819,3 +819,93 @@
 2018-10-03 15:10:54.3673 Info Adding target File Target[ownFile-web]
 2018-10-03 15:10:54.3673 Info Configured from an XML element in C:\Projects\M-Box-DotNet\ItLabs.MBox\ItLabs.MBox.Application\bin\Debug\netcoreapp2.0\nlog.config...
 2018-10-03 15:10:54.4057 Info Found 45 configuration items
+2018-10-03 15:47:35.6533 Info Message Template Auto Format enabled
+2018-10-03 15:47:35.6670 Info Loading assembly: NLog.Web.AspNetCore
+2018-10-03 15:47:35.7874 Info Adding target File Target[allfile]
+2018-10-03 15:47:35.8126 Info Adding target File Target[ownFile-web]
+2018-10-03 15:47:35.8239 Info Configured from an XML element in C:\Projects\M-Box-DotNet\ItLabs.MBox\ItLabs.MBox.Application\bin\Debug\netcoreapp2.0\nlog.config...
+2018-10-03 15:47:35.8587 Info Found 45 configuration items
+2018-10-03 15:51:40.6748 Info Message Template Auto Format enabled
+2018-10-03 15:51:40.6979 Info Loading assembly: NLog.Web.AspNetCore
+2018-10-03 15:51:40.7625 Info Adding target File Target[allfile]
+2018-10-03 15:51:40.7625 Info Adding target File Target[ownFile-web]
+2018-10-03 15:51:40.7722 Info Configured from an XML element in C:\Projects\M-Box-DotNet\ItLabs.MBox\ItLabs.MBox.Application\bin\Debug\netcoreapp2.0\nlog.config...
+2018-10-03 15:51:40.7906 Info Found 45 configuration items
+2018-10-03 15:51:46.2354 Info Message Template Auto Format enabled
+2018-10-03 15:51:46.2615 Info Loading assembly: NLog.Web.AspNetCore
+2018-10-03 15:51:46.4177 Info Adding target File Target[allfile]
+2018-10-03 15:51:46.4327 Info Adding target File Target[ownFile-web]
+2018-10-03 15:51:46.4442 Info Configured from an XML element in C:\Projects\M-Box-DotNet\ItLabs.MBox\ItLabs.MBox.Application\bin\Debug\netcoreapp2.0\nlog.config...
+2018-10-03 15:51:46.4769 Info Found 45 configuration items
+2018-10-03 15:56:23.6270 Info Message Template Auto Format enabled
+2018-10-03 15:56:23.6411 Info Loading assembly: NLog.Web.AspNetCore
+2018-10-03 15:56:23.7081 Info Adding target File Target[allfile]
+2018-10-03 15:56:23.7081 Info Adding target File Target[ownFile-web]
+2018-10-03 15:56:23.7081 Info Configured from an XML element in C:\Projects\M-Box-DotNet\ItLabs.MBox\ItLabs.MBox.Application\bin\Debug\netcoreapp2.0\nlog.config...
+2018-10-03 15:56:23.7391 Info Found 45 configuration items
+2018-10-03 15:56:31.2329 Info Message Template Auto Format enabled
+2018-10-03 15:56:31.2547 Info Loading assembly: NLog.Web.AspNetCore
+2018-10-03 15:56:31.4075 Info Adding target File Target[allfile]
+2018-10-03 15:56:31.4238 Info Adding target File Target[ownFile-web]
+2018-10-03 15:56:31.4382 Info Configured from an XML element in C:\Projects\M-Box-DotNet\ItLabs.MBox\ItLabs.MBox.Application\bin\Debug\netcoreapp2.0\nlog.config...
+2018-10-03 15:56:31.4725 Info Found 45 configuration items
+2018-10-03 16:24:07.7849 Info Message Template Auto Format enabled
+2018-10-03 16:24:07.8001 Info Loading assembly: NLog.Web.AspNetCore
+2018-10-03 16:24:07.9047 Info Adding target File Target[allfile]
+2018-10-03 16:24:07.9047 Info Adding target File Target[ownFile-web]
+2018-10-03 16:24:07.9298 Info Configured from an XML element in C:\Projects\M-Box-DotNet\ItLabs.MBox\ItLabs.MBox.Application\bin\Debug\netcoreapp2.0\nlog.config...
+2018-10-03 16:24:07.9560 Info Found 45 configuration items
+2018-10-03 16:26:05.4563 Info Message Template Auto Format enabled
+2018-10-03 16:26:05.4758 Info Loading assembly: NLog.Web.AspNetCore
+2018-10-03 16:26:05.5781 Info Adding target File Target[allfile]
+2018-10-03 16:26:05.6029 Info Adding target File Target[ownFile-web]
+2018-10-03 16:26:05.6133 Info Configured from an XML element in C:\Projects\M-Box-DotNet\ItLabs.MBox\ItLabs.MBox.Application\bin\Debug\netcoreapp2.0\nlog.config...
+2018-10-03 16:26:05.6386 Info Found 45 configuration items
+2018-10-03 16:27:45.3325 Info Message Template Auto Format enabled
+2018-10-03 16:27:45.3480 Info Loading assembly: NLog.Web.AspNetCore
+2018-10-03 16:27:45.4511 Info Adding target File Target[allfile]
+2018-10-03 16:27:45.4511 Info Adding target File Target[ownFile-web]
+2018-10-03 16:27:45.4698 Info Configured from an XML element in C:\Projects\M-Box-DotNet\ItLabs.MBox\ItLabs.MBox.Application\bin\Debug\netcoreapp2.0\nlog.config...
+2018-10-03 16:27:45.4979 Info Found 45 configuration items
+2018-10-03 16:38:21.2801 Info Message Template Auto Format enabled
+2018-10-03 16:38:21.2928 Info Loading assembly: NLog.Web.AspNetCore
+2018-10-03 16:38:21.3539 Info Adding target File Target[allfile]
+2018-10-03 16:38:21.3539 Info Adding target File Target[ownFile-web]
+2018-10-03 16:38:21.3539 Info Configured from an XML element in C:\Projects\M-Box-DotNet\ItLabs.MBox\ItLabs.MBox.Application\bin\Debug\netcoreapp2.0\nlog.config...
+2018-10-03 16:38:21.3839 Info Found 45 configuration items
+2018-10-03 16:39:18.3692 Info Message Template Auto Format enabled
+2018-10-03 16:39:18.3873 Info Loading assembly: NLog.Web.AspNetCore
+2018-10-03 16:39:18.4857 Info Adding target File Target[allfile]
+2018-10-03 16:39:18.5013 Info Adding target File Target[ownFile-web]
+2018-10-03 16:39:18.5232 Info Configured from an XML element in C:\Projects\M-Box-DotNet\ItLabs.MBox\ItLabs.MBox.Application\bin\Debug\netcoreapp2.0\nlog.config...
+2018-10-03 16:39:18.5621 Info Found 45 configuration items
+2018-10-03 16:40:10.0415 Info Message Template Auto Format enabled
+2018-10-03 16:40:10.0568 Info Loading assembly: NLog.Web.AspNetCore
+2018-10-03 16:40:10.1720 Info Adding target File Target[allfile]
+2018-10-03 16:40:10.1827 Info Adding target File Target[ownFile-web]
+2018-10-03 16:40:10.1827 Info Configured from an XML element in C:\Projects\M-Box-DotNet\ItLabs.MBox\ItLabs.MBox.Application\bin\Debug\netcoreapp2.0\nlog.config...
+2018-10-03 16:40:10.2226 Info Found 45 configuration items
+2018-10-03 16:41:02.9429 Info Message Template Auto Format enabled
+2018-10-03 16:41:02.9654 Info Loading assembly: NLog.Web.AspNetCore
+2018-10-03 16:41:03.1115 Info Adding target File Target[allfile]
+2018-10-03 16:41:03.1261 Info Adding target File Target[ownFile-web]
+2018-10-03 16:41:03.1371 Info Configured from an XML element in C:\Projects\M-Box-DotNet\ItLabs.MBox\ItLabs.MBox.Application\bin\Debug\netcoreapp2.0\nlog.config...
+2018-10-03 16:41:03.1657 Info Found 45 configuration items
+2018-10-03 16:43:07.3693 Info Message Template Auto Format enabled
+2018-10-03 16:43:07.3885 Info Loading assembly: NLog.Web.AspNetCore
+2018-10-03 16:43:07.5126 Info Adding target File Target[allfile]
+2018-10-03 16:43:07.5237 Info Adding target File Target[ownFile-web]
+2018-10-03 16:43:07.5237 Info Configured from an XML element in C:\Projects\M-Box-DotNet\ItLabs.MBox\ItLabs.MBox.Application\bin\Debug\netcoreapp2.0\nlog.config...
+2018-10-03 16:43:07.5621 Info Found 45 configuration items
+2018-10-03 16:44:02.6946 Info Message Template Auto Format enabled
+2018-10-03 16:44:02.7112 Info Loading assembly: NLog.Web.AspNetCore
+2018-10-03 16:44:02.8265 Info Adding target File Target[allfile]
+2018-10-03 16:44:02.8376 Info Adding target File Target[ownFile-web]
+2018-10-03 16:44:02.8482 Info Configured from an XML element in C:\Projects\M-Box-DotNet\ItLabs.MBox\ItLabs.MBox.Application\bin\Debug\netcoreapp2.0\nlog.config...
+2018-10-03 16:44:02.8736 Info Found 45 configuration items
+2018-10-03 16:45:25.9971 Info Message Template Auto Format enabled
+2018-10-03 16:45:26.0131 Info Loading assembly: NLog.Web.AspNetCore
+2018-10-03 16:45:26.1201 Info Adding target File Target[allfile]
+2018-10-03 16:45:26.1410 Info Adding target File Target[ownFile-web]
+2018-10-03 16:45:26.1410 Info Configured from an XML element in C:\Projects\M-Box-DotNet\ItLabs.MBox\ItLabs.MBox.Application\bin\Debug\netcoreapp2.0\nlog.config...
+2018-10-03 16:45:26.1800 Info Found 45 configuration items

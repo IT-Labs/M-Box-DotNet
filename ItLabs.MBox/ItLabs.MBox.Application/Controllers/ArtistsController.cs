@@ -221,9 +221,21 @@ namespace ItLabs.MBox.Application.Controllers
         [HttpPost]
         public IActionResult EditSongName(string songName, int songId)
         {
-
-
             return RedirectToAction("EditSongDetails");
+        }
+        
+        public IActionResult SearchFollowers(string searchValue)
+        {
+            if (string.IsNullOrWhiteSpace(searchValue))
+            {
+                return RedirectToAction("Followers");
+            }
+            var artist = _artistManager.GetOne(filter: x => x.Id == CurrentLoggedUserId, includeProperties: $"{nameof(Artist.Follows)}.{nameof(Follow.Follower)}");
+            var model = new PagingModel<ApplicationUser>()
+            {
+                PagingList = artist.Follows.Where(x => x.Follower.Name.ToLower().Contains(searchValue.Trim().ToLower())).Select(x => x.Follower).ToList()
+            };
+            return View("Followers", model);
         }
     }
 }
