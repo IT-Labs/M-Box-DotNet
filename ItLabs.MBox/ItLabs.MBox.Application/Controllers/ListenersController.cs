@@ -57,7 +57,9 @@ namespace ItLabs.MBox.Application.Controllers
         {
             var listener = _userManager.FindByIdAsync(CurrentLoggedUserId.ToString()).Result;
 
-            if(listenerName.Length < 2)
+            listenerName = listenerName.Trim();
+
+            if(string.IsNullOrWhiteSpace(listenerName) || listenerName.Length < 2)
             {
                 ModelState.AddModelError("Name", "The Name must contain at least 2 characters");
                 return View("MyAccount", listener);

@@ -209,8 +209,9 @@ namespace ItLabs.MBox.Application.Controllers
         {
             var model = new MyAccountViewModel();
             var recordLabel = _recordLabelManager.GetOne(x => x.Id == recordLabelId, includeProperties: $"{ nameof(RecordLabel.User)}");
+            recordLabelName = recordLabelName.Trim();
 
-            if (recordLabelName.Length < 2)
+            if (string.IsNullOrWhiteSpace(recordLabelName) || recordLabelName.Length < 2)
             {
                 ModelState.AddModelError("Name", "The Name must contain at least 2 characters");
                 return View("MyAccount", model);
@@ -236,12 +237,6 @@ namespace ItLabs.MBox.Application.Controllers
 
             if (string.IsNullOrWhiteSpace(recordLabelInfo))
                 recordLabelInfo = "";
-
-            if (recordLabelInfo.Length > 350)
-            {
-                ModelState.AddModelError("RecordLabelInfo", "Cannot contain more than 350 characters");
-                return View("MyAccount", model);
-            }
 
             recordLabel.AboutInfo = recordLabelInfo;
             _recordLabelManager.Update(recordLabel, recordLabelId);

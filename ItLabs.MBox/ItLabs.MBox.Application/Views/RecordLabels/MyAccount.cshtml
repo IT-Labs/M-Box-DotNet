@@ -5,12 +5,24 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 @section Scripts{
     <script type="text/javascript" src="~/js/EditDetailsOnButtonClick.js"></script>
+    <script type="text/javascript" src="~/js/characterCounter.js"></script>
 }
 
 @{
     ViewData["Title"] = "MyAccount";
     var user = await UserManager.GetUserAsync(User);
     var recordLabel = _recordLabelManager.GetOne(x => x.Id == user.Id);
+    int charactersLeft = 0;
+    if (string.IsNullOrWhiteSpace(recordLabel.AboutInfo))
+    {
+        charactersLeft = 350;
+    }
+    else
+    {
+        charactersLeft = 350 - recordLabel.AboutInfo.Length;
+    }
+
+
 }
 @model MyAccountViewModel
 <div class="container-fluid" style="text-align: center">
@@ -85,12 +97,12 @@
                 <div class="row">
                     <form method="post" asp-controller="RecordLabels" asp-action="EditInfo" id="editRLInfo">
                         @Html.Hidden("recordLabelId", recordLabel.Id)
-                        @Html.TextArea("RecordLabelInfo", recordLabel.AboutInfo, new { @class = "form-control", disabled = "disabled", maxlength ="350", style = "margin-top: 5px; height: 200px; text-align: center; resize: none", id= "contactInfo", name= "recordLabelInfo" })
+                        @Html.TextArea("RecordLabelInfo", recordLabel.AboutInfo, new { @class = "form-control characterCounter", disabled = "disabled", maxlength = "350", style = "margin-top: 5px; height: 200px; text-align: center; resize: none", id = "contactInfo", name = "recordLabelInfo" })
                         <span asp-validation-for="RecordLabelInfo" class="text-danger"></span>
-                       
+                        <p style="margin-top: 10px" id="text-counter">Characters left: <span id="counter">@charactersLeft</span></p>
                     </form>
                 </div>
-            </div>         
+            </div>
         </div>
         <div class="col-md-2 col-sm-2">
         </div>
