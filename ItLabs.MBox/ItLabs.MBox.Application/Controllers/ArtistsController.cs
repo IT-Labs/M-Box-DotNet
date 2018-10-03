@@ -126,6 +126,7 @@ namespace ItLabs.MBox.Application.Controllers
             var songObject = _songManager.GetOne(filter: x => x.ArtistId == CurrentLoggedUserId && x.Id == songId);
             var song = new AddNewSongViewModel()
             {
+                SongId=songObject.Id,
                 AlbumName = songObject.AlbumName,
                 GenreName = songObject.Genre,
                 ReleaseDate = songObject.ReleaseDate,
@@ -217,7 +218,12 @@ namespace ItLabs.MBox.Application.Controllers
         [HttpPost]
         public IActionResult EditSongName(string songName, int songId)
         {
-            return RedirectToAction("EditSongDetails");
+            var model = new AddNewSongViewModel();
+            var song = _songManager.GetOne(x => x.Id == songId && x.ArtistId == CurrentLoggedUserId);
+            song.Name = songName;
+            _songManager.Update(song, CurrentLoggedUserId);
+            _songManager.Save();
+            return View("EditSongDetails", model);
         }
         
         public IActionResult SearchFollowers(string searchValue)
