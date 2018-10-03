@@ -76,7 +76,7 @@
                         </button>
                     </div>
                     <div class="col-md-1 col-sm-1">
-                        <button class="btn btn-success save saveDetails" type="submit" id="saveBio" form="editBio">
+                        <button class="btn btn-success save saveDetails" id="saveBio" type="submit" form="editBio">
                             <i class="glyphicon glyphicon-ok"></i>
                         </button>
                     </div>
@@ -89,13 +89,15 @@
                 <div class="row">
                     <form asp-controller="Artists" asp-action="EditBio" method="post" id="editBio">
                         @Html.Hidden("artistId", artist.Id)
-                        @Html.TextArea("ArtistBio", artist.Bio, new { @class = "form-control", maxlength = "350", style = "margin-top: 5px; height: 200px; text-align: center; resize: none", id="bio", name="artiatBio" })
-                        @Html.ValidationMessageFor(x => x.ArtistBio)
+                        <textarea asp-for="ArtistBio" name="artiatBio" id="bio" disabled></textarea>
+                        @*@Html.TextArea("ArtistBio", artist.Bio, new { @class = "form-control", maxlength = "350", style = "margin-top: 5px; height: 200px; text-align: center; resize: none", id = "bio", name = "artiatBio" })
+        @Html.ValidationMessageFor(x => x.ArtistBio)*@
                         <span asp-validation-for="ArtistBio" class="text-danger"></span>
                         <button type="submit">Submit</button>
-                    </form>                   
+                    </form>
+                    
                 </div>
-                
+
             </div>
         </div>
         <div class="col-md-2 col-sm-2">

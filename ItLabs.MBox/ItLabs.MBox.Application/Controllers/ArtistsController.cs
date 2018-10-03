@@ -201,11 +201,11 @@ namespace ItLabs.MBox.Application.Controllers
             var model = new MyAccountViewModel();
             var artist = _artistManager.GetOne(x => x.Id == artistId, includeProperties: $"{ nameof(Artist.User)}");
 
-            if (artiatBio.Length > 500)
+            /*if (artiatBio.Length > 350)
             {
-                ModelState.AddModelError("ArtistBio", "Cannot contain more than 500 characters");
+                ModelState.AddModelError("ArtistBio", "Cannot contain more than 350 characters");
                 return View("MyAccount", model);
-            }
+            }*/
 
             artist.Bio = artiatBio;
             _artistManager.Update(artist, artistId);
