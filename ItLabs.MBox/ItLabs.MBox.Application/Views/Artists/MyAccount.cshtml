@@ -5,12 +5,23 @@
 @inject ArtistManager _artistManager
 @section Scripts{
     <script type="text/javascript" src="~/js/EditDetailsOnButtonClick.js"></script>
+    <script type="text/javascript" src="~/js/characterCounter.js"></script>
 }
 
 @{
     ViewData["Title"] = "MyAccount";
     var user = await UserManager.GetUserAsync(User);
     var artist = _artistManager.GetOne(x => x.Id == user.Id);
+    int charactersLeft = 0;
+    if (string.IsNullOrWhiteSpace(artist.Bio))
+    {
+        charactersLeft = 350;
+    }
+    else
+    {
+        charactersLeft = 350 - artist.Bio.Length;
+    }
+
 }
 @model MyAccountViewModel
 <div class="container-fluid" style="text-align: center">
@@ -90,8 +101,9 @@
                 <div class="row">
                     <form asp-controller="Artists" asp-action="EditBio" method="post" id="changeBio">
                         @Html.Hidden("artistId", artist.Id)
-                        @Html.TextArea("ArtistBio", artist.Bio, new { @class = "form-control", id = "bio", name = "artistBio", maxlength = "350", style = "margin-top: 5px; height: 200px; text-align: center; resize: none", disabled = "disabled" })
+                        @Html.TextArea("ArtistBio", artist.Bio, new { @class = "form-control characterCounter", id = "bio", name = "artistBio", maxlength = "350", style = "margin-top: 5px; height: 200px; text-align: center; resize: none", disabled = "disabled" })
                         <span asp-validation-for="ArtistBio" class="text-danger"></span>
+                        <p style="margin-top: 10px" id="text-counter">Characters left: <span id="counter">@charactersLeft</span></p>
                     </form>
                 </div>
 

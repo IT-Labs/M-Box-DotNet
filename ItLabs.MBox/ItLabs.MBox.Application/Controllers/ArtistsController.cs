@@ -178,7 +178,9 @@ namespace ItLabs.MBox.Application.Controllers
         {
             var model = new MyAccountViewModel();
             var artist = _artistManager.GetOne(x => x.Id == artistlId, includeProperties: $"{ nameof(Artist.User)}");
-            if (artistName.Length < 2)
+            artistName = artistName.Trim();
+
+            if (string.IsNullOrWhiteSpace(artistName) || artistName.Length < 2)
             {
                 ModelState.AddModelError("Name", "The Name must contain at least 2 characters");
                 return View("MyAccount", model);
@@ -204,12 +206,6 @@ namespace ItLabs.MBox.Application.Controllers
 
             if (string.IsNullOrWhiteSpace(artistBio))
                 artistBio = "";
-
-            if (artistBio.Length > 350)
-            {
-                ModelState.AddModelError("ArtistBio", "Cannot contain more than 350 characters");
-                return View("MyAccount", model);
-            }
 
             artist.Bio = artistBio;
             _artistManager.Update(artist, artistId);
