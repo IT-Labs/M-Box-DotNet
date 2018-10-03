@@ -5,15 +5,13 @@ using ItLabs.MBox.Contracts;
 using ItLabs.MBox.Contracts.Entities;
 using ItLabs.MBox.Contracts.Enums;
 using ItLabs.MBox.Contracts.Interfaces;
-using ItLabs.MBox.Data;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using System.Collections.Generic;
+using System;
 using System.Diagnostics;
 using System.Linq;
-using System.Net.Http.Headers;
 
 namespace ItLabs.MBox.Application.Controllers
 {
@@ -170,7 +168,7 @@ namespace ItLabs.MBox.Application.Controllers
         public IActionResult ArtistDetails(int artistId)
         {
             var model = new ArtistDetailsViewModel();
-            model.Artist = _artistsManager.GetOne(x => x.Id == artistId, includeProperties: $"{nameof(Artist.User)},{nameof(Artist.Songs)}");
+            model.Artist = _artistsManager.GetOne(x => x.Id == artistId, includeProperties: $"{nameof(Artist.User)},{nameof(Artist.Songs)},{nameof(Artist.Follows)}.{nameof(Follow.Follower)}");
             model.PagingModelSongs = new PagingModel<Song>() { PagingList = model.Artist.Songs.Take(MBoxConstants.initialTakeHomeLists).ToList() };
 
             return View(model);
@@ -212,6 +210,34 @@ namespace ItLabs.MBox.Application.Controllers
             };
 
             return View(model);
+        }
+        [HttpGet]
+        public IActionResult ToggleFollow([FromQuery] int artistId)
+        {
+            if (!User.Identity.IsAuthenticated)
+            {
+                return Error();
+            }
+            try
+            {
+                var artist = _artistsManager.GetOne(filter: x => x.Id == artistId, includeProperties: $"{nameof(Artist.Follows)}.{nameof(Follow.Follower)}");
+                var user = _userManager.FindByIdAsync(CurrentLoggedUserId.ToString()).Result;
+                if (artist.Follows.Select(x => x.Follower).Contains(user))
+                {
+                    artist.Follows.Remove(artist.Follows.Where(x => x.Follower == user).FirstOrDefault());
+                }
+                else
+                {
+                    artist.Follows.Add(new Follow() {Artist = artist, Follower = user });
+                }
+                _artistsManager.Update(artist, CurrentLoggedUserId);
+                _artistsManager.Save();
+                return Ok();
+            }catch(Exception ex)
+            {
+                _logger.LogInformation(ex.Message);
+                return Error();
+            }
         }
     }
 }

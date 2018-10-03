@@ -64,5 +64,9 @@ namespace ItLabs.MBox.Domain.Managers
             }
             
         }
+        public void Follow(int artistId, int followerId)
+        {
+
+        }
     }
 }

@@ -12,6 +12,7 @@
 
 @section Scripts{
     <script type="text/javascript" src="~/js/LazyLoadSongs.js"></script>
+    <script type="text/javascript" src="~/js/FollowScript.js"></script>
 }
 
 @{
@@ -21,10 +22,10 @@
 @model ArtistDetailsViewModel
 <div class="container-fluid" style="text-align: center">
     <div class="row" style="width:100%;height:150px;z-index:600;background:white;position:fixed;border-bottom: 1px solid black">
-
+        
     </div>
     <div class="row" style="margin-top:170px">
-        <div class="col-sm-3" style="border-right: 1px solid grey; float: left; position:fixed; height:550px; z-index:600">
+        <div class="col-sm-2" style="border-right: 1px solid grey; float: left; position:fixed; height:550px; z-index:600">
             <div class="row">
                 <h2 asp-for="User.Name">@Model.Artist.User.Name</h2>
             </div>
@@ -38,7 +39,16 @@
         @Html.Hidden("artistId", Model.Artist.Id)
         <div class="sol-sm-9" style="">
             <div class="row" style="position:fixed;z-index:999">
-                <img class="img img-circle" style="width:200px;height:200px;margin-left: 500px;margin-top:-150px" src="@_s3Manager.GetImageLink(Model.Artist.PictureName)" />
+                @if (Model.Artist.Follows.Select(x => x.Follower).Contains(user))
+                {
+                    <button id="followButton" value="Unfollow" class="btn btn-primary" style="width:100px;margin-left: 400px">Unfollow</button>
+                }
+                else
+                {
+                    <button id="followButton" value="Follow" class="btn btn-primary" style="width:100px;margin-left: 400px">Follow</button>
+                }
+
+                <img class="img img-circle" style="width:200px;height:200px;margin-top:-150px" src="@_s3Manager.GetImageLink(Model.Artist.PictureName)" />
             </div>
             <div class="row" style="position:relative;z-index:0">
 

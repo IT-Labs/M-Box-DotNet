@@ -1,7 +1,7 @@
 ﻿var modelJSValue = {};
 var lazyLoadingUrl = $("#lazyLoadingUrl").val();
 
-jQuery(document).ready(function () {
+$(document).ready(function () {
     modelJSValue.Take = $("#take").val();
     modelJSValue.Skip = $("#skip").val();
     modelJSValue.recordLabelId = $("#recordLabelId").val();

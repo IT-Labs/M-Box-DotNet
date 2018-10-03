@@ -168,8 +168,9 @@ namespace ItLabs.MBox.Application.Controllers
         [HttpGet]
         public IActionResult Followers()
         {
-            var model = new PagingModel<Song>();
-            model.PagingList = _songManager.Get(filter: x => x.ArtistId == CurrentLoggedUserId).ToList();
+            var model = new PagingModel<ApplicationUser>();
+            var artist = _artistManager.GetOne(filter: x => x.Id == CurrentLoggedUserId, includeProperties: $"{nameof(Artist.Follows)}.{nameof(Follow.Follower)}");
+            model.PagingList = artist.Follows.Select(x=>x.Follower).ToList();
             return View(model);
         }
         
