@@ -20,7 +20,7 @@ namespace ItLabs.MBox.Application.Controllers
         private readonly IS3Manager _s3Manager;
         private readonly IEmailsManager _emailsManager;
         private readonly IArtistManager _artistManager;
-        public ArtistsController(IArtistManager artistManager,ISongManager songManager, UserManager<ApplicationUser> userManager, IEmailsManager emailsManager, IS3Manager s3Manager) : base(userManager)
+        public ArtistsController(IArtistManager artistManager, ISongManager songManager, UserManager<ApplicationUser> userManager, IEmailsManager emailsManager, IS3Manager s3Manager) : base(userManager)
         {
             _songManager = songManager;
             _s3Manager = s3Manager;
@@ -173,6 +173,57 @@ namespace ItLabs.MBox.Application.Controllers
             model.PagingList = artist.Follows.Select(x=>x.Follower).ToList();
             return View(model);
         }
-        
+        [HttpPost]
+        public IActionResult EditName(string artistName, int artistlId)
+        {
+            var model = new MyAccountViewModel();
+            var artist = _artistManager.GetOne(x => x.Id == artistlId, includeProperties: $"{ nameof(Artist.User)}");
+            if (artistName.Length < 2)
+            {
+                ModelState.AddModelError("Name", "The Name must contain at least 2 characters");
+                return View("MyAccount", model);
+            }
+            if (artistName.Length > 50)
+            {
+                ModelState.AddModelError("Name", "The Name cannot contain more than 50 characters");
+                return View("MyAccount", model);
+            }
+
+            artist.User.Name = artistName;
+            _artistManager.Update(artist, artistlId);
+            _artistManager.Save();
+
+            return RedirectToAction("MyAccount");
+        }
+
+        [HttpPost]
+        public IActionResult EditBio(string artistBio, int artistId)
+        {
+            var model = new MyAccountViewModel();
+            var artist = _artistManager.GetOne(x => x.Id == artistId, includeProperties: $"{ nameof(Artist.User)}");
+
+            if (string.IsNullOrWhiteSpace(artistBio))
+                artistBio = "";
+
+            if (artistBio.Length > 350)
+            {
+                ModelState.AddModelError("ArtistBio", "Cannot contain more than 350 characters");
+                return View("MyAccount", model);
+            }
+
+            artist.Bio = artistBio;
+            _artistManager.Update(artist, artistId);
+            _artistManager.Save();
+
+            return RedirectToAction("MyAccount");
+        }
+
+        [HttpPost]
+        public IActionResult EditSongName(string songName, int songId)
+        {
+
+
+            return RedirectToAction("EditSongDetails");
+        }
     }
 }

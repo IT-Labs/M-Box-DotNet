@@ -51,5 +51,27 @@ namespace ItLabs.MBox.Application.Controllers
             _userManager.UpdateAsync(user).Wait();
             return RedirectToAction("MyAccount");
         }
+
+        [HttpPost]
+        public IActionResult EditName(string listenerName)
+        {
+            var listener = _userManager.FindByIdAsync(CurrentLoggedUserId.ToString()).Result;
+
+            if(listenerName.Length < 2)
+            {
+                ModelState.AddModelError("Name", "The Name must contain at least 2 characters");
+                return View("MyAccount", listener);
+            }
+            if (listenerName.Length > 50)
+            {
+                ModelState.AddModelError("Name", "The Name cannot contain more than 50 characters");
+                return View("MyAccount", listener);
+            }
+
+            listener.Name = listenerName;
+            _userManager.UpdateAsync(listener).Wait();
+
+            return RedirectToAction("MyAccount");
+        }
     }
 }

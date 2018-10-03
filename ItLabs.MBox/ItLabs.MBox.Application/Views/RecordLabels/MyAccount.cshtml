@@ -19,19 +19,24 @@
         </div>
         <div class="col-md-8 col-sm-8">
             <div class="row" style="margin: 15px">
-                <div class="col-md-8 col-sm-8">
-                    <input class="form-control" value="@user.Name" id="RecordLabelName" disabled>
-                </div>
+                <form method="post" asp-controller="RecordLabels" asp-action="EditName" id="editRLName">
+                    @Html.Hidden("recordLabelId", recordLabel.Id)
+                    <div class="col-md-8 col-sm-8">
+                        <input asp-for="Name" class="form-control" value="@user.Name" name="recordLabelName" type="text" id="RecordLabelName" disabled>
+                        <span asp-validation-for="Name" class="text-danger"></span>
+                    </div>
+                </form>
                 <div class="col-md-1 col-sm-1">
                     <button class="btn btn-default edit editDetails" id="editRecordLabelName" onclick="editDetails('RecordLabelName', 'editRecordLabelName', 'saveRecordLabelName', 'cancelRecordLabelName')">
                         <i class="glyphicon glyphicon-edit"></i>
                     </button>
                 </div>
                 <div class="col-md-1 col-sm-1">
-                    <button class="btn btn-success save saveDetails" id="saveRecordLabelName" onclick="saveDetails('RecordLabelName', 'editRecordLabelName', 'saveRecordLabelName', 'cancelRecordLabelName')">
+                    <button class="btn btn-success save saveDetails" id="saveRecordLabelName" type="submit" form="editRLName">
                         <i class="glyphicon glyphicon-ok"></i>
                     </button>
                 </div>
+
                 <div class="col-md-1 col-sm-1">
                     <button class="btn btn-danger cancelDetails" id="cancelRecordLabelName" onclick="cancelEditiong('RecordLabelName', 'editRecordLabelName', 'saveRecordLabelName', 'cancelRecordLabelName')">
                         <i class="glyphicon glyphicon-remove"></i>
@@ -40,7 +45,7 @@
             </div>
             <div class="row">
                 <div class="col-sm-12">
-                    <img class="img-responsive center-block" style="height:350px; width:500px"  src="@_s3Manager.GetImageLink(recordLabel.PictureName)">
+                    <img class="img-responsive center-block" style="height:350px; width:500px" src="@_s3Manager.GetImageLink(recordLabel.PictureName)">
                 </div>
             </div>
             <div class="row" style="margin:15px">
@@ -67,7 +72,7 @@
                         </button>
                     </div>
                     <div class="col-md-1 col-sm-1">
-                        <button class="btn btn-success save saveDetails" id="saveContactInfo" onclick="saveDetails('contactInfo', 'editContactInfo', 'saveContactInfo', 'cancelContactInfo')">
+                        <button class="btn btn-success save saveDetails" id="saveContactInfo" form="editRLInfo" type="submit">
                             <i class="glyphicon glyphicon-ok"></i>
                         </button>
                     </div>
@@ -78,34 +83,14 @@
                     </div>
                 </div>
                 <div class="row">
-                    <textarea class="form-control" maxlength="350" style="margin-top: 5px; height: 200px; resize: none; text-align: center" name="ContactInfo" id="contactInfo" disabled></textarea>
+                    <form method="post" asp-controller="RecordLabels" asp-action="EditInfo" id="editRLInfo">
+                        @Html.Hidden("recordLabelId", recordLabel.Id)
+                        @Html.TextArea("RecordLabelInfo", recordLabel.AboutInfo, new { @class = "form-control", disabled = "disabled", maxlength ="350", style = "margin-top: 5px; height: 200px; text-align: center; resize: none", id= "contactInfo", name= "recordLabelInfo" })
+                        <span asp-validation-for="RecordLabelInfo" class="text-danger"></span>
+                       
+                    </form>
                 </div>
-            </div>
-            <div class="row" style="margin: 15px">
-                <div class="row">
-                    <div class="col-md-8 col-sm-8">
-                        <label>Other Information About Record Label</label>
-                    </div>
-                    <div class="col-md-1 col-sm-1">
-                        <button class="btn btn-default edit editDetails" id="editOtherInfo" onclick="editDetails('otherInfo', 'editOtherInfo', 'saveOtherInfo', 'cancelOtherInfo')">
-                            <i class="glyphicon glyphicon-edit"></i>
-                        </button>
-                    </div>
-                    <div class="col-md-1 col-sm-1">
-                        <button class="btn btn-success save saveDetails" id="saveOtherInfo" onclick="saveDetails('otherInfo', 'editOtherInfo', 'saveOtherInfo', 'cancelOtherInfo')">
-                            <i class="glyphicon glyphicon-ok"></i>
-                        </button>
-                    </div>
-                    <div class="col-md-1 col-sm-1">
-                        <button class="btn btn-danger cancelDetails" id="cancelOtherInfo" onclick="cancelEditiong('otherInfo', 'editOtherInfo', 'saveOtherInfo', 'cancelOtherInfo')">
-                            <i class="glyphicon glyphicon-remove"></i>
-                        </button>
-                    </div>
-                </div>
-                <div class="row">
-                    <textarea class="form-control" maxlength="1000" style="margin-top: 5px; height: 300px; resize: none; text-align: center" name="InfoAboutRecordLabel" id="otherInfo" disabled></textarea>
-                </div>
-            </div>
+            </div>         
         </div>
         <div class="col-md-2 col-sm-2">
         </div>
