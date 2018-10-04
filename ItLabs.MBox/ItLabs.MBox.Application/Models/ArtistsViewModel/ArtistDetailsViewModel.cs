@@ -10,6 +10,7 @@ namespace ItLabs.MBox.Application.Models.ArtistsViewModel
     {
         public PagingModel<Song> PagingModelSongs { get; set; }
         public Artist Artist { get; set; }
+        public int CurrentLoggedUserId { get; set; }
 
     }
 }

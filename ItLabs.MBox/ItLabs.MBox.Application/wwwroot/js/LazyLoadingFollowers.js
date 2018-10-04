@@ -4,7 +4,7 @@ var lazyLoadingUrl = $("#lazyLoadingUrl").val();
 $(document).ready(function () {
     modelJSValue.Take = $("#take").val();
     modelJSValue.Skip = $("#skip").val();
-    modelJSValue.recordLabelId = $("#recordLabelId").val();
+    modelJSValue.Followers = $("#followers").val();
 });
 
 $(window).on("scroll", function () {
@@ -13,6 +13,7 @@ $(window).on("scroll", function () {
     if ((scrollHeight - scrollPosition) / scrollHeight === 0) {
         modelJSValue.Skip = parseInt(modelJSValue.Skip) + parseInt(modelJSValue.Take);
         modelJSValue.Take = 10;
+        modelJSValue.SearchQuery = $("#searchBox").val();
         var toSend = jQuery.param(modelJSValue);
         $.ajax({
             type: "GET",
@@ -20,7 +21,7 @@ $(window).on("scroll", function () {
             url: lazyLoadingUrl,
             data: toSend,
             success: function (result) {
-                $("#artistListId").append(result);
+                $("#listToAppend").append(result);
             }
         });
 

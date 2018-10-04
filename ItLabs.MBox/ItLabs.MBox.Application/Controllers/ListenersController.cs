@@ -1,10 +1,14 @@
-﻿using ItLabs.MBox.Contracts;
+﻿using ItLabs.MBox.Application.Models;
+using ItLabs.MBox.Contracts;
 using ItLabs.MBox.Contracts.Entities;
 using ItLabs.MBox.Contracts.Interfaces;
+using ItLabs.MBox.Domain.Managers;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace ItLabs.MBox.Application.Controllers
 {
@@ -37,7 +41,11 @@ namespace ItLabs.MBox.Application.Controllers
                 return View("MyAccount", user);
             }
             var formFile = uploadedFiles[0];
-
+            if (!(formFile.ContentType.Equals("image/png") || formFile.ContentType.Equals("image/jpeg") || formFile.ContentType.Equals("image/jpeg")))
+            {
+                ModelState.AddModelError("Picture", formFile.ContentType + " extension is not allowed. You can only upload jpg, jpeg or png.");
+                return View("MyAccount",user);
+            }
             if (formFile.Length > MBoxConstants.MaximumImageSizeAllowed)
             {
                 //Error Message
@@ -75,5 +83,6 @@ namespace ItLabs.MBox.Application.Controllers
 
             return RedirectToAction("MyAccount");
         }
+        
     }
 }

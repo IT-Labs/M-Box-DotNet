@@ -2,12 +2,17 @@
 using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace ItLabs.MBox.Contracts.Entities
 {
     // Add profile data for application users by adding properties to the ApplicationUser class
     public class ApplicationUser : IdentityUser<int>, IEntity
     {
+        public ApplicationUser() : base()
+        {
+            Follows = new List<Follow>();
+        }
         public virtual string Name { get; set; }
 
         public virtual bool IsActivated { get; set; }
@@ -29,6 +34,10 @@ namespace ItLabs.MBox.Contracts.Entities
                 }
                 return Picture;
             }
+        }
+        public bool IsFollowing(int artistId)
+        {
+            return Follows.Select(x => x.Artist?.Id).Contains(artistId);
         }
     }
 }

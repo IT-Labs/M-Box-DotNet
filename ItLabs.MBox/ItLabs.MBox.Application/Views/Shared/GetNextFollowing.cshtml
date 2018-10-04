@@ -1,0 +1,22 @@
+﻿@using ItLabs.MBox.Domain.Managers
+@inject S3Manager  _s3Manager
+@{
+    Layout = null;
+}
+@model PagingModel<Artist>
+@foreach (var artist in Model.PagingList)
+{
+    <tr class="search">
+        <td>
+            <img class="img-circle" style="height: 35px; width: 35px" src="@_s3Manager.GetImageLink(artist.PictureName)" />
+        </td>
+        <td>
+            @artist.User.Name
+        </td>
+        <td>
+            <button data-artistId="@artist.User.Id" type="submit" class="btn btn-danger clickableButton">
+                Unfollow
+            </button>
+        </td>
+    </tr>
+}

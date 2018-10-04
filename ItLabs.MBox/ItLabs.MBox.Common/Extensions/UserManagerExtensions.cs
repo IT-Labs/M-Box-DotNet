@@ -2,6 +2,7 @@
 using ItLabs.MBox.Contracts.Enums;
 using Microsoft.AspNetCore.Identity;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace ItLabs.MBox.Common.Extensions

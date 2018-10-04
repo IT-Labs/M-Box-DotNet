@@ -190,6 +190,11 @@ namespace ItLabs.MBox.Application.Controllers
             }
 
             var formFile = uploadedFiles[0];
+            if (!(formFile.ContentType.Equals("image/png") || formFile.ContentType.Equals("image/jpeg") || formFile.ContentType.Equals("image/jpeg")))
+            {
+                ModelState.AddModelError("Picture", formFile.ContentType + " extension is not allowed. You can only upload jpg, jpeg or png.");
+                return View("MyAccount", model);
+            }
             if (formFile.Length > MBoxConstants.MaximumImageSizeAllowed)
             {
                 ModelState.AddModelError("Picture", "Maximum 3MB picture size allowed!");

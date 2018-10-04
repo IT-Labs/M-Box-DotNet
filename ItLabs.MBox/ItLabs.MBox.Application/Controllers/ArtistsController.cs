@@ -77,9 +77,14 @@ namespace ItLabs.MBox.Application.Controllers
             if (uploadedFiles.Count > 0)
             {
                 var formFile = uploadedFiles[0];
+                if(!(formFile.ContentType.Equals("image/png") || formFile.ContentType.Equals("image/jpeg") || formFile.ContentType.Equals("image/jpeg")))
+                {
+                    ModelState.AddModelError("Picture", formFile.ContentType + " extension is not allowed. You can only upload jpg, jpeg or png.");
+                    return View(model);
+                }
                 if (formFile.Length > MBoxConstants.MaximumImageSizeAllowed)
                 {
-                    ModelState.AddModelError("Picture", "Maximum 3MB picture size allowed!");
+                    ModelState.AddModelError("Picture", "Upload file exceeded the maximum file size limit of 3MB.");
                     return View(model);
                 }
                 imageS3Name = _s3Manager.UploadFile(formFile);
@@ -126,7 +131,7 @@ namespace ItLabs.MBox.Application.Controllers
             var songObject = _songManager.GetOne(filter: x => x.ArtistId == CurrentLoggedUserId && x.Id == songId);
             var song = new AddNewSongViewModel()
             {
-                SongId=songObject.Id,
+                SongId = songObject.Id,
                 AlbumName = songObject.AlbumName,
                 GenreName = songObject.Genre,
                 ReleaseDate = songObject.ReleaseDate,
@@ -150,7 +155,11 @@ namespace ItLabs.MBox.Application.Controllers
                 return View("MyAccount", model);
             }
             var formFile = uploadedFiles[0];
-
+            if (!(formFile.ContentType.Equals("image/png") || formFile.ContentType.Equals("image/jpeg") || formFile.ContentType.Equals("image/jpeg")))
+            {
+                ModelState.AddModelError("Picture", formFile.ContentType + " extension is not allowed. You can only upload jpg, jpeg or png.");
+                return View("MyAccount",model);
+            }
             if (formFile.Length > MBoxConstants.MaximumImageSizeAllowed)
             {
                 //Error Message
@@ -166,14 +175,7 @@ namespace ItLabs.MBox.Application.Controllers
             return RedirectToAction("MyAccount");
         }
 
-        [HttpGet]
-        public IActionResult Followers()
-        {
-            var model = new PagingModel<ApplicationUser>();
-            var artist = _artistManager.GetOne(filter: x => x.Id == CurrentLoggedUserId, includeProperties: $"{nameof(Artist.Follows)}.{nameof(Follow.Follower)}");
-            model.PagingList = artist.Follows.Select(x=>x.Follower).ToList();
-            return View(model);
-        }
+
         [HttpPost]
         public IActionResult EditName(string artistName, int artistlId)
         {
@@ -225,7 +227,16 @@ namespace ItLabs.MBox.Application.Controllers
             _songManager.Save();
             return View("EditSongDetails", model);
         }
-        
+
+
+        [HttpGet]
+        public IActionResult Followers()
+        {
+            var model = new PagingModel<ApplicationUser>();
+            var artist = _artistManager.GetOne(filter: x => x.Id == CurrentLoggedUserId, includeProperties: $"{nameof(Artist.Follows)}.{nameof(Follow.Follower)}");
+            model.PagingList = artist.Follows.Select(x => x.Follower).Skip(model.Skip).Take(model.Take).ToList();
+            return View(model);
+        }
         public IActionResult SearchFollowers(string searchValue)
         {
             if (string.IsNullOrWhiteSpace(searchValue))
@@ -238,6 +249,15 @@ namespace ItLabs.MBox.Application.Controllers
                 PagingList = artist.Follows.Where(x => x.Follower.Name.ToLower().Contains(searchValue.Trim().ToLower())).Select(x => x.Follower).ToList()
             };
             return View("Followers", model);
+        }
+        [HttpGet]
+        public IActionResult GetNextFollowers([FromQuery] PagingModel<ApplicationUser> model)
+        {
+            if (string.IsNullOrWhiteSpace(model.SearchQuery))
+                model.SearchQuery = string.Empty;
+            var artist = _artistManager.GetOne(x => x.Id == CurrentLoggedUserId,$"{nameof(Artist.Follows)}.{nameof(Follow.Follower)}");
+            model.PagingList = artist.Follows.Where(x => x.Follower.Name.ToLower().Contains(model.SearchQuery.Trim().ToLower())).Skip(model.Skip).Take(model.Take).Select(x => x.Follower).ToList();
+            return View(model);
         }
     }
 }

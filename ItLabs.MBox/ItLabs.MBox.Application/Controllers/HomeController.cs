@@ -8,6 +8,7 @@ using ItLabs.MBox.Contracts.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Diagnostics;
@@ -170,7 +171,7 @@ namespace ItLabs.MBox.Application.Controllers
             var model = new ArtistDetailsViewModel();
             model.Artist = _artistsManager.GetOne(x => x.Id == artistId, includeProperties: $"{nameof(Artist.User)},{nameof(Artist.Songs)},{nameof(Artist.Follows)}.{nameof(Follow.Follower)}");
             model.PagingModelSongs = new PagingModel<Song>() { PagingList = model.Artist.Songs.Take(MBoxConstants.initialTakeHomeLists).ToList() };
-
+            model.CurrentLoggedUserId = CurrentLoggedUserId;
             return View(model);
         }
         [HttpPost]
@@ -228,5 +229,36 @@ namespace ItLabs.MBox.Application.Controllers
                 return Error();
             }
         }
+        [HttpGet]
+        public IActionResult Following()
+        {
+            var model = new PagingModel<Artist>();
+            var user = _userManager.Users.Where(x => x.Id == CurrentLoggedUserId).Include($"{nameof(Artist.Follows)}.{nameof(Follow.Artist)}.{nameof(Artist.User)}").FirstOrDefault();
+            model.PagingList = user.Follows.Select(x => x.Artist).Skip(model.Skip).Take(model.Take).ToList();
+            return View(model);
+        }
+        public IActionResult SearchFollowing(string searchValue)
+        {
+            if (string.IsNullOrWhiteSpace(searchValue))
+            {
+                return RedirectToAction("Following");
+            }
+            var user = _userManager.Users.Where(x => x.Id == CurrentLoggedUserId).Include($"{ nameof(Artist.Follows)}.{ nameof(Follow.Artist)}.{nameof(Artist.User)}").FirstOrDefault();
+            var model = new PagingModel<Artist>()
+            {
+                PagingList = user.Follows.Where(x => x.Artist.User.Name.ToLower().Contains(searchValue.Trim().ToLower())).Select(x => x.Artist).ToList()
+            };
+            return View("Following", model);
+        }
+        [HttpGet]
+        public IActionResult GetNextFollowing([FromQuery] PagingModel<Artist> model)
+        {
+            if (string.IsNullOrWhiteSpace(model.SearchQuery))
+                model.SearchQuery = string.Empty;
+            var user = _userManager.Users.Where(x => x.Id == CurrentLoggedUserId).Include($"{nameof(Artist.Follows)}.{nameof(Follow.Artist)}.{nameof(Artist.User)}").FirstOrDefault();
+            model.PagingList = user.Follows.Where(x => x.Artist.User.Name.ToLower().Contains(model.SearchQuery.Trim().ToLower())).Skip(model.Skip).Take(model.Take).Select(x => x.Artist).ToList();
+            return View(model);
+        }
+
     }
 }

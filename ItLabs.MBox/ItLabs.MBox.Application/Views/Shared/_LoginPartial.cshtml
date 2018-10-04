@@ -42,7 +42,7 @@
         <ul class="nav navbar-nav navbar-right">
             <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" style="margin: 0; padding: 0">
-                    @if (user.Picture != null)
+                    @if (!string.IsNullOrEmpty(user?.Picture))
                     {
                         <img class="img-circle" style=" width:45px;height:45px;font-size:35px; margin-top: 8px; margin-left: 8px" src="@_s3Manager.GetImageLink(user.PictureName)" />
                     }
@@ -57,7 +57,11 @@
                             <button type="submit" class="btn btn-link navbar-btn navbar-link btn-block dropDownButton">My Account</button>
                         </form>
                     </li>
-                    <li><a href="#">Following</a></li>
+                    <li>
+                        <form asp-area="" asp-controller="Home" asp-action="Following" method="get" id="logoutForm" style="margin-left: 10px">
+                            <button type="submit" class="btn btn-link navbar-btn navbar-link btn-block dropDownButton">Following</button>
+                        </form>
+                    </li>
                     <li>
                         <form asp-area="" asp-controller="Manage" asp-action="ChangePassword" method="get" id="logoutForm" style="margin-left: 10px">
                             <button type="submit" class="btn btn-link navbar-btn navbar-link btn-block dropDownButton">Change Password</button>
@@ -77,7 +81,7 @@
         <ul class="nav navbar-nav navbar-right">
             <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" style="margin: 0; padding: 0">
-                    @if (user.Picture != null)
+                    @if (!string.IsNullOrEmpty(user?.Picture))
                     {
                         <img class="img-circle" style=" width:45px;height:45px;font-size:35px; margin-top: 8px; margin-left: 8px" src="@_s3Manager.GetImageLink(user.PictureName)" />
                     }
@@ -117,7 +121,7 @@
         <ul class="nav navbar-nav navbar-right">
             <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" style="margin: 0; padding: 0">
-                    @if (user.Picture != null)
+                    @if (!string.IsNullOrEmpty(user?.Picture))
                     {
                         <img class="img-circle" style=" width:45px;height:45px;font-size:35px; margin-top: 8px; margin-left: 8px" src="@_s3Manager.GetImageLink(user.PictureName)" />
                     }
@@ -142,7 +146,11 @@
                             <button type="submit" class="btn btn-link navbar-btn navbar-link btn-block dropDownButton">Followers</button>
                         </form>
                     </li>
-                    <li><a href="#">Following</a></li>
+                    <li>
+                        <form asp-area="" asp-controller="Home" asp-action="Following" method="get" id="logoutForm" style="margin-left: 10px">
+                            <button type="submit" class="btn btn-link navbar-btn navbar-link btn-block dropDownButton">Following</button>
+                        </form>
+                    </li>
                     <li>
                         <form asp-area="" asp-controller="Manage" asp-action="ChangePassword" method="get" id="logoutForm" style="margin-left: 10px">
                             <button type="submit" class="btn btn-link navbar-btn navbar-link btn-block dropDownButton">Change Password</button>

@@ -1,5 +1,8 @@
 ﻿@using ItLabs.MBox.Domain.Managers
 @inject S3Manager  _s3Manager
+@section Scripts{
+    <script type="text/javascript" src="~/js/LazyLoadingFollowers.js"></script>
+}
 @model PagingModel<ApplicationUser>
 <div class="container-fluid">
     <div class="row" style="margin-top: 25px">
@@ -17,6 +20,10 @@
         </div>
     </div>
     <div class="row" style="margin-top: 25px">
+        <input id="followers" type="hidden" value="@Html.Raw(Json.Serialize(new List<ApplicationUser>()))" />
+        <input id="take" type="hidden" value="@Html.Raw(Json.Serialize(Model.Take))" />
+        <input id="skip" type="hidden" value="@Html.Raw(Json.Serialize(Model.Skip))" />
+        <input id="lazyLoadingUrl" type="hidden" value="/Artists/GetNextFollowers" />
         <table class="table table-striped" id="smartTabel">
             <thead>
                 <tr>
@@ -34,10 +41,6 @@
                         </td>
                         <td>
                             @follower.Name
-                            <input id="followers" type="hidden" value="@Html.Raw(Json.Serialize(new List<ApplicationUser>()))" />
-                            <input id="take" type="hidden" value="@Html.Raw(Json.Serialize(Model.Take))" />
-                            <input id="skip" type="hidden" value="@Html.Raw(Json.Serialize(Model.Skip))" />
-                            <input id="lazyLoadingUrl" type="hidden" value="/Artists/GetNextFollowers" />
                         </td>
                     </tr>
                 }

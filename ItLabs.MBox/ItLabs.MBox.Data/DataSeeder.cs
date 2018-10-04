@@ -62,6 +62,15 @@ namespace ItLabs.MBox.Data
 
                 
             }
+            //if (!context.Follows.Any())
+            //{
+            //    var artist = context.Artists.Include(x => x.Follows).Include(x=>x.User).Where(x=>x.User.Email == "artist@gmail.com").FirstOrDefault();
+            //    foreach(var user in context.ApplicationUsers)
+            //    {
+            //        artist.Follows.Add(new Follow() { Artist = artist, Follower = user });
+            //    }
+            //    context.Update(artist);
+            //}
             context.SaveChanges();
         }
     }

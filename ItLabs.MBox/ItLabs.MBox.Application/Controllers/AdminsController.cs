@@ -41,7 +41,7 @@ namespace ItLabs.MBox.Application.Controllers
         {
             model.PagingList = _recordLabelManager.SearchRecordLabels(model.SearchQuery, model.Skip, model.Take).ToList();
 
-            return View("NextRecordLabels", model);
+            return View(model);
         }
 
         [HttpGet]

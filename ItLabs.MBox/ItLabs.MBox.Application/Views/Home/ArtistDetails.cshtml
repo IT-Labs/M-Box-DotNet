@@ -8,7 +8,6 @@
 @using ItLabs.MBox.Domain.Managers
 @using ItLabs.MBox.Application.Models.ArtistsViewModel
 @inject S3Manager  _s3Manager
-@inject UserManager<ApplicationUser> UserManager
 
 @section Scripts{
     <script type="text/javascript" src="~/js/LazyLoadSongs.js"></script>
@@ -17,11 +16,10 @@
 
 @{
     ViewData["Title"] = "MyAccount";
-    var user = await UserManager.GetUserAsync(User);
 }
 @model ArtistDetailsViewModel
 <div class="container-fluid" style="text-align: center">
-    <div class="row" style="width:100%;height:150px;z-index:600;background:white;position:fixed;border-bottom: 1px solid black">
+    <div class="row" style="width:100%;height:150px;z-index:600;background:white;position:fixed;border-bottom: 1px solid grey">
 
     </div>
     <div class="row" style="margin-top:170px">
@@ -39,13 +37,13 @@
         @Html.Hidden("artistId", Model.Artist.Id)
         <div class="sol-sm-9" style="">
             <div class="row" style="position:fixed;z-index:999">
-                @if (Model.Artist.Id == user.Id)
+                @if (Model.Artist.Id == Model.CurrentLoggedUserId)
                 {
                     <button id="followButton" value="Follow" class="btn btn-primary" style="width:100px;margin-left: 400px" disabled>Follow</button>
                 }
                 else
                 {
-                    if (Model.Artist.Follows.Select(x => x.Follower).Contains(user))
+                    if (Model.Artist.IsFollowed(Model.CurrentLoggedUserId))
                     {
                         <button id="followButton" value="Unfollow" class="btn btn-primary" style="width:100px;margin-left: 400px">Unfollow</button>
                     }
@@ -58,7 +56,7 @@
             </div>
             <div class="row" style="position:relative;z-index:0">
 
-                <ul id="songListId" class="list-group seperateLists" style="list-style:none;position:relative ;margin-left: 45%;margin-top:100px;margin-right:-150px">
+                <ul id="songListId" class="list-group seperateLists" style="list-style:none;position:relative ;margin-left: 35%;margin-top:100px;margin-right:-150px">
                     @foreach (Song song in Model.PagingModelSongs.PagingList)
                     {
                         <li class="col-sm-3 card-container-song table-bordered" style="margin-right:3.2%; margin-bottom: 2%;height:240px">

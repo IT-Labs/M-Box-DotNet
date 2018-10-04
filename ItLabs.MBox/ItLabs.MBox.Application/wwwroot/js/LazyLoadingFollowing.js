@@ -1,10 +1,11 @@
-﻿var modelJSValue = {};
+﻿
+var modelJSValue = {};
 var lazyLoadingUrl = $("#lazyLoadingUrl").val();
 
 $(document).ready(function () {
     modelJSValue.Take = $("#take").val();
     modelJSValue.Skip = $("#skip").val();
-    modelJSValue.recordLabelId = $("#recordLabelId").val();
+    modelJSValue.Following = $("#following").val();
 });
 
 $(window).on("scroll", function () {
@@ -13,6 +14,7 @@ $(window).on("scroll", function () {
     if ((scrollHeight - scrollPosition) / scrollHeight === 0) {
         modelJSValue.Skip = parseInt(modelJSValue.Skip) + parseInt(modelJSValue.Take);
         modelJSValue.Take = 10;
+        modelJSValue.SearchQuery = $("#searchBox").val();
         var toSend = jQuery.param(modelJSValue);
         $.ajax({
             type: "GET",
@@ -20,9 +22,24 @@ $(window).on("scroll", function () {
             url: lazyLoadingUrl,
             data: toSend,
             success: function (result) {
-                $("#artistListId").append(result);
+                $("#listToAppend").append(result);
             }
         });
 
     }
 });
+$("#listToAppend").on("click",".clickableButton", function () {
+    console.log("vlaga");
+    var artistId = this.getAttribute("data-artistId");
+    var toSend = { artistId: parseInt(artistId) };
+    $.ajax({
+        type: "GET",
+        contentType: "application/json",
+        url: "/Home/ToggleFollow",
+        data: $.param(toSend),
+        success: function (result) {
+            $("button[data-artistId='" + artistId + "']").parent().parent().remove();
+        }
+    });
+});
+

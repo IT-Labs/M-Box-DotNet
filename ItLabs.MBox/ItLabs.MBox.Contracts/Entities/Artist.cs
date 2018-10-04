@@ -10,6 +10,7 @@ namespace ItLabs.MBox.Contracts.Entities
         {
             RecordLabelArtists = new List<RecordLabelArtist>();
             User = new ApplicationUser();
+            Follows = new List<Follow>();
         }
 
         public virtual string Bio { get; set; }
@@ -33,6 +34,10 @@ namespace ItLabs.MBox.Contracts.Entities
                 }
                 return User.Picture;
             }
+        }
+        public bool IsFollowed(int userId)
+        {
+            return Follows.Select(x => x.Follower.Id).Contains(userId);
         }
     }
 }

@@ -1,7 +1,56 @@
-﻿
-@{
-    ViewData["Title"] = "Following";
+﻿@using ItLabs.MBox.Domain.Managers
+@inject S3Manager  _s3Manager
+@section Scripts{
+    <script type="text/javascript" src="~/js/LazyLoadingFollowing.js"></script>
 }
+@model PagingModel<Artist>
+<div class="container-fluid">
+    <div class="row" style="margin-top: 25px">
+        <div class="col-md-9 col-sm-9" style="margin-top: 5px">
+            <div class="row">
+                <form id="searchForm" asp-area="" asp-controller="Home" asp-action="SearchFollowing" method="post">
+                    <div class="col-md-9 col-sm-9">
+                        @Html.TextBox("searchValue", null, new { @id = "searchBox", @class = "form-control" })
+                    </div>
+                    <div class="col-md-3 col-sm-3">
+                        <input id="searchButton" type="submit" value="Search" class="btn btn-default btn-block" />
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="row" style="margin-top: 25px">
+        <input id="following" type="hidden" value="@Html.Raw(Json.Serialize(new List<Artist>()))" />
+        <input id="take" type="hidden" value="@Html.Raw(Json.Serialize(Model.Take))" />
+        <input id="skip" type="hidden" value="@Html.Raw(Json.Serialize(Model.Skip))" />
+        <input id="lazyLoadingUrl" type="hidden" value="/Home/GetNextFollowing" />
+        <table class="table table-striped" id="smartTabel">
+            <thead>
+                <tr>
+                    <th width="20%">Profile Picture</th>
+                    <th width="60%">Name</th>
+                    <th width="20%">Following</th>
+                </tr>
+            </thead>
 
-<h2>Following</h2>
-
+            <tbody id="listToAppend">
+                @foreach (var artist in Model.PagingList)
+                {
+                    <tr class="search">
+                        <td>
+                            <img class="img-circle" style="height: 35px; width: 35px" src="@_s3Manager.GetImageLink(artist.PictureName)" />
+                        </td>
+                        <td>
+                            @artist.User.Name
+                        </td>
+                        <td id="unfollowButton">
+                                <button data-artistId="@artist.User.Id" type="submit" class="btn btn-danger clickableButton" >
+                                    Unfollow
+                                </button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
