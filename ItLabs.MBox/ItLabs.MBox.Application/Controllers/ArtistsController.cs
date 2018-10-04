@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace ItLabs.MBox.Application.Controllers
 {
@@ -128,19 +129,8 @@ namespace ItLabs.MBox.Application.Controllers
 
         public IActionResult EditSongDetails(int songId)
         {
-            var songObject = _songManager.GetOne(filter: x => x.ArtistId == CurrentLoggedUserId && x.Id == songId);
-            var song = new AddNewSongViewModel()
-            {
+            var song = FillSongDetails(songId);
                 SongId = songObject.Id,
-                AlbumName = songObject.AlbumName,
-                GenreName = songObject.Genre,
-                ReleaseDate = songObject.ReleaseDate,
-                SongLyrics = songObject.Lyrics,
-                SongName = songObject.Name,
-                VimeoLink = songObject.VimeoLink,
-                YoutubeLink = songObject.YouTubeLink,
-                Picture = songObject.PictureName,
-            };
 
             return View(song);
         }
@@ -220,13 +210,122 @@ namespace ItLabs.MBox.Application.Controllers
         [HttpPost]
         public IActionResult EditSongName(string songName, int songId)
         {
-            var model = new AddNewSongViewModel();
             var song = _songManager.GetOne(x => x.Id == songId && x.ArtistId == CurrentLoggedUserId);
+            songName = songName.Trim();
             song.Name = songName;
+            var model = FillSongDetails(songId);
+
+            if (string.IsNullOrWhiteSpace(songName) || songName.Length < 2)
+            {
+                ModelState.AddModelError("SongName", "The Song Name must contain at least 2 characters");
+                return View("EditSongDetails", model);
+            }
+            if (songName.Length > 100)
+            {
+                ModelState.AddModelError("SongName", "The Song Name cannot contain more than 100 characters");
+                return View("EditSongDetails", model);
+            }
+       
             _songManager.Update(song, CurrentLoggedUserId);
             _songManager.Save();
-            return View("EditSongDetails", model);
+
+            return RedirectToAction("EditSongDetails", model);
         }
+
+        [HttpPost]
+        public IActionResult EditSongAlbum(string songAlbum, int songId)
+        {
+            var song = _songManager.GetOne(x => x.Id == songId && x.ArtistId == CurrentLoggedUserId);
+            songAlbum = songAlbum.Trim();
+            song.AlbumName = songAlbum;
+            var model = FillSongDetails(songId);
+
+            if (string.IsNullOrWhiteSpace(songAlbum) || songAlbum.Length < 2)
+            {
+                ModelState.AddModelError("AlbumName", "The Song Name must contain at least 2 characters");
+                return View("EditSongDetails", model);
+            }
+            if (songAlbum.Length > 100)
+            {
+                ModelState.AddModelError("AlbumName", "The Song Name cannot contain more than 100 characters");
+                return View("EditSongDetails", model);
+            }
+
+            _songManager.Update(song, CurrentLoggedUserId);
+            _songManager.Save();
+
+            return RedirectToAction("EditSongDetails", model);
+        }
+
+        [HttpPost]
+        public IActionResult EditYoutubeLink(string youtubeLink, int songId)
+        {
+            var song = _songManager.GetOne(x => x.Id == songId && x.ArtistId == CurrentLoggedUserId);
+            string urlRegex = @"^(http(s?)\:\/\/)?(www\.)?(youtube\.com|youtu\.?be)\/.+$";
+
+            if (youtubeLink.ToLower().StartsWith("www") || youtubeLink.ToLower().StartsWith("y"))
+                youtubeLink = "https://" + youtubeLink;
+
+            song.YouTubeLink = youtubeLink;
+            var model = FillSongDetails(songId);
+
+            if (Regex.IsMatch(youtubeLink, urlRegex))
+            {
+                _songManager.Update(song, CurrentLoggedUserId);
+                _songManager.Save();
+
+                return RedirectToAction("EditSongDetails", model);
+            }
+            else
+            {
+                ModelState.AddModelError("YoutubeLink", "Please enter a valid Youtube link!");
+                return View("EditSongDetails", model);
+            }         
+        }
+
+        [HttpPost]
+        public IActionResult EditVimeoLink(string vimeoLink, int songId)
+        {
+            var song = _songManager.GetOne(x => x.Id == songId && x.ArtistId == CurrentLoggedUserId);
+            string urlRegex = @"^(http(s?)\:\/\/)?(www\.)?vimeo.com\/(?:channels\/(?:\w+\/)?|groups\/([^\/]*)\/videos\/|)(\d+)(?:|\/\?)";
+
+            if (vimeoLink.ToLower().StartsWith("www") || vimeoLink.ToLower().StartsWith("v"))
+                vimeoLink = "https://" + vimeoLink;
+
+            song.VimeoLink = vimeoLink;
+            var model = FillSongDetails(songId);
+
+            if (Regex.IsMatch(vimeoLink, urlRegex))
+            {
+                _songManager.Update(song, CurrentLoggedUserId);
+                _songManager.Save();
+
+                return RedirectToAction("EditSongDetails", model);
+            }
+            else
+            {
+                ModelState.AddModelError("YoutubeLink", "Please enter a valid Vimeo link!");
+                return View("EditSongDetails", model);
+            }
+        }
+
+        [HttpPost]
+        public IActionResult EditSongLyrics(string lyrics, int songId)
+        {
+            var song = _songManager.GetOne(x => x.Id == songId && x.ArtistId == CurrentLoggedUserId);
+
+            if (string.IsNullOrWhiteSpace(lyrics))
+                lyrics = "";
+
+            lyrics = lyrics.Trim();
+            song.Lyrics = lyrics;
+            var model = FillSongDetails(songId);
+
+            if(lyrics.Length > 10000)
+            {
+                ModelState.AddModelError("SongLyrics", "The Song Lyrics cannot contain more than 10000 characters");
+                return View("EditSongDetails", model);
+            }
 
 
         [HttpGet]
@@ -237,6 +336,23 @@ namespace ItLabs.MBox.Application.Controllers
             model.PagingList = artist.Follows.Select(x => x.Follower).Skip(model.Skip).Take(model.Take).ToList();
             return View(model);
         }
+
+            var model = new AddNewSongViewModel()
+            {
+                SongId = song.Id,
+                AlbumName = song.AlbumName,
+                GenreName = song.Genre,
+                ReleaseDate = song.ReleaseDate,
+                SongLyrics = song.Lyrics,
+                SongName = song.Name,
+                VimeoLink = song.VimeoLink,
+                YoutubeLink = song.YouTubeLink,
+                Picture = song.PictureName,
+            };
+
+            return model;
+        }
+
         public IActionResult SearchFollowers(string searchValue)
         {
             if (string.IsNullOrWhiteSpace(searchValue))

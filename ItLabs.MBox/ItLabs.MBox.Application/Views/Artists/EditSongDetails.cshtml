@@ -30,7 +30,7 @@
                     <form asp-controller="Artists" asp-action="EditSongName" id="editSongName">
                         @Html.Hidden("songId", Model.SongId)
                         <input asp-for="SongName" class="form-control" value=@Model.SongName id="songName" name="songName" disabled>
-                        <span asp-validation-for="SongName"></span>
+                        <span asp-validation-for="SongName" class="text-danger"></span>
                     </form>
                 </div>
                 <div class="col-md-1 col-sm-1">
@@ -60,7 +60,11 @@
                     <label>Album Name:</label>
                 </div>
                 <div class="col-md-6 col-sm-6">
-                    <input class="form-control" value=@Model.AlbumName id="albumName" disabled>
+                    <form asp-controller="Artists" asp-action="EditSongAlbum" id="editSongAlbum">
+                        @Html.Hidden("songId", Model.SongId)
+                        <input asp-for="AlbumName" class="form-control" value=@Model.AlbumName id="albumName" name="songAlbum" disabled>
+                        <span asp-validation-for="AlbumName" class="text-danger"></span>
+                    </form>                  
                 </div>
                 <div class="col-md-1 col-sm-1">
                     <button class="btn btn-default edit editDetails" id="editAlbum" onclick="editDetails('albumName', 'editAlbum', 'saveAlbum', 'cancelAlbum')">
@@ -68,7 +72,7 @@
                     </button>
                 </div>
                 <div class="col-md-1 col-sm-1">
-                    <button class="btn btn-success saveDetails" id="saveAlbum" onclick="saveDetails('albumName', 'editAlbum', 'saveAlbum', 'cancelAlbum')">
+                    <button class="btn btn-success saveDetails" id="saveAlbum" type="submit" form="editSongAlbum">
                         <i class="glyphicon glyphicon-ok"></i>
                     </button>
                 </div>
@@ -106,7 +110,7 @@
                             </button>
                         </div>
                         <div class="col-md-2 col-sm-2">
-                            <button class="btn btn-success saveDetails" id="saveYoutube" onclick="saveLink('youtubeLink', 'youtubeLinkUrl', 'editYoutube', 'saveYoutube', 'cancelYoutube')">
+                            <button class="btn btn-success saveDetails" id="saveYoutube" type="submit" form="editYoutubeLink"> 
                                 <i class="glyphicon glyphicon-ok"></i>
                             </button>
                         </div>
@@ -117,7 +121,11 @@
                         </div>
                     </div>
                     <div class="row" style="padding: 8px">
-                        <input class="form-control" value=@Model.YoutubeLink id="youtubeLinkUrl">
+                        <form asp-controller="Artists" asp-action="EditYoutubeLink" id="editYoutubeLink" method="post">
+                            @Html.Hidden("songId", Model.SongId)
+                            <input asp-for="YoutubeLink" class="form-control" value=@Model.YoutubeLink id="youtubeLinkUrl" name="youtubeLink">
+                            <span asp-validation-for="YoutubeLink" class="text-danger"></span>
+                        </form>                    
                     </div>
                 </div>
                 <div class="col-md-6 col-sm-6" style="border-left: solid 2px #d3d3d3">
@@ -131,7 +139,7 @@
                             </button>
                         </div>
                         <div class="col-md-2 col-sm-2">
-                            <button class="btn btn-success saveDetails" id="saveVimeo" onclick="saveLink('vimeoLink', 'vimeoLinkUrl', 'editVimeo', 'saveVimeo', 'cancelVimeo')">
+                            <button class="btn btn-success saveDetails" id="saveVimeo" type="submit" form="editVimeoLink">
                                 <i class="glyphicon glyphicon-ok"></i>
                             </button>
                         </div>
@@ -142,7 +150,11 @@
                         </div>
                     </div>
                     <div class="row" style="padding: 8px">
-                        <input class="form-control" value=@Model.VimeoLink id="vimeoLinkUrl">
+                        <form asp-controller="Artists" asp-action="EditVimeoLink" method="post" id="editVimeoLink">
+                            @Html.Hidden("songId", Model.SongId)
+                            <input asp-for="VimeoLink" name="vimeoLink" class="form-control" value=@Model.VimeoLink id="vimeoLinkUrl">
+                            <span asp-validation-for="VimeoLink" class="text-danger"></span>
+                        </form>
                     </div>
                 </div>
             </div>
