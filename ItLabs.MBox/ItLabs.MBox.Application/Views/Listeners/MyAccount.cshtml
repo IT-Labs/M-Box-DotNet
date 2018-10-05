@@ -26,11 +26,12 @@
         </div>
     </div>
 
-    <div class="row" style="margin:250px 350px 50px 350px;">
+    <div class="row" style="margin:250px 350px 10px 350px;">
         <form asp-controller="Listeners" asp-action="ChangePicture" method="post" enctype="multipart/form-data">
             <div class="col-sm-8 col-md-8">
-                <p>Change profle picture:</p>
+                <label>Change profle picture:</label>
                 <input class="btn-default btn" type="file" id="uploadedFiles" name="uploadedFiles" accept=".jpg,.jpeg,.png">
+
                 <span asp-validation-for="Picture" class="text-danger"></span>
             </div>
             <div class="col-sm-3 col-sm-offset-1" style="margin-top:35px; ">
@@ -38,9 +39,13 @@
             </div>
         </form>
     </div>
-    <div class="row" style="margin:50px 350px 50px 350px;">
+    <div class="row" style="margin-right:300px">
+        <label>Name</label>
+    </div>
+    <div class="row" style="margin:10px 350px 50px 350px;">
         <div class="col-md-8 col-sm-8">
             <form asp-controller="Listeners" asp-action="EditName" method="post" id="editName">
+
                 <input asp-for="Name" class="form-control" value="@Model.Name" id="ArtistName" name="listenerName" disabled>
                 <span asp-validation-for="Name" class="text-danger"></span>
             </form>
@@ -50,7 +55,7 @@
                 <i class="glyphicon glyphicon-edit"></i>
             </button>
         </div>
-        <div class=" col-sm-1" >
+        <div class=" col-sm-1">
             <button class="btn btn-success save saveDetails" id="saveListenertName" type="submit" form="editName">
                 <i class="glyphicon glyphicon-ok"></i>
             </button>

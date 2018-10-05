@@ -23,6 +23,7 @@ namespace ItLabs.MBox.Contracts.Entities
         public virtual ICollection<RecordLabelArtist> RecordLabelArtists { get; set; }
         public virtual ICollection<Follow> Follows { get; set; }
         public string RecordLabelName => RecordLabelArtists?.FirstOrDefault()?.RecordLabel?.User.Name;
+        public int? RecordLabelId => RecordLabelArtists?.FirstOrDefault()?.RecordLabel?.Id;
 
         public string PictureName
         {

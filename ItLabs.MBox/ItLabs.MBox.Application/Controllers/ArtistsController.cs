@@ -40,9 +40,10 @@ namespace ItLabs.MBox.Application.Controllers
         [HttpGet]
         public IActionResult GetArtistSongs([FromQuery] PagingModel<Song> model)
         {
+            
             model.PagingList = _songManager.GetArtistSongs(CurrentLoggedUserId, model.Skip, model.Take, model.SearchQuery);
 
-            return View("NextSongs", model);
+            return View("GetNextSongs", model);
         }
 
         public IActionResult Search(string searchValue)

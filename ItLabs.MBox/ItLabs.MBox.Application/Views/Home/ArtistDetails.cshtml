@@ -56,7 +56,7 @@
     <div class="row" style="margin-top:170px">
         <div class="col-sm-2" style="border-right: 1px solid grey; float: left; position:fixed; height:550px; z-index:600">
             <div class="row">
-                <h2 asp-for="User.Name">@Model.Artist.User.Name</h2>
+                <h2>@Model.Artist.User.Name</h2>
             </div>
             <div class="row" style="margin-top:50px">
             </div>
@@ -65,44 +65,52 @@
             </div>
         </div>
         @Html.Hidden("artistId", Model.Artist.Id)
+        <input id="songList" type="hidden" value="@Html.Raw(Json.Serialize(new List<Song>()))" />
+        <input id="take" type="hidden" value="@Html.Raw(Json.Serialize(Model.PagingModelSongs.Take))" />
+        <input id="skip" type="hidden" value="@Html.Raw(Json.Serialize(Model.PagingModelSongs.Skip))" />
+        <input id="lazyLoadingUrl" type="hidden" value="/Home/GetNextSongs" />
         <div class="sol-sm-9" style="">
             <div class="row" style="position:relative;z-index:0">
                 <div class="col-sm-10 col-sm-offset-3">
-                <ul id="songListId" class="list-group seperateLists" style="list-style:none;position:relative ;margin-top:100px;padding-left:70px">
-                    @foreach (Song song in Model.PagingModelSongs.PagingList)
-                    {
-                        <li class="col-sm-3 card-container-song table-bordered" style="margin-right:3.2%; margin-bottom: 2%;height:240px">
-                            <div>
-                                <div class="row card-song-name">
-                                    <form asp-controller="Home" asp-action="SongDetails">
-                                        <div class="text-center text">
-                                            <button type="submit" class="btn btn-link">
-                                                <h5>@song.Name</h5>
-                                                @Html.Hidden("songId", song.Id)
-                                            </button>
-                                            <input id="songList" type="hidden" value="@Html.Raw(Json.Serialize(new List<Song>()))" />
-                                            <input id="take" type="hidden" value="@Html.Raw(Json.Serialize(Model.PagingModelSongs.Take))" />
-                                            <input id="skip" type="hidden" value="@Html.Raw(Json.Serialize(Model.PagingModelSongs.Skip))" />
-                                            <input id="lazyLoadingUrl" type="hidden" value="/Home/GetNextSongs" />
+                    <ul id="songListId" class="list-group seperateLists" style="list-style:none;position:relative ;margin-top:100px;padding-left:70px">
+                        @foreach (Song song in Model.PagingModelSongs.PagingList)
+                        {
+                            <li class="col-sm-3 card-container-song table-bordered" style="margin-right:3.2%; margin-bottom: 2%;height:240px">
+                                <div>
+                                    <div class="row card-song-name">
+                                        <form asp-controller="Home" asp-action="SongDetails">
+                                            <div class="text-center text">
+                                                <button type="submit" class="btn btn-link">
+                                                    @if (song.Name.Count() > 13)
+                                                    {
+                                                        <h5>@song.Name.Substring(0, 13)...</h5>
+                                                    }
+                                                    else
+                                                    {
+                                                        <h5>@song.Name</h5>
+                                                    }
+                                                    @Html.Hidden("songId", song.Id)
+                                                </button>
+
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <div class="row card-song-img-hold">
+                                        <img class="card-song-img" src="@_s3Manager.GetImageLink(song.PictureName)" />
+                                    </div>
+                                    <div class="row out-link-social">
+                                        <div class="col-sm-6">
+                                            <a target=”_blank” href="@song.YouTubeLink">Youtube</a>
                                         </div>
-                                    </form>
-                                </div>
-                                <div class="row card-song-img-hold">
-                                    <img class="card-song-img" src="@_s3Manager.GetImageLink(song.PictureName)" />
-                                </div>
-                                <div class="row out-link-social">
-                                    <div class="col-sm-6">
-                                        <a target=”_blank” href="@song.YouTubeLink">Youtube</a>
-                                    </div>
-                                    <div class="col-sm-6">
-                                        <a target=”_blank” href="@song.VimeoLink">Vimeo</a>
+                                        <div class="col-sm-6">
+                                            <a target=”_blank” href="@song.VimeoLink">Vimeo</a>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        </li>
-                    }
-                </ul>
-                    </div>
+                            </li>
+                        }
+                    </ul>
+                </div>
             </div>
         </div>
 

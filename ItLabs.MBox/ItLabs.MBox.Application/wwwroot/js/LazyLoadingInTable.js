@@ -15,7 +15,7 @@ $(window).on("scroll", function () {
     if ((scrollHeight - scrollPosition) / scrollHeight === 0) {
         modelJSValue.Skip = parseInt(modelJSValue.Skip) + parseInt(modelJSValue.Take);
         modelJSValue.Take = 10;
-        modelJSValue.SearchQuery = $("#searchBox").val();
+        modelJSValue.SearchQuery = $("#search").val();
         var toSend = $.param(modelJSValue);
 
         $.ajax({

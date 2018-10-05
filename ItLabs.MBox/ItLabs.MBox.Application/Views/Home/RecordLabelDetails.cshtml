@@ -46,7 +46,14 @@
                                 <form asp-controller="Home" asp-action="ArtistDetails">
                                     <div class="text-center text">
                                         <button type="submit" class="btn btn-link">
-                                            <h5>@artist.User.Name</h5>
+                                            @if (artist.User.Name.Count() > 13)
+                                            {
+                                                <h5>@artist.User.Name.Substring(0, 13)...</h5>
+                                            }
+                                            else
+                                            {
+                                                <h5>@artist.User.Name</h5>
+                                            }
                                             @Html.Hidden("artistId", artist.Id)
                                         </button>
                                     </div>

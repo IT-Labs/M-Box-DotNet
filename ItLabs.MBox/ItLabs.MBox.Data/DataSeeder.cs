@@ -62,15 +62,55 @@ namespace ItLabs.MBox.Data
 
                 
             }
-            //if (!context.Follows.Any())
-            //{
-            //    var artist = context.Artists.Include(x => x.Follows).Include(x=>x.User).Where(x=>x.User.Email == "artist@gmail.com").FirstOrDefault();
-            //    foreach(var user in context.ApplicationUsers)
-            //    {
-            //        artist.Follows.Add(new Follow() { Artist = artist, Follower = user });
-            //    }
-            //    context.Update(artist);
-            //}
+            if (!context.Songs.Any())
+            {
+                for (int i = 0; i < 50; i++)
+                {
+                    var song = new Song()
+                    {
+                        AlbumName = "DAMN",
+                        CreatedBy = 81,
+                        ArtistId=81,
+                        Genre = "HipHop",
+                        ReleaseDate = DateTime.UtcNow,
+                        VimeoLink = @"https://vimeo.com/252716264",
+                        YouTubeLink = @"https://www.youtube.com/watch?v=1MGUetRPp_Y",
+                        Name = i + "st/th song"
+                    };
+                    context.Songs.Add(song);
+                }
+            }
+            if (!context.RecordLabels.Any())
+            {
+                var passRL = new PasswordHasher<ApplicationUser>();
+
+                for (int i = 50; i < 350; i++)
+                {
+                    var tempUser = new ApplicationUser();
+                    var tempRl = new RecordLabel();
+                    var tempPass = new PasswordHasher<ApplicationUser>();
+                    var hashedTempPass = passRL.HashPassword(tempUser, "qweqwe123");
+                    tempUser.Email = "rl" + i + "@gmail.com";
+                    tempUser.Name = "Record Label " + i;
+                    tempUser.IsActivated = true;
+                    tempUser.PasswordHash = hashedTempPass;
+                    tempUser.NormalizedUserName = "TESTRL" + i + "@GMAIL.COM";
+                    tempUser.NormalizedEmail = "TESTRL" + i + "@GMAIL.COM";
+                    tempUser.SecurityStamp = "415bf8f4-bc79-4ec2-8368-cf9bdd755db1";
+                    tempUser.UserName = "testrl" + i + "@gmail.com";
+                    tempUser.LockoutEnabled = true;
+                    tempRl.User = tempUser;
+                    context.ApplicationUsers.Add(tempUser);
+                    context.SaveChanges();
+
+                    var tempReturned = context.ApplicationUsers.FirstOrDefault(c => c.Id == tempUser.Id);
+                    tempRl.User = tempReturned;
+                    context.RecordLabels.Add(tempRl);
+                    context.UserRoles.Add(new IdentityUserRole<int>() { UserId = tempUser.Id, RoleId = 2 });
+
+                }
+                context.SaveChanges();
+            }
             context.SaveChanges();
         }
     }

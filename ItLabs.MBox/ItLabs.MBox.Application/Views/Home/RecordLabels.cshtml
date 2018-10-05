@@ -23,7 +23,15 @@
                             <form asp-controller="Home" asp-action="RecordLabelDetails">
                                 <div class="text-center text">
                                     <button type="submit" class="btn btn-link">
-                                        <h5>@rl.User.Name</h5>
+                                        @if (rl.User.Name.Count() > 18)
+                                        {
+                                            <h5>@rl.User.Name.Substring(0, 18)...</h5>
+
+                                        }
+                                        else
+                                        {
+                                            <h5>@rl.User.Name</h5>
+                                        }
                                         @Html.Hidden("recordLabelId", rl.Id)
                                     </button>
                                 </div>

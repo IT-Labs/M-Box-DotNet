@@ -129,7 +129,7 @@ namespace ItLabs.MBox.Application.Controllers
         {
             ViewData["Message"] = "RecordLabels";
             model.PagingList = _recordLabelManager.Get(skip: model.Skip, take: model.Take, includeProperties: $"{nameof(RecordLabel.User)}").ToList();
-            return View("NextRecordLabels", model);
+            return View( model);
         }
 
         [HttpPost]

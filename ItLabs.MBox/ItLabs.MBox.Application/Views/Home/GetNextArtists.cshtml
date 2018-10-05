@@ -13,11 +13,18 @@
         <div>
             <div class="row card-song-name">
                 <div>
-                    <div class="text-center text">
+                    <div class="text-center text" >
                         <form asp-controller="Home" asp-action="ArtistDetails">
                             <div class="text-center text">
                                 <button type="submit" class="btn btn-link">
-                                    <h5>@artist.User.Name</h5>
+                                    @if (artist.User.Name.Count() > 13)
+                                    {
+                                        <h5>@artist.User.Name.Substring(0,13)...</h5>
+                                    }
+                                    else
+                                    {
+                                        <h5>@artist.User.Name</h5>
+                                    }
                                     @Html.Hidden("artistId", artist.Id)
                                 </button>
                             </div>
@@ -33,7 +40,22 @@
                     <div class="text-center text">
                         @if (!artist.IsDeleted)
                         {
-                            <h5 style="margin-top:-7px">@artist.RecordLabelName</h5>
+                        <form asp-controller="Home" asp-action="RecordLabelDetails">
+                            <div class="text-center text">
+                                <button type="submit" class="btn btn-link">
+                                    @if (artist.RecordLabelName?.Count() > 13)
+                                    {
+                                        <h5 style="margin-top:-7px">@artist.RecordLabelName.Substring(0, 13)...</h5>
+
+                                    }
+                                    else
+                                    {
+                                        <h5 style="margin-top:-7px">@artist.RecordLabelName</h5>
+                                    }
+                                    @Html.Hidden("recordLabelId", artist.RecordLabelId)
+                                </button>
+                            </div>
+                        </form>
                         }
                     </div>
                 </div>

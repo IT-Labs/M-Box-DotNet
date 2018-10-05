@@ -39,6 +39,8 @@ namespace ItLabs.MBox.Application.Controllers
         [HttpGet]
         public IActionResult GetNextRecordLabels([FromQuery] PagingModel<RecordLabel> model)
         {
+            if (string.IsNullOrWhiteSpace(model.SearchQuery))
+                model.SearchQuery = string.Empty;
             model.PagingList = _recordLabelManager.SearchRecordLabels(model.SearchQuery, model.Skip, model.Take).ToList();
 
             return View(model);
