@@ -4,6 +4,7 @@
 @using ItLabs.MBox.Domain.Managers
 @inject S3Manager  _s3Manager
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
 @inject UserManager<ApplicationUser> UserManager
 @inject SongManager _songManager
 @{
@@ -20,6 +21,9 @@
     }
 }
 @section Scripts{
+    <script type="text/javascript" src="~/js/dateRestriction.js"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script type="text/javascript" src="~/js/EditDetailsOnButtonClick.js"></script>
     <script type="text/javascript" src="~/js/characterCounter.js"></script>
 }
@@ -110,9 +114,9 @@
                     <label>Genre:</label>
                 </div>
                 <div class="col-md-5 col-sm-5">
-                    <form asp-controller="Artists" asp-action="EditSongGenre" method="post" id="songGenre"> 
+                    <form asp-controller="Artists" asp-action="EditSongGenre" method="post" id="songGenre">
                         @Html.Hidden("songId", Model.SongId)
-                        @Html.DropDownListFor(x => x.Genres, new SelectList(Enum.GetValues(typeof(Genres))), Model.GenreName, new { @class = "form-control", disabled = "disable", id = "genre", name="songGenre"})
+                        @Html.DropDownListFor(x => x.Genres, new SelectList(Enum.GetValues(typeof(Genres))), Model.GenreName, new { @class = "form-control", disabled = "disable", id = "genre", name = "songGenre" })
                         <span asp-validation-for="Genres" class="text-danger"></span>
                     </form>
                 </div>
@@ -139,9 +143,9 @@
                 <div class="col-md-5 col-sm-5">
                     <form asp-controller="Artists" asp-action="editSongReleaseDate" method="post" id="songReleaseDate">
                         @Html.Hidden("songId", Model.SongId)
-                        <input asp-for="ReleaseDate" class="form-control" type="date" id="releaseDate" disabled name="releaseDate"/>
+                        @Html.TextBox("ReleaseDate", Model.ReleaseDate.ToShortDateString(), new { @class = "form-control dateOfRelease", id= "releaseDate", name= "releaseDate", disabled = "disable" })
                         <span asp-validation-for="ReleaseDate" class="text-danger"></span>
-                    </form>                   
+                    </form>
                 </div>
                 <div class="col-md-1 col-sm-1">
                     <button class="btn btn-default edit editDetails" id="editReleaseDate" onclick="editDetails('releaseDate', 'editReleaseDate', 'saveReleaseDate', 'cancelReleaseDate')">
