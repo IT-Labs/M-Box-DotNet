@@ -58,7 +58,8 @@
                 </form>
             </div>
             <div class="row" style="margin: 20px">
-                <div class="col-md-8 col-sm-8">
+                <label class="col-sm-2" style="margin-top: 12px">Name: </label>
+                <div class="col-md-6 col-sm-6">
                     <form asp-controller="Artists" asp-action="EditName" method="post" id="editName">
                         @Html.Hidden("artistlId", artist.Id)
                         <input asp-for="Name" class="form-control" value="@user.Name" id="ArtistName" name="artistName" disabled>
