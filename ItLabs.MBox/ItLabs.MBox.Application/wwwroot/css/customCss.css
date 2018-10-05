@@ -143,3 +143,7 @@
 .out-link-social {
     text-align: center;
 }
+
+input[type="text"]::-ms-clear {
+    display: none;
+}

@@ -62,6 +62,19 @@
             <div class="row">
                 <img class="img-responsive" style="height:350px; width:500px" src="@_s3Manager.GetImageLink(Model.Picture)">
             </div>
+            <div class="row">
+                <form asp-controller="Artists" asp-action="ChangeSongImage" method="post" enctype="multipart/form-data">
+                    @Html.Hidden("songId", Model.SongId)
+                    <div class="col-sm-8 col-md-8">
+                        <p>Change song image:</p>
+                        <input class="btn-default btn" type="file" id="uploadedFiles" name="uploadedFiles" accept=".jpg,.jpeg,.png">
+                        <span asp-validation-for="Picture" class="text-danger"></span>
+                    </div>
+                    <div class="col-sm-4 col-md-4" style="margin-top:35px; ">
+                        <button type="submit" class="btn btn-primary">Upload</button>
+                    </div>
+                </form>
+            </div>
             <div class="row" style="margin-bottom: 15px; margin-top: 15px">
                 <label>By: @user.Name</label>
             </div>
@@ -93,25 +106,63 @@
                 </div>
             </div>
             <div class="row" style="margin-bottom: 15px">
-                <div class="col-md-4 col-sm-3" style="margin-top: 5px">
+                <div class="col-md-3 col-sm-3" style="margin-top: 5px">
                     <label>Genre:</label>
                 </div>
-                <div class="col-md-6 col-sm-6">
-                    <label>@Model.GenreName</label>
+                <div class="col-md-5 col-sm-5">
+                    <form asp-controller="Artists" asp-action="EditSongGenre" method="post" id="songGenre"> 
+                        @Html.Hidden("songId", Model.SongId)
+                        @Html.DropDownListFor(x => x.Genres, new SelectList(Enum.GetValues(typeof(Genres))), Model.GenreName, new { @class = "form-control", disabled = "disable", id = "genre", name="songGenre"})
+                        <span asp-validation-for="Genres" class="text-danger"></span>
+                    </form>
+                </div>
+                <div class="col-md-1 col-sm-1">
+                    <button class="btn btn-default edit editDetails" id="editGenre" onclick="editDetails('genre', 'editGenre', 'saveGenre', 'cancelGenre')">
+                        <i class="glyphicon glyphicon-edit"></i>
+                    </button>
+                </div>
+                <div class="col-md-1 col-sm-1">
+                    <button class="btn btn-success saveDetails" id="saveGenre" type="submit" form="songGenre">
+                        <i class="glyphicon glyphicon-ok"></i>
+                    </button>
+                </div>
+                <div class="col-md-1 col-sm-1">
+                    <button class="btn btn-danger cancelDetails" id="cancelGenre" onclick="cancelEditiong('genre', 'editGenre', 'saveGenre', 'cancelGenre')">
+                        <i class="glyphicon glyphicon-remove"></i>
+                    </button>
                 </div>
             </div>
             <div class="row">
                 <div class="col-md-3 col-sm-3">
                     <label>Release Date:</label>
                 </div>
-                <div class="col-md-7 col-sm-7">
-                    <label>@Model.ReleaseDate.ToShortDateString()</label>
+                <div class="col-md-5 col-sm-5">
+                    <form asp-controller="Artists" asp-action="editSongReleaseDate" method="post" id="songReleaseDate">
+                        @Html.Hidden("songId", Model.SongId)
+                        <input asp-for="ReleaseDate" class="form-control" type="date" id="releaseDate" disabled name="releaseDate"/>
+                        <span asp-validation-for="ReleaseDate" class="text-danger"></span>
+                    </form>                   
+                </div>
+                <div class="col-md-1 col-sm-1">
+                    <button class="btn btn-default edit editDetails" id="editReleaseDate" onclick="editDetails('releaseDate', 'editReleaseDate', 'saveReleaseDate', 'cancelReleaseDate')">
+                        <i class="glyphicon glyphicon-edit"></i>
+                    </button>
+                </div>
+                <div class="col-md-1 col-sm-1">
+                    <button class="btn btn-success saveDetails" id="saveReleaseDate" type="submit" form="songReleaseDate">
+                        <i class="glyphicon glyphicon-ok"></i>
+                    </button>
+                </div>
+                <div class="col-md-1 col-sm-1">
+                    <button class="btn btn-danger cancelDetails" id="cancelReleaseDate" onclick="cancelEditiong('releaseDate', 'editReleaseDate', 'saveReleaseDate', 'cancelReleaseDate')">
+                        <i class="glyphicon glyphicon-remove"></i>
+                    </button>
                 </div>
             </div>
             <div class="row" style="margin-top: 15px">
                 <div class="col-md-6 col-sm-6">
                     <div class="row" style="text-align: center">
-                        <a target="_blank" href="" id="youtubeLink">Youtube</a>
+                        <a target="_blank" href=@Model.YoutubeLink id="youtubeLink">Youtube</a>
                     </div>
                     <div class="row">
                         <div class="col-md-2 col-sm-2">
@@ -140,7 +191,7 @@
                 </div>
                 <div class="col-md-6 col-sm-6" style="border-left: solid 2px #d3d3d3">
                     <div class="row" style="text-align: center">
-                        <a target="_blank" href="" id="vimeoLink">Vimeo </a>
+                        <a target="_blank" href=@Model.VimeoLink id="vimeoLink">Vimeo </a>
                     </div>
                     <div class="row">
                         <div class="col-md-2 col-sm-2">
