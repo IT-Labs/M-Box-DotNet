@@ -130,7 +130,6 @@ namespace ItLabs.MBox.Application.Controllers
         public IActionResult EditSongDetails(int songId)
         {
             var song = FillSongDetails(songId);
-                SongId = songObject.Id,
 
             return View(song);
         }
@@ -321,12 +320,13 @@ namespace ItLabs.MBox.Application.Controllers
             song.Lyrics = lyrics;
             var model = FillSongDetails(songId);
 
-            if(lyrics.Length > 10000)
+            if (lyrics.Length > 10000)
             {
                 ModelState.AddModelError("SongLyrics", "The Song Lyrics cannot contain more than 10000 characters");
                 return View("EditSongDetails", model);
             }
-
+            return View();
+        }
 
         [HttpGet]
         public IActionResult Followers()
@@ -336,6 +336,10 @@ namespace ItLabs.MBox.Application.Controllers
             model.PagingList = artist.Follows.Select(x => x.Follower).Skip(model.Skip).Take(model.Take).ToList();
             return View(model);
         }
+
+        public AddNewSongViewModel FillSongDetails(int songId) {
+
+            var song = _songManager.GetOne(x => x.Id == songId && x.ArtistId == CurrentLoggedUserId);
 
             var model = new AddNewSongViewModel()
             {
