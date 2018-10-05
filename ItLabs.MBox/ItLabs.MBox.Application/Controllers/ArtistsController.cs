@@ -325,7 +325,11 @@ namespace ItLabs.MBox.Application.Controllers
                 ModelState.AddModelError("SongLyrics", "The Song Lyrics cannot contain more than 10000 characters");
                 return View("EditSongDetails", model);
             }
-            return View();
+
+            _songManager.Update(song, CurrentLoggedUserId);
+            _songManager.Save();
+
+            return RedirectToAction("EditSongDetails", model);
         }
 
         [HttpGet]

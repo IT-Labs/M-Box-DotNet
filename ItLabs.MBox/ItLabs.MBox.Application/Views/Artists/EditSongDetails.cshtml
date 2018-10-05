@@ -8,10 +8,20 @@
 @inject SongManager _songManager
 @{
     ViewData["Title"] = "AddNewSong";
-    var user = await UserManager.GetUserAsync(User);    
+    var user = await UserManager.GetUserAsync(User);
+    int charactersLeft = 0;
+    if (string.IsNullOrWhiteSpace(Model.SongLyrics))
+    {
+        charactersLeft = 10000;
+    }
+    else
+    {
+        charactersLeft = 10000 - Model.SongLyrics.Length;
+    }
 }
 @section Scripts{
     <script type="text/javascript" src="~/js/EditDetailsOnButtonClick.js"></script>
+    <script type="text/javascript" src="~/js/characterCounter.js"></script>
 }
 @model AddNewSongViewModel
 <div class="container-fluid">
@@ -64,7 +74,7 @@
                         @Html.Hidden("songId", Model.SongId)
                         <input asp-for="AlbumName" class="form-control" value=@Model.AlbumName id="albumName" name="songAlbum" disabled>
                         <span asp-validation-for="AlbumName" class="text-danger"></span>
-                    </form>                  
+                    </form>
                 </div>
                 <div class="col-md-1 col-sm-1">
                     <button class="btn btn-default edit editDetails" id="editAlbum" onclick="editDetails('albumName', 'editAlbum', 'saveAlbum', 'cancelAlbum')">
@@ -91,7 +101,7 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-3 col-sm-3" >
+                <div class="col-md-3 col-sm-3">
                     <label>Release Date:</label>
                 </div>
                 <div class="col-md-7 col-sm-7">
@@ -110,7 +120,7 @@
                             </button>
                         </div>
                         <div class="col-md-2 col-sm-2">
-                            <button class="btn btn-success saveDetails" id="saveYoutube" type="submit" form="editYoutubeLink"> 
+                            <button class="btn btn-success saveDetails" id="saveYoutube" type="submit" form="editYoutubeLink">
                                 <i class="glyphicon glyphicon-ok"></i>
                             </button>
                         </div>
@@ -125,7 +135,7 @@
                             @Html.Hidden("songId", Model.SongId)
                             <input asp-for="YoutubeLink" class="form-control" value=@Model.YoutubeLink id="youtubeLinkUrl" name="youtubeLink">
                             <span asp-validation-for="YoutubeLink" class="text-danger"></span>
-                        </form>                    
+                        </form>
                     </div>
                 </div>
                 <div class="col-md-6 col-sm-6" style="border-left: solid 2px #d3d3d3">
@@ -167,7 +177,7 @@
                     </button>
                 </div>
                 <div class="col-md-1 col-sm-1">
-                    <button class="btn btn-success saveDetails" id="saveLyrics" onclick="saveDetails('songLyrics', 'editLyrics', 'saveLyrics', 'cancelLyrics')">
+                    <button class="btn btn-success saveDetails" id="saveLyrics" type="submit" form="editSongLyrics">
                         <i class="glyphicon glyphicon-ok"></i>
                     </button>
                 </div>
@@ -178,7 +188,12 @@
                 </div>
             </div>
             <div class="row" style="padding: 12px;">
-                <textarea class="form-control" maxlength="10000" style="margin-top: 5px; height: 550px; resize: none" name="Message" id="songLyrics" disabled>@Model.SongLyrics</textarea>
+                <form asp-controller="Artists" asp-action="EditSongLyrics" method="post" id="editSongLyrics">
+                    @Html.Hidden("songId", Model.SongId)
+                    <textarea class="form-control characterCounter" maxlength="10000" style="margin-top: 5px; height: 550px; resize: none" name="lyrics" id="songLyrics" disabled>@Model.SongLyrics</textarea>
+                    <span asp-validation-for="SongLyrics" class="text-danger"></span>
+                    <p style="margin-top: 10px" id="text-counter">Characters left: <span id="counter">@charactersLeft</span></p>
+                </form>
             </div>
         </div>
     </div>
