@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -179,13 +180,20 @@ namespace ItLabs.MBox.Application.Controllers
         {
             var model = new MyAccountViewModel();
             var artist = _artistManager.GetOne(x => x.Id == artistlId, includeProperties: $"{ nameof(Artist.User)}");
-            artistName = artistName.Trim();
+            
 
-            if (string.IsNullOrWhiteSpace(artistName) || artistName.Length < 2)
+            if (string.IsNullOrWhiteSpace(artistName))
             {
                 ModelState.AddModelError("Name", "The Name must contain at least 2 characters");
                 return View("MyAccount", model);
             }
+            artistName = artistName.Trim();
+            if (artistName.Length < 2)
+            {
+                ModelState.AddModelError("Name", "The Name must contain at least 2 characters");
+                return View("MyAccount", model);
+            }
+            
             if (artistName.Length > 50)
             {
                 ModelState.AddModelError("Name", "The Name cannot contain more than 50 characters");
@@ -219,18 +227,24 @@ namespace ItLabs.MBox.Application.Controllers
         public IActionResult EditSongName(string songName, int songId)
         {
             var song = _songManager.GetOne(x => x.Id == songId && x.ArtistId == CurrentLoggedUserId);
-            songName = songName.Trim();
+            
             song.Name = songName;
             var model = FillSongDetails(songId);
 
-            if (string.IsNullOrWhiteSpace(songName) || songName.Length < 2)
+            if (string.IsNullOrWhiteSpace(songName))
             {
                 ModelState.AddModelError("SongName", "The Song Name must contain at least 2 characters");
                 return View("EditSongDetails", model);
             }
-            if (songName.Length > 100)
+            songName = songName.Trim();
+            if (songName.Length < 2)
             {
-                ModelState.AddModelError("SongName", "The Song Name cannot contain more than 100 characters");
+                ModelState.AddModelError("SongName", "The Song Name must contain at least 2 characters");
+                return View("EditSongDetails", model);
+            }
+            if (songName.Length > 50)
+            {
+                ModelState.AddModelError("SongName", "The Song Name cannot contain more than 50 characters");
                 return View("EditSongDetails", model);
             }
        
@@ -244,18 +258,24 @@ namespace ItLabs.MBox.Application.Controllers
         public IActionResult EditSongAlbum(string songAlbum, int songId)
         {
             var song = _songManager.GetOne(x => x.Id == songId && x.ArtistId == CurrentLoggedUserId);
-            songAlbum = songAlbum.Trim();
+            
             song.AlbumName = songAlbum;
             var model = FillSongDetails(songId);
 
-            if (string.IsNullOrWhiteSpace(songAlbum) || songAlbum.Length < 2)
+            if (string.IsNullOrWhiteSpace(songAlbum))
             {
                 ModelState.AddModelError("AlbumName", "The Song Name must contain at least 2 characters");
                 return View("EditSongDetails", model);
             }
-            if (songAlbum.Length > 100)
+            songAlbum = songAlbum.Trim();
+            if (songAlbum.Length < 2)
             {
-                ModelState.AddModelError("AlbumName", "The Song Name cannot contain more than 100 characters");
+                ModelState.AddModelError("AlbumName", "The Song Name must contain at least 2 characters");
+                return View("EditSongDetails", model);
+            }
+            if (songAlbum.Length > 50)
+            {
+                ModelState.AddModelError("AlbumName", "The Song Name cannot contain more than 50 characters");
                 return View("EditSongDetails", model);
             }
 
@@ -341,6 +361,32 @@ namespace ItLabs.MBox.Application.Controllers
             return RedirectToAction("EditSongDetails", model);
         }
 
+        [HttpPost]
+        public IActionResult EditSongGenre(AddNewSongViewModel songGenre, int songId)
+        {
+            var song = _songManager.GetOne(x => x.Id == songId && x.ArtistId == CurrentLoggedUserId);
+            var model = FillSongDetails(songId);
+
+            song.Genre = songGenre.Genres.ToString();
+            _songManager.Update(song, CurrentLoggedUserId);
+            _songManager.Save();
+
+            return RedirectToAction("EditSongDetails", model);
+        }
+
+        [HttpPost]
+        public IActionResult editSongReleaseDate(DateTime releaseDate, int songId)
+        {
+            var song = _songManager.GetOne(x => x.Id == songId && x.ArtistId == CurrentLoggedUserId);
+            var model = FillSongDetails(songId);
+
+            song.ReleaseDate = releaseDate;
+            _songManager.Update(song, CurrentLoggedUserId);
+            _songManager.Save();
+
+            return RedirectToAction("EditSongDetails", model);
+        }
+
         [HttpGet]
         public IActionResult Followers()
         {
@@ -348,6 +394,39 @@ namespace ItLabs.MBox.Application.Controllers
             var artist = _artistManager.GetOne(filter: x => x.Id == CurrentLoggedUserId, includeProperties: $"{nameof(Artist.Follows)}.{nameof(Follow.Follower)}");
             model.PagingList = artist.Follows.Select(x => x.Follower).Skip(model.Skip).Take(model.Take).ToList();
             return View(model);
+        }
+
+        [HttpPost]
+        public IActionResult ChangeSongImage(List<IFormFile> uploadedFiles, int songId)
+        {
+            var song = _songManager.GetOne(x => x.Id == songId && x.ArtistId == CurrentLoggedUserId);
+            var model = FillSongDetails(songId);
+            string imageS3Name = null;
+
+            if (uploadedFiles.Count == 0)
+            {
+                ModelState.AddModelError("Picture", "Please choose a picture!");
+                return View("EditSongDetails", model);
+            }
+            var formFile = uploadedFiles[0];
+            if (!(formFile.ContentType.Equals("image/png") || formFile.ContentType.Equals("image/jpeg") || formFile.ContentType.Equals("image/jpeg")))
+            {
+                ModelState.AddModelError("Picture", formFile.ContentType + " extension is not allowed. You can only upload jpg, jpeg or png.");
+                return View("EditSongDetails", model);
+            }
+            if (formFile.Length > MBoxConstants.MaximumImageSizeAllowed)
+            {
+                //Error Message
+                ModelState.AddModelError("Picture", "Maximum 3MB picture size allowed!");
+                return View("EditSongDetails", model);
+            }
+
+            imageS3Name = _s3Manager.UploadFile(formFile);
+            song.Picture = imageS3Name;
+            _songManager.Update(song, CurrentLoggedUserId);
+            _songManager.Save();
+
+            return RedirectToAction("EditSongDetails", model);
         }
 
         public AddNewSongViewModel FillSongDetails(int songId) {

@@ -31,6 +31,7 @@
         </div>
         <div class="col-md-8 col-sm-8">
             <div class="row" style="margin: 15px">
+                <label class="col-sm-2" style="margin-top: 12px">Name: </label>
                 <form method="post" asp-controller="RecordLabels" asp-action="EditName" id="editRLName">
                     @Html.Hidden("recordLabelId", recordLabel.Id)
                     <div class="col-md-8 col-sm-8">

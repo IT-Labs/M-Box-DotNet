@@ -1,9 +1,12 @@
 ﻿<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
 @inject UserManager<ApplicationUser> UserManager
 @using ItLabs.MBox.Contracts.Enums
 @using ItLabs.MBox.Application.Models.ArtistsViewModel
 @section Scripts{
     <script type="text/javascript" src="~/js/dateRestriction.js"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 }
 @{
     ViewData["Title"] = "AddNewSong";
@@ -75,7 +78,7 @@
                             <label>Release Date:</label>
                         </div>
                         <div class="col-md-7 col-sm-7">
-                            <input asp-for="ReleaseDate" class="form-control" type="date" id="releaseDate" />
+                            @Html.TextBox("ReleaseDate", "", new { @class = "form-control dateOfRelease" })
                             <span asp-validation-for="ReleaseDate" class="text-danger"></span>
                         </div>
                     </div>

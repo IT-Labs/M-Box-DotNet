@@ -40,10 +40,8 @@
         </form>
     </div>
     <div class="row" style="margin-right:300px">
-        <label>Name</label>
-    </div>
-    <div class="row" style="margin:10px 350px 50px 350px;">
-        <div class="col-md-8 col-sm-8">
+        <label class="col-sm-2" style="margin-top: 12px">Name: </label>
+        <div class="col-md-6 col-sm-6">
             <form asp-controller="Listeners" asp-action="EditName" method="post" id="editName">
 
                 <input asp-for="Name" class="form-control" value="@Model.Name" id="ArtistName" name="listenerName" disabled>

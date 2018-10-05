@@ -1,9 +1,11 @@
 ﻿$(function () {
-    var currentYear = (new Date).getFullYear();
-    var currentMonth = (new Date).getMonth();
-    var currentDay = (new Date).getDate();
+    var date = new Date();
 
-    $("#releaseDate").datepicker({
+    var currentYear = date.getFullYear();
+    var currentMonth = date.getMonth();
+    var currentDay = date.getDate();
+
+    $(".dateOfRelease").datepicker({
         dateFormat: 'dd/mm/yy',
         maxDate: new Date(currentYear, currentMonth, currentDay)
     });

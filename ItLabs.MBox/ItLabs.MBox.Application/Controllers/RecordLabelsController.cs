@@ -214,9 +214,15 @@ namespace ItLabs.MBox.Application.Controllers
         {
             var model = new MyAccountViewModel();
             var recordLabel = _recordLabelManager.GetOne(x => x.Id == recordLabelId, includeProperties: $"{ nameof(RecordLabel.User)}");
-            recordLabelName = recordLabelName.Trim();
+            
 
-            if (string.IsNullOrWhiteSpace(recordLabelName) || recordLabelName.Length < 2)
+            if (string.IsNullOrWhiteSpace(recordLabelName))
+            {
+                ModelState.AddModelError("Name", "The Name must contain at least 2 characters");
+                return View("MyAccount", model);
+            }
+            recordLabelName = recordLabelName.Trim();
+            if (recordLabelName.Length < 2)
             {
                 ModelState.AddModelError("Name", "The Name must contain at least 2 characters");
                 return View("MyAccount", model);
