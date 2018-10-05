@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -58,7 +59,14 @@ namespace ItLabs.MBox.Application.Controllers
 
         public IActionResult MyAccount()
         {
-            return View();
+            var artist = _artistManager.GetOne(filter: x => x.Id == CurrentLoggedUserId,includeProperties: $"{nameof(Artist.User)},{nameof(Artist.Follows)}.{nameof(Follow.Follower)}");
+            var model = new MyAccountViewModel();
+            model.ArtistBio = artist.Bio;
+            model.Name = artist.User.Name;
+            model.Picture = artist.PictureName;
+            model.FollowingCount = _userManager.Users.Where(x => x.Id == CurrentLoggedUserId).Include($"{nameof(Artist.Follows)}.{nameof(Follow.Artist)}").FirstOrDefault().Follows.Select(x => x.Artist == artist).ToList().Count;
+            model.FollowersCount = artist.Follows.Select(x => x.Follower).ToList().Count;
+            return View(model);
         }
 
         [HttpGet]

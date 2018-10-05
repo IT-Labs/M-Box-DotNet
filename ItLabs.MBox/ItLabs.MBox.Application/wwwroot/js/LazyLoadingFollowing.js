@@ -28,10 +28,13 @@ $(window).on("scroll", function () {
 
     }
 });
-$("#listToAppend").on("click",".clickableButton", function () {
-    console.log("vlaga");
+$("#listToAppend").on("click", ".clickableButton", function () {
     var artistId = this.getAttribute("data-artistId");
     var toSend = { artistId: parseInt(artistId) };
+    if (!window.confirm("Are you sure?")) {
+        return;
+    }
+
     $.ajax({
         type: "GET",
         contentType: "application/json",

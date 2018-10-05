@@ -19,8 +19,39 @@
 }
 @model ArtistDetailsViewModel
 <div class="container-fluid" style="text-align: center">
-    <div class="row" style="width:100%;height:150px;z-index:600;background:white;position:fixed;border-bottom: 1px solid grey">
-
+    <div class="row" style="width:60%;height:150px;z-index:600;background:white;position:fixed;border-bottom: 1px solid grey;margin-top:15px">
+        <div class="row" style="margin-left:300px">
+            <div class="col-sm-2" style="margin-top:20px">
+                <div class="row"><h1 id="followersCount">@Model.FollowersCount</h1></div>
+                <div class="row"><h4>followers</h4></div>
+            </div>
+            <div class="col-sm-4">
+                <img class="img img-circle" style="width:200px;height:200px;" src="@_s3Manager.GetImageLink(Model.Artist.PictureName)" />
+            </div>
+            <div class="col-sm-2" style="margin-top:20px;margin-left:-20px">
+                <div class="row"><h1 id="followingCount">@Model.FollowingCount</h1></div>
+                <div class="row"><h4>following</h4></div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-2 col-sm-offset-3" style="margin-top:-30px;padding-left:70px">
+                @if (Model.Artist.Id == Model.CurrentLoggedUserId)
+                {
+                    <button id="followButton" value="Follow" class="btn btn-primary" style="width:100px;" disabled>Follow</button>
+                }
+                else
+                {
+                    if (Model.Artist.IsFollowed(Model.CurrentLoggedUserId))
+                    {
+                        <button id="followButton" value="Unfollow" class="btn btn-primary" style="width:100px;">Unfollow</button>
+                    }
+                    else
+                    {
+                        <button id="followButton" value="Follow" class="btn btn-primary" style="width:100px;">Follow</button>
+                    }
+                }
+                </div>
+            </div>
     </div>
     <div class="row" style="margin-top:170px">
         <div class="col-sm-2" style="border-right: 1px solid grey; float: left; position:fixed; height:550px; z-index:600">
@@ -28,35 +59,16 @@
                 <h2 asp-for="User.Name">@Model.Artist.User.Name</h2>
             </div>
             <div class="row" style="margin-top:50px">
-                <label>Artist bio:</label>
             </div>
             <div class="row" style="margin-top:10px">
-                <textarea style="resize:none; width:250px; height: 400px" disabled>@Model.Artist.Bio</textarea>
+                <label style="resize:none; width:250px; height: 400px" disabled>@Model.Artist.Bio</label>
             </div>
         </div>
         @Html.Hidden("artistId", Model.Artist.Id)
         <div class="sol-sm-9" style="">
-            <div class="row" style="position:fixed;z-index:999">
-                @if (Model.Artist.Id == Model.CurrentLoggedUserId)
-                {
-                    <button id="followButton" value="Follow" class="btn btn-primary" style="width:100px;margin-left: 400px" disabled>Follow</button>
-                }
-                else
-                {
-                    if (Model.Artist.IsFollowed(Model.CurrentLoggedUserId))
-                    {
-                        <button id="followButton" value="Unfollow" class="btn btn-primary" style="width:100px;margin-left: 400px">Unfollow</button>
-                    }
-                    else
-                    {
-                        <button id="followButton" value="Follow" class="btn btn-primary" style="width:100px;margin-left: 400px">Follow</button>
-                    }
-                }
-                <img class="img img-circle" style="width:200px;height:200px;margin-top:-150px" src="@_s3Manager.GetImageLink(Model.Artist.PictureName)" />
-            </div>
             <div class="row" style="position:relative;z-index:0">
-
-                <ul id="songListId" class="list-group seperateLists" style="list-style:none;position:relative ;margin-left: 35%;margin-top:100px;margin-right:-150px">
+                <div class="col-sm-10 col-sm-offset-3">
+                <ul id="songListId" class="list-group seperateLists" style="list-style:none;position:relative ;margin-top:100px;padding-left:70px">
                     @foreach (Song song in Model.PagingModelSongs.PagingList)
                     {
                         <li class="col-sm-3 card-container-song table-bordered" style="margin-right:3.2%; margin-bottom: 2%;height:240px">
@@ -90,6 +102,7 @@
                         </li>
                     }
                 </ul>
+                    </div>
             </div>
         </div>
 

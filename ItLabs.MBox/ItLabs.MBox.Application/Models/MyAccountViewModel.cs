@@ -12,5 +12,7 @@ namespace ItLabs.MBox.Application.Models
         public string Name { get; set; }
         public string RecordLabelInfo { get; set; }
         public string ArtistBio { get; set; }
+        public int FollowersCount { get; set; }
+        public int FollowingCount { get; set; }
     }
 }

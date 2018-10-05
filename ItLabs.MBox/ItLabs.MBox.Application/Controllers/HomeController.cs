@@ -172,6 +172,8 @@ namespace ItLabs.MBox.Application.Controllers
             model.Artist = _artistsManager.GetOne(x => x.Id == artistId, includeProperties: $"{nameof(Artist.User)},{nameof(Artist.Songs)},{nameof(Artist.Follows)}.{nameof(Follow.Follower)}");
             model.PagingModelSongs = new PagingModel<Song>() { PagingList = model.Artist.Songs.Take(MBoxConstants.initialTakeHomeLists).ToList() };
             model.CurrentLoggedUserId = CurrentLoggedUserId;
+            model.FollowingCount = _userManager.Users.Where(x => x.Id == artistId).Include($"{nameof(Artist.Follows)}.{nameof(Follow.Artist)}").FirstOrDefault().Follows.Select(x=>x.Artist == model.Artist).ToList().Count;
+            model.FollowersCount = model.Artist.Follows.Select(x => x.Follower).ToList().Count;
             return View(model);
         }
         [HttpPost]

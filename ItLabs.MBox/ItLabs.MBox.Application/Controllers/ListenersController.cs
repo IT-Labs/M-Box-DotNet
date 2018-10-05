@@ -27,7 +27,7 @@ namespace ItLabs.MBox.Application.Controllers
         [HttpGet]
         public IActionResult MyAccount()
         {
-            var user = _userManager.FindByIdAsync(CurrentLoggedUserId.ToString()).Result;
+            var user = _userManager.Users.Where(x => x.Id == CurrentLoggedUserId).Include(x => x.Follows).FirstOrDefault();
             return View(user);
         }
         [HttpPost]

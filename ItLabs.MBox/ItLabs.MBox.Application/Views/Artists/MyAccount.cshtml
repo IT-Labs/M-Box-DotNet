@@ -30,7 +30,20 @@
         </div>
         <div class="col-md-8 col-sm-8">
             <div class="row" style="margin: 20px;">
-                <img class="img-circle img-responsive center-block" style="height:350px; width:500px" src="@_s3Manager.GetImageLink(user.PictureName)">
+               
+                <div class="row" >
+                    <div class="col-sm-2" style="margin-top:20px">
+                        <div class="row"><h1 id="followersCount" onclick="location.href = '/Artists/Followers';"onmouseover="" style="cursor: pointer;">@Model.FollowersCount</h1></div>
+                        <div class="row"><h4>followers</h4></div>
+                    </div>
+                    <div class="col-sm-7">
+                        <img class="img-circle img-responsive center-block" style="height:350px; width:500px" src="@_s3Manager.GetImageLink(user.PictureName)">
+                    </div>
+                    <div class="col-sm-2" style="margin-top:20px">
+                        <div class="row"><h1 id="followingCount" onclick="location.href = '/Home/Following';"onmouseover="" style="cursor: pointer;margin-left:-20px">@Model.FollowingCount</h1></div>
+                        <div class="row"><h4 style="margin-left:-10px">following</h4></div>
+                    </div>
+                </div>
             </div>
             <div class="row" style="margin:20px;">
                 <form asp-controller="Artists" asp-action="ChangePicture" method="post" enctype="multipart/form-data">

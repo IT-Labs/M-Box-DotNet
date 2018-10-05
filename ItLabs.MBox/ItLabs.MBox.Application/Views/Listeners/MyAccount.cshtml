@@ -17,22 +17,23 @@
 @model ApplicationUser
 <div class="container-fluid" style="text-align: center">
     <div class="row" style="width:59%;height:150px;z-index:600;background:white;position:fixed;border-bottom: 1px solid black">
-    </div>
-    <div class="row" style="margin-top:170px">
-        <div class="sol-sm-9" style="">
-            <div class="row" style="position:fixed;z-index:999">
-                <img class="img img-circle" style="width:200px;height:200px;margin-left: 490px;margin-top:-150px" src="@_s3Manager.GetImageLink(Model.PictureName)" />
-            </div>
+        <div class="col-sm-5 col-sm-offset-4" style="padding-left:">
+            <img class="img img-circle" style="width:200px;height:200px;margin-top:5px" src="@_s3Manager.GetImageLink(Model.PictureName)" />
+        </div>
+        <div class="col-sm-2" style="margin-top:20px">
+            <div class="row"><h1 id="followingCount" onclick="location.href = '/Home/Following';" onmouseover="" style="cursor: pointer;margin-left:-20px">@Model.Follows.Count</h1></div>
+            <div class="row"><h4 style="margin-left:-10px">following</h4></div>
         </div>
     </div>
-    <div class="row" style="margin:50px 350px 50px 350px;">
+
+    <div class="row" style="margin:250px 350px 50px 350px;">
         <form asp-controller="Listeners" asp-action="ChangePicture" method="post" enctype="multipart/form-data">
             <div class="col-sm-8 col-md-8">
                 <p>Change profle picture:</p>
                 <input class="btn-default btn" type="file" id="uploadedFiles" name="uploadedFiles" accept=".jpg,.jpeg,.png">
                 <span asp-validation-for="Picture" class="text-danger"></span>
             </div>
-            <div class="col-sm-4 col-md-4" style="margin-top:35px; ">
+            <div class="col-sm-3 col-sm-offset-1" style="margin-top:35px; ">
                 <button type="submit" class="btn btn-primary">Upload</button>
             </div>
         </form>
@@ -44,17 +45,17 @@
                 <span asp-validation-for="Name" class="text-danger"></span>
             </form>
         </div>
-        <div class="col-md-1 col-sm-1">
+        <div class="col-sm-1">
             <button class="btn btn-default edit editDetails" id="editListenrName" onclick="editDetails('ArtistName', 'editListenrName', 'saveListenertName', 'cancelListenrName')">
                 <i class="glyphicon glyphicon-edit"></i>
             </button>
         </div>
-        <div class="col-md-1 col-sm-1">
+        <div class=" col-sm-1" >
             <button class="btn btn-success save saveDetails" id="saveListenertName" type="submit" form="editName">
                 <i class="glyphicon glyphicon-ok"></i>
             </button>
         </div>
-        <div class="col-md-1 col-sm-1">
+        <div class="col-sm-offset-1 col-sm-1">
             <button class="btn btn-danger cancelDetails" id="cancelListenrName" onclick="cancelEditiong('ArtistName', 'editListenrName', 'saveListenertName', 'cancelListenrName')">
                 <i class="glyphicon glyphicon-remove"></i>
             </button>

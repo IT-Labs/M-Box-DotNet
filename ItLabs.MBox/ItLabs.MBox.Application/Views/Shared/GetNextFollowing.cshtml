@@ -11,7 +11,12 @@
             <img class="img-circle" style="height: 35px; width: 35px" src="@_s3Manager.GetImageLink(artist.PictureName)" />
         </td>
         <td>
-            @artist.User.Name
+            <form asp-controller="Home" asp-action="ArtistDetails">
+                    <button type="submit" class=" btn-link">
+                        <h5>@artist.User.Name</h5>
+                       
+                    </button>
+            </form>
         </td>
         <td>
             <button data-artistId="@artist.User.Id" type="submit" class="btn btn-danger clickableButton">
