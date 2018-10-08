@@ -31,9 +31,16 @@
             <div class="row">
                 <img class="img-responsive" style="height:300px;width: 400px;margin: 50px" src="@_s3Manager.GetImageLink(Model.RecordLabel.PictureName)" />
             </div>
-            <div class="row">
-                <label style="resize:none; width:400px; height: 350px" disabled>@Model.RecordLabel.AboutInfo</label>
-            </div>
+            @if (!string.IsNullOrWhiteSpace(Model.RecordLabel.AboutInfo))
+            {
+                <div class="row">
+                    <label>Information about @Model.RecordLabel.User.Name</label>
+                </div>
+                <div class="row">
+                    <label style="resize:none; width:400px; height: 350px" disabled>@Model.RecordLabel.AboutInfo</label>
+                </div>
+            }
+
         </div>
         <div class="col-sm-9">
             <ul id="artistListId" class="list-group seperateLists" style="list-style:none;position:relative ;margin-left: 65%;margin-top:100px;margin-right:-350px">
