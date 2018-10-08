@@ -29,14 +29,9 @@
                                     <form asp-controller="Home" asp-action="SongDetails">
                                         <div class="text-center text">
                                             <button type="submit" class="btn btn-link">
-                                                @if (song.Name.Count() > 13)
-                                                {
-                                                    <h5>@song.Name.Substring(0, 13)...</h5>
-                                                }
-                                                else
-                                                {
-                                                    <h5>@song.Name</h5>
-                                                }
+
+                                                <h5>@song.ShortName</h5>
+
                                                 @Html.Hidden("songId", song.Id)
                                             </button>
                                         </div>
@@ -58,14 +53,9 @@
                                     <form asp-controller="Home" asp-action="ArtistDetails">
                                         <div class="text-center text">
                                             <button type="submit" class="btn btn-link">
-                                                @if (song.Artist.User.Name.Count() > 13)
-                                                {
-                                                    <h5>@song.Artist.User.Name...</h5>
-                                                }
-                                                else
-                                                {
-                                                    <h5>@song.Artist.User.Name</h5>
-                                                }
+
+                                                <h5>@song.Artist.User.ShortName</h5>
+
                                                 @Html.Hidden("artistId", song.Artist.Id)
                                             </button>
                                         </div>
@@ -97,46 +87,41 @@
                     <li class="col-sm-2 card-container-artist table-bordered" style="margin-right:3.2%; margin-bottom: 2%">
                         <div>
                             <div class="row card-song-name">
-                                    <form asp-controller="Home" asp-action="ArtistDetails">
-                                <div class="text-center text">
-                                    <button type="submit" class="btn btn-link">
-                                        @if (artist.User.Name.Count() > 13)
-                                        {
-                                            <h5>@artist.User.Name.Substring(0, 13)...</h5>
-                                        }
-                                        else
-                                        {
-                                            <h5>@artist.User.Name</h5>
-                                        }
-                                        @Html.Hidden("artistId", artist.Id)
-                                    </button>
-                                        </div>
-                                    </form>
+                                <form asp-controller="Home" asp-action="ArtistDetails">
+                                    <div class="text-center text">
+                                        <button type="submit" class="btn btn-link">
+
+                                            <h5>@artist.User.ShortName</h5>
+
+                                            @Html.Hidden("artistId", artist.Id)
+                                        </button>
+                                    </div>
+                                </form>
                             </div>
                             <div class="row card-song-img-hold">
                                 <img class="card-song-img img-circle" src="@_s3Manager.GetImageLink(artist.PictureName)" />
                             </div>
                             <div class="row">
                                 <div>
-                                        @if (!artist.IsDeleted)
-                                        {
-                                            <form asp-controller="Home" asp-action="RecordLabelDetails">
-                                                <div class="text-center text">
-                                                    <button type="submit" class="btn btn-link">
-                                                        @if (artist.RecordLabelName?.Count() > 13)
-                                                        {
-                                                            <h5 style="margin-top:-7px">>@artist.RecordLabelName.Substring(0, 13)...</h5>
+                                    @if (!artist.IsDeleted)
+                                    {
+                                        <form asp-controller="Home" asp-action="RecordLabelDetails">
+                                            <div class="text-center text">
+                                                <button type="submit" class="btn btn-link">
+                                                    @if (artist.RecordLabelName?.Count() > 13)
+                                                    {
+                                                        <h5 style="margin-top:-7px">>@artist.RecordLabelName.Substring(0, 13)...</h5>
 
-                                                        }
-                                                        else
-                                                        {
-                                                            <h5 style="margin-top:-7px">@artist.RecordLabelName</h5>
-                                                        }
-                                                        @Html.Hidden("recordLabelId", artist.RecordLabelId)
-                                                    </button>
-                                                </div>
-                                            </form>
-                                        }
+                                                    }
+                                                    else
+                                                    {
+                                                        <h5 style="margin-top:-7px">@artist.RecordLabelName</h5>
+                                                    }
+                                                    @Html.Hidden("recordLabelId", artist.RecordLabelId)
+                                                </button>
+                                            </div>
+                                        </form>
+                                    }
 
                                 </div>
                             </div>
@@ -166,14 +151,7 @@
                                 <form asp-controller="Home" asp-action="SongDetails">
                                     <div class="text-center text">
                                         <button type="submit" class="btn btn-link">
-                                            @if (song.Name.Count() > 13)
-                                            {
-                                                <h5>@song.Name.Substring(0, 13)...</h5>
-                                            }
-                                            else
-                                            {
-                                                <h5>@song.Name</h5>
-                                            }
+                                            <h5>@song.ShortName</h5>
                                             @Html.Hidden("songId", song.Id)
                                         </button>
                                     </div>
@@ -196,14 +174,7 @@
                                 <form asp-controller="Home" asp-action="ArtistDetails">
                                     <div class="text-center text">
                                         <button type="submit" class="btn btn-link">
-                                            @if (song.Artist.User.Name.Count() > 13)
-                                            {
-                                                <h5>@song.Artist.User.Name...</h5>
-                                            }
-                                            else
-                                            {
-                                                <h5>@song.Artist.User.Name</h5>
-                                            }
+                                            <h5>@song.Artist.User.ShortName</h5>
                                             @Html.Hidden("artistId", song.Artist.Id)
                                         </button>
                                     </div>

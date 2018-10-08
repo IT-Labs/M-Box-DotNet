@@ -12,69 +12,64 @@
 
 
 
-    <div class="container-fluid">
-        <input id="recordlabels" type="hidden" value="@Html.Raw(Json.Serialize(new List<Artist>()))" />
-        <input id="take" type="hidden" value="@Html.Raw(Json.Serialize(Model.Take))" />
-        <input id="skip" type="hidden" value="@Html.Raw(Json.Serialize(Model.Skip))" />
-        <input id="lazyLoadingUrl" type="hidden" value="/Home/GetNextArtists" />
-        <ul id="recordLabelsListId" class="list-group" style="list-style:none;margin-top:50px">
+<div class="container-fluid">
+    <input id="recordlabels" type="hidden" value="@Html.Raw(Json.Serialize(new List<Artist>()))" />
+    <input id="take" type="hidden" value="@Html.Raw(Json.Serialize(Model.Take))" />
+    <input id="skip" type="hidden" value="@Html.Raw(Json.Serialize(Model.Skip))" />
+    <input id="lazyLoadingUrl" type="hidden" value="/Home/GetNextArtists" />
+    <ul id="recordLabelsListId" class="list-group" style="list-style:none;margin-top:50px">
 
-            @foreach (Artist artist in Model.PagingList)
-            {
-                <li class="col-sm-2 card-container-artist table-bordered" style="margin-right:3.2%; margin-bottom: 2%">
-                    <div class="row card-song-name">
-                        <div>
-                            <div class="text-center text">
-                                <form asp-controller="Home" asp-action="ArtistDetails">
+        @foreach (Artist artist in Model.PagingList)
+        {
+            <li class="col-sm-2 card-container-artist table-bordered" style="margin-right:3.2%; margin-bottom: 2%">
+                <div class="row card-song-name">
+                    <div>
+                        <div class="text-center text">
+                            <form asp-controller="Home" asp-action="ArtistDetails">
+                                <div class="text-center text">
+                                    <button type="submit" class="btn btn-link">
+
+                                        <h5>@artist.User.ShortName</h5>
+
+                                        @Html.Hidden("artistId", artist.Id)
+                                    </button>
+                                </div>
+                            </form>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="row card-song-img-hold">
+                    <img class="card-song-img img-circle" src="@_s3Manager.GetImageLink(artist.PictureName)" />
+                </div>
+                <div class="row">
+                    <div>
+                        <div class="text-center text">
+                            @if (!artist.IsDeleted)
+                            {
+                                <form asp-controller="Home" asp-action="RecordLabelDetails">
                                     <div class="text-center text">
                                         <button type="submit" class="btn btn-link">
-                                            @if (artist.User.Name.Count() > 13)
+                                            @if (artist.RecordLabelName?.Count() > 13)
                                             {
-                                                <h5>@artist.User.Name.Substring(0, 13)...</h5>
+                                                <h5 style="margin-top:-7px">@artist.RecordLabelName.Substring(0, 13)...</h5>
+
                                             }
                                             else
                                             {
-                                                <h5>@artist.User.Name</h5>
+                                                <h5 style="margin-top:-7px">@artist.RecordLabelName</h5>
                                             }
-                                            @Html.Hidden("artistId", artist.Id)
+                                            @Html.Hidden("recordLabelId", artist.RecordLabelId)
                                         </button>
                                     </div>
                                 </form>
 
-                            </div>
+                            }
                         </div>
                     </div>
-                    <div class="row card-song-img-hold">
-                        <img class="card-song-img img-circle" src="@_s3Manager.GetImageLink(artist.PictureName)" />
-                    </div>
-                    <div class="row">
-                        <div>
-                            <div class="text-center text">
-                                @if (!artist.IsDeleted)
-                                {
-                                    <form asp-controller="Home" asp-action="RecordLabelDetails">
-                                        <div class="text-center text">
-                                            <button type="submit" class="btn btn-link">
-                                                @if (artist.RecordLabelName?.Count() > 13)
-                                                {
-                                                <h5 style="margin-top:-7px">@artist.RecordLabelName.Substring(0, 13)...</h5>
-
-                                                }
-                                                else
-                                                {
-                                                <h5 style="margin-top:-7px">@artist.RecordLabelName</h5>
-                                                }
-                                                @Html.Hidden("recordLabelId", artist.RecordLabelId)
-                                            </button>
-                                        </div>
-                                    </form>
-
-                                }
-                            </div>
-                        </div>
-                    </div>
-                </li>
-            }
-        </ul>
-        <button name="LoadMore" class="btn btn-primary center-block" id="loadmorebutton"> Load More</button>
-    </div>
+                </div>
+            </li>
+        }
+    </ul>
+    <button name="LoadMore" class="btn btn-primary center-block" id="loadmorebutton"> Load More</button>
+</div>

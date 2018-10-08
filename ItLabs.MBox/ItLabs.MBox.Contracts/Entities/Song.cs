@@ -35,5 +35,16 @@ namespace ItLabs.MBox.Contracts.Entities
                 return Picture;
             }
         }
+        public string ShortName
+        {
+            get
+            {
+                if (Name.Length > 16)
+                {
+                    return Name.Substring(0, 16);
+                }
+                return Name;
+            }
+        }
     }
 }

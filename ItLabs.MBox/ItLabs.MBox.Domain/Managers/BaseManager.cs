@@ -15,7 +15,6 @@ namespace ItLabs.MBox.Domain.Managers
 
         private readonly IRepository _repository;
         protected readonly ILogger _logger;
-        private IRepository repository;
 
         public BaseManager(IRepository repository, ILogger<T> logger)
         {

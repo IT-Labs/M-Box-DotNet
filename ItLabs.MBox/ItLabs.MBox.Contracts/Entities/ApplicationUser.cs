@@ -39,5 +39,16 @@ namespace ItLabs.MBox.Contracts.Entities
         {
             return Follows.Select(x => x.Artist?.Id).Contains(artistId);
         }
+        public string ShortName
+        {
+            get
+            {
+                if (Name.Length > 19)
+                {
+                    return Name.Substring(0, 16) + "...";
+                }
+                return Name;
+            }
+        }
     }
 }

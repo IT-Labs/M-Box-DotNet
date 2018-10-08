@@ -16,6 +16,7 @@ namespace ItLabs.MBox.Application
             For<ISongManager>().LifecycleIs(Lifecycles.Container).Use<SongManager>();
             For<IS3Manager>().LifecycleIs(Lifecycles.Container).Use<S3Manager>();
             For<IConfigurationManager>().LifecycleIs(Lifecycles.Container).Use<ConfigurationManager>();
+            For<ISearchManager>().LifecycleIs(Lifecycles.Container).Use<SearchManager>();
 
             For(typeof(IRepository)).LifecycleIs(Lifecycles.Container).Use(typeof(Repository<MBoxDbContext>));
             For(typeof(IReadOnlyRepository)).LifecycleIs(Lifecycles.Container).Use(typeof(ReadOnlyRepository<MBoxDbContext>));

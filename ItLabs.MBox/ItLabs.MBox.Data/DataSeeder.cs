@@ -64,40 +64,41 @@ namespace ItLabs.MBox.Data
             }
             if (!context.Songs.Any())
             {
-                for (int i = 0; i < 50; i++)
+                for (int i = 0; i < 150; i++)
                 {
                     var song = new Song()
                     {
                         AlbumName = "DAMN",
-                        CreatedBy = 81,
-                        ArtistId=81,
+                        CreatedBy = 430,
+                        ArtistId=430,
                         Genre = "HipHop",
                         ReleaseDate = DateTime.UtcNow,
                         VimeoLink = @"https://vimeo.com/252716264",
                         YouTubeLink = @"https://www.youtube.com/watch?v=1MGUetRPp_Y",
-                        Name = i + "st/th song"
+                        Name = "TestSongTest"+i 
                     };
                     context.Songs.Add(song);
                 }
+
             }
-            if (!context.RecordLabels.Any())
+            if (context.RecordLabels.Count()==1)
             {
                 var passRL = new PasswordHasher<ApplicationUser>();
 
-                for (int i = 50; i < 350; i++)
+                for (int i = 0; i < 150; i++)
                 {
                     var tempUser = new ApplicationUser();
                     var tempRl = new RecordLabel();
                     var tempPass = new PasswordHasher<ApplicationUser>();
                     var hashedTempPass = passRL.HashPassword(tempUser, "qweqwe123");
-                    tempUser.Email = "rl" + i + "@gmail.com";
-                    tempUser.Name = "Record Label " + i;
+                    tempUser.Email = "TESTRL" + i + "@gmail.com";
+                    tempUser.Name = "TestRecordLabelTest" + i;
                     tempUser.IsActivated = true;
                     tempUser.PasswordHash = hashedTempPass;
                     tempUser.NormalizedUserName = "TESTRL" + i + "@GMAIL.COM";
                     tempUser.NormalizedEmail = "TESTRL" + i + "@GMAIL.COM";
                     tempUser.SecurityStamp = "415bf8f4-bc79-4ec2-8368-cf9bdd755db1";
-                    tempUser.UserName = "testrl" + i + "@gmail.com";
+                    tempUser.UserName = "TESTRL" + i + "@gmail.com";
                     tempUser.LockoutEnabled = true;
                     tempRl.User = tempUser;
                     context.ApplicationUsers.Add(tempUser);
@@ -109,7 +110,38 @@ namespace ItLabs.MBox.Data
                     context.UserRoles.Add(new IdentityUserRole<int>() { UserId = tempUser.Id, RoleId = 2 });
 
                 }
-                context.SaveChanges();
+                
+            }
+            if (context.Artists.Count() == 1)
+            {
+                var passRL = new PasswordHasher<ApplicationUser>();
+
+                for (int i = 0; i < 150; i++)
+                {
+                    var tempUser = new ApplicationUser();
+                    var tempArtist = new Artist();
+                    var tempPass = new PasswordHasher<ApplicationUser>();
+                    var hashedTempPass = passRL.HashPassword(tempUser, "qweqwe123");
+                    tempUser.Email = "artist" + i + "@gmail.com";
+                    tempUser.Name = "TestArtistTest" + i;
+                    tempUser.IsActivated = true;
+                    tempUser.PasswordHash = hashedTempPass;
+                    tempUser.NormalizedUserName = "ARTIST" + i + "@GMAIL.COM";
+                    tempUser.NormalizedEmail = "ARTIST" + i + "@GMAIL.COM";
+                    tempUser.SecurityStamp = "415bf8f4-bc79-4ec2-8368-cf9bdd755db1";
+                    tempUser.UserName = "artist" + i + "@gmail.com";
+                    tempUser.LockoutEnabled = true;
+                    tempArtist.User = tempUser;
+                    context.ApplicationUsers.Add(tempUser);
+                    context.SaveChanges();
+
+                    var tempReturned = context.ApplicationUsers.FirstOrDefault(c => c.Id == tempUser.Id);
+                    tempArtist.User = tempReturned;
+                    context.Artists.Add(tempArtist);
+                    context.UserRoles.Add(new IdentityUserRole<int>() { UserId = tempUser.Id, RoleId = (int)Role.Artist });
+
+                }
+                
             }
             context.SaveChanges();
         }

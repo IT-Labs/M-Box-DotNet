@@ -1,5 +1,6 @@
 ﻿using ItLabs.MBox.Application.Models;
 using ItLabs.MBox.Application.Models.ArtistsViewModel;
+using ItLabs.MBox.Application.Models.HomeViewModels;
 using ItLabs.MBox.Application.Models.RecordLabelViewModels;
 using ItLabs.MBox.Contracts;
 using ItLabs.MBox.Contracts.Entities;
@@ -22,14 +23,16 @@ namespace ItLabs.MBox.Application.Controllers
         private IArtistManager _artistsManager;
         private IRecordLabelManager _recordLabelManager;
         private ILogger<HomeController> _logger;
+        private ISearchManager _searchManager;
         private IEmailsManager _emailManager;
-        public HomeController(ILogger<HomeController> logger, ISongManager songsManager, IArtistManager artistsManager, IRecordLabelManager recordLabelManager, IEmailsManager emailManager, UserManager<ApplicationUser> userManager) : base(userManager)
+        public HomeController(ISearchManager searchManager, ILogger<HomeController> logger, ISongManager songsManager, IArtistManager artistsManager, IRecordLabelManager recordLabelManager, IEmailsManager emailManager, UserManager<ApplicationUser> userManager) : base(userManager)
         {
             _songsManager = songsManager;
             _artistsManager = artistsManager;
             _recordLabelManager = recordLabelManager;
             _emailManager = emailManager;
             _logger = logger;
+            _searchManager = searchManager;
         }
 
         public IActionResult Index()
@@ -129,7 +132,7 @@ namespace ItLabs.MBox.Application.Controllers
         {
             ViewData["Message"] = "RecordLabels";
             model.PagingList = _recordLabelManager.Get(skip: model.Skip, take: model.Take, includeProperties: $"{nameof(RecordLabel.User)}").ToList();
-            return View( model);
+            return View(model);
         }
 
         [HttpPost]
@@ -172,7 +175,7 @@ namespace ItLabs.MBox.Application.Controllers
             model.Artist = _artistsManager.GetOne(x => x.Id == artistId, includeProperties: $"{nameof(Artist.User)},{nameof(Artist.Songs)},{nameof(Artist.Follows)}.{nameof(Follow.Follower)}");
             model.PagingModelSongs = new PagingModel<Song>() { PagingList = model.Artist.Songs.Take(MBoxConstants.initialTakeHomeLists).ToList() };
             model.CurrentLoggedUserId = CurrentLoggedUserId;
-            model.FollowingCount = _userManager.Users.Where(x => x.Id == artistId).Include($"{nameof(Artist.Follows)}.{nameof(Follow.Artist)}").FirstOrDefault().Follows.Select(x=>x.Artist == model.Artist).ToList().Count;
+            model.FollowingCount = _userManager.Users.Where(x => x.Id == artistId).Include($"{nameof(Artist.Follows)}.{nameof(Follow.Artist)}").FirstOrDefault().Follows.Select(x => x.Artist == model.Artist).ToList().Count;
             model.FollowersCount = model.Artist.Follows.Select(x => x.Follower).ToList().Count;
             return View(model);
         }
@@ -223,9 +226,10 @@ namespace ItLabs.MBox.Application.Controllers
             }
             try
             {
-                _artistsManager.ToggleFollow(artistId,CurrentLoggedUserId);
+                _artistsManager.ToggleFollow(artistId, CurrentLoggedUserId);
                 return Ok();
-            }catch(Exception ex)
+            }
+            catch (Exception ex)
             {
                 _logger.LogInformation(ex.Message);
                 return Error();
@@ -259,6 +263,46 @@ namespace ItLabs.MBox.Application.Controllers
                 model.SearchQuery = string.Empty;
             var user = _userManager.Users.Where(x => x.Id == CurrentLoggedUserId).Include($"{nameof(Artist.Follows)}.{nameof(Follow.Artist)}.{nameof(Artist.User)}").FirstOrDefault();
             model.PagingList = user.Follows.Where(x => x.Artist.User.Name.ToLower().Contains(model.SearchQuery.Trim().ToLower())).Skip(model.Skip).Take(model.Take).Select(x => x.Artist).ToList();
+            return View(model);
+        }
+        public IActionResult MainSearch(string searchValue, string showby = nameof(SearchType.MostRelevant))
+        {
+            if (string.IsNullOrWhiteSpace(searchValue))
+            {
+                return View(new SearchResultsViewModel
+                {
+                    SearchValue = string.Empty,
+                    SearchType = SearchType.MostRelevant
+                });
+            }
+            var model = new SearchResultsViewModel
+            {
+                SearchValue = searchValue.ToLower(),
+                SearchType = SearchType.MostRelevant
+            };
+            switch (showby)
+            {
+                case nameof(SearchType.MostRelevant):
+                    model.Results = _searchManager.Search(searchValue.Trim().ToLower(), SearchType.MostRelevant);
+                    model.SearchType = SearchType.MostRelevant;
+                    break;
+                case nameof(SearchType.SongName):
+                    model.Results = _searchManager.Search(searchValue.Trim().ToLower(), SearchType.SongName);
+                    model.SearchType = SearchType.SongName;
+                    break;
+                case nameof(SearchType.Lyrics):
+                    model.Results = _searchManager.Search(searchValue.Trim().ToLower(), SearchType.Lyrics);
+                    model.SearchType = SearchType.Lyrics;
+                    break;
+                case nameof(SearchType.ArtistName):
+                    model.Results = _searchManager.Search(searchValue.Trim().ToLower(), SearchType.ArtistName);
+                    model.SearchType = SearchType.ArtistName;
+                    break;
+                case nameof(SearchType.RecordLabelName):
+                    model.Results = _searchManager.Search(searchValue.Trim().ToLower(), SearchType.RecordLabelName);
+                    model.SearchType = SearchType.RecordLabelName;
+                    break;
+            }
             return View(model);
         }
 

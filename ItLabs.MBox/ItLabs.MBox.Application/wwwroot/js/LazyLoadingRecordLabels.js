@@ -3,7 +3,7 @@ var loadCounter;
 var loadsBeforeLoadMoreButtonAppears = 10;
 var lazyLoadingUrl = $("#lazyLoadingUrl").val();
 
-jQuery(document).ready(function () {
+$(document).ready(function () {
     modelJSValue.RecordLabels = $("#recordlabels").val();
     modelJSValue.Take = $("#take").val();
     modelJSValue.Skip = $("#skip").val();

@@ -17,14 +17,8 @@
                 <form asp-controller="Home" asp-action="SongDetails">
                     <div class="text-center text">
                         <button type="submit" class="btn btn-link">
-                            @if (song.Name.Count() > 13)
-                            {
-                                <h5>@song.Name.Substring(0, 13)...</h5>
-                            }
-                            else
-                            {
-                                <h5>@song.Name</h5>
-                            }
+                            <h5>@song.ShortName</h5>
+
                             @Html.Hidden("songId", song.Id)
                         </button>
                     </div>
