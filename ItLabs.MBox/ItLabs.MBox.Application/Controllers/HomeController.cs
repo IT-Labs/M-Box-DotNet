@@ -53,7 +53,7 @@ namespace ItLabs.MBox.Application.Controllers
             if (!HasAccess())
                 return RedirectProperly();
 
-            ViewData["Message"] = "About page";
+            ViewData["Message"] = "About";
             AboutViewModel model = new AboutViewModel
             {
                 WeCooperateWith = _recordLabelManager.GetAll(
@@ -66,15 +66,23 @@ namespace ItLabs.MBox.Application.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult About(AboutViewModel model)
         {
+            ViewData["Message"] = "About";
+
             model.WeCooperateWith = _recordLabelManager.GetAll(
                 includeProperties: $"{nameof(RecordLabel.User)},{nameof(RecordLabel.RecordLabelArtists)}").ToList();
-
-            ViewData["Message"] = "About page";
+            
             if (ModelState.IsValid)
             {
                 _emailManager.PrepareContactFormMail(model.Name, model.Email, model.Message);
-                ModelState.AddModelError("Message", "Message successfully sent");
-                return RedirectToAction("About", "Home");
+                TempData["successMessage"] = "Message successfully sent";
+
+                ModelState.Clear();
+
+                model.Email = string.Empty;
+                model.Message = string.Empty;
+                model.Name = string.Empty;
+
+                return View(model);
             }
 
             return View(model);
