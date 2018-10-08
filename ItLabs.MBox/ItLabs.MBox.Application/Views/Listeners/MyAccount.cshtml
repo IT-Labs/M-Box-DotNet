@@ -26,15 +26,14 @@
         </div>
     </div>
 
-    <div class="row" style="margin:250px 350px 10px 350px;">
+    <div class="row" style="margin:250px 150px 10px 150px;">
         <form asp-controller="Listeners" asp-action="ChangePicture" method="post" enctype="multipart/form-data">
-            <div class="col-sm-8 col-md-8">
+            <div class="col-sm-8">
                 <label>Change profle picture:</label>
                 <input class="btn-default btn" type="file" id="uploadedFiles" name="uploadedFiles" accept=".jpg,.jpeg,.png">
-
                 <span asp-validation-for="Picture" class="text-danger"></span>
             </div>
-            <div class="col-sm-3 col-sm-offset-1" style="margin-top:35px; ">
+            <div class="col-sm-4" style="margin-top: 27px">
                 <button type="submit" class="btn btn-primary">Upload</button>
             </div>
         </form>

@@ -14,14 +14,14 @@ namespace ItLabs.MBox.Application.Models.ArtistsViewModel
         public int SongId { get; set; }
         [Required()]
         [Display(Name = "Song Name")]
-        [StringLength(100, ErrorMessage = "The {0} cannot contain more than {1} characters, or less than {2}!", MinimumLength = 2)]
+        [StringLength(50, ErrorMessage = "The {0} cannot contain more than {1} characters, or less than {2}!", MinimumLength = 2)]
         public string SongName { get; set; }
 
         public string Picture;
 
         [Required]
         [Display(Name = "Album Name")]
-        [StringLength(100, ErrorMessage = "The {0} cannot contain more than {1} characters, or less than {2}", MinimumLength = 2)]
+        [StringLength(50, ErrorMessage = "The {0} cannot contain more than {1} characters, or less than {2}", MinimumLength = 2)]
         public string AlbumName { get; set; }
 
         public DateTime ReleaseDate { get; set; }
