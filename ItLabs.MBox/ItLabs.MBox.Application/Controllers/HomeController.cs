@@ -144,12 +144,11 @@ namespace ItLabs.MBox.Application.Controllers
             return View(model);
         }
 
-        [HttpPost]
-        public IActionResult SongDetails(int songId)
+        public IActionResult SongDetails(int Id)
         {
             var songDetails = new HomeViewModel() { };
             songDetails.SongDetails = _songsManager.GetOne(
-                filter: x => x.Id == songId,
+                filter: x => x.Id == Id,
                 includeProperties: $"{nameof(Song.Artist)}.{nameof(Artist.User)}");
 
             return View(songDetails);
@@ -177,33 +176,33 @@ namespace ItLabs.MBox.Application.Controllers
                 return RedirectToAction("Index", "RecordLabels");
             return null;
         }
-        [HttpPost]
-        public IActionResult ArtistDetails(int artistId)
+        
+        public IActionResult ArtistDetails(int Id)
         {
             var model = new ArtistDetailsViewModel();
-            model.Artist = _artistsManager.GetOne(x => x.Id == artistId, includeProperties: $"{nameof(Artist.User)},{nameof(Artist.Songs)},{nameof(Artist.Follows)}.{nameof(Follow.Follower)}");
+            model.Artist = _artistsManager.GetOne(x => x.Id == Id, includeProperties: $"{nameof(Artist.User)},{nameof(Artist.Songs)},{nameof(Artist.Follows)}.{nameof(Follow.Follower)}");
             model.PagingModelSongs = new PagingModel<Song>() { PagingList = model.Artist.Songs.Take(MBoxConstants.initialTakeHomeLists).ToList() };
             model.CurrentLoggedUserId = CurrentLoggedUserId;
-            model.FollowingCount = _userManager.Users.Where(x => x.Id == artistId).Include($"{nameof(Artist.Follows)}.{nameof(Follow.Artist)}").FirstOrDefault().Follows.Select(x => x.Artist == model.Artist).ToList().Count;
+            model.FollowingCount = _userManager.Users.Where(x => x.Id == Id).Include($"{nameof(Artist.Follows)}.{nameof(Follow.Artist)}").FirstOrDefault().Follows.Select(x => x.Artist == model.Artist).ToList().Count;
             model.FollowersCount = model.Artist.Follows.Select(x => x.Follower).ToList().Count;
             return View(model);
         }
-        [HttpPost]
-        public IActionResult RecordLabelDetails(int recordLabelId)
+        
+        public IActionResult RecordLabelDetails(int Id)
         {
             var model = new RecordLabelDetailsViewModel();
-            model.RecordLabel = _recordLabelManager.GetOne(filter: x => x.Id == recordLabelId, includeProperties: $"{nameof(RecordLabel.User)},{nameof(RecordLabel.RecordLabelArtists)}.{nameof(Artist)}.{nameof(Artist.User)}");
+            model.RecordLabel = _recordLabelManager.GetOne(filter: x => x.Id == Id, includeProperties: $"{nameof(RecordLabel.User)},{nameof(RecordLabel.RecordLabelArtists)}.{nameof(Artist)}.{nameof(Artist.User)}");
             model.PagingModelArtists = new PagingModel<Artist>();
             model.PagingModelArtists.PagingList = model.RecordLabel.RecordLabelArtists.Select(x => x.Artist).Take(MBoxConstants.initialTakeHomeLists).ToList();
             return View(model);
         }
 
         [HttpGet]
-        public IActionResult GetNextSongs([FromQuery] int artistId, [FromQuery] int skip, [FromQuery]  int take)
+        public IActionResult GetNextSongs([FromQuery] int Id, [FromQuery] int skip, [FromQuery]  int take)
         {
             var model = new PagingModel<Song>
             {
-                PagingList = _songsManager.Get(filter: x => x.Artist.Id == artistId,
+                PagingList = _songsManager.Get(filter: x => x.Artist.Id == Id,
                 skip: skip,
                 take: take,
                 includeProperties: $"{nameof(Artist)}.{nameof(Artist.User)}").ToList()
@@ -212,9 +211,9 @@ namespace ItLabs.MBox.Application.Controllers
             return View(model);
         }
         [HttpGet]
-        public IActionResult GetNextRecordLabelArtists([FromQuery] int recordLabelId, [FromQuery] int skip, [FromQuery]  int take)
+        public IActionResult GetNextRecordLabelArtists([FromQuery] int Id, [FromQuery] int skip, [FromQuery]  int take)
         {
-            var recordLabel = _recordLabelManager.Get(filter: x => x.Id == recordLabelId,
+            var recordLabel = _recordLabelManager.Get(filter: x => x.Id == Id,
                 includeProperties: $"{nameof(Artist.User)}," +
                         $"{nameof(Artist.RecordLabelArtists)}.{nameof(Artist)}.{nameof(Artist.User)}").FirstOrDefault();
             var model = new PagingModel<Artist>()

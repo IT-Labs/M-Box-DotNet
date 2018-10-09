@@ -42,7 +42,7 @@
             <div class="row">
                 <div class="col-md-8 col-sm-8">
                     <form asp-controller="Artists" asp-action="EditSongName" id="editSongName">
-                        @Html.Hidden("songId", Model.SongId)
+                        @Html.Hidden("Id", Model.SongId)
                         <input asp-for="SongName" class="form-control" value=@Model.SongName id="songName" name="songName" disabled>
                         <span asp-validation-for="SongName" class="text-danger"></span>
                     </form>
@@ -68,7 +68,7 @@
             </div>
             <div class="row">
                 <form asp-controller="Artists" asp-action="ChangeSongImage" method="post" enctype="multipart/form-data">
-                    @Html.Hidden("songId", Model.SongId)
+                    @Html.Hidden("Id", Model.SongId)
                     <div class="col-sm-8 col-md-8">
                         <p>Change song image:</p>
                         <input class="btn-default btn" type="file" id="uploadedFiles" name="uploadedFiles" accept=".jpg,.jpeg,.png">
@@ -88,7 +88,7 @@
                 </div>
                 <div class="col-md-6 col-sm-6">
                     <form asp-controller="Artists" asp-action="EditSongAlbum" id="editSongAlbum">
-                        @Html.Hidden("songId", Model.SongId)
+                        @Html.Hidden("Id", Model.SongId)
                         <input asp-for="AlbumName" class="form-control" value=@Model.AlbumName id="albumName" name="songAlbum" disabled>
                         <span asp-validation-for="AlbumName" class="text-danger"></span>
                     </form>
@@ -115,7 +115,7 @@
                 </div>
                 <div class="col-md-5 col-sm-5">
                     <form asp-controller="Artists" asp-action="EditSongGenre" method="post" id="songGenre">
-                        @Html.Hidden("songId", Model.SongId)
+                        @Html.Hidden("Id", Model.SongId)
                         @Html.DropDownListFor(x => x.Genres, new SelectList(Enum.GetValues(typeof(Genres))), Model.GenreName, new { @class = "form-control", disabled = "disable", id = "genre", name = "songGenre" })
                         <span asp-validation-for="Genres" class="text-danger"></span>
                     </form>
@@ -142,7 +142,7 @@
                 </div>
                 <div class="col-md-5 col-sm-5">
                     <form asp-controller="Artists" asp-action="editSongReleaseDate" method="post" id="songReleaseDate">
-                        @Html.Hidden("songId", Model.SongId)
+                        @Html.Hidden("Id", Model.SongId)
                         @Html.TextBox("ReleaseDate", Model.ReleaseDate.ToShortDateString(), new { @class = "form-control dateOfRelease", id= "releaseDate", name= "releaseDate", disabled = "disable" })
                         <span asp-validation-for="ReleaseDate" class="text-danger"></span>
                     </form>
@@ -187,7 +187,7 @@
                     </div>
                     <div class="row" style="padding: 8px">
                         <form asp-controller="Artists" asp-action="EditYoutubeLink" id="editYoutubeLink" method="post">
-                            @Html.Hidden("songId", Model.SongId)
+                            @Html.Hidden("Id", Model.SongId)
                             <input asp-for="YoutubeLink" class="form-control" value=@Model.YoutubeLink id="youtubeLinkUrl" name="youtubeLink">
                             <span asp-validation-for="YoutubeLink" class="text-danger"></span>
                         </form>
@@ -216,7 +216,7 @@
                     </div>
                     <div class="row" style="padding: 8px">
                         <form asp-controller="Artists" asp-action="EditVimeoLink" method="post" id="editVimeoLink">
-                            @Html.Hidden("songId", Model.SongId)
+                            @Html.Hidden("Id", Model.SongId)
                             <input asp-for="VimeoLink" name="vimeoLink" class="form-control" value=@Model.VimeoLink id="vimeoLinkUrl">
                             <span asp-validation-for="VimeoLink" class="text-danger"></span>
                         </form>
@@ -244,7 +244,7 @@
             </div>
             <div class="row" style="padding: 12px;">
                 <form asp-controller="Artists" asp-action="EditSongLyrics" method="post" id="editSongLyrics">
-                    @Html.Hidden("songId", Model.SongId)
+                    @Html.Hidden("Id", Model.SongId)
                     <textarea class="form-control characterCounter" maxlength="10000" style="margin-top: 5px; height: 550px; resize: none" name="lyrics" id="songLyrics" disabled>@Model.SongLyrics</textarea>
                     <span asp-validation-for="SongLyrics" class="text-danger"></span>
                     <p style="margin-top: 10px" id="text-counter">Characters left: <span id="counter">@charactersLeft</span></p>
