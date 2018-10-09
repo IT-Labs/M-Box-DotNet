@@ -28,9 +28,11 @@
                         </div>
                     </div>
                 </div>
-                <div class="row card-song-img-hold">
-                    <img class="card-song-img" src="@_s3Manager.GetImageLink(rl.PictureName)" />
-                </div>
+                <a asp-controller="Home" asp-action="RecordLabelDetails" asp-route-id="@rl.Id">
+                    <div class="row card-song-img-hold">
+                        <img class="card-song-img" src="@_s3Manager.GetImageLink(rl.PictureName)" />
+                    </div>
+                </a>
             </li>
         }
     </ul>

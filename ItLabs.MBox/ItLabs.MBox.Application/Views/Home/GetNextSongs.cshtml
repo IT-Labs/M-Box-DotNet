@@ -17,9 +17,11 @@
                         <a asp-controller="Home" asp-action="SongDetails" asp-route-id="@song.Id">@song.ShortName</a>
                     </div>
             </div>
-            <div class="row card-song-img-hold">
-                <img class="card-song-img" src="@_s3Manager.GetImageLink(song.PictureName)" />
-            </div>
+            <a asp-controller="Home" asp-action="SongDetails" asp-route-id="@song.Id">
+                <div class="row card-song-img-hold">
+                    <img class="card-song-img" src="@_s3Manager.GetImageLink(song.PictureName)" />
+                </div>
+            </a>
             <div class="row out-link-social">
                 <div class="col-sm-6">
                     <a target=”_blank” href="@song.YouTubeLink">Youtube</a>
