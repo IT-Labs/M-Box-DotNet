@@ -29,9 +29,11 @@
                         </div>
                     </div>
                 </div>
-                <div class="row card-song-img-hold">
-                    <img class="card-song-img img-circle" src="@_s3Manager.GetImageLink(artist.PictureName)" />
-                </div>
+                <a asp-controller="Home" asp-action="ArtistDetails" asp-route-id="@artist.Id">
+                    <div class="row card-song-img-hold">
+                        <img class="card-song-img img-circle" src="@_s3Manager.GetImageLink(artist.PictureName)" />
+                    </div>
+                </a>
                 <div class="row">
                     <div>
                         <div class="text-center text">
