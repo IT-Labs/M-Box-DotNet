@@ -4,7 +4,7 @@ var lazyLoadingUrl = $("#lazyLoadingUrl").val();
 jQuery(document).ready(function () {
     modelJSValue.Take = $("#take").val();
     modelJSValue.Skip = $("#skip").val();
-    modelJSValue.ArtistId = $("#artistId").val();
+    modelJSValue.Id = $("#artistId").val();
 });
 
 $(window).on("scroll", function () {

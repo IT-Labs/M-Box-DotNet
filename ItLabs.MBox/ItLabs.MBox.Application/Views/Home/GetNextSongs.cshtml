@@ -6,7 +6,6 @@
 @using ItLabs.MBox.Domain.Managers
 @inject S3Manager  _s3Manager
 @section Scripts{
-    <script type="text/javascript" src="~/js/LazyLoadingRecordLabels.js"></script>
 }
 @model PagingModel<Song>
 @foreach (Song song in Model.PagingList)
