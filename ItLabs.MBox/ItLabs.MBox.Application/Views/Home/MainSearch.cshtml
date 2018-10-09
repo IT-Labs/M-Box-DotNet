@@ -24,29 +24,39 @@
             <input id="take" type="hidden" value="@Html.Raw(Json.Serialize(Model.Take))" />
             <input id="skip" type="hidden" value="@Html.Raw(Json.Serialize(Model.Skip))" />
             <input id="lazyLoadingUrl" type="hidden" value="/Home/GetNextSearchResults" />
-            
+
             <form asp-controller="Home" asp-action="MainSearch">
                 @Html.Hidden("searchValue", Model.SearchValue, new { @class = "searchHidden" })
                 @Html.Hidden("selectedButton", Model.SearchType)
-                <div class="radio-inline">
-                    <label><input type="radio" name="showby" value="MostRelevant">Most Relevant</label>
-                </div>
+                <a asp-controller="Home" asp-action="MainSearch" asp-route-searchValue="@Model.SearchValue" asp-route-showby="MostRelevant">
+                    <div class="radio-inline">
+                        <input type="radio" name="showby" value="MostRelevant"><label>Most Relevant</label>
+                    </div>
+                </a>
                 <br />
-                <div class="radio-inline">
-                    <label><input type="radio" name="showby" value="SongName"> Song Name</label>
-                </div>
+                <a asp-controller="Home" asp-action="MainSearch" asp-route-searchValue="@Model.SearchValue" asp-route-showby="SongName">
+                    <div class="radio-inline">
+                        <input type="radio" name="showby" value="SongName"><label> Song Name</label>
+                    </div>
+                </a>
                 <br />
-                <div class="radio-inline">
-                    <label><input type="radio" name="showby" value="Lyrics"> Lyrics</label>
-                </div>
+                <a asp-controller="Home" asp-action="MainSearch" asp-route-searchValue="@Model.SearchValue" asp-route-showby="Lyrics">
+                    <div class="radio-inline">
+                        <input type="radio" name="showby" value="Lyrics"> <label>Lyrics</label>
+                    </div>
+                </a>
                 <br />
-                <div class="radio-inline">
-                    <label><input type="radio" name="showby" value="ArtistName"> Artist Name</label>
-                </div>
+                <a asp-controller="Home" asp-action="MainSearch" asp-route-searchValue="@Model.SearchValue" asp-route-showby="ArtistName">
+                    <div class="radio-inline">
+                        <input type="radio" name="showby" value="ArtistName"> <label>Artist Name</label>
+                    </div>
+                </a>
                 <br />
-                <div class="radio-inline">
-                    <label><input type="radio" name="showby" value="RecordLabelName"> Record Label Name</label>
-                </div>
+                <a asp-controller="Home" asp-action="MainSearch" asp-route-searchValue="@Model.SearchValue" asp-route-showby="RecordLabelName">
+                    <div class="radio-inline">
+                        <input type="radio" name="showby" value="RecordLabelName"><label> Record Label Name</label>
+                    </div>
+                    </a>
             </form>
         </div>
         <div class="col-sm-9" style="padding-left:50px">
@@ -68,7 +78,7 @@
                                 var artist = (Artist)obj;
                                 <li class="col-sm-3 card-container-artist table-bordered" style="margin-right:3.2%; margin-bottom: 2%">
                                     <div>
-                                        <div class="row card-song-name">                                            
+                                        <div class="row card-song-name">
                                             <div class="text-center text">
                                                 <a form asp-controller="Home" asp-action="ArtistDetails" asp-route-id="@artist.Id">
                                                     <h5>@artist.User.ShortName</h5>
@@ -158,11 +168,11 @@
                         }
                     }
                 </ul>
-                
+
             }
-                <div class="col-sm-10">
-                    <button name="LoadMore" class="btn btn-primary center-block" id="loadmorebutton"> Load More</button>
-                </div>
+            <div class="col-sm-10">
+                <button name="LoadMore" class="btn btn-primary center-block" id="loadmorebutton"> Load More</button>
+            </div>
         </div>
     </div>
 
