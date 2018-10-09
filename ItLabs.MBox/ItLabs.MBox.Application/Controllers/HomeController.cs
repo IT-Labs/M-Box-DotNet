@@ -3,6 +3,7 @@ using ItLabs.MBox.Application.Models.ArtistsViewModel;
 using ItLabs.MBox.Application.Models.HomeViewModels;
 using ItLabs.MBox.Application.Models.RecordLabelViewModels;
 using ItLabs.MBox.Contracts;
+using ItLabs.MBox.Contracts.Data_Structures;
 using ItLabs.MBox.Contracts.Entities;
 using ItLabs.MBox.Contracts.Enums;
 using ItLabs.MBox.Contracts.Interfaces;
@@ -73,7 +74,7 @@ namespace ItLabs.MBox.Application.Controllers
 
             model.WeCooperateWith = _recordLabelManager.GetAll(
                 includeProperties: $"{nameof(RecordLabel.User)},{nameof(RecordLabel.RecordLabelArtists)}").ToList();
-            
+
             if (ModelState.IsValid)
             {
                 _emailManager.PrepareContactFormMail(model.Name, model.Email, model.Message);
@@ -277,42 +278,81 @@ namespace ItLabs.MBox.Application.Controllers
         {
             if (string.IsNullOrWhiteSpace(searchValue))
             {
-                return View(new SearchResultsViewModel
+                return View(new SearchResultsViewModel()
                 {
                     SearchValue = string.Empty,
                     SearchType = SearchType.MostRelevant
                 });
             }
-            var model = new SearchResultsViewModel
+            var model = new SearchResultsViewModel()
             {
                 SearchValue = searchValue.ToLower(),
                 SearchType = SearchType.MostRelevant
             };
+            var allResults = new PriorityQueue<object>();
             switch (showby)
             {
                 case nameof(SearchType.MostRelevant):
-                    model.Results = _searchManager.Search(searchValue.Trim().ToLower(), SearchType.MostRelevant);
+                    allResults = _searchManager.Search(searchValue.Trim().ToLower(), SearchType.MostRelevant);
                     model.SearchType = SearchType.MostRelevant;
                     break;
                 case nameof(SearchType.SongName):
-                    model.Results = _searchManager.Search(searchValue.Trim().ToLower(), SearchType.SongName);
+                    allResults = _searchManager.Search(searchValue.Trim().ToLower(), SearchType.SongName);
                     model.SearchType = SearchType.SongName;
                     break;
                 case nameof(SearchType.Lyrics):
-                    model.Results = _searchManager.Search(searchValue.Trim().ToLower(), SearchType.Lyrics);
+                    allResults = _searchManager.Search(searchValue.Trim().ToLower(), SearchType.Lyrics);
                     model.SearchType = SearchType.Lyrics;
                     break;
                 case nameof(SearchType.ArtistName):
-                    model.Results = _searchManager.Search(searchValue.Trim().ToLower(), SearchType.ArtistName);
+                    allResults = _searchManager.Search(searchValue.Trim().ToLower(), SearchType.ArtistName);
                     model.SearchType = SearchType.ArtistName;
                     break;
                 case nameof(SearchType.RecordLabelName):
-                    model.Results = _searchManager.Search(searchValue.Trim().ToLower(), SearchType.RecordLabelName);
+                    allResults = _searchManager.Search(searchValue.Trim().ToLower(), SearchType.RecordLabelName);
                     model.SearchType = SearchType.RecordLabelName;
                     break;
             }
+            int toTake = 0;
+            if (allResults.Count > MBoxConstants.initialTakeHomeLists)
+                toTake = MBoxConstants.initialTakeHomeLists;
+            else
+                toTake = allResults.Count;
+
+            for (int i = 0; i < toTake; i++)
+            {
+                model.Results.Enqueue(allResults.Peek(), allResults.PeekPriority());
+                allResults.Dequeue();
+            }
             return View(model);
         }
+        [HttpGet]
+        public IActionResult GetNextSearchResults([FromQuery]SearchResultsViewModel model)
+        {
+            var allResults = _searchManager.Search(model.SearchValue.Trim().ToLower(), model.SearchType);
+            int toTake = 0;
+            if (allResults.Count > model.Take + model.Skip)
+                toTake = model.Take;
+            else
+                toTake = allResults.Count - model.Skip;
+            if (toTake > 0)
+            {
+                for (int i = 0; i < model.Skip; i++)
+                {
+                    allResults.Dequeue();
+                }
+            }
+           
 
+            for (int i = 0 ; i < toTake; i++)
+            {
+                model.Results.Enqueue(allResults.Peek(), allResults.PeekPriority());
+                allResults.Dequeue();
+            }
+
+            return View(model);
+        }
     }
+
 }
+

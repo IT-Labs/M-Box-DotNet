@@ -1,4 +1,5 @@
-﻿using ItLabs.MBox.Contracts.Data_Structures;
+﻿using ItLabs.MBox.Contracts;
+using ItLabs.MBox.Contracts.Data_Structures;
 using ItLabs.MBox.Contracts.Dtos;
 using ItLabs.MBox.Contracts.Enums;
 using System;
@@ -14,11 +15,16 @@ namespace ItLabs.MBox.Application.Models.HomeViewModels
         public string  SearchValue { get; set; }
         public SearchType SearchType { get; set; }
 
+        public int Skip { get; set; }
+        public int Take { get; set; }
+
         public SearchResultsViewModel()
         {
             Results = new PriorityQueue<object>();
             SearchValue = string.Empty;
             SearchType = SearchType.MostRelevant;
+            Skip = MBoxConstants.initialSkip;
+            Take = MBoxConstants.initialTakeHomeLists;
         }
     }
 }

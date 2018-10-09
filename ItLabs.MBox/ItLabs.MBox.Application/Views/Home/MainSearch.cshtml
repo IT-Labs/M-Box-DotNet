@@ -1,5 +1,6 @@
 ﻿@using ItLabs.MBox.Application.Models.HomeViewModels
 @using ItLabs.MBox.Domain.Managers
+@using ItLabs.MBox.Contracts.Data_Structures
 @inject S3Manager _s3Manager
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -8,6 +9,7 @@
 
 @section Scripts{
     <script type="text/javascript" src="~/js/SearchResultsScript.js"></script>
+    <script type="text/javascript" src="~/js/LazyLoadingWithLoadMore.js"></script>
 }
 
 @model SearchResultsViewModel
@@ -18,8 +20,13 @@
             <div class="row">
                 <h3>Show Results by: </h3>
             </div>
+            <input id="paginglist" type="hidden" value="@Html.Raw(Json.Serialize(new PriorityQueue<object>()))" />
+            <input id="take" type="hidden" value="@Html.Raw(Json.Serialize(Model.Take))" />
+            <input id="skip" type="hidden" value="@Html.Raw(Json.Serialize(Model.Skip))" />
+            <input id="lazyLoadingUrl" type="hidden" value="/Home/GetNextSearchResults" />
+            
             <form asp-controller="Home" asp-action="MainSearch">
-                @Html.Hidden("searchValue", Model.SearchValue)
+                @Html.Hidden("searchValue", Model.SearchValue, new { @class = "searchHidden" })
                 @Html.Hidden("selectedButton", Model.SearchType)
                 <div class="radio-inline">
                     <label><input type="radio" name="showby" value="MostRelevant">Most Relevant</label>
@@ -49,7 +56,7 @@
             }
             else
             {
-                <ul id="resultsList" class="list-group recordLabelList" style="list-style:none;">
+                <ul id="listToAppendId" class="list-group recordLabelList" style="list-style:none;">
                     @{
 
                         var count = Model.Results.Count;
@@ -175,11 +182,14 @@
                         }
                     }
                 </ul>
-
+                
             }
+                <div class="col-sm-10">
+                    <button name="LoadMore" class="btn btn-primary center-block" id="loadmorebutton"> Load More</button>
+                </div>
         </div>
-
     </div>
+
 </div>
 
 

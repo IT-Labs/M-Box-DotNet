@@ -7,17 +7,17 @@
 }
 
 @section Scripts{
-    <script type="text/javascript" src="~/js/LazyLoadingRecordLabels.js"></script>
+    <script type="text/javascript" src="~/js/LazyLoadingWithLoadMore.js"></script>
 }
 
 
 
 <div class="container-fluid">
-    <input id="recordlabels" type="hidden" value="@Html.Raw(Json.Serialize(new List<Artist>()))" />
+    <input id="pagingList" type="hidden" value="@Html.Raw(Json.Serialize(new List<Artist>()))" />
     <input id="take" type="hidden" value="@Html.Raw(Json.Serialize(Model.Take))" />
     <input id="skip" type="hidden" value="@Html.Raw(Json.Serialize(Model.Skip))" />
     <input id="lazyLoadingUrl" type="hidden" value="/Home/GetNextArtists" />
-    <ul id="recordLabelsListId" class="list-group" style="list-style:none;margin-top:50px">
+    <ul id="listToAppendId" class="list-group" style="list-style:none;margin-top:50px">
 
         @foreach (Artist artist in Model.PagingList)
         {

@@ -8,12 +8,15 @@
 }
 
 @section Scripts{
-    <script type="text/javascript" src="~/js/LazyLoadingRecordLabels.js"></script>
+    <script type="text/javascript" src="~/js/LazyLoadingWithLoadMore.js"></script>
 }
 
-
+<input id="paginglist" type="hidden" value="@Html.Raw(Json.Serialize(new List<RecordLabel>()))" />
+<input id="take" type="hidden" value="@Html.Raw(Json.Serialize(Model.Take))" />
+<input id="skip" type="hidden" value="@Html.Raw(Json.Serialize(Model.Skip))" />
+<input id="lazyLoadingUrl" type="hidden" value="/Home/GetNextRecordLabels" />
 <div class="container-fluid">
-    <ul id="recordLabelsListId" class="list-group recordLabelList" style="list-style:none;">
+    <ul id="listToAppendId" class="list-group recordLabelList" style="list-style:none;">
         @foreach (RecordLabel rl in Model.PagingList)
         {
             <li class="col-sm-2 card-container-record table-bordered" style="margin-right:3.2%; margin-bottom: 2%">
@@ -30,10 +33,7 @@
                                     </button>
                                 </div>
                             </form>
-                            <input id="recordlabels" type="hidden" value="@Html.Raw(Json.Serialize(new List<RecordLabel>()))" />
-                            <input id="take" type="hidden" value="@Html.Raw(Json.Serialize(Model.Take))" />
-                            <input id="skip" type="hidden" value="@Html.Raw(Json.Serialize(Model.Skip))" />
-                            <input id="lazyLoadingUrl" type="hidden" value="/Home/GetNextRecordLabels" />
+
                         </div>
                     </div>
                 </div>
