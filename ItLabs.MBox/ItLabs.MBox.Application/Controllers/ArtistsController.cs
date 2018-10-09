@@ -137,9 +137,9 @@ namespace ItLabs.MBox.Application.Controllers
             return RedirectToAction("Index");
         }
 
-        public IActionResult EditSongDetails(int songId)
+        public IActionResult EditSongDetails(int Id)
         {
-            var song = FillSongDetails(songId);
+            var song = FillSongDetails(Id);
 
             return View(song);
         }
@@ -224,12 +224,12 @@ namespace ItLabs.MBox.Application.Controllers
         }
 
         [HttpPost]
-        public IActionResult EditSongName(string songName, int songId)
+        public IActionResult EditSongName(string songName, int Id)
         {
-            var song = _songManager.GetOne(x => x.Id == songId && x.ArtistId == CurrentLoggedUserId);
+            var song = _songManager.GetOne(x => x.Id == Id && x.ArtistId == CurrentLoggedUserId);
             
             song.Name = songName;
-            var model = FillSongDetails(songId);
+            var model = FillSongDetails(Id);
 
             if (string.IsNullOrWhiteSpace(songName))
             {
@@ -251,16 +251,16 @@ namespace ItLabs.MBox.Application.Controllers
             _songManager.Update(song, CurrentLoggedUserId);
             _songManager.Save();
 
-            return RedirectToAction("EditSongDetails", model);
+            return RedirectToAction("EditSongDetails", new {song.Id});
         }
 
         [HttpPost]
-        public IActionResult EditSongAlbum(string songAlbum, int songId)
+        public IActionResult EditSongAlbum(string songAlbum, int Id)
         {
-            var song = _songManager.GetOne(x => x.Id == songId && x.ArtistId == CurrentLoggedUserId);
+            var song = _songManager.GetOne(x => x.Id == Id && x.ArtistId == CurrentLoggedUserId);
             
             song.AlbumName = songAlbum;
-            var model = FillSongDetails(songId);
+            var model = FillSongDetails(Id);
 
             if (string.IsNullOrWhiteSpace(songAlbum))
             {
@@ -282,27 +282,27 @@ namespace ItLabs.MBox.Application.Controllers
             _songManager.Update(song, CurrentLoggedUserId);
             _songManager.Save();
 
-            return RedirectToAction("EditSongDetails", model);
+            return RedirectToAction("EditSongDetails", new { song.Id });
         }
 
         [HttpPost]
-        public IActionResult EditYoutubeLink(string youtubeLink, int songId)
+        public IActionResult EditYoutubeLink(string youtubeLink, int Id)
         {
-            var song = _songManager.GetOne(x => x.Id == songId && x.ArtistId == CurrentLoggedUserId);
+            var song = _songManager.GetOne(x => x.Id == Id && x.ArtistId == CurrentLoggedUserId);
             string urlRegex = @"^(http(s?)\:\/\/)?(www\.)?(youtube\.com|youtu\.?be)\/.+$";
 
             if (youtubeLink.ToLower().StartsWith("www") || youtubeLink.ToLower().StartsWith("y"))
                 youtubeLink = "https://" + youtubeLink;
 
             song.YouTubeLink = youtubeLink;
-            var model = FillSongDetails(songId);
+            var model = FillSongDetails(Id);
 
             if (Regex.IsMatch(youtubeLink, urlRegex))
             {
                 _songManager.Update(song, CurrentLoggedUserId);
                 _songManager.Save();
 
-                return RedirectToAction("EditSongDetails", model);
+                return RedirectToAction("EditSongDetails", new { song.Id });
             }
             else
             {
@@ -312,23 +312,23 @@ namespace ItLabs.MBox.Application.Controllers
         }
 
         [HttpPost]
-        public IActionResult EditVimeoLink(string vimeoLink, int songId)
+        public IActionResult EditVimeoLink(string vimeoLink, int Id)
         {
-            var song = _songManager.GetOne(x => x.Id == songId && x.ArtistId == CurrentLoggedUserId);
+            var song = _songManager.GetOne(x => x.Id == Id && x.ArtistId == CurrentLoggedUserId);
             string urlRegex = @"^(http(s?)\:\/\/)?(www\.)?vimeo.com\/(?:channels\/(?:\w+\/)?|groups\/([^\/]*)\/videos\/|)(\d+)(?:|\/\?)";
 
             if (vimeoLink.ToLower().StartsWith("www") || vimeoLink.ToLower().StartsWith("v"))
                 vimeoLink = "https://" + vimeoLink;
 
             song.VimeoLink = vimeoLink;
-            var model = FillSongDetails(songId);
+            var model = FillSongDetails(Id);
 
             if (Regex.IsMatch(vimeoLink, urlRegex))
             {
                 _songManager.Update(song, CurrentLoggedUserId);
                 _songManager.Save();
 
-                return RedirectToAction("EditSongDetails", model);
+                return RedirectToAction("EditSongDetails", new { song.Id });
             }
             else
             {
@@ -338,16 +338,16 @@ namespace ItLabs.MBox.Application.Controllers
         }
 
         [HttpPost]
-        public IActionResult EditSongLyrics(string lyrics, int songId)
+        public IActionResult EditSongLyrics(string lyrics, int Id)
         {
-            var song = _songManager.GetOne(x => x.Id == songId && x.ArtistId == CurrentLoggedUserId);
+            var song = _songManager.GetOne(x => x.Id == Id && x.ArtistId == CurrentLoggedUserId);
 
             if (string.IsNullOrWhiteSpace(lyrics))
                 lyrics = "";
 
             lyrics = lyrics.Trim();
             song.Lyrics = lyrics;
-            var model = FillSongDetails(songId);
+            var model = FillSongDetails(Id);
 
             if (lyrics.Length > 10000)
             {
@@ -358,33 +358,33 @@ namespace ItLabs.MBox.Application.Controllers
             _songManager.Update(song, CurrentLoggedUserId);
             _songManager.Save();
 
-            return RedirectToAction("EditSongDetails", model);
+            return RedirectToAction("EditSongDetails", new { song.Id });
         }
 
         [HttpPost]
-        public IActionResult EditSongGenre(AddNewSongViewModel songGenre, int songId)
+        public IActionResult EditSongGenre(AddNewSongViewModel songGenre, int Id)
         {
-            var song = _songManager.GetOne(x => x.Id == songId && x.ArtistId == CurrentLoggedUserId);
-            var model = FillSongDetails(songId);
+            var song = _songManager.GetOne(x => x.Id == Id && x.ArtistId == CurrentLoggedUserId);
+            var model = FillSongDetails(Id);
 
             song.Genre = songGenre.Genres.ToString();
             _songManager.Update(song, CurrentLoggedUserId);
             _songManager.Save();
 
-            return RedirectToAction("EditSongDetails", model);
+            return RedirectToAction("EditSongDetails", new { song.Id });
         }
 
         [HttpPost]
-        public IActionResult editSongReleaseDate(DateTime releaseDate, int songId)
+        public IActionResult editSongReleaseDate(DateTime releaseDate, int Id)
         {
-            var song = _songManager.GetOne(x => x.Id == songId && x.ArtistId == CurrentLoggedUserId);
-            var model = FillSongDetails(songId);
+            var song = _songManager.GetOne(x => x.Id == Id && x.ArtistId == CurrentLoggedUserId);
+            var model = FillSongDetails(Id);
 
             song.ReleaseDate = releaseDate;
             _songManager.Update(song, CurrentLoggedUserId);
             _songManager.Save();
 
-            return RedirectToAction("EditSongDetails", model);
+            return RedirectToAction("EditSongDetails", new { song.Id });
         }
 
         [HttpGet]
@@ -397,10 +397,10 @@ namespace ItLabs.MBox.Application.Controllers
         }
 
         [HttpPost]
-        public IActionResult ChangeSongImage(List<IFormFile> uploadedFiles, int songId)
+        public IActionResult ChangeSongImage(List<IFormFile> uploadedFiles, int Id)
         {
-            var song = _songManager.GetOne(x => x.Id == songId && x.ArtistId == CurrentLoggedUserId);
-            var model = FillSongDetails(songId);
+            var song = _songManager.GetOne(x => x.Id == Id && x.ArtistId == CurrentLoggedUserId);
+            var model = FillSongDetails(Id);
             string imageS3Name = null;
 
             if (uploadedFiles.Count == 0)
@@ -426,12 +426,12 @@ namespace ItLabs.MBox.Application.Controllers
             _songManager.Update(song, CurrentLoggedUserId);
             _songManager.Save();
 
-            return RedirectToAction("EditSongDetails", model);
+            return RedirectToAction("EditSongDetails", new { song.Id });
         }
 
-        public AddNewSongViewModel FillSongDetails(int songId) {
+        public AddNewSongViewModel FillSongDetails(int Id) {
 
-            var song = _songManager.GetOne(x => x.Id == songId && x.ArtistId == CurrentLoggedUserId);
+            var song = _songManager.GetOne(x => x.Id == Id && x.ArtistId == CurrentLoggedUserId);
 
             var model = new AddNewSongViewModel()
             {
