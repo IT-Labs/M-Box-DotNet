@@ -20,16 +20,7 @@
                 <div class="row card-song-name">
                     <div>
                         <div class="text-center text">
-                            <form asp-controller="Home" asp-action="RecordLabelDetails">
-                                <div class="text-center text">
-                                    <button type="submit" class="btn btn-link">
-
-                                        <h5>@rl.User.ShortName</h5>
-
-                                        @Html.Hidden("recordLabelId", rl.Id)
-                                    </button>
-                                </div>
-                            </form>
+                            <a asp-controller="Home" asp-action="RecordLabelDetails" asp-route-id="@rl.Id">@rl.User.ShortName</a>
                             <input id="recordlabels" type="hidden" value="@Html.Raw(Json.Serialize(new List<RecordLabel>()))" />
                             <input id="take" type="hidden" value="@Html.Raw(Json.Serialize(Model.Take))" />
                             <input id="skip" type="hidden" value="@Html.Raw(Json.Serialize(Model.Skip))" />

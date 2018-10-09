@@ -50,8 +50,8 @@
                         <button id="followButton" value="Follow" class="btn btn-primary" style="width:100px;">Follow</button>
                     }
                 }
-                </div>
             </div>
+        </div>
     </div>
     <div class="row" style="margin-top:170px">
         <div class="col-sm-2" style="border-right: 1px solid grey; float: left; position:fixed; height:550px; z-index:600">
@@ -78,22 +78,18 @@
                             <li class="col-sm-3 card-container-song table-bordered" style="margin-right:3.2%; margin-bottom: 2%;height:240px">
                                 <div>
                                     <div class="row card-song-name">
-                                        <form asp-controller="Home" asp-action="SongDetails">
+                                        <a asp-controller="Home" asp-action="SongDetails" asp-route-id="@song.Id">
                                             <div class="text-center text">
-                                                <button type="submit" class="btn btn-link">
-                                                    @if (song.Name.Count() > 13)
-                                                    {
-                                                        <h5>@song.Name.Substring(0, 13)...</h5>
-                                                    }
-                                                    else
-                                                    {
-                                                        <h5>@song.Name</h5>
-                                                    }
-                                                    @Html.Hidden("songId", song.Id)
-                                                </button>
-
+                                                @if (song.Name.Count() > 13)
+                                                {
+                                                    <h5>@song.Name.Substring(0, 13)...</h5>
+                                                }
+                                                else
+                                                {
+                                                    <h5>@song.Name</h5>
+                                                }
                                             </div>
-                                        </form>
+                                        </a>
                                     </div>
                                     <div class="row card-song-img-hold">
                                         <img class="card-song-img" src="@_s3Manager.GetImageLink(song.PictureName)" />

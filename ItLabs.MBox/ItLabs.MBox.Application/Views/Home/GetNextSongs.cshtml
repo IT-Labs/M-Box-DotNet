@@ -13,16 +13,10 @@
 {
     <li class="col-sm-3 card-container-song table-bordered" style="width:200px;margin-right:3.2%; margin-bottom: 2%;height:240px">
         <div>
-            <div class="row card-song-name">
-                <form asp-controller="Home" asp-action="SongDetails">
+            <div class="row card-song-name">                 
                     <div class="text-center text">
-                        <button type="submit" class="btn btn-link">
-                            <h5>@song.ShortName</h5>
-
-                            @Html.Hidden("songId", song.Id)
-                        </button>
+                        <a asp-controller="Home" asp-action="SongDetails" asp-route-id="@song.Id">@song.ShortName</a>
                     </div>
-                </form>
             </div>
             <div class="row card-song-img-hold">
                 <img class="card-song-img" src="@_s3Manager.GetImageLink(song.PictureName)" />

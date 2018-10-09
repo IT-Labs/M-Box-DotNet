@@ -45,12 +45,10 @@
                 <ul style="text-align: center; list-style: none; margin-left: auto; margin-right: auto; width: 90%; padding: 0px; max-height: 700px; overflow-y: auto; overflow-x: hidden; -webkit-overflow-scrolling: touch;">
                     @foreach (RecordLabel recordLabel in Model.WeCooperateWith)
                     {
-                        <form asp-controller="Home" asp-action="RecordLabelDetails">
-                            <button class="btn-link" type="submit">
-                                @Html.Hidden("recordLabelId", recordLabel.Id)
-                                <li style="margin-top: 5px;" class="btn-link">- @recordLabel.User.Name</li>
-                            </button>
-                        </form>
+                        @Html.Hidden("recordLabelId", recordLabel.Id)
+                        <li style="margin-top: 5px;" class="btn-link">
+                            <a asp-controller="Home" asp-action="RecordLabelDetails" asp-route-id="@recordLabel.Id">@recordLabel.User.Name</a>
+                        </li>
                     }
                 </ul>
             </div>
