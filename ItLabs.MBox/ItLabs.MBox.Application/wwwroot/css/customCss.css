@@ -112,11 +112,18 @@
 }
 .card-container-artist {
     height: 245px;
+    padding-top: 10px;
 }
+    .card-container-artist img{
+        margin-top:20px;
+    }
 .card-container-record {
     height: 245px;
+    padding-top: 15px;
 }
-
+.card-container-record img {
+    margin-top: 20px;
+}
 .card-song-img-hold {
     overflow: hidden;
     width: 100%;
