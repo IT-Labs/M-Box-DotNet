@@ -42,7 +42,9 @@
                         <input asp-for="SongName" class="form-control" placeholder="Song Name">
                         <span asp-validation-for="SongName" class="text-danger"></span>
                     </div>
-
+                        <div>
+                            <span class="text-danger" style="font-size: x-large">*</span>
+                        </div>
                 </div>
                 <div class="row" style="margin: 15px">
                     <p>Upload Song image here:</p>
@@ -60,6 +62,9 @@
                         <input asp-for="AlbumName" class="form-control" placeholder="Album Name" id="albumName">
                         <span asp-validation-for="AlbumName" class="text-danger"></span>
                     </div>
+                        <div>
+                            <span class="text-danger" style="font-size: x-large">*</span>
+                        </div>
                 </div>
                 <div class="row" style="margin: 15px">
                     <div class="col-md-4 col-sm-3" style="margin-top: 5px">
@@ -69,6 +74,9 @@
                         @Html.DropDownListFor(x => x.Genres, new SelectList(Enum.GetValues(typeof(Genres))), "", new { @class = "form-control" })
                         <span asp-validation-for="Genres" class="text-danger"></span>
                     </div>
+                        <div>
+                            <span class="text-danger" style="font-size: x-large">*</span>
+                        </div>
                 </div>
                 <div class="row" style="margin: 15px">
                     <div class="col-md-3 col-sm-3" style="margin-top: 5px">
@@ -78,6 +86,9 @@
                         @Html.TextBox("ReleaseDate", "", new { @class = "form-control dateOfRelease" })
                         <span asp-validation-for="ReleaseDate" class="text-danger"></span>
                     </div>
+                        <div>
+                            <span class="text-danger" style="font-size: x-large">*</span>
+                        </div>
                 </div>
                 <div class="row" style="margin: 15px">
                     <div class="col-md-6 col-sm-6">
@@ -85,17 +96,25 @@
                             <label>Youtube</label>
                         </div>
                         <div class="row" style="padding: 8px">
-                            <input asp-for="YoutubeLink" class="form-control" placeholder="Youtube Link" id="youtubeLinkUrl">
-                            <span asp-validation-for="YoutubeLink" class="text-danger"></span>
-                        </div>
+                                <div class="col-sm-11">
+                                    <input asp-for="YoutubeLink" class="form-control" placeholder="Youtube Link" id="youtubeLinkUrl">
+                                </div>
+                                <div>
+                                    <span class="text-danger" style="font-size: x-large">*</span>
+                                </div>
+                            </div>
                     </div>
                     <div class="col-md-6 col-sm-6" style="border-left: solid 2px #d3d3d3">
                         <div class="row" style="text-align: center">
                             <label>Vimeo</label>
                         </div>
                         <div class="row" style="padding: 8px">
-                            <input asp-for="VimeoLink" class="form-control" placeholder="Vimeo Link" id="vimeoLinkUrl">
-                            <span asp-validation-for="VimeoLink" class="text-danger"></span>
+                                <div class="col-sm-11">
+                                    <input asp-for="VimeoLink" class="form-control" placeholder="Vimeo Link" id="vimeoLinkUrl">
+                                </div>
+                                <div>
+                                    <span class="text-danger" style="font-size: x-large">*</span>
+                                </div>
                         </div>
                     </div>
                 </div>

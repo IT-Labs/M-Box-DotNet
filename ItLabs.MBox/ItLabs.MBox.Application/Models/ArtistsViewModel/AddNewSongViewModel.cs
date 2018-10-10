@@ -29,10 +29,12 @@ namespace ItLabs.MBox.Application.Models.ArtistsViewModel
 
         [Required(ErrorMessage = "Please enter a valid YouTube link!")]
         [RegularExpression(@"^(http(s?)\:\/\/)?(www\.)?(youtube\.com|youtu\.?be)\/.+$", ErrorMessage = "Please enter a valid Youtube link!")]
+        [StringLength(100, ErrorMessage = "The {0} cannot contain more than {1} characters")]
         public string YoutubeLink { get; set; }
 
         [Required(ErrorMessage = "Please enter a valid Vimeo link!")]
         [RegularExpression(@"^(http(s?)\:\/\/)?(www\.)?vimeo.com\/(?:channels\/(?:\w+\/)?|groups\/([^\/]*)\/videos\/|)(\d+)(?:|\/\?)", ErrorMessage = "Please enter a valid Vimeo link!")]
+        [StringLength(100, ErrorMessage = "The {0} cannot contain more than {1} characters")]
         public string VimeoLink { get; set; }
 
 
