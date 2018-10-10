@@ -20,7 +20,7 @@
         <ul class="nav navbar-nav navbar-right">
             <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" style="margin: 0; padding: 0">
-                    <i class="fa fa-user-circle" style="font-size:35px; margin-top: 8px; margin-left: 8px"></i>
+                    <i class="fa fa-user-circle" style="font-size:35px; margin-top: 13px; margin-left: 8px"></i>
                 </a>
                 <ul class="dropdown-menu dropDownMenu dropDownLi">
                     <li>
@@ -41,14 +41,14 @@
     {
         <ul class="nav navbar-nav navbar-right">
             <li class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" style="margin: 0; padding: 0">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" style="margin-top: 0; padding: 0">
                     @if (!string.IsNullOrEmpty(user?.Picture))
                     {
                         <img class="img-circle" style=" width:45px;height:45px;font-size:35px; margin-top: 8px; margin-left: 8px" src="@_s3Manager.GetImageLink(user.PictureName)" />
                     }
                     else
                     {
-                        <i class="fa fa-user-circle" style="font-size:35px; margin-top: 8px; margin-left: 8px"></i>
+                        <i class="fa fa-user-circle" style="font-size:35px; margin-top: 13px; margin-left: 8px"></i>
                     }
                 </a>
                 <ul class="dropdown-menu dropDownMenu dropDownLi">
@@ -87,7 +87,7 @@
                     }
                     else
                     {
-                        <i class="fa fa-user-circle" style="font-size:35px; margin-top: 8px; margin-left: 8px"></i>
+                        <i class="fa fa-user-circle" style="font-size:35px; margin-top: 13px; margin-left: 8px"></i>
                     }
                 </a>
                 <ul class="dropdown-menu dropDownMenu dropDownLi">
@@ -127,7 +127,7 @@
                     }
                     else
                     {
-                        <i class="fa fa-user-circle" style="font-size:35px; margin-top: 8px; margin-left: 8px"></i>
+                        <i class="fa fa-user-circle" style="font-size:35px; margin-top: 13px; margin-left: 8px"></i>
                     }
                 </a>
                 <ul class="dropdown-menu dropDownMenu dropDownLi">
