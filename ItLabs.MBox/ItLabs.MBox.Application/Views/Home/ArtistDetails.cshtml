@@ -20,7 +20,13 @@
 @model ArtistDetailsViewModel
 <div class="container-fluid" style="text-align: center">
     <div class="row" style="width:60%;height:150px;z-index:600;background:white;position:fixed;border-bottom: 1px solid grey;margin-top:15px">
+        <div class="row">
+            <div class="col-sm-3">
+                <a class="btn btn-block btn-default" href="javascript:history.go(-1)">Back</a>
+            </div>
+        </div>
         <div class="row" style="margin-left:300px">
+            
             <div class="col-sm-2" style="margin-top:20px">
                 <div class="row"><h1 id="followersCount">@Model.FollowersCount</h1></div>
                 <div class="row"><h4>followers</h4></div>

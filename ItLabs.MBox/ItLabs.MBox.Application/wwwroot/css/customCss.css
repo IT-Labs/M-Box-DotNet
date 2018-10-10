@@ -108,13 +108,13 @@
 
 
 .card-container-song {
-    height: 295px;
+    height: 245px;
 }
 .card-container-artist {
     height: 245px;
 }
 .card-container-record {
-    height: 235px;
+    height: 245px;
 }
 
 .card-song-img-hold {
@@ -146,4 +146,8 @@
 
 input[type="text"]::-ms-clear {
     display: none;
+}
+
+.card-song-name{
+    padding-top: 10px;
 }
