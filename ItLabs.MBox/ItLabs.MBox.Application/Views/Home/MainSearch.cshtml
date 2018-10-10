@@ -141,12 +141,10 @@
                                     <div>
                                         <div class="row card-song-name">
                                             <div class="text-center text">
-                                                <a asp-controller="Home" asp-action="SongDetails" asp-route-id="@song.Id">
-                                                    <h5>@song.ShortName</h5>
-                                                </a>
+                                                <a asp-controller="Home" asp-action="SongDetails" asp-route-id="@song.Id">@song.ShortName</a>
                                             </div>
                                         </div>
-                                        <a asp-controller="Home" asp-action="SongDetails" asp-route-id="@song.Id">
+                                        <a a asp-controller="Home" asp-action="SongDetails" asp-route-id="@song.Id">
                                             <div class="row card-song-img-hold">
                                                 <img class="card-song-img" src="@_s3Manager.GetImageLink(song.PictureName)" />
                                             </div>
@@ -160,10 +158,8 @@
                                             </div>
                                         </div>
                                         <div class="row">
-                                            <div class="text-center text">
-                                                <a asp-controller="Home" asp-action="ArtistDetails" asp-route-id="@song.Artist.Id">
-                                                    <h5>@song.Artist.User.ShortName</h5>
-                                                </a>
+                                            <div class="text-center text card-song-name">
+                                                <a asp-controller="Home" asp-action="ArtistDetails" asp-route-id="@song.Artist.Id">@song.Artist.User.ShortName</a>
                                             </div>
                                         </div>
                                     </div>
