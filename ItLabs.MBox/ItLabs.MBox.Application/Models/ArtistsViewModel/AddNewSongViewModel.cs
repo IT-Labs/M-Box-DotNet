@@ -1,4 +1,5 @@
-﻿using ItLabs.MBox.Contracts.Entities;
+﻿using ItLabs.MBox.Common.Attributes;
+using ItLabs.MBox.Contracts.Entities;
 using ItLabs.MBox.Contracts.Enums;
 using Microsoft.AspNetCore.Http;
 using System;
@@ -25,6 +26,7 @@ namespace ItLabs.MBox.Application.Models.ArtistsViewModel
         public string AlbumName { get; set; }
 
         [Required(ErrorMessage = "Date of release is required field.")]
+        [CurrentDate(ErrorMessage ="Cannot set date in future")]
         public DateTime ReleaseDate { get; set; }
 
         [Required(ErrorMessage = "Please enter a valid YouTube link!")]

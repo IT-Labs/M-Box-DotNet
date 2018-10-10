@@ -96,9 +96,10 @@
                             <label>Youtube</label>
                         </div>
                         <div class="row" style="padding: 8px">
-                                <div class="col-sm-11">
-                                    <input asp-for="YoutubeLink" class="form-control" placeholder="Youtube Link" id="youtubeLinkUrl">
-                                </div>
+                            <div class="col-sm-11">
+                                <input asp-for="YoutubeLink" class="form-control" placeholder="Youtube Link" id="youtubeLinkUrl">
+                                <span asp-validation-for="YoutubeLink" class="text-danger"></span>
+                            </div>
                                 <div>
                                     <span class="text-danger" style="font-size: x-large">*</span>
                                 </div>
@@ -109,9 +110,10 @@
                             <label>Vimeo</label>
                         </div>
                         <div class="row" style="padding: 8px">
-                                <div class="col-sm-11">
-                                    <input asp-for="VimeoLink" class="form-control" placeholder="Vimeo Link" id="vimeoLinkUrl">
-                                </div>
+                            <div class="col-sm-11">
+                                <input asp-for="VimeoLink" class="form-control" placeholder="Vimeo Link" id="vimeoLinkUrl">
+                                <span asp-validation-for="VimeoLink" class="text-danger"></span>
+                            </div>
                                 <div>
                                     <span class="text-danger" style="font-size: x-large">*</span>
                                 </div>

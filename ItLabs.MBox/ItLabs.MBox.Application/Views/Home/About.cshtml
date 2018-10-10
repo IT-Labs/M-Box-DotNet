@@ -87,13 +87,12 @@
                         <label asp-for="Message" class="control-label" for="Message">Message</label>
                         <textarea asp-for="Message" class="form-control characterCounter" style="height: 250px; resize: none" name="Message" aria-describedby="text-counter" maxlength="200"> </textarea>
 
-                        @if (TempData["successMessage"] != null)
+                        @if (ViewBag.MailSend != null)
                         {
-                            <span class="text-success">@TempData["successMessage"]</span>
-
+                            <span class="text-success">@ViewBag.MailSend</span>
                         }
-                        <span asp-validation-for="Message" class="text-danger"></span>
 
+                        <span asp-validation-for="Message" class="text-danger"></span>
                     </div>
                     <p style="margin-top: -10px" id="text-counter">Characters left: <span id="counter">200</span></p>
                     <div class="form-group">

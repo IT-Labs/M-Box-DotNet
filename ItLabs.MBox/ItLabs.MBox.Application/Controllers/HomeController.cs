@@ -78,7 +78,9 @@ namespace ItLabs.MBox.Application.Controllers
             if (ModelState.IsValid)
             {
                 _emailManager.PrepareContactFormMail(model.Name, model.Email, model.Message);
-                TempData["successMessage"] = "Message successfully sent";
+                //TempData["successMessage"] = "Message successfully sent";
+                
+                ViewBag.MailSend = "Message successfully sent";
 
                 ModelState.Clear();
 
