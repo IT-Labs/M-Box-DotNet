@@ -13,12 +13,26 @@
             <form method="post" asp-controller="RecordLabels" asp-action="AddNewArtist">
                 <div class="form-group">
                     <label asp-for="Email"></label>
-                    <input asp-for="Email" class="form-control" />
+                    <div class="row">
+                        <div class="col-sm-11">
+                            <input asp-for="Email" class="form-control" />
+                        </div>
+                        <div>
+                            <span class="text-danger" style="font-size: x-large">*</span>
+                        </div>
+                    </div>
                     <span asp-validation-for="Email" class="text-danger"></span>
                 </div>
                 <div class="form-group" style="margin-top:4%">
                     <label asp-for="Name"></label>
-                    <input asp-for="Name" class="form-control" />
+                    <div class="row">
+                        <div class="col-sm-11">
+                            <input asp-for="Name" class="form-control" />
+                        </div>
+                        <div>
+                            <span class="text-danger" style="font-size: x-large">*</span>
+                        </div>
+                    </div>
                     <span asp-validation-for="Name" class="text-danger"></span>
                 </div>
                 <div class="form-group" style="margin-top:20%">
