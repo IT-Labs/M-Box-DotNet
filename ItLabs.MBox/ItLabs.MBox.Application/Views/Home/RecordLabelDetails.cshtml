@@ -16,8 +16,8 @@
     ViewData["Title"] = "RecordLabelDetails";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
 <div class="container-fluid" style="text-align: center">
+
     <div class="row">
         <div class="col-sm-3" style="border-right : solid 1px black;height:800px;position:fixed">
             <div class="row">
@@ -42,6 +42,7 @@
             }
 
         </div>
+
         <div class="col-sm-9">
             <ul id="artistListId" class="list-group seperateLists" style="list-style:none;position:relative ;margin-left: 65%;margin-top:100px;margin-right:-350px">
                 @foreach (var artist in Model.PagingModelArtists.PagingList)
@@ -62,6 +63,9 @@
                     </li>
                 }
             </ul>
+        </div>
+        <div class="col-sm-2" style="margin-top: 40px; margin-left:-865px">
+            <a class="btn btn-block btn-default" href="javascript:history.go(-1)">Back</a>
         </div>
     </div>
 </div>

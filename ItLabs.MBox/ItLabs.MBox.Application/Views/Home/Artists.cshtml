@@ -39,7 +39,7 @@
                         <div class="text-center text">
                             @if (!artist.IsDeleted)
                             {
-                                <div class="text-center text">
+                                <div class="text-center text card-song-name">
                                     <a asp-controller="Home" asp-action="RecordLabelDetails" asp-route-id="@artist.RecordLabelId">
                                         @if (artist.RecordLabelName?.Count() > 13)
                                         {
