@@ -2,7 +2,7 @@
 @{
     ViewData["Title"] = "My Account";
     Layout = "~/Views/Shared/_Layout.cshtml";
-    
+
 }
 @section Scripts{
     <script type="text/javascript" src="~/js/EditDetailsOnButtonClick.js"></script>
@@ -26,41 +26,53 @@
         </div>
     </div>
 
-    <div class="row" style="margin:250px 150px 10px 150px;">
+    <div class="row" style="margin-top:250px">
         <form asp-controller="Listeners" asp-action="ChangePicture" method="post" enctype="multipart/form-data">
-            <div class="col-sm-8">
-                <label>Change profle picture:</label>
-                <input class="btn-default btn" type="file" id="uploadedFiles" name="uploadedFiles" accept=".jpg,.jpeg,.png">
-                <span asp-validation-for="Picture" class="text-danger"></span>
+            <div class="row">
+                <div class="col-sm-4 col-sm-offset-3">
+                    <label>Change profle picture:</label>
+                </div>
             </div>
-            <div class="col-sm-4" style="margin-top: 27px">
-                <button type="submit" class="btn btn-primary">Upload</button>
+            <div class="row">
+                <div class="col-sm-3 col-sm-offset-4 " style="margin-top:17px">
+                    <input class="btn-default btn" type="file" id="uploadedFiles" name="uploadedFiles" accept=".jpg,.jpeg,.png">
+                    <span asp-validation-for="Picture" class="text-danger"></span>
+                </div>
+                <div class="col-sm-2" style="margin-top: 27px">
+                    <button type="submit" class="btn btn-primary">Upload</button>
+                </div>
             </div>
         </form>
     </div>
-    <div class="row" style="margin-right:300px">
-        <label class="col-sm-2" style="margin-top: 12px">Name: </label>
-        <div class="col-md-6 col-sm-6">
-            <form asp-controller="Listeners" asp-action="EditName" method="post" id="editName">
+    <div class="row">
+        <div class="row">
+            <div class="col-sm-3 col-sm-offset-3">
+                <label class="" style="margin: 12px">Name: </label>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-3 col-sm-offset-4">
+                <form asp-controller="Listeners" asp-action="EditName" method="post" id="editName">
 
-                <input asp-for="Name" class="form-control" value="@Model.Name" id="ArtistName" name="listenerName" disabled>
-                <span asp-validation-for="Name" class="text-danger"></span>
-            </form>
-        </div>
-        <div class="col-sm-1">
-            <button class="btn btn-default edit editDetails" id="editListenrName" onclick="editDetails('ArtistName', 'editListenrName', 'saveListenertName', 'cancelListenrName')">
-                <i class="glyphicon glyphicon-edit"></i>
-            </button>
-        </div>
-        <div class=" col-sm-1">
-            <button class="btn btn-success save saveDetails" id="saveListenertName" type="submit" form="editName">
-                <i class="glyphicon glyphicon-ok"></i>
-            </button>
-        </div>
-        <div class="col-sm-offset-1 col-sm-1">
-            <button class="btn btn-danger cancelDetails" id="cancelListenrName" onclick="cancelEditiong('ArtistName', 'editListenrName', 'saveListenertName', 'cancelListenrName')">
-                <i class="glyphicon glyphicon-remove"></i>
-            </button>
+                    <input asp-for="Name" class="form-control" value="@Model.Name" id="ArtistName" name="listenerName" disabled>
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </form>
+            </div>
+            <div class="col-sm-1">
+                <button class="btn btn-default edit editDetails" id="editListenrName" onclick="editDetails('ArtistName', 'editListenrName', 'saveListenertName', 'cancelListenrName')">
+                    <i class="glyphicon glyphicon-edit"></i>
+                </button>
+            </div>
+            <div class="col-sm-1">
+                <button class="btn btn-success save saveDetails" id="saveListenertName" type="submit" form="editName">
+                    <i class="glyphicon glyphicon-ok"></i>
+                </button>
+            </div>
+            <div class="col-sm-1">
+                <button class="btn btn-danger cancelDetails" id="cancelListenrName" onclick="cancelEditiong('ArtistName', 'editListenrName', 'saveListenertName', 'cancelListenrName')">
+                    <i class="glyphicon glyphicon-remove"></i>
+                </button>
+            </div>
         </div>
     </div>
 </div>

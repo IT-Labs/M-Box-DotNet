@@ -40,9 +40,9 @@ namespace ItLabs.MBox.Domain.Managers
             }
             if (type == SearchType.ArtistName || type == SearchType.MostRelevant)
             {
-                exactArtists = _repository.Get<Artist>(filter: x => x.User.Name.ToLower().Equals(searchValue), includeProperties: $"{nameof(Artist.User)}").ToList();
-                startsWithArtists = _repository.Get<Artist>(filter: x => x.User.Name.ToLower().StartsWith(searchValue), includeProperties: $"{nameof(Artist.User)}").ToList();
-                endswithOrContainsArtists = _repository.Get<Artist>(filter: x => x.User.Name.ToLower().EndsWith(searchValue) || x.User.Name.ToLower().Contains(searchValue), includeProperties: $"{nameof(Artist.User)}").ToList();
+                exactArtists = _repository.Get<Artist>(filter: x => x.User.Name.ToLower().Equals(searchValue), includeProperties: $"{nameof(Artist.User)},{nameof(Artist.RecordLabelArtists)}.{nameof(RecordLabel)}.{nameof(RecordLabel.User)}").ToList();
+                startsWithArtists = _repository.Get<Artist>(filter: x => x.User.Name.ToLower().StartsWith(searchValue), includeProperties: $"{nameof(Artist.User)},{nameof(Artist.RecordLabelArtists)}.{nameof(RecordLabel)}.{nameof(RecordLabel.User)}").ToList();
+                endswithOrContainsArtists = _repository.Get<Artist>(filter: x => x.User.Name.ToLower().EndsWith(searchValue) || x.User.Name.ToLower().Contains(searchValue), includeProperties: $"{nameof(Artist.User)},{nameof(Artist.RecordLabelArtists)}.{nameof(RecordLabel)}.{nameof(RecordLabel.User)}").ToList();
             }
             if (type == SearchType.RecordLabelName || type == SearchType.MostRelevant)
             {

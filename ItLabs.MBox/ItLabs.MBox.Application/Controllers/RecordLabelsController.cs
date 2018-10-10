@@ -126,7 +126,8 @@ namespace ItLabs.MBox.Application.Controllers
             {
                 return View(response.Errors);
             }
-            if (_recordLabelManager.GetNumberOfArtists(CurrentLoggedUserId) + response.UsersToBeAdded.Count > MBoxConstants.MaximumArtistsAllowed)
+            var currentExistingArtists = _recordLabelManager.GetNumberOfArtists(CurrentLoggedUserId);
+            if (currentExistingArtists + response.UsersToBeAdded.Count > MBoxConstants.MaximumArtistsAllowed)
             {
                 response.Errors.Add("Artist Limit (50) exceeded");
                 return View(response.Errors);
@@ -143,6 +144,8 @@ namespace ItLabs.MBox.Application.Controllers
             if (artistList.Count != 0)
                 SendActivationMails(artistList);
 
+            TempData["successfullyAdded"] = artistList.Count;
+            TempData["status"] = currentExistingArtists + artistList.Count;
             return View("SuccessfullyAddedMultiple");
         }
         private void SendActivationMails(IList<Artist> artists)

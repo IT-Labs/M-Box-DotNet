@@ -24,6 +24,7 @@ namespace ItLabs.MBox.Application.Models.ArtistsViewModel
         [StringLength(50, ErrorMessage = "The {0} cannot contain more than {1} characters, or less than {2}", MinimumLength = 2)]
         public string AlbumName { get; set; }
 
+        [Required(ErrorMessage = "Date of release is required field.")]
         public DateTime ReleaseDate { get; set; }
 
         [Required(ErrorMessage = "Please enter a valid YouTube link!")]

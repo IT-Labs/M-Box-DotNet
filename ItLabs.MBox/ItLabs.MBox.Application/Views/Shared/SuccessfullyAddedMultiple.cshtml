@@ -2,6 +2,8 @@
 @{
     ViewData["Title"] = "SuccessfullyAddedMultiple";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    var artistsAdded = TempData["successfullyAdded"];
+    var status = TempData["status"];
 }
 
 <hr />
@@ -12,7 +14,7 @@
         </div>
         <div class="col-md-4">
             <p class="text-success text-center">
-                You have successfully invited Multiple Artists
+                @artistsAdded successfully artists added. Current artist state @status/50
             </p>
         </div>
         <div class="col-md-4">

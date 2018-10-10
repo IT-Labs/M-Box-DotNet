@@ -1,4 +1,4 @@
 ﻿
-$('.forsearch').on('keyup', function (e) {
+$(".forsearch").on("input propertychange paste", function () {
     $("#search").attr("action", "/Home/MainSearch?searchValue=" + $(".forsearch").val());
 });
