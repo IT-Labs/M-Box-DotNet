@@ -13,6 +13,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Threading;
 using Microsoft.Extensions.Logging;
+using System.Text.RegularExpressions;
 
 namespace ItLabs.MBox.Domain.Managers
 {
@@ -22,7 +23,7 @@ namespace ItLabs.MBox.Domain.Managers
         private readonly IEmailsManager _emailsManager;
         private readonly IS3Manager _s3Manager;
         private readonly UserManager<ApplicationUser> _userManager;
-        public RecordLabelManager(ILogger<RecordLabel> logger,IRepository repository, IEmailsManager emailsManager, UserManager<ApplicationUser> userManager, IS3Manager s3Manager) : base(repository,logger)
+        public RecordLabelManager(ILogger<RecordLabel> logger, IRepository repository, IEmailsManager emailsManager, UserManager<ApplicationUser> userManager, IS3Manager s3Manager) : base(repository, logger)
         {
             _repository = repository;
             _emailsManager = emailsManager;
@@ -65,6 +66,7 @@ namespace ItLabs.MBox.Domain.Managers
         public AddMultipleArtistsDto ValidateCsvFile(IFormFile formFile, int recordLabelId)
         {
             var addMultipleArtistsDto = new AddMultipleArtistsDto();
+            var errorsRows = new Dictionary<string, List<int>>();
 
             if (formFile.ContentType != "application/vnd.ms-excel")
             {
@@ -81,30 +83,77 @@ namespace ItLabs.MBox.Domain.Managers
             var result = string.Empty;
             using (var reader = new StreamReader(formFile.OpenReadStream()))
             {
-                var validator = new EmailAddressAttribute();
                 int iteration = 1;
                 while ((result = reader.ReadLine()) != null)
                 {
                     if (string.IsNullOrEmpty(result) || string.IsNullOrWhiteSpace(result))
+                    {
+                        iteration++;
                         continue;
+                    }
+                        
                     var parts = result.Split(",");
+                    parts = parts.Where(str => str != "").ToArray();
+                    if (parts.Length == 0)
+                    {
+                        iteration++;
+                        continue;
+                    }
                     if (parts.Length > 2 || parts.Length < 2)
                     {
-                        addMultipleArtistsDto.Errors.Add("Invalid format detected(has to be: Artist Email, Artist Name), row: " + iteration);
+                        if (!errorsRows.ContainsKey("InvalidFormat"))
+                        {
+                            errorsRows.Add("InvalidFormat", new List<int>() { iteration });
+                        }
+                        else
+                        {
+                            errorsRows.TryGetValue("InvalidFormat", out List<int> rows);
+                            rows.Add(iteration);
+                            errorsRows["InvalidFormat"] = rows;
+                        }
+                        iteration++;
+                        continue;
                     }
                     var email = parts[0];
                     var name = parts[1];
                     if (email.Length > 320)
                     {
-                        addMultipleArtistsDto.Errors.Add("Max length of email (320) exceeded, row:  " + iteration);
+                        if (!errorsRows.ContainsKey("MaxLengthEmail"))
+                        {
+                            errorsRows.Add("MaxLengthEmail", new List<int>() { iteration });
+                        }
+                        else
+                        {
+                            errorsRows.TryGetValue("MaxLengthEmail", out List<int> rows);
+                            rows.Add(iteration);
+                            errorsRows["MaxLengthEmail"] = rows;
+                        }
                     }
                     if (name.Length > 50)
                     {
-                        addMultipleArtistsDto.Errors.Add("Max length of Artist Name (50) exceeded, row:  " + iteration);
+                        if (!errorsRows.ContainsKey("MaxLengthName"))
+                        {
+                            errorsRows.Add("MaxLengthName", new List<int>() { iteration });
+                        }
+                        else
+                        {
+                            errorsRows.TryGetValue("MaxLengthName", out List<int> rows);
+                            rows.Add(iteration);
+                            errorsRows["MaxLengthName"] = rows;
+                        }
                     }
-                    if (!validator.IsValid(email))
+                    if (!Regex.Match(email, @"^[\w-]+(?:\.[\w-]+)*@(?:[\w-]+\.)+[a-zA-Z]{2,7}$").Success)
                     {
-                        addMultipleArtistsDto.Errors.Add("Invalid Email format (example@example.com), row: " + iteration);
+                        if (!errorsRows.ContainsKey("InvalidEmailFormat"))
+                        {
+                            errorsRows.Add("InvalidEmailFormat", new List<int>() { iteration });
+                        }
+                        else
+                        {
+                            errorsRows.TryGetValue("InvalidEmailFormat", out List<int> rows);
+                            rows.Add(iteration);
+                            errorsRows["InvalidEmailFormat"] = rows;
+                        }
                     }
                     if (_userManager.FindByEmailAsync(email).Result != null)
                     {
@@ -114,6 +163,47 @@ namespace ItLabs.MBox.Domain.Managers
                     var response = new ApplicationUser() { Name = name, Email = email };
                     addMultipleArtistsDto.UsersToBeAdded.Add(response);
                     iteration++;
+                }
+
+                if (errorsRows.ContainsKey("InvalidFormat"))
+                {
+                    string errorString = "Invalid format detected(has to be: Artist Email, Artist Name), row(s): ";
+                    foreach (var row in errorsRows["InvalidFormat"])
+                    {
+                        errorString = errorString + row + ", ";
+                    }
+                    addMultipleArtistsDto.Errors.Add(errorString.TrimEnd().TrimEnd(','));
+                }
+                if (errorsRows.ContainsKey("MaxLengthEmail"))
+                {
+                    string errorString = "Max length of email (320) exceeded, row(s): ";
+                    foreach (var row in errorsRows["MaxLengthEmail"])
+                    {
+                        errorString = errorString + row + ", ";
+                    }
+
+                    addMultipleArtistsDto.Errors.Add(errorString.TrimEnd().TrimEnd(','));
+                }
+                if (errorsRows.ContainsKey("MaxLengthName"))
+                {
+                    string errorString = "Max length of Artist Name (50) exceeded, row(s): ";
+                    foreach (var row in errorsRows["MaxLengthName"])
+                    {
+                        errorString = errorString + row + ", ";
+                    }
+
+                    addMultipleArtistsDto.Errors.Add(errorString.TrimEnd().TrimEnd(','));
+                }
+
+                if (errorsRows.ContainsKey("InvalidEmailFormat"))
+                {
+                    string errorString = "Invalid Email format (example@example.com), row: ";
+                    foreach (var row in errorsRows["InvalidEmailFormat"])
+                    {
+                        errorString = errorString + row + ", ";
+                    }
+
+                    addMultipleArtistsDto.Errors.Add(errorString.TrimEnd().TrimEnd(','));
                 }
             }
             return addMultipleArtistsDto;
@@ -127,6 +217,20 @@ namespace ItLabs.MBox.Domain.Managers
                 var returned = _userManager.CreateUser(user.Name, user.Email, Role.Artist);
                 if (returned == null)
                 {
+                    foreach(var users in usersToBeAdded)
+                    {
+                        if(_userManager.FindByEmailAsync(users.Email).Result != null)
+                        {
+                            var toDelete = _repository.GetOne<Artist>(filter: x => x.User == users);
+                            if(toDelete != null)
+                            {
+                                _repository.Delete(toDelete);
+                            }
+                            _repository.Delete(users);
+                            _repository.Save();
+                        }
+                    }
+                    
                     return null;
                 }
                 var addedUser = returned.Result;
@@ -135,7 +239,7 @@ namespace ItLabs.MBox.Domain.Managers
                 _repository.Create<Artist>(artist, recordLabelId);
                 _repository.Save();
             }
-            
+
             return artistList;
         }
 
