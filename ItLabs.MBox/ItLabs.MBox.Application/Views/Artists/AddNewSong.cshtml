@@ -24,113 +24,116 @@
     </div>
 
 
-<div class="row" style="margin-top:-15px">
-    <form asp-controller="Artists" asp-action="AddNewSong" method="post" enctype="multipart/form-data">
-        <div class="row" style="margin: 15px">
-            <div class="col-sm-offset-8 col-sm-4">
-                <button type="submit" class="btn btn-block btn-primary">Publish</button>
+    <div class="row" style="margin-top:-15px">
+        <form asp-controller="Artists" asp-action="AddNewSong" method="post" enctype="multipart/form-data">
+            <div class="row" style="margin: 15px">
+                <div class="col-sm-offset-8 col-sm-4">
+                    <button type="submit" class="btn btn-block btn-primary">Publish</button>
+                </div>
             </div>
-        </div>
-        <br />
-        <div class="row" style="margin: 15px">
-            <div class="col-md-6 col-sm-6">
-                <div class="row form-group" style="margin: 15px">
-                    <div class="col-md-2 col-sm-2">
-                        <label>Song Name:</label>
-                    </div>
-                    <div class="col-sm-6">
-                        <input asp-for="SongName" class="form-control" placeholder="Song Name">
-                        <span asp-validation-for="SongName" class="text-danger"></span>
-                    </div>
+            <br />
+            <div class="row" style="margin: 15px">
+                <div class="col-md-6 col-sm-6">
+                    <div class="row form-group" style="margin: 15px">
+                        <div class="col-md-2 col-sm-2">
+                            <label>Song Name:</label>
+                        </div>
+                        <div class="col-sm-6">
+                            <input asp-for="SongName" class="form-control" placeholder="Song Name">
+                            <span asp-validation-for="SongName" class="text-danger"></span>
+                        </div>
                         <div>
                             <span class="text-danger" style="font-size: x-large">*</span>
                         </div>
-                </div>
-                <div class="row" style="margin: 15px">
-                    <p>Upload Song image here:</p>
-                    <input class="btn-default btn" type="file" id="uploadedFiles" name="uploadedFiles" accept=".jpg,.jpeg,.png">
-                    <span asp-validation-for="Picture" class="text-danger"></span>
-                </div>
-                <div class="row" style="margin: 15px">
-                    <label>By: @user.Name</label>
-                </div>
-                <div class="row" style="margin: 15px">
-                    <div class="col-md-2 col-sm-2">
-                        <label>Album Name:</label>
                     </div>
-                    <div class="col-md-6 col-sm-6">
-                        <input asp-for="AlbumName" class="form-control" placeholder="Album Name" id="albumName">
-                        <span asp-validation-for="AlbumName" class="text-danger"></span>
+                    <div class="row" style="margin: 15px">
+                        <p>Upload Song image here:</p>
+                        <input class="btn-default btn" type="file" id="uploadedFiles" name="uploadedFiles" accept=".jpg,.jpeg,.png">
+                        <span asp-validation-for="Picture" class="text-danger"></span>
                     </div>
+                    <div class="row" style="margin: 15px">
+                        <label>By: @user.Name</label>
+                    </div>
+                    <div class="row" style="margin: 15px">
+                        <div class="col-md-2 col-sm-2">
+                            <label>Album Name:</label>
+                        </div>
+                        <div class="col-md-6 col-sm-6">
+                            <input asp-for="AlbumName" class="form-control" placeholder="Album Name" id="albumName">
+                            <span asp-validation-for="AlbumName" class="text-danger"></span>
+                        </div>
                         <div>
                             <span class="text-danger" style="font-size: x-large">*</span>
                         </div>
-                </div>
-                <div class="row" style="margin: 15px">
-                    <div class="col-md-4 col-sm-3" style="margin-top: 5px">
-                        <label>Genre:</label>
                     </div>
-                    <div class="col-md-6 col-sm-6">
-                        @Html.DropDownListFor(x => x.Genres, new SelectList(Enum.GetValues(typeof(Genres))), "", new { @class = "form-control" })
-                        <span asp-validation-for="Genres" class="text-danger"></span>
-                    </div>
+                    <div class="row" style="margin: 15px">
+                        <div class="col-md-4 col-sm-3" style="margin-top: 5px">
+                            <label>Genre:</label>
+                        </div>
+                        <div class="col-md-6 col-sm-6">
+                            @Html.DropDownListFor(x => x.Genres, new SelectList(Enum.GetValues(typeof(Genres))), "", new { @class = "form-control" })
+                            <span asp-validation-for="Genres" class="text-danger"></span>
+                        </div>
                         <div>
                             <span class="text-danger" style="font-size: x-large">*</span>
                         </div>
-                </div>
-                <div class="row" style="margin: 15px">
-                    <div class="col-md-3 col-sm-3" style="margin-top: 5px">
-                        <label>Release Date:</label>
                     </div>
-                    <div class="col-md-7 col-sm-7">
-                        @Html.TextBox("ReleaseDate", "", new { @class = "form-control dateOfRelease" })
-                        <span asp-validation-for="ReleaseDate" class="text-danger"></span>
-                    </div>
+                    <div class="row" style="margin: 15px">
+                        <div class="col-md-3 col-sm-3" style="margin-top: 5px">
+                            <label>Release Date:</label>
+                        </div>
+                        <div class="col-md-7 col-sm-7">
+                            @Html.TextBox("ReleaseDate", "", new { @class = "form-control dateOfRelease" })
+                            <span asp-validation-for="ReleaseDate" class="text-danger"></span>
+                        </div>
                         <div>
                             <span class="text-danger" style="font-size: x-large">*</span>
                         </div>
-                </div>
-                <div class="row" style="margin: 15px">
-                    <div class="col-md-6 col-sm-6">
-                        <div class="row" style="text-align: center">
-                            <label>Youtube</label>
-                        </div>
-                        <div class="row" style="padding: 8px">
-                            <div class="col-sm-11">
-                                <input asp-for="YoutubeLink" class="form-control" placeholder="Youtube Link" id="youtubeLinkUrl">
-                                <span asp-validation-for="YoutubeLink" class="text-danger"></span>
+                    </div>
+                    <div class="row" style="margin: 15px">
+                        <div class="col-md-6 col-sm-6">
+                            <div class="row" style="text-align: center">
+                                <label>Youtube</label>
                             </div>
+                            <div class="row" style="padding: 8px">
+                                <div class="col-sm-11">
+                                    <input asp-for="YoutubeLink" class="form-control" placeholder="Youtube Link" id="youtubeLinkUrl">
+                                    <span asp-validation-for="YoutubeLink" class="text-danger"></span>
+                                </div>
                                 <div>
                                     <span class="text-danger" style="font-size: x-large">*</span>
                                 </div>
                             </div>
-                    </div>
-                    <div class="col-md-6 col-sm-6" style="border-left: solid 2px #d3d3d3">
-                        <div class="row" style="text-align: center">
-                            <label>Vimeo</label>
                         </div>
-                        <div class="row" style="padding: 8px">
-                            <div class="col-sm-11">
-                                <input asp-for="VimeoLink" class="form-control" placeholder="Vimeo Link" id="vimeoLinkUrl">
-                                <span asp-validation-for="VimeoLink" class="text-danger"></span>
+                        <div class="col-md-6 col-sm-6" style="border-left: solid 2px #d3d3d3">
+                            <div class="row" style="text-align: center">
+                                <label>Vimeo</label>
                             </div>
+                            <div class="row" style="padding: 8px">
+                                <div class="col-sm-11">
+                                    <input asp-for="VimeoLink" class="form-control" placeholder="Vimeo Link" id="vimeoLinkUrl">
+                                    <span asp-validation-for="VimeoLink" class="text-danger"></span>
+                                </div>
                                 <div>
                                     <span class="text-danger" style="font-size: x-large">*</span>
                                 </div>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-md-6 col-sm-6" style="border-left: solid 2px #d3d3d3">
-                <div class="row" style="text-align: center">
-                    <label>Song Lyrics</label>
+                <div class="col-md-6 col-sm-6" style="border-left: solid 2px #d3d3d3">
+                    <div class="row" style="text-align: center">
+                        <label>Song Lyrics</label>
+                    </div>
+                    <div class="row" style="padding: 12px;">
+                        <textarea asp-for="SongLyrics" class="form-control" style="margin-top: 5px; height: 550px; resize: none" maxlength="100000"> </textarea>
+                        <span asp-validation-for="SongLyrics" class="text-danger"></span>
+                    </div>
                 </div>
-                <div class="row" style="padding: 12px;">
-                    <textarea asp-for="SongLyrics" class="form-control" style="margin-top: 5px; height: 550px; resize: none" maxlength="100000"> </textarea>
-                    <span asp-validation-for="SongLyrics" class="text-danger"></span>
-                </div>
             </div>
-        </div>
-    </form>
+        </form>
+    </div>
 </div>
-</div>
+@section Scripts {
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+}
