@@ -13,69 +13,70 @@
     var artist = ArtistManager.GetOne(filter: x => x.Id == user.Id);
 }
 
-<div class="container-fluid">
-    <div class="row" style="margin-top: 25px">
-        <div class="col-md-4 col-sm-4">
-            @if (artist.IsDeleted == false)
-            {
-                <form asp-area="" asp-controller="Artists" asp-action="AddNewSong" method="get">
-                    <button type="submit" class="btn btn-block btn-primary" style="margin: 5px">Add New Song</button>
-                </form>
-            }
-            else
-            {
-                <button type="submit" class="btn btn-block btn-primary" style="margin: 5px" disabled>Add New Song</button>
-            }
+    <div class="container-fluid">
+        <input id="recordlabels" type="hidden" value="@Html.Raw(Json.Serialize(new List<Song>()))" />
+        <input id="take" type="hidden" value="@Html.Raw(Json.Serialize(Model.Take))" />
+        <input id="skip" type="hidden" value="@Html.Raw(Json.Serialize(Model.Skip))" />
+        <input id="lazyLoadingUrl" type="hidden" value="/Artists/GetArtistSongs" />
+        <div class="row" style="margin-top: 25px">
+            <div class="col-md-4 col-sm-4">
+                @if (artist.IsDeleted == false)
+                {
+                    <form asp-area="" asp-controller="Artists" asp-action="AddNewSong" method="get">
+                        <button type="submit" class="btn btn-block btn-primary" style="margin: 5px">Add New Song</button>
+                    </form>
+                }
+                else
+                {
+                    <button type="submit" class="btn btn-block btn-primary" style="margin: 5px" disabled>Add New Song</button>
+                }
 
-        </div>
-        <div class="col-md-8 col-sm-8" style="margin-top: 5px">
-            <div class="row">
-                <form id="searchForm" asp-area="" asp-controller="Artists" asp-action="Search" method="post">
-                    <div class="col-md-9 col-sm-9">
-                        @Html.TextBox("searchValue", null, new { @id = "searchBox", @class = "form-control" })
-                    </div>
-                    <div class="col-md-3 col-sm-3">
-                        <input id="searchButton" type="submit" value="Search" class="btn btn-default btn-block" />
-                    </div>
-                </form>
+            </div>
+            <div class="col-md-8 col-sm-8" style="margin-top: 5px">
+                <div class="row">
+                    <form id="searchForm" asp-area="" asp-controller="Artists" asp-action="Search" method="post">
+                        <div class="col-md-9 col-sm-9">
+                            @Html.TextBox("searchValue", null, new { @id = "searchBox", @class = "form-control" })
+                        </div>
+                        <div class="col-md-3 col-sm-3">
+                            <input id="searchButton" type="submit" value="Search" class="btn btn-default btn-block" />
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
-    </div>
-    <div class="row" style="margin-top: 25px">
-        <table class="table table-striped" id="smartTabel">
-            <thead>
-                <tr>
-                    <th>Song Name</th>
-                    <th>Album Name</th>
-                    <th>Genre</th>
-                    <th>Delete Song</th>
-                </tr>
-            </thead>
-            <tbody id="listToAppend">
-                @foreach (Song song in Model.PagingList)
-                {
-                    <tr class="search">
-                        <td>
-                            <a style="text-decoration: none" asp-area="" asp-controller="Artists" asp-action="EditSongDetails" asp-route-id="@song.Id">@song.Name</a>
-                            <input id="recordlabels" type="hidden" value="@Html.Raw(Json.Serialize(new List<Song>()))" />
-                            <input id="take" type="hidden" value="@Html.Raw(Json.Serialize(Model.Take))" />
-                            <input id="skip" type="hidden" value="@Html.Raw(Json.Serialize(Model.Skip))" />
-                            <input id="lazyLoadingUrl" type="hidden" value="/Artists/GetArtistSongs" />
-                        </td>
-                        <td>@song.AlbumName</td>
-                        <td>@song.Genre</td>
-                        <td>
-                            <form asp-controller="Artists" asp-action="DeleteSong" onsubmit="return confirm('Are you sure?');">
-                                @Html.Hidden("songId", song.Id)
-                                <button type="submit" class="btn btn-danger">
-                                    Delete
-                                    <i class="glyphicon glyphicon-trash"></i>
-                                </button>
-                            </form>
-                        </td>
+        <div class="row" style="margin-top: 25px">
+            <table class="table table-striped" id="smartTabel">
+                <thead>
+                    <tr>
+                        <th>Song Name</th>
+                        <th>Album Name</th>
+                        <th>Genre</th>
+                        <th>Delete Song</th>
                     </tr>
-                }
-            </tbody>
-        </table>
+                </thead>
+                <tbody id="listToAppend">
+                    @foreach (Song song in Model.PagingList)
+                    {
+                        <tr class="search">
+                            <td>
+                                <a style="text-decoration: none" asp-area="" asp-controller="Artists" asp-action="EditSongDetails" asp-route-id="@song.Id">@song.Name</a>
+
+                            </td>
+                            <td>@song.AlbumName</td>
+                            <td>@song.Genre</td>
+                            <td>
+                                <form asp-controller="Artists" asp-action="DeleteSong" onsubmit="return confirm('Are you sure?');">
+                                    @Html.Hidden("songId", song.Id)
+                                    <button type="submit" class="btn btn-danger">
+                                        Delete
+                                        <i class="glyphicon glyphicon-trash"></i>
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
     </div>
-</div>

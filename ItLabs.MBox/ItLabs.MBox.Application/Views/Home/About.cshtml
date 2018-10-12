@@ -1,5 +1,6 @@
 ﻿@section Scripts {
     <script type="text/javascript" src="~/js/characterCounter.js"></script>
+    @await Html.PartialAsync("_ValidationScriptsPartial")
 }
 
 @{
@@ -103,6 +104,3 @@
         </div>
     </div>
 </div>
-@section Scripts {
-    @await Html.PartialAsync("_ValidationScriptsPartial")
-}
