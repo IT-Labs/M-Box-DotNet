@@ -1,12 +1,7 @@
 ﻿using ItLabs.MBox.Common.Attributes;
-using ItLabs.MBox.Contracts.Entities;
 using ItLabs.MBox.Contracts.Enums;
-using Microsoft.AspNetCore.Http;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace ItLabs.MBox.Application.Models.ArtistsViewModel
 {

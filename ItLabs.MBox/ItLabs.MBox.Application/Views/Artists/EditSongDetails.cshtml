@@ -19,6 +19,8 @@
     {
         charactersLeft = 10000 - Model.SongLyrics.Length;
     }
+
+    var genreId = (int)Enum.Parse(typeof(Genres), Model.GenreName);
 }
 @section Scripts{
     <script type="text/javascript" src="~/js/dateRestriction.js"></script>
