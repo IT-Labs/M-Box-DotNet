@@ -27,7 +27,7 @@
 
         </ul>
         <div class="col-sm-6 col-sm-offset-1 ">
-            <form id="search" asp-controller="Home" asp-action="MainSearch" class="navbar-form" role="search">
+            <form id="search" asp-controller="Home" asp-action="MainSearch" method="get" class="navbar-form" role="search">
                 <div class="input-group" style="width:100%">
                     <input name="searchValue" id="searchValue" type="text" class="form-control forsearch" placeholder="Search" aria-label="Search" maxlength="50">
                     <div class="input-group-btn">
@@ -48,7 +48,7 @@ else
 
     </ul>
     <div class="col-sm-6 ">
-        <form id="search" asp-controller="Home" asp-action="MainSearch" class="navbar-form" role="search">
+        <form id="search" asp-controller="Home" asp-action="MainSearch" method="get" class="navbar-form" role="search">
             <div class="input-group" style="width:100%">
                 <input name="searchValue" id="searchValue" type="text" class="form-control forsearch" placeholder="Search" aria-label="Search" maxlength="50">
                 <div class="input-group-btn">

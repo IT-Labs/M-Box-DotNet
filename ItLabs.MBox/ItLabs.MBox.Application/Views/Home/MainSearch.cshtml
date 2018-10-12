@@ -25,39 +25,38 @@
             <input id="skip" type="hidden" value="@Html.Raw(Json.Serialize(Model.Skip))" />
             <input id="lazyLoadingUrl" type="hidden" value="/Home/GetNextSearchResults" />
 
-            <form asp-controller="Home" asp-action="MainSearch">
-                @Html.Hidden("searchValue", Model.SearchValue, new { @class = "searchHidden" })
-                @Html.Hidden("selectedButton", Model.SearchType)
-                <a asp-controller="Home" asp-action="MainSearch" asp-route-searchValue="@Model.SearchValue" asp-route-showby="MostRelevant">
-                    <div class="radio-inline">
-                        <input type="radio" name="showby" value="MostRelevant"><label>Most Relevant</label>
-                    </div>
-                </a>
-                <br />
-                <a asp-controller="Home" asp-action="MainSearch" asp-route-searchValue="@Model.SearchValue" asp-route-showby="SongName">
-                    <div class="radio-inline">
-                        <input type="radio" name="showby" value="SongName"><label> Song Name</label>
-                    </div>
-                </a>
-                <br />
-                <a asp-controller="Home" asp-action="MainSearch" asp-route-searchValue="@Model.SearchValue" asp-route-showby="Lyrics">
-                    <div class="radio-inline">
-                        <input type="radio" name="showby" value="Lyrics"> <label>Lyrics</label>
-                    </div>
-                </a>
-                <br />
-                <a asp-controller="Home" asp-action="MainSearch" asp-route-searchValue="@Model.SearchValue" asp-route-showby="ArtistName">
-                    <div class="radio-inline">
-                        <input type="radio" name="showby" value="ArtistName"> <label>Artist Name</label>
-                    </div>
-                </a>
-                <br />
-                <a asp-controller="Home" asp-action="MainSearch" asp-route-searchValue="@Model.SearchValue" asp-route-showby="RecordLabelName">
-                    <div class="radio-inline">
-                        <input type="radio" name="showby" value="RecordLabelName"><label> Record Label Name</label>
-                    </div>
-                </a>
-            </form>
+            @Html.Hidden("searchValue", Model.SearchValue, new { @class = "searchHidden" })
+            @Html.Hidden("selectedButton", Model.SearchType)
+            <a asp-controller="Home" asp-action="MainSearch" asp-route-searchValue="@Model.SearchValue" asp-route-showby="MostRelevant">
+                <div class="radio-inline">
+                    <input type="radio" name="showby" value="MostRelevant"><label>Most Relevant</label>
+                </div>
+            </a>
+            <br />
+            <a asp-controller="Home" asp-action="MainSearch" asp-route-searchValue="@Model.SearchValue" asp-route-showby="SongName">
+                <div class="radio-inline">
+                    <input type="radio" name="showby" value="SongName"><label> Song Name</label>
+                </div>
+            </a>
+            <br />
+            <a asp-controller="Home" asp-action="MainSearch" asp-route-searchValue="@Model.SearchValue" asp-route-showby="Lyrics">
+                <div class="radio-inline">
+                    <input type="radio" name="showby" value="Lyrics"> <label>Lyrics</label>
+                </div>
+            </a>
+            <br />
+            <a asp-controller="Home" asp-action="MainSearch" asp-route-searchValue="@Model.SearchValue" asp-route-showby="ArtistName">
+                <div class="radio-inline">
+                    <input type="radio" name="showby" value="ArtistName"> <label>Artist Name</label>
+                </div>
+            </a>
+            <br />
+            <a asp-controller="Home" asp-action="MainSearch" asp-route-searchValue="@Model.SearchValue" asp-route-showby="RecordLabelName">
+                <div class="radio-inline">
+                    <input type="radio" name="showby" value="RecordLabelName"><label> Record Label Name</label>
+                </div>
+            </a>
+
         </div>
         <div class="col-sm-9" style="padding-left:50px">
             @if (Model.Results.Count == 0)
