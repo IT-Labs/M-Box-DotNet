@@ -107,7 +107,8 @@ namespace ItLabs.MBox.Application.Controllers
                 includeProperties: $"{nameof(Artist.User)}," +
                         $"{nameof(Artist.RecordLabelArtists)}.{nameof(RecordLabel)}.{nameof(RecordLabel.User)}",
                 skip: model.Skip,
-                take: model.Take).ToList();
+                take: model.Take,
+                orderBy: x => x.OrderByDescending(y => y.Follows.Count)).ToList();
 
             return View(model);
         }
@@ -117,9 +118,10 @@ namespace ItLabs.MBox.Application.Controllers
         {
             model.PagingList = _artistsManager.Get(
                 includeProperties: $"{nameof(Artist.User)}," +
-                        $"{nameof(Artist.RecordLabelArtists)}.{nameof(RecordLabel)}.{nameof(RecordLabel.User)}",
+                        $"{nameof(Artist.RecordLabelArtists)}.{nameof(RecordLabel)}.{nameof(RecordLabel.User)},{nameof(Artist.Follows)}",
                 skip: model.Skip,
-                take: model.Take).ToList();
+                take: model.Take,
+                orderBy: x => x.OrderByDescending(y => y.Follows.Count)).ToList();
 
             return View("GetNextArtists", model);
         }
@@ -133,7 +135,9 @@ namespace ItLabs.MBox.Application.Controllers
             ViewData["Message"] = "RecordLabels";
 
             var model = new PagingModel<RecordLabel>();
-            model.PagingList = _recordLabelManager.Get(skip: model.Skip, take: model.Take, includeProperties: $"{nameof(RecordLabel.User)}").ToList();
+            model.PagingList = _recordLabelManager.Get(skip: model.Skip, take: model.Take, 
+                includeProperties: $"{nameof(RecordLabel.User)},{nameof(RecordLabel.RecordLabelArtists)}.{nameof(Artist)}.{nameof(Artist.Follows)}",
+                orderBy: x=>x.OrderByDescending(y=>y.RecordLabelArtists.Sum(z=>z.Artist.Follows.Count))).ToList();
 
             return View(model);
         }
