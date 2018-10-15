@@ -146,7 +146,9 @@ namespace ItLabs.MBox.Application.Controllers
         public IActionResult GetNextRecordLabels([FromQuery] PagingModel<RecordLabel> model)
         {
             ViewData["Message"] = "RecordLabels";
-            model.PagingList = _recordLabelManager.Get(skip: model.Skip, take: model.Take, includeProperties: $"{nameof(RecordLabel.User)}").ToList();
+            model.PagingList = _recordLabelManager.Get(skip: model.Skip, take: model.Take,
+                includeProperties: $"{nameof(RecordLabel.User)},{nameof(RecordLabel.RecordLabelArtists)}.{nameof(Artist)}.{nameof(Artist.Follows)}",
+                orderBy: x => x.OrderByDescending(y => y.RecordLabelArtists.Sum(z => z.Artist.Follows.Count))).ToList();
             return View(model);
         }
 
