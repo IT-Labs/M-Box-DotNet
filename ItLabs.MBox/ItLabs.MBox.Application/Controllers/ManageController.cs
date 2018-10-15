@@ -156,7 +156,7 @@ namespace ItLabs.MBox.Application.Controllers
             if (!ModelState.IsValid)
             {
                 return View(model);
-            }
+            } 
 
             var user = await _userManager.GetUserAsync(User);
             if (user == null)
@@ -167,7 +167,7 @@ namespace ItLabs.MBox.Application.Controllers
             var changePasswordResult = await _userManager.ChangePasswordAsync(user, model.OldPassword, model.NewPassword);
             if (!changePasswordResult.Succeeded)
             {
-                AddErrors(changePasswordResult);
+                ModelState.AddModelError("OldPassword", "Incorrect Password");
                 return View(model);
             }
 
